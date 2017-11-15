@@ -1,7 +1,5 @@
-<h1 align="center">Slender</h1>
+# Slender
 
-<div align="center">
-  <sub>
-        Slender Impostors Team. Making creepy stuff that makes you kill yourself... laughing :)
-  </sub>
-</div>
+----------------------------------------------------------------------------------------
+
+*Slender Impostors Team. Making creepy stuff that makes you kill yourself... laughing :)*
