@@ -1,0 +1,12 @@
+{
+    "name": "match-match-game",
+    "main": "js/main.js",
+    "devDependencies": {
+        "babel-core": "^6.26.0",
+        "babel-loader": "^7.1.2",
+        "webpack": "^3.8.1"
+    },
+    "scripts": {
+        "webpack": "webpack"
+    }
+}
