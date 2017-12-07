@@ -1,4 +1,5 @@
 import { Bitmap } from "./Bitmap.js";
+import { Paper } from "./Paper.js";
 import { CIRCLE } from "../main.js";
 
 export class Player {
@@ -8,6 +9,7 @@ export class Player {
         this.direction = direction;
         this.weapon = new Bitmap('img/knife_hand.png', 319, 320);
         this.paces = 0;
+        this.paper = new Paper(0,0);
     };
 
     rotate(angle) {

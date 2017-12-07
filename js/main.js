@@ -17,7 +17,7 @@ let loop = new GameLoop();
 map.randomize();
 
 loop.start(function frame(seconds) {
-    map.update(seconds);
+    //map.update(seconds); //молнии
     player.update(controls.states, map, seconds);
     camera.render(player, map);
 });
