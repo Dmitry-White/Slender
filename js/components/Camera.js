@@ -48,8 +48,8 @@ export class Camera {
 
         for (let s = ray.length - 1; s >= 0; s--) {
             let step = ray[s];
-            //let rainDrops = Math.pow(Math.random(), 3) * s;
-            //let rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
+            let rainDrops = Math.pow(Math.random(), 3) * s;
+            let rain = (rainDrops > 0) && this.project(0.006, angle, step.distance);
 
             if (s === hit) {
                 let textureX = Math.floor(texture.width * step.offset);
@@ -64,8 +64,8 @@ export class Camera {
             };
 
             ctx.fillStyle = '#ffffff';
-            ctx.globalAlpha = 0.15;
-            //while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top, 1, rain.height);
+            ctx.globalAlpha = 1;
+            while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top, 2, rain.height);
         };
     };
 
