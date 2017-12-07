@@ -25,7 +25,14 @@ export class Controls {
     };
 
     onTouchEnd(e) {
-        this.states = { 'left': false, 'right': false, 'forward': false, 'backward': false, 'sideLeft': false, 'sideRight': false};
+        this.states = {
+            left: false,
+            right: false,
+            forward: false,
+            backward: false,
+            sideLeft: false,
+            sideRight: false
+        };
         e.preventDefault();
         e.stopPropagation();
     };
