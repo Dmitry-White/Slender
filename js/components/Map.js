@@ -4,8 +4,8 @@ export class Map {
     constructor(size) {
         this.size = size;
         this.wallGrid = new Uint8Array(size * size);
-        this.skybox = new Bitmap('img/deathvalley_panorama.jpg', 2000, 750);
-        this.wallTexture = new Bitmap('img/wall_texture.jpg', 1024, 1024);
+        this.skybox = new Bitmap('img/sky_panorama.jpg', 2000, 750);
+        this.wallTexture = new Bitmap('img/wall_texture_3.jpg', 1024, 1024);
         this.light = 0;
     };
 
@@ -64,8 +64,13 @@ export class Map {
     };
 
     update(seconds) {
-        if (this.light > 0) this.light = Math.max(this.light - 10 * seconds, 0);
-        else if (Math.random() * 5 < seconds) this.light = 2;
+        // --------------------- Random Lighting -------------------------------
+        //if (this.light > 0) this.light = Math.max(this.light - 10 * seconds, 0);
+        //else if (Math.random() * 5 < seconds) this.light = 2;
+        // ---------------------------------------------------------------------
+
+        //this.light = Math.max(this.light - 10 * seconds, 0.4);  // nigth mode
+        this.light = 10; //snow mode
     };
 
 

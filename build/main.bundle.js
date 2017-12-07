@@ -97,9 +97,9 @@ let loop = new __WEBPACK_IMPORTED_MODULE_4__components_GameLoop_js__["a" /* Game
 map.randomize();
 
 loop.start(function frame(seconds) {
-  //map.update(seconds); //молнии
-  player.update(controls.states, map, seconds);
-  camera.render(player, map);
+    map.update(seconds); //молнии
+    player.update(controls.states, map, seconds);
+    camera.render(player, map);
 });
 
 /***/ }),
@@ -131,17 +131,17 @@ class Bitmap {
 
 
 class Player {
-  constructor(x, y, direction) {
-    this.x = x;
-    this.y = y;
-    this.direction = direction;
-    this.weapon = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/knife_hand.png', 319, 320);
-    this.paces = 0;
-    this.paper = new __WEBPACK_IMPORTED_MODULE_1__Paper_js__["a" /* Paper */](0, 0);
-  }
+    constructor(x, y, direction) {
+        this.x = x;
+        this.y = y;
+        this.direction = direction;
+        this.weapon = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/knife_hand.png', 319, 320);
+        this.paces = 0;
+        this.paper = new __WEBPACK_IMPORTED_MODULE_1__Paper_js__["a" /* Paper */](0, 0);
+    }
 
     rotate(angle) {
-        this.direction = (this.direction + angle + __WEBPACK_IMPORTED_MODULE_1__main_js__["CIRCLE"]) % __WEBPACK_IMPORTED_MODULE_1__main_js__["CIRCLE"];
+        this.direction = (this.direction + angle + __WEBPACK_IMPORTED_MODULE_2__main_js__["CIRCLE"]) % __WEBPACK_IMPORTED_MODULE_2__main_js__["CIRCLE"];
     }
 
     walk(distance, map, direction) {
@@ -174,11 +174,10 @@ class Player {
 
 "use strict";
 class Paper {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Paper;
 
@@ -195,8 +194,8 @@ class Map {
     constructor(size) {
         this.size = size;
         this.wallGrid = new Uint8Array(size * size);
-        this.skybox = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/deathvalley_panorama.jpg', 2000, 750);
-        this.wallTexture = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/wall_texture.jpg', 1024, 1024);
+        this.skybox = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/sky_panorama.jpg', 2000, 750);
+        this.wallTexture = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/wall_texture_3.jpg', 1024, 1024);
         this.light = 0;
     }
 
@@ -252,7 +251,13 @@ class Map {
     }
 
     update(seconds) {
-        if (this.light > 0) this.light = Math.max(this.light - 10 * seconds, 0);else if (Math.random() * 5 < seconds) this.light = 2;
+        // --------------------- Random Lighting -------------------------------
+        //if (this.light > 0) this.light = Math.max(this.light - 10 * seconds, 0);
+        //else if (Math.random() * 5 < seconds) this.light = 2;
+        // ---------------------------------------------------------------------
+
+        //this.light = Math.max(this.light - 10 * seconds, 0.4);  // nigth mode
+        this.light = 10; //snow mode
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Map;
@@ -371,20 +376,25 @@ class Camera {
         while (++hit < ray.length && ray[hit].height <= 0);
 
         for (let s = ray.length - 1; s >= 0; s--) {
-          let step = ray[s]; //let rainDrops = Math.pow(Math.random(), 3) * s;
-          //let rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
+            let step = ray[s];
+            let rainDrops = Math.pow(Math.random(), 3) * s;
+            let rain = rainDrops > 0 && this.project(0.006, angle, step.distance);
 
-          if (s === hit) {
-            let textureX = Math.floor(texture.width * step.offset);
-            let wall = this.project(step.height, angle, step.distance);
+            if (s === hit) {
+                let textureX = Math.floor(texture.width * step.offset);
+                let wall = this.project(step.height, angle, step.distance);
+
+                ctx.globalAlpha = 1;
+                ctx.drawImage(texture.image, textureX, 0, 1, texture.height, left, wall.top, width, wall.height);
+
+                ctx.fillStyle = '#000000';
+                ctx.globalAlpha = Math.max((step.distance + step.shading) / this.lightRange - map.light, 0);
+                ctx.fillRect(left, wall.top, width, wall.height);
+            };
+
+            ctx.fillStyle = '#ffffff';
             ctx.globalAlpha = 1;
-            ctx.drawImage(texture.image, textureX, 0, 1, texture.height, left, wall.top, width, wall.height);
-            ctx.fillStyle = '#000000';
-            ctx.globalAlpha = Math.max((step.distance + step.shading) / this.lightRange - map.light, 0);
-            ctx.fillRect(left, wall.top, width, wall.height);
-          };
-          ctx.fillStyle = '#ffffff';
-          ctx.globalAlpha = 0.15; //while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top, 1, rain.height);
+            while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top, 2, rain.height);
         };
     }
 
