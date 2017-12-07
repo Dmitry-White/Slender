@@ -7,6 +7,6 @@
         "webpack": "^3.8.1"
     },
     "scripts": {
-        "webpack": "webpack"
+        "webpack": "webpack --watch"
     }
 }

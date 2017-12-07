@@ -2,8 +2,9 @@ export class Controls {
     constructor(player) {
         this.player = player;
         this.codes  = { 37: 'left', 39: 'right', 38: 'forward', 40: 'backward',
-                        65: 'sideLeft', 68: 'sideRight', 87: 'forward', 83: 'backward' };
-        this.states = { 'left': false, 'right': false, 'forward': false, 'backward': false };
+                        65: 'sideLeft', 68: 'sideRight', 87: 'forward', 83: 'backward', 13:'enter' };
+        this.states = { 'left': false, 'right': false, 'forward': false, 'backward': false};
+        this.actions = ['enter'];
         document.addEventListener('keydown', this.onKey.bind(this, true), false);
         document.addEventListener('keyup', this.onKey.bind(this, false), false);
         document.addEventListener('touchstart', this.onTouch.bind(this), false);
@@ -24,7 +25,14 @@ export class Controls {
     };
 
     onTouchEnd(e) {
-        this.states = { 'left': false, 'right': false, 'forward': false, 'backward': false, 'sideLeft': false, 'sideRight': false};
+        this.states = {
+            left: false,
+            right: false,
+            forward: false,
+            backward: false,
+            sideLeft: false,
+            sideRight: false
+        };
         e.preventDefault();
         e.stopPropagation();
     };
@@ -32,7 +40,8 @@ export class Controls {
     onKey(val, e) {
         let state = this.codes[e.keyCode];
         if (typeof state === 'undefined') return;
-        this.states[state] = val;
+        if (typeof this.states[state]!== 'undefined') this.states[state] = val; //если не найдено в состояниях
+        else if (val === true) this.player.dosmth(state); //искать в действиях; если кнопка опущена - выполнить
         e.preventDefault && e.preventDefault();
         e.stopPropagation && e.stopPropagation();
     };

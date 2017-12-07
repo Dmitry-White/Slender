@@ -30,4 +30,8 @@ export class Player {
         if (controls.sideLeft) this.walk(3 * seconds, map, this.direction - Math.PI/2);
         if (controls.sideRight) this.walk(-3 * seconds, map, this.direction - Math.PI/2);
     };
+
+    dosmth(action){
+        if(action === 'enter') console.log('Bam!');
+    }
 }
