@@ -70,10 +70,10 @@
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Player_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Map_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Controls_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Camera_js__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_GameLoop_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Map_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Controls_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Camera_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_GameLoop_js__ = __webpack_require__(7);
 
 
 
@@ -97,9 +97,9 @@ let loop = new __WEBPACK_IMPORTED_MODULE_4__components_GameLoop_js__["a" /* Game
 map.randomize();
 
 loop.start(function frame(seconds) {
-    map.update(seconds);
-    player.update(controls.states, map, seconds);
-    camera.render(player, map);
+  //map.update(seconds); //молнии
+  player.update(controls.states, map, seconds);
+  camera.render(player, map);
 });
 
 /***/ }),
@@ -124,18 +124,21 @@ class Bitmap {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Paper_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__main_js__ = __webpack_require__(0);
+
 
 
 
 class Player {
-    constructor(x, y, direction) {
-        this.x = x;
-        this.y = y;
-        this.direction = direction;
-        this.weapon = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/knife_hand.png', 319, 320);
-        this.paces = 0;
-    }
+  constructor(x, y, direction) {
+    this.x = x;
+    this.y = y;
+    this.direction = direction;
+    this.weapon = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/knife_hand.png', 319, 320);
+    this.paces = 0;
+    this.paper = new __WEBPACK_IMPORTED_MODULE_1__Paper_js__["a" /* Paper */](0, 0);
+  }
 
     rotate(angle) {
         this.direction = (this.direction + angle + __WEBPACK_IMPORTED_MODULE_1__main_js__["CIRCLE"]) % __WEBPACK_IMPORTED_MODULE_1__main_js__["CIRCLE"];
@@ -167,6 +170,21 @@ class Player {
 
 /***/ }),
 /* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Paper {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Paper;
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -241,7 +259,7 @@ class Map {
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -299,7 +317,7 @@ class Controls {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -353,25 +371,20 @@ class Camera {
         while (++hit < ray.length && ray[hit].height <= 0);
 
         for (let s = ray.length - 1; s >= 0; s--) {
-            let step = ray[s];
-            let rainDrops = Math.pow(Math.random(), 3) * s;
-            let rain = rainDrops > 0 && this.project(0.1, angle, step.distance);
+          let step = ray[s]; //let rainDrops = Math.pow(Math.random(), 3) * s;
+          //let rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
 
-            if (s === hit) {
-                let textureX = Math.floor(texture.width * step.offset);
-                let wall = this.project(step.height, angle, step.distance);
-
-                ctx.globalAlpha = 1;
-                ctx.drawImage(texture.image, textureX, 0, 1, texture.height, left, wall.top, width, wall.height);
-
-                ctx.fillStyle = '#000000';
-                ctx.globalAlpha = Math.max((step.distance + step.shading) / this.lightRange - map.light, 0);
-                ctx.fillRect(left, wall.top, width, wall.height);
-            };
-
-            ctx.fillStyle = '#ffffff';
-            ctx.globalAlpha = 0.15;
-            while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top, 1, rain.height);
+          if (s === hit) {
+            let textureX = Math.floor(texture.width * step.offset);
+            let wall = this.project(step.height, angle, step.distance);
+            ctx.globalAlpha = 1;
+            ctx.drawImage(texture.image, textureX, 0, 1, texture.height, left, wall.top, width, wall.height);
+            ctx.fillStyle = '#000000';
+            ctx.globalAlpha = Math.max((step.distance + step.shading) / this.lightRange - map.light, 0);
+            ctx.fillRect(left, wall.top, width, wall.height);
+          };
+          ctx.fillStyle = '#ffffff';
+          ctx.globalAlpha = 0.15; //while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top, 1, rain.height);
         };
     }
 
@@ -408,7 +421,7 @@ class Camera {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
