@@ -15,7 +15,7 @@ let player = new Player(2, 2, 0);
 let map = new Map(12);
 let objects = new Objects(map);
 let controls = new Controls(player);
-export let camera = new Camera(display, MOBILE ? 160 : 320, 0.8);
+export let camera = new Camera(display, MOBILE ? 160 : 1280, 0.8);
 let loop = new GameLoop();
 
 map.fillTheMap();
