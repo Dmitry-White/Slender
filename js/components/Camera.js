@@ -93,48 +93,41 @@ export class Camera {
 
     drawMiniMap(player, map) {
     	let ctx = this.ctx;
-    	let mapWidth = this.width * .25;
-    	let mapHeight = mapWidth;
-    	let x = this.width - mapWidth - 20;
-    	let y = 20;
-		let blockWidth = mapWidth / map.size;
-    	let blockHeight = mapHeight / map.size;
-		let wallIndex;
-    	let triangleX = x + (player.x / map.size * mapWidth);
-    	let triangleY = y + (player.y / map.size * mapWidth);
+    	let miniMapSize = this.width * .2;
+    	let x = this.width - miniMapSize - 10;//отступы
+    	let y = 10;//отступы
+		let blockSize = miniMapSize / map.size;
+    	let triangleX = x + (player.x / map.size * miniMapSize);
+    	let triangleY = y + (player.y / map.size * miniMapSize);
 
     	ctx.save();
 
-    	ctx.globalAlpha = .3;
-    	ctx.fillRect(x, y, mapWidth, mapHeight);
-    	ctx.globalAlpha = .4;
+    	ctx.globalAlpha = .5; //фон карты
+    	ctx.fillRect(x, y, miniMapSize, miniMapSize);
 
-    	ctx.fillStyle = '#ffffff';
+        ctx.globalAlpha = .5; //блоки
+    	ctx.fillStyle = '#4c8847';
 
-    	for (var row = 0; row < map.size; row++) {
-    		for (var col = 0; col < map.size; col++) {
-
-    			wallIndex = row * map.size + col;
-
-    			if (map.wallGrid[wallIndex]) {
-    				ctx.fillRect(x + (blockWidth * col), y + (blockHeight * row), blockWidth, blockHeight);
-    			}
-
-    		}
+        for (let i = 0; i < map.size * map.size; i++) {
+    		if (map.wallGrid[i]){
+                let row = Math.floor( i/map.size);
+                let col = i - map.size * row;
+    			ctx.fillRect(x + (blockSize * col), y + (blockSize * row), blockSize, blockSize);
+            }
     	}
     	ctx.save();
-    	/*for (var i = 0; i < map.objects.length; i++){
+
+    	/*for (let i = 0; i < map.objects.length; i++){ //спрайты
     		if(map.objects[i]){
     				ctx.fillStyle = map.objects[i].color || 'blue';
     				ctx.globalAlpha = .8;
-    				ctx.fillRect(x + (blockWidth * map.objects[i].x) + blockWidth * .25, y + (blockHeight * map.objects[i].y) + blockWidth * .25, blockWidth * .5, blockHeight * .5);
+    				ctx.fillRect(x + (blockSize * map.objects[i].x) + blockSize * .25, y + (blockSize * map.objects[i].y) + blockSize * .25, blockSize * .5, blockSize * .5);
     		}
     	}*/
-    		ctx.restore();
+    	ctx.restore();
 
-    	//player triangle
-    	ctx.globalAlpha = 1;
-    	ctx.fillStyle = '#FF0000';
+    	ctx.globalAlpha = 1; //игрок
+    	ctx.fillStyle = '#fff';
     	ctx.moveTo(triangleX,triangleY);
     	ctx.translate(triangleX,triangleY);
 
@@ -144,7 +137,6 @@ export class Camera {
     	ctx.lineTo(0, 2); // tip of triangle
     	ctx.lineTo(2,-3); // bottom right of triangle
     	ctx.fill();
-
 
     	ctx.restore();
 

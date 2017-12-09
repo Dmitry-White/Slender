@@ -6,7 +6,7 @@ export class Map {
         this.autoFilledMap = this.autoFill(size);
         this.wallGrid = new Uint8Array(size * size);
         this.skybox = new Bitmap('img/sky_panorama.jpg', 2000, 750);
-        this.wallTexture = new Bitmap('img/wall_texture_3.jpg', 1024, 1024);
+        this.wallTexture = new Bitmap('img/fence.png', 1024, 1024);
         this.light = 0;
     };
 

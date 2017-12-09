@@ -90,9 +90,9 @@ let player = new __WEBPACK_IMPORTED_MODULE_0__components_Player_js__["a" /* Play
 let map = new __WEBPACK_IMPORTED_MODULE_1__components_Map_js__["a" /* Map */](12);
 let controls = new __WEBPACK_IMPORTED_MODULE_2__components_Controls_js__["a" /* Controls */](player);
 let camera = new __WEBPACK_IMPORTED_MODULE_3__components_Camera_js__["a" /* Camera */](display, MOBILE ? 160 : 320, 0.8);
-let loop = new __WEBPACK_IMPORTED_MODULE_4__components_GameLoop_js__["a" /* GameLoop */](); //map.fillTheMap();
+let loop = new __WEBPACK_IMPORTED_MODULE_4__components_GameLoop_js__["a" /* GameLoop */]();
+map.fillTheMap(); //map.randomize();
 
-map.randomize();
 loop.start(function frame(seconds) {
   map.update(seconds); //молнии
 
@@ -503,44 +503,43 @@ class Camera {
 
   drawMiniMap(player, map) {
     let ctx = this.ctx;
-    let mapWidth = this.width * .25;
-    let mapHeight = mapWidth;
-    let x = this.width - mapWidth - 20;
-    let y = 20;
-    let blockWidth = mapWidth / map.size;
-    let blockHeight = mapHeight / map.size;
-    let wallIndex;
-    let triangleX = x + player.x / map.size * mapWidth;
-    let triangleY = y + player.y / map.size * mapWidth;
+    let miniMapSize = this.width * .2;
+    let x = this.width - miniMapSize - 10; //отступы
+
+    let y = 10; //отступы
+
+    let blockSize = miniMapSize / map.size;
+    let triangleX = x + player.x / map.size * miniMapSize;
+    let triangleY = y + player.y / map.size * miniMapSize;
     ctx.save();
-    ctx.globalAlpha = .3;
-    ctx.fillRect(x, y, mapWidth, mapHeight);
-    ctx.globalAlpha = .4;
-    ctx.fillStyle = '#ffffff';
+    ctx.globalAlpha = .5; //фон карты
 
-    for (var row = 0; row < map.size; row++) {
-      for (var col = 0; col < map.size; col++) {
-        wallIndex = row * map.size + col;
+    ctx.fillRect(x, y, miniMapSize, miniMapSize);
+    ctx.globalAlpha = .5; //блоки
 
-        if (map.wallGrid[wallIndex]) {
-          ctx.fillRect(x + blockWidth * col, y + blockHeight * row, blockWidth, blockHeight);
-        }
+    ctx.fillStyle = '#4c8847';
+
+    for (let i = 0; i < map.size * map.size; i++) {
+      if (map.wallGrid[i]) {
+        let row = Math.floor(i / map.size);
+        let col = i - map.size * row;
+        ctx.fillRect(x + blockSize * col, y + blockSize * row, blockSize, blockSize);
       }
     }
 
     ctx.save();
-    /*for (var i = 0; i < map.objects.length; i++){
+    /*for (let i = 0; i < map.objects.length; i++){ //спрайты
     	if(map.objects[i]){
     			ctx.fillStyle = map.objects[i].color || 'blue';
     			ctx.globalAlpha = .8;
-    			ctx.fillRect(x + (blockWidth * map.objects[i].x) + blockWidth * .25, y + (blockHeight * map.objects[i].y) + blockWidth * .25, blockWidth * .5, blockHeight * .5);
+    			ctx.fillRect(x + (blockSize * map.objects[i].x) + blockSize * .25, y + (blockSize * map.objects[i].y) + blockSize * .25, blockSize * .5, blockSize * .5);
     	}
     }*/
 
-    ctx.restore(); //player triangle
+    ctx.restore();
+    ctx.globalAlpha = 1; //игрок
 
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = '#FF0000';
+    ctx.fillStyle = '#fff';
     ctx.moveTo(triangleX, triangleY);
     ctx.translate(triangleX, triangleY);
     ctx.rotate(player.direction - Math.PI * .5);
