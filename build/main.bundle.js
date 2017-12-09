@@ -88,13 +88,14 @@ const MOBILE = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userA
 
 
 let display = document.getElementById('display');
-let player = new __WEBPACK_IMPORTED_MODULE_0__components_Player_js__["a" /* Player */](15.3, -1.2, Math.PI * 0.3);
-let map = new __WEBPACK_IMPORTED_MODULE_1__components_Map_js__["a" /* Map */](32);
+let player = new __WEBPACK_IMPORTED_MODULE_0__components_Player_js__["a" /* Player */](2, 2, 0);
+let map = new __WEBPACK_IMPORTED_MODULE_1__components_Map_js__["a" /* Map */](12);
 let controls = new __WEBPACK_IMPORTED_MODULE_2__components_Controls_js__["a" /* Controls */](player);
 let camera = new __WEBPACK_IMPORTED_MODULE_3__components_Camera_js__["a" /* Camera */](display, MOBILE ? 160 : 320, 0.8);
 let loop = new __WEBPACK_IMPORTED_MODULE_4__components_GameLoop_js__["a" /* GameLoop */]();
 
-map.randomize();
+map.fillTheMap();
+//map.randomize();
 
 loop.start(function frame(seconds) {
     map.update(seconds); //молнии
@@ -193,9 +194,10 @@ class Paper {
 class Map {
     constructor(size) {
         this.size = size;
+        this.autoFilledMap = this.autoFill(size);
         this.wallGrid = new Uint8Array(size * size);
         this.skybox = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/sky_panorama.jpg', 2000, 750);
-        this.wallTexture = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/wall_texture_3.jpg', 1024, 1024);
+        this.wallTexture = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/fence.png', 1024, 1024);
         this.light = 0;
     }
 
@@ -204,6 +206,36 @@ class Map {
         y = Math.floor(y);
         if (x < 0 || x > this.size - 1 || y < 0 || y > this.size - 1) return -1;
         return this.wallGrid[y * this.size + x];
+    }
+
+    autoFill(size) {
+        // size * size grid of 0 and 1
+        //      111...111
+        //      100...001
+        //      .........
+        //      100...001
+        //      111...111
+        let autoFilledMap = [];
+        for (let i = 0; i < size; i++) {
+            autoFilledMap.push(1);
+        }
+        for (let i = 0; i < size - 2; i++) {
+            autoFilledMap.push(1);
+            for (let j = 0; j < size - 2; j++) {
+                autoFilledMap.push(0);
+            }
+            autoFilledMap.push(1);
+        }
+        for (let i = 0; i < size; i++) {
+            autoFilledMap.push(1);
+        }
+        return autoFilledMap;
+    }
+
+    fillTheMap() {
+        for (let i = 0; i < this.size * this.size; i++) {
+            this.wallGrid[i] = this.autoFilledMap[i]; //Math.random() < 0.3 ? 1 : 0;
+        };
     }
 
     randomize() {
