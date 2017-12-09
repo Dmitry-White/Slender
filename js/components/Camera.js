@@ -23,8 +23,8 @@ export class Camera {
     };
 
     drawSky(direction, sky, ambient) {
-        var width = this.width * (CIRCLE / this.fov);
-    	var left = -width * direction / CIRCLE;
+        var width = this.width * (CIRCLE / 2 / this.fov);
+    	var left = -width * direction / CIRCLE / 2;
 
     	this.ctx.save();
     	this.ctx.drawImage(sky.image, left, 0, width, this.height);
@@ -42,8 +42,7 @@ export class Camera {
     drawColumn(column, ray, angle, map) {
     	var ctx = this.ctx,
     		wallTexture = map.wallTexture,
-    		floorTexture = map.floorTexture,
-    		left = Math.floor(column * this.spacing),
+    		left = Math.floor(column*this.spacing),
     		width = Math.ceil(this.spacing),
     		hit = -1,
     		objects = [],
@@ -51,7 +50,7 @@ export class Camera {
 
     	while (++hit < ray.length && ray[hit].height <= 0);
 
-    	for (var s = ray.length - 1; s >= 0; s--) {
+    	for (var s = (ray.length - 1); s >= 0; s--) {
     		var step = ray[s];
     		var rainDrops = Math.pow(Math.random(), 3) * s;
     		var rain = (rainDrops > 0) && this.project(0.1, angle, step.distance),
@@ -87,6 +86,22 @@ export class Camera {
     		objects: objects,
     		hit: hitDistance
     	}
+    };
+
+    drawColumns(player, map, objects) {
+        this.ctx.save();
+        var allObjects = [];
+        for (var column = 0; column < this.resolution; column++) {
+            var angle = this.fov * (column / this.resolution - 0.5);
+            var ray = map.cast(player, player.direction + angle, this.range);
+            var columnProps = this.drawColumn(column, ray, angle, map);
+
+            allObjects.push(columnProps);
+        }
+        this.ctx.restore();
+        this.ctx.save();
+        this.drawSprites(player,map,allObjects);
+        this.ctx.restore();
     };
 
     drawSprites(player,map,columnProps) {
@@ -218,22 +233,6 @@ export class Camera {
     	}
     }
 
-    drawColumns(player, map, objects) {
-    	this.ctx.save();
-    	var allObjects = [];
-    	for (var column = 0; column < this.resolution; column++) {
-    		var angle = this.fov * (column / this.resolution - 0.5);
-    		var ray = map.cast(player, player.direction + angle, this.range);
-    		var columnProps = this.drawColumn(column, ray, angle, map);
-
-    		allObjects.push(columnProps);
-    	}
-    	this.ctx.restore();
-    	this.ctx.save();
-    	this.drawSprites(player,map,allObjects);
-    	this.ctx.restore();
-    };
-
     drawWeapon(left_hand,right_hand, paces) {
         let bobX = Math.cos(paces * 2) * this.scale * 6;
         let bobY = Math.sin(paces * 4) * this.scale * 6;
@@ -274,7 +273,7 @@ export class Camera {
     		if(map.objects[i]){
     				ctx.fillStyle = map.objects[i].color || '#67d6a1';
     				ctx.globalAlpha = map.logic ? .8 : .3;
-    				ctx.fillRect(x + (blockSize * map.objects[i].x) + blockSize * .25, y + (blockSize * map.objects[i].y) + blockSize * .25, blockSize * .5, blockSize * .5);
+    				ctx.fillRect(x-10 + (blockSize * map.objects[i].x) + blockSize * .25, y-10 + (blockSize * map.objects[i].y) + blockSize * .25, blockSize * .5, blockSize * .5);
     		}
     	}
     	ctx.restore();
