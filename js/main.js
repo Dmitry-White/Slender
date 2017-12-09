@@ -23,7 +23,7 @@ map.fillTheMap();
 
 
 map.addObject({
-	color: 'brown',
+	color: '#cf3c8c', //цвет для ребят. если куст - не указывать
 	texture: new Bitmap('img/cowboy.png', 639, 1500),
 	height: .7,
 	width: .225,
@@ -33,7 +33,7 @@ map.addObject({
 },5,5);
 
 map.addObject({
-	color: 'green',
+	color: '#cf3c8c',
 	texture: new Bitmap('img/cowboy.png', 639, 1500),
 	height: .7,
 	width: .225,

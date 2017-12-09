@@ -270,13 +270,13 @@ export class Camera {
     	}
     	ctx.save();
 
-    	/*for (let i = 0; i < map.objects.length; i++){ //спрайты
+    	for (let i = 0; i < map.objects.length; i++){ //спрайты
     		if(map.objects[i]){
-    				ctx.fillStyle = map.objects[i].color || 'blue';
-    				ctx.globalAlpha = .8;
+    				ctx.fillStyle = map.objects[i].color || '#67d6a1';
+    				ctx.globalAlpha = map.logic ? .8 : .3;
     				ctx.fillRect(x + (blockSize * map.objects[i].x) + blockSize * .25, y + (blockSize * map.objects[i].y) + blockSize * .25, blockSize * .5, blockSize * .5);
     		}
-    	}*/
+    	}
     	ctx.restore();
 
     	ctx.globalAlpha = 1; //игрок
