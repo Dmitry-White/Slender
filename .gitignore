@@ -1,3 +1,10 @@
 node_modules/
+<<<<<<< HEAD
 main.bundle.js
 img/wall_texture.jpg
+=======
+build/main.bundle.js
+
+
+build/main.bundle.js
+>>>>>>> origin/master
