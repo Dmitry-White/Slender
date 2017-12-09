@@ -16,7 +16,7 @@ let loop = new GameLoop();
 
 map.fillTheMap();
 //map.randomize();
-// tupo proverit push-push vaka-vaka
+
 
 loop.start(function frame(seconds) {
     map.update(seconds); //молнии
