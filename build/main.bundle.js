@@ -91,14 +91,8 @@ let map = new __WEBPACK_IMPORTED_MODULE_1__components_Map_js__["a" /* Map */](12
 let controls = new __WEBPACK_IMPORTED_MODULE_2__components_Controls_js__["a" /* Controls */](player);
 let camera = new __WEBPACK_IMPORTED_MODULE_3__components_Camera_js__["a" /* Camera */](display, MOBILE ? 160 : 320, 0.8);
 let loop = new __WEBPACK_IMPORTED_MODULE_4__components_GameLoop_js__["a" /* GameLoop */]();
-<<<<<<< HEAD
-map.randomize();
-=======
+map.fillTheMap(); //map.randomize();
 
-map.fillTheMap();
-//map.randomize();
-
->>>>>>> Dmitry-White/master
 loop.start(function frame(seconds) {
   map.update(seconds); //молнии
 
@@ -197,12 +191,12 @@ class Paper {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__ = __webpack_require__(1);
 
 class Map {
-<<<<<<< HEAD
   constructor(size) {
     this.size = size;
+    this.autoFilledMap = this.autoFill(size);
     this.wallGrid = new Uint8Array(size * size);
     this.skybox = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/sky_panorama.jpg', 2000, 750);
-    this.wallTexture = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/wall_texture_3.jpg', 1024, 1024);
+    this.wallTexture = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/fence.png', 1024, 1024);
     this.light = 0;
   }
 
@@ -213,18 +207,47 @@ class Map {
     return this.wallGrid[y * this.size + x];
   }
 
+  autoFill(size) {
+    // size * size grid of 0 and 1
+    //      111...111
+    //      100...001
+    //      .........
+    //      100...001
+    //      111...111
+    let autoFilledMap = [];
+
+    for (let i = 0; i < size; i++) {
+      autoFilledMap.push(1);
+    }
+
+    for (let i = 0; i < size - 2; i++) {
+      autoFilledMap.push(1);
+
+      for (let j = 0; j < size - 2; j++) {
+        autoFilledMap.push(0);
+      }
+
+      autoFilledMap.push(1);
+    }
+
+    for (let i = 0; i < size; i++) {
+      autoFilledMap.push(1);
+    }
+
+    return autoFilledMap;
+  }
+
+  fillTheMap() {
+    for (let i = 0; i < this.size * this.size; i++) {
+      this.wallGrid[i] = this.autoFilledMap[i]; //Math.random() < 0.3 ? 1 : 0;
+    }
+
+    ;
+  }
+
   randomize() {
     for (let i = 0; i < this.size * this.size; i++) {
       this.wallGrid[i] = Math.random() < 0.3 ? 1 : 0;
-=======
-    constructor(size) {
-        this.size = size;
-        this.autoFilledMap = this.autoFill(size);
-        this.wallGrid = new Uint8Array(size * size);
-        this.skybox = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/sky_panorama.jpg', 2000, 750);
-        this.wallTexture = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/fence.png', 1024, 1024);
-        this.light = 0;
->>>>>>> Dmitry-White/master
     }
 
     ;
@@ -252,7 +275,6 @@ class Map {
       return [origin].concat(ray(nextStep));
     }
 
-<<<<<<< HEAD
     ;
 
     function step(rise, run, x, y, inverted) {
@@ -264,42 +286,6 @@ class Map {
         y: inverted ? x + dx : y + dy,
         length2: dx * dx + dy * dy
       };
-=======
-    autoFill(size) {
-        // size * size grid of 0 and 1
-        //      111...111
-        //      100...001
-        //      .........
-        //      100...001
-        //      111...111
-        let autoFilledMap = [];
-        for (let i = 0; i < size; i++) {
-            autoFilledMap.push(1);
-        }
-        for (let i = 0; i < size - 2; i++) {
-            autoFilledMap.push(1);
-            for (let j = 0; j < size - 2; j++) {
-                autoFilledMap.push(0);
-            }
-            autoFilledMap.push(1);
-        }
-        for (let i = 0; i < size; i++) {
-            autoFilledMap.push(1);
-        }
-        return autoFilledMap;
-    }
-
-    fillTheMap() {
-        for (let i = 0; i < this.size * this.size; i++) {
-            this.wallGrid[i] = this.autoFilledMap[i]; //Math.random() < 0.3 ? 1 : 0;
-        };
-    }
-
-    randomize() {
-        for (let i = 0; i < this.size * this.size; i++) {
-            this.wallGrid[i] = Math.random() < 0.3 ? 1 : 0;
-        };
->>>>>>> Dmitry-White/master
     }
 
     ;
