@@ -14,9 +14,9 @@ let controls = new Controls(player);
 let camera = new Camera(display, MOBILE ? 160 : 320, 0.8);
 let loop = new GameLoop();
 
-map.fillTheMap();
-//map.randomize();
-// tupo proverit push-push vaka-vaka
+//map.fillTheMap();
+map.randomize();
+
 
 loop.start(function frame(seconds) {
     map.update(seconds); //молнии

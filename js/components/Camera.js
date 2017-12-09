@@ -18,6 +18,7 @@ export class Camera {
         this.drawSky(player.direction, map.skybox, map.light);
         this.drawColumns(player, map);
         this.drawWeapon(player.left_hand,player.right_hand, player.paces);
+        this.drawMiniMap(player, map);
     };
 
     drawSky(direction, sky, ambient) {
@@ -88,6 +89,65 @@ export class Camera {
         let top = this.height * 0.6 + bobY;
         this.ctx.drawImage(left_hand.image, left_l, top, left_hand.width * this.scale, left_hand.height * this.scale);
         this.ctx.drawImage(right_hand.image, left_r, top, right_hand.width * this.scale, right_hand.height * this.scale);
+    };
+
+    drawMiniMap(player, map) {
+    	let ctx = this.ctx;
+    	let mapWidth = this.width * .25;
+    	let mapHeight = mapWidth;
+    	let x = this.width - mapWidth - 20;
+    	let y = 20;
+		let blockWidth = mapWidth / map.size;
+    	let blockHeight = mapHeight / map.size;
+		let wallIndex;
+    	let triangleX = x + (player.x / map.size * mapWidth);
+    	let triangleY = y + (player.y / map.size * mapWidth);
+
+    	ctx.save();
+
+    	ctx.globalAlpha = .3;
+    	ctx.fillRect(x, y, mapWidth, mapHeight);
+    	ctx.globalAlpha = .4;
+
+    	ctx.fillStyle = '#ffffff';
+
+    	for (var row = 0; row < map.size; row++) {
+    		for (var col = 0; col < map.size; col++) {
+
+    			wallIndex = row * map.size + col;
+
+    			if (map.wallGrid[wallIndex]) {
+    				ctx.fillRect(x + (blockWidth * col), y + (blockHeight * row), blockWidth, blockHeight);
+    			}
+
+    		}
+    	}
+    	ctx.save();
+    	/*for (var i = 0; i < map.objects.length; i++){
+    		if(map.objects[i]){
+    				ctx.fillStyle = map.objects[i].color || 'blue';
+    				ctx.globalAlpha = .8;
+    				ctx.fillRect(x + (blockWidth * map.objects[i].x) + blockWidth * .25, y + (blockHeight * map.objects[i].y) + blockWidth * .25, blockWidth * .5, blockHeight * .5);
+    		}
+    	}*/
+    		ctx.restore();
+
+    	//player triangle
+    	ctx.globalAlpha = 1;
+    	ctx.fillStyle = '#FF0000';
+    	ctx.moveTo(triangleX,triangleY);
+    	ctx.translate(triangleX,triangleY);
+
+    	ctx.rotate(player.direction - Math.PI * .5);
+    	ctx.beginPath();
+    	ctx.lineTo(-2, -3); // bottom left of triangle
+    	ctx.lineTo(0, 2); // tip of triangle
+    	ctx.lineTo(2,-3); // bottom right of triangle
+    	ctx.fill();
+
+
+    	ctx.restore();
+
     };
 
     project(height, angle, distance) {
