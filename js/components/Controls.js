@@ -48,7 +48,7 @@ export class Controls {
 
     onMouseMovement(e) {
         let x = (e.movementX || e.mozMovementX || e.webkitMovementX || 0);
-        if (x > 0) this.player.rotate(Math.PI/40);
-        if (x < 0) this.player.rotate(-Math.PI/40);
+        if (x > 0) this.player.rotate(Math.PI/80);
+        if (x < 0) this.player.rotate(-Math.PI/80);
     };
 }
