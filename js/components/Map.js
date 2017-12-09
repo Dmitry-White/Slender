@@ -8,6 +8,7 @@ export class Map {
         this.wallGrid = new Uint8Array(size * size);
         this.skybox = new Bitmap('img/sky_panorama.jpg', 2000, 750);
         this.wallTexture = new Bitmap('img/fence.png', 1024, 1024);
+        this.floorTexture = new Bitmap('img/floor.jpg', 2000, 750);
         this.light = 0;
         this.objects = [];
     };
