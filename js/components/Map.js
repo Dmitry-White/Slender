@@ -101,7 +101,7 @@ export class Map {
         // ---------------------------------------------------------------------
 
         //this.light = Math.max(this.light - 10 * seconds, 0.4);  // nigth mode
-        this.light = 10; //snow mode
+        this.light = 2; //day mode
     };
 
 

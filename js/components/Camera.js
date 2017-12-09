@@ -17,7 +17,7 @@ export class Camera {
     render(player, map) {
         this.drawSky(player.direction, map.skybox, map.light);
         this.drawColumns(player, map);
-        this.drawWeapon(player.weapon, player.paces);
+        this.drawWeapon(player.left_hand,player.right_hand, player.paces);
     };
 
     drawSky(direction, sky, ambient) {
@@ -58,7 +58,7 @@ export class Camera {
                 ctx.globalAlpha = 1;
                 ctx.drawImage(texture.image, textureX, 0, 1, texture.height, left, wall.top, width, wall.height);
 
-                ctx.fillStyle = '#000000';
+                ctx.fillStyle = '#2a3847';
                 ctx.globalAlpha = Math.max((step.distance + step.shading) / this.lightRange - map.light, 0);
                 ctx.fillRect(left, wall.top, width, wall.height);
             };
@@ -80,12 +80,14 @@ export class Camera {
         this.ctx.restore();
     };
 
-    drawWeapon(weapon, paces) {
+    drawWeapon(left_hand,right_hand, paces) {
         let bobX = Math.cos(paces * 2) * this.scale * 6;
         let bobY = Math.sin(paces * 4) * this.scale * 6;
-        let left = this.width * 0.66 + bobX;
+        let left_r = this.width * 0.6 + bobX;
+        let left_l = this.width * 0.15 + bobX;
         let top = this.height * 0.6 + bobY;
-        this.ctx.drawImage(weapon.image, left, top, weapon.width * this.scale, weapon.height * this.scale);
+        this.ctx.drawImage(left_hand.image, left_l, top, left_hand.width * this.scale, left_hand.height * this.scale);
+        this.ctx.drawImage(right_hand.image, left_r, top, right_hand.width * this.scale, right_hand.height * this.scale);
     };
 
     project(height, angle, distance) {

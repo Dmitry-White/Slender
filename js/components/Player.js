@@ -7,7 +7,8 @@ export class Player {
         this.x = x;
         this.y = y;
         this.direction = direction;
-        this.weapon = new Bitmap('img/knife_hand.png', 319, 320);
+        this.right_hand = new Bitmap('img/knife_hand.png', 200, 200);
+        this.left_hand = new Bitmap('img/left_hand.png', 200, 200);
         this.paces = 0;
         this.paper = new Paper(0,0);
     };
