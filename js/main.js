@@ -11,14 +11,14 @@ export const CIRCLE = Math.PI * 2;
 
 let display = document.getElementById('display');
 let player = new Player(2, 2, 0);
-let map = new Map(12);
+let map = new Map(14);
 let objects = new Objects(map);
 let controls = new Controls(player);
 export let camera = new Camera(display,1280, 0.8);
 let loop = new GameLoop();
 
 map.fillTheFence();
-//map.randomize();
+map.randomize();
 
 
 map.addObject({

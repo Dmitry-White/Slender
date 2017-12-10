@@ -4,10 +4,10 @@ import { MapObject } from "./MapObject.js";
 export class Map {
     constructor(size) {
         this.size = size;
-        this.autoFilledMap = this.autoFill(size);
         this.wallGrid = new Uint8Array(size * size);
         this.skybox = new Bitmap('img/sky_panorama.jpg', 2000, 750);
-        this.wallTexture = new Bitmap('img/fence.png', 1024, 1024);
+        this.fenceTexture = new Bitmap('img/fence.png', 1024, 1024);
+        this.wallTexture = new Bitmap('img/wall_texture_3.jpg', 1024, 1024);
         this.light = 0;
         this.objects = [];
     };
@@ -24,14 +24,14 @@ export class Map {
         for (let i = 0; i < this.size * this.size; i++) {
             let row = Math.floor(i/this.size);
             let col = i - this.size * row;
-            if((row === 0) || (row === this.size - 1)) this.wallGrid[i] = 1;// низ-верх
-            if((col === 0) || (col === this.size - 1)) this.wallGrid[i] = 1;
+            if((row === 0) || (row === this.size - 1)
+            || (col === 0) || (col === this.size - 1)) this.wallGrid[i] = 2;// низ-верх
         }
     }
 
     randomize() {
-        for (let i = 0; i < this.size * this.size; i++) {
-            this.wallGrid[i] = Math.random() < 0.3 ? 1 : 0;
+        for (let i = 0; i < (this.size) * (this.size); i++) {
+            if (Math.random() > 0.7) this.wallGrid[i] = 1;
         };
     };
 
@@ -95,7 +95,6 @@ export class Map {
 
     addObject(object,x,y) {
         this.objects.push( new MapObject(object,x,y) );
-        console.log(this.objects);
     }
 
     getObject(x,y) {
