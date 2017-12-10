@@ -74,6 +74,11 @@ header {
     align-items: center;
     flex-wrap: wrap;
 }
+.header-buttons{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
 main {
     position: relative;
     padding: 0 50px;
@@ -353,6 +358,134 @@ cursor: pointer;
     bottom: 0;
 }
 /****************************************************************/
+.custom-checkbox{
+	display: flex;
+	align-items: center;
+}
+.custom-checkbox span{
+	color: #aaa;
+	font-weight: 100;
+	margin-right: 20px;
+}
+.switch {
+  display: inline-block;
+  height: 34px;
+  position: relative;
+  width: 60px;
+}
+
+.switch input {
+  display:none;
+}
+
+.slider {
+  background-color: #292929;
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: .4s;
+}
+
+.slider:before {
+  background-color: #424242;
+  bottom: 4px;
+  content: "";
+  height: 26px;
+  left: 4px;
+  position: absolute;
+  transition: .4s;
+  width: 26px;
+}
+
+input:checked + .slider:before {
+	background-color: #828282;
+	transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.container {
+  margin: 0 auto;
+}
+/****************************************************************/
+.snow {
+  	position: absolute;
+	display: none;
+  	width: 179px;
+  	top:0;
+	left:200px;
+}
+.flake1,.flake2,.flake3,.flake4,.flake5,.flake6,.flake7,.flake8{
+	position: relative;
+	width:2px;
+	height:2px;
+	background: white;
+    opacity: 0;
+	transform-origin:0px 0px;
+	animation-name: Snow;
+	animation-duration:2.7s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+.flake1 {
+	animation-duration:2.5s;
+}
+.flake2 {
+	animation-delay:0.2s;
+	left:5px;
+}
+.flake3 {
+	animation-duration:2.3s;
+	animation-delay:0.4s;
+	left:-10px;
+}
+.flake4 {
+	left:25px;
+}
+.flake5 {
+	animation-duration:2.4s;
+	animation-delay:1s;
+	left:-25px;
+}
+.flake6 {
+  	animation-delay:1.2s;
+	left:9px;
+}
+.flake7 {
+	animation-duration:2.2s;
+	animation-delay:1.2s;
+	left:-15px;
+}
+.flake8 {
+	animation-delay:1.4s;
+	left:35px;
+}
+@keyframes Snow {
+0% {
+transform:translateY(0px);
+  opacity:0;
+}
+50% {
+  transform:translateY(25px);
+  opacity: 1;
+}
+  100% {
+  transform:translateY(45px);
+  opacity: 0.3;
+}
+}
+
+
 @media (min-width: 300px){
     .slider-left,
     .slider-right{

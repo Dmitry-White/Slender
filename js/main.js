@@ -15,7 +15,7 @@ document.getElementById('play').addEventListener('click', function(){
 	document.querySelector('.menu').classList.add('fadeOut');
 	setTimeout(()=>{
 		document.querySelector('.menu').style.display = 'none';
-	},1000);
+	},500);
 	let player = new Player(1, 1, 1);
 	let map = new Map(14);
 	let objects = new Objects(map);
