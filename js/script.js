@@ -15,3 +15,9 @@ document.addEventListener("DOMContentLoaded", function(){
     set_slides('left',true);
     set_slides('left',false);
 });
+
+document.getElementById(`checkbox`).addEventListener(`change`, function(){
+    if(document.querySelector(`.snow`).style.display === 'block')
+        document.querySelector(`.snow`).style.display = 'none';
+    else document.querySelector(`.snow`).style.display = 'block';
+});
