@@ -67,7 +67,7 @@ export class Camera {
     			ctx.globalAlpha = 1;
     			ctx.drawImage(wallTexture.image, textureX, 0, 1, wallTexture.height, left, wall.top, width, wall.height);
 
-    			ctx.fillStyle = '#fff';
+    			ctx.fillStyle = '#1c3140';
     			ctx.globalAlpha = Math.max((step.distance + step.shading) / this.lightRange - map.light, 0);
     			ctx.fillRect(left, wall.top, width, wall.height);
     			hitDistance = step.distance;
@@ -82,7 +82,7 @@ export class Camera {
 
     		}
 
-    		ctx.fillStyle = '#1c3140';
+    		ctx.fillStyle = '#fff';
     		ctx.globalAlpha = 1;
     		while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top, 6, 6);
     	}
