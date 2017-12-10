@@ -82,7 +82,7 @@ export class Camera {
 
     		}
 
-    		ctx.fillStyle = '#fff';
+    		ctx.fillStyle = '#1c3140';
     		ctx.globalAlpha = 1;
     		while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top, 6, 6);
     	}
