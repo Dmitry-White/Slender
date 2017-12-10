@@ -59,12 +59,10 @@ export class Map {
     };
 
     cast(point, angle, range, objects) {
-    	var self = this,
-    		sin = Math.sin(angle),
-    		cos = Math.cos(angle),
-    		noWall = {
-    			length2: Infinity
-    		};
+    	let self = this;
+    	let sin = Math.sin(angle);
+    	let cos = Math.cos(angle);
+    	let noWall = { length2: Infinity };
 
     	return ray({
     		x: point.x,
@@ -74,9 +72,9 @@ export class Map {
     	});
 
     	function ray(origin) {
-    		var stepX = step(sin, cos, origin.x, origin.y);
-    		var stepY = step(cos, sin, origin.y, origin.x, true);
-    		var nextStep = stepX.length2 < stepY.length2 ? inspect(stepX, 1, 0, origin.distance, stepX.y) : inspect(stepY, 0, 1, origin.distance, stepY.x);
+    		let stepX = step(sin, cos, origin.x, origin.y);
+    		let stepY = step(cos, sin, origin.y, origin.x, true);
+    		let nextStep = stepX.length2 < stepY.length2 ? inspect(stepX, 1, 0, origin.distance, stepX.y) : inspect(stepY, 0, 1, origin.distance, stepY.x);
 
     		if (nextStep.distance > range) return [origin];
     		return [origin].concat(ray(nextStep));
@@ -84,8 +82,8 @@ export class Map {
 
     	function step(rise, run, x, y, inverted) {
     		if (run === 0) return noWall;
-    		var dx = run > 0 ? Math.floor(x + 1) - x : Math.ceil(x - 1) - x;
-    		var dy = dx * (rise / run);
+    		let dx = run > 0 ? Math.floor(x + 1) - x : Math.ceil(x - 1) - x;
+    		let dy = dx * (rise / run);
     		return {
     			x: inverted ? y + dy : x + dx,
     			y: inverted ? x + dx : y + dy,
@@ -94,8 +92,8 @@ export class Map {
     	}
 
     	function inspect(step, shiftX, shiftY, distance, offset) {
-    		var dx = cos < 0 ? shiftX : 0;
-    		var dy = sin < 0 ? shiftY : 0;
+    		let dx = cos < 0 ? shiftX : 0;
+    		let dy = sin < 0 ? shiftY : 0;
     		step.height = self.get(step.x - dx, step.y - dy);
     		step.distance = distance + Math.sqrt(step.length2);
     		step.object = self.getObject(step.x - dx, step.y - dy);
