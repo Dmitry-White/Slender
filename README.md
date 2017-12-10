@@ -10,6 +10,6 @@
 ![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)
 
 
-Have you ever played this game as a Slender? Just [try it](https://Dmitry-White.github.io/The-Game/prev.html)
+Have you ever played this game as a Slender? Just [try it](https://Dmitry-White.github.io/The-Game/index.html)
 
 *Slender Impostors Team. Making creepy stuff that makes you kill yourself... laughing :)*
