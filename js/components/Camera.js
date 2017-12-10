@@ -39,21 +39,25 @@ export class Camera {
     };
 
     drawColumn(column, ray, angle, map) {
-    	var ctx = this.ctx,
-    		wallTexture = map.wallTexture,
-    		left = Math.floor(column*this.spacing),
-    		width = Math.ceil(this.spacing),
-    		hit = -1,
-    		objects = [],
-    		hitDistance;
+    	let ctx = this.ctx;
+    	let wallTexture = map.wallTexture;
+    	let left = Math.floor(column*this.spacing);
+		let width = Math.ceil(this.spacing);
+    	let hit = -1;
+        let objects = [];
+    	let hitDistance;
+        let step;
 
     	while (++hit < ray.length && ray[hit].height <= 0);
-
     	for (var s = (ray.length - 1); s >= 0; s--) {
-    		var step = ray[s];
-    		var rainDrops = Math.pow(Math.random(), 3) * s;
-    		var rain = (rainDrops > 0) && this.project(0.1, angle, step.distance),
-    		textureX,wall;
+    		step = ray[s];
+            if(step.height === 2){
+                wallTexture = map.fenceTexture;
+                step.height = 1;
+            } else wallTexture = map.wallTexture;
+    		//let rainDrops = Math.pow(Math.random(), 3) * s;
+    		//let rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
+    		let textureX,wall;
 
     		if (s === hit) {
     			textureX = Math.floor(wallTexture.width * step.offset);
@@ -62,7 +66,7 @@ export class Camera {
     			ctx.globalAlpha = 1;
     			ctx.drawImage(wallTexture.image, textureX, 0, 1, wallTexture.height, left, wall.top, width, wall.height);
 
-    			ctx.fillStyle = '#000000';
+    			ctx.fillStyle = '#fff';
     			ctx.globalAlpha = Math.max((step.distance + step.shading) / this.lightRange - map.light, 0);
     			ctx.fillRect(left, wall.top, width, wall.height);
     			hitDistance = step.distance;
@@ -81,6 +85,7 @@ export class Camera {
     		//ctx.globalAlpha = 0.15;
     		//while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top, 1, rain.height);
     	}
+        if(step.x!=2)console.log(step);
     	return {
     		objects: objects,
     		hit: hitDistance
@@ -261,6 +266,9 @@ export class Camera {
 
         for (let i = 0; i < map.size * map.size; i++) {
     		if (map.wallGrid[i]){
+                if(map.wallGrid[i]===2){
+                    ctx.fillStyle = '#35384b';
+                } else ctx.fillStyle = '#4c8847';
                 let row = Math.floor( i/map.size);
                 let col = i - map.size * row;
     			ctx.fillRect(x + (blockSize * col), y + (blockSize * row), blockSize, blockSize);
@@ -270,8 +278,9 @@ export class Camera {
 
     	for (let i = 0; i < map.objects.length; i++){ //спрайты
     		if(map.objects[i]){
-    				ctx.fillStyle = map.objects[i].color || '#67d6a1';
+                if(map.objects[i]===1)
     				ctx.globalAlpha = map.logic ? .8 : .3;
+                    ctx.fillStyle = map.objects[i].color || '#67d6a1';
     				ctx.fillRect(x-10 + (blockSize * map.objects[i].x) + blockSize * .25, y-10 + (blockSize * map.objects[i].y) + blockSize * .25, blockSize * .5, blockSize * .5);
     		}
     	}

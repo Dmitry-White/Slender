@@ -4,11 +4,11 @@ import { MapObject } from "./MapObject.js";
 export class Map {
     constructor(size) {
         this.size = size;
-        this.autoFilledMap = this.autoFill(size);
         this.wallGrid = new Uint8Array(size * size);
         this.skybox = new Bitmap('img/sky_panorama.jpg', 2000, 750);
-        this.wallTexture = new Bitmap('img/fence.png', 1024, 1024);
-        this.light = 0;
+        this.fenceTexture = new Bitmap('img/fence.png', 1024, 1024);
+        this.wallTexture = new Bitmap('img/wall_texture_3.jpg', 1024, 1024);
+        this.light = 2;
         this.objects = [];
     };
 
@@ -19,19 +19,21 @@ export class Map {
         return this.wallGrid[y * this.size + x];
     };
 
-    fillTheFence(){
+    buildMap() {
         this.wallGrid.fill(0);
         for (let i = 0; i < this.size * this.size; i++) {
             let row = Math.floor(i/this.size);
             let col = i - this.size * row;
-            if((row === 0) || (row === this.size - 1)) this.wallGrid[i] = 1;// низ-верх
-            if((col === 0) || (col === this.size - 1)) this.wallGrid[i] = 1;
-        }
-    }
-
-    randomize() {
-        for (let i = 0; i < this.size * this.size; i++) {
-            this.wallGrid[i] = Math.random() < 0.3 ? 1 : 0;
+            //генерация лабиринта
+            if((row !== 1) && (row !== this.size - 2)
+            && (col !== 1) && (col !== this.size - 2)) {
+                if (Math.random() > 0.7) this.wallGrid[i] = 1;
+            }
+            //генерация забора
+            if((row === 0) || (row === this.size - 1)
+            || (col === 0) || (col === this.size - 1)) {
+                        this.wallGrid[i] = 2;
+            }
         };
     };
 
@@ -83,7 +85,7 @@ export class Map {
     	}
     };
 
-    update(seconds) {
+    /*update(seconds) {
         // --------------------- Random Lighting -------------------------------
         //if (this.light > 0) this.light = Math.max(this.light - 10 * seconds, 0);
         //else if (Math.random() * 5 < seconds) this.light = 2;
@@ -91,11 +93,10 @@ export class Map {
 
         //this.light = Math.max(this.light - 10 * seconds, 0.4);  // nigth mode
         this.light = 2; //day mode
-    };
+    };*/
 
     addObject(object,x,y) {
         this.objects.push( new MapObject(object,x,y) );
-        console.log(this.objects);
     }
 
     getObject(x,y) {
