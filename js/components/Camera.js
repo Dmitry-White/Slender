@@ -55,8 +55,9 @@ export class Camera {
                 wallTexture = map.fenceTexture;
                 step.height = 1;
             } else wallTexture = map.wallTexture;
-    		//let rainDrops = Math.pow(Math.random(), 3) * s;
-    		//let rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
+
+    		let rainDrops = Math.pow(Math.random(), 30) * 3;
+    		let rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
     		let textureX,wall;
 
     		if (s === hit) {
@@ -81,9 +82,9 @@ export class Camera {
 
     		}
 
-    		//ctx.fillStyle = '#ffffff';
-    		//ctx.globalAlpha = 0.15;
-    		//while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top, 1, rain.height);
+    		ctx.fillStyle = '#fff';
+    		ctx.globalAlpha = 1;
+    		while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top, 6, 6);
     	}
     	return {
     		objects: objects,
@@ -307,6 +308,7 @@ export class Camera {
     	var bottom = this.height / 2 * (1 + 1 / z);
     	return {
     		top: bottom - wallHeight,
+            bottom: bottom,
     		height: wallHeight
     	};
     };
