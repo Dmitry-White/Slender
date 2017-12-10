@@ -11,9 +11,9 @@ export class Controls {
         document.addEventListener('touchmove', this.onTouch.bind(this), false);
         document.addEventListener('touchend', this.onTouchEnd.bind(this), false);
         document.addEventListener('mousemove', this.onMouseMovement.bind(this), false);
-        document.body.onclick = document.body.requestPointerLock ||
+        /*document.querySelector('canvas').onclick = document.body.requestPointerLock ||
                                 document.body.mozRequestPointerLock ||
-                                document.body.webkitRequestPointerLock;
+                                document.body.webkitRequestPointerLock;*/
     };
 
     onTouch(e) {

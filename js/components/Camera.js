@@ -85,7 +85,6 @@ export class Camera {
     		//ctx.globalAlpha = 0.15;
     		//while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top, 1, rain.height);
     	}
-        if(step.x!=2)console.log(step);
     	return {
     		objects: objects,
     		hit: hitDistance
