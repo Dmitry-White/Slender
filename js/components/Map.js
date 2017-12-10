@@ -4,7 +4,6 @@ import { MapObject } from "./MapObject.js";
 export class Map {
     constructor(size) {
         this.size = size;
-        this.autoFilledMap = this.autoFill(size);
         this.wallGrid = new Uint8Array(size * size);
         this.skybox = new Bitmap('img/sky_panorama.jpg', 2000, 750);
         this.wallTexture = new Bitmap('img/fence.png', 1024, 1024);
