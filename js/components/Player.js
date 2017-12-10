@@ -11,6 +11,7 @@ export class Player {
         this.left_hand = new Bitmap('img/left_hand.png', 200, 200);
         this.paces = 0;
         this.paper = new Paper(0,0);
+        this.speed = 1;
     };
 
     rotate(angle) {
@@ -28,10 +29,11 @@ export class Player {
     update(controls, map, seconds) {
         if (controls.left) this.rotate(-Math.PI * seconds);
         if (controls.right) this.rotate(Math.PI * seconds);
-        if (controls.forward) this.walk(3 * seconds, map, this.direction);
-        if (controls.backward) this.walk(-3 * seconds, map, this.direction);
-        if (controls.sideLeft) this.walk(3 * seconds, map, this.direction - Math.PI/2);
-        if (controls.sideRight) this.walk(-3 * seconds, map, this.direction - Math.PI/2);
+        if (controls.forward) this.walk(this.speed * seconds, map, this.direction);
+        if (controls.backward) this.walk(-(this.speed) * seconds, map, this.direction);
+        if (controls.sideLeft) this.walk(this.speed * seconds, map, this.direction - Math.PI/2);
+        if (controls.sideRight) this.walk(-(this.speed) * seconds, map, this.direction - Math.PI/2);
+        if (controls.shift) this.speed = 4; else  this.speed = 1;
     };
 
     dosmth(action){
