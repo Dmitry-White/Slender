@@ -10,16 +10,14 @@ import { Bitmap } from "./components/Bitmap.js";
 export const CIRCLE = Math.PI * 2;
 
 let display = document.getElementById('display');
-let player = new Player(2, 2, 0);
+let player = new Player(1, 1, 0);
 let map = new Map(14);
 let objects = new Objects(map);
 let controls = new Controls(player);
 export let camera = new Camera(display,1280, 0.8);
 let loop = new GameLoop();
 
-map.fillTheFence();
-map.randomize();
-
+map.buildMap();
 
 map.addObject({
 	color: '#cf3c8c', //цвет для ребят. если куст - не указывать
@@ -42,7 +40,7 @@ map.addObject({
 },3,9);
 
 loop.start(function frame(seconds) {
-    map.update(seconds); //молнии
+    //map.update(seconds); //молнии
     objects.update();
     player.update(controls.states, map, seconds);
     camera.render(player, map, objects);
