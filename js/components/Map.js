@@ -19,34 +19,14 @@ export class Map {
         return this.wallGrid[y * this.size + x];
     };
 
-    autoFill(size) {
-        // size * size grid of 0 and 1
-        //      111...111
-        //      100...001
-        //      .........
-        //      100...001
-        //      111...111
-        let autoFilledMap = [];
-        for (let i = 0; i < size; i++) {
-            autoFilledMap.push(1);
-        }
-        for (let i = 0; i < size-2; i++) {
-            autoFilledMap.push(1);
-            for (let j = 0; j < size-2; j++) {
-                autoFilledMap.push(0);
-            }
-            autoFilledMap.push(1);
-        }
-        for (let i = 0; i < size; i++) {
-            autoFilledMap.push(1);
-        }
-        return autoFilledMap;
-    }
-
-    fillTheMap() {
+    fillTheFence(){
+        this.wallGrid.fill(0);
         for (let i = 0; i < this.size * this.size; i++) {
-            this.wallGrid[i] = this.autoFilledMap[i];//Math.random() < 0.3 ? 1 : 0;
-        };
+            let row = Math.floor(i/this.size);
+            let col = i - this.size * row;
+            if((row === 0) || (row === this.size - 1)) this.wallGrid[i] = 1;// низ-верх
+            if((col === 0) || (col === this.size - 1)) this.wallGrid[i] = 1;
+        }
     }
 
     randomize() {

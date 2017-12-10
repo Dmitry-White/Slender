@@ -8,17 +8,16 @@ import { GameLoop } from "./components/GameLoop.js";
 import { Bitmap } from "./components/Bitmap.js";
 
 export const CIRCLE = Math.PI * 2;
-export const MOBILE = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)
 
 let display = document.getElementById('display');
 let player = new Player(2, 2, 0);
 let map = new Map(12);
 let objects = new Objects(map);
 let controls = new Controls(player);
-export let camera = new Camera(display, MOBILE ? 160 : 1280, 0.8);
+export let camera = new Camera(display,1280, 0.8);
 let loop = new GameLoop();
 
-map.fillTheMap();
+map.fillTheFence();
 //map.randomize();
 
 
