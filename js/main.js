@@ -6,8 +6,11 @@ import { Controls } from "./components/Controls.js";
 import { Camera } from "./components/Camera.js";
 import { GameLoop } from "./components/GameLoop.js";
 import { Bitmap } from "./components/Bitmap.js";
+import { assets } from "./json/assets.json";
+
 export const CIRCLE = Math.PI * 2;
-export let camera = new Camera(display,1280, 0.8);
+let display = document.getElementById('display');
+export let camera = new Camera(display,320, 0.8);
 
 document.getElementById('play').addEventListener('click', function(){
 	document.querySelector('canvas').style.display = 'block';
@@ -16,13 +19,14 @@ document.getElementById('play').addEventListener('click', function(){
 	setTimeout(()=>{
 		document.querySelector('.menu').style.display = 'none';
 	},500);
-	let player = new Player(1, 1, 1);
-	let map = new Map(14);
+	let player = new Player(2, 2, 1);
+	let map = new Map(32);
 	let objects = new Objects(map);
 	let controls = new Controls(player);
 	let loop = new GameLoop();
+	let trees = assets.trees;
 
-	map.buildMap();
+	map.buildMap(trees);
 
 	map.addObject({
 		color: '#cf3c8c', //цвет для ребят. если куст - не указывать

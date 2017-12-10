@@ -67,7 +67,7 @@ export class Camera {
     			ctx.globalAlpha = 1;
     			ctx.drawImage(wallTexture.image, textureX, 0, 1, wallTexture.height, left, wall.top, width, wall.height);
 
-    			ctx.fillStyle = '#1a2f57';
+    			ctx.fillStyle = '#fff';
     			ctx.globalAlpha = Math.max((step.distance + step.shading) / this.lightRange - map.light, 0);
     			ctx.fillRect(left, wall.top, width, wall.height);
     			hitDistance = step.distance;

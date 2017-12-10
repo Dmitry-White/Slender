@@ -19,7 +19,23 @@ export class Map {
         return this.wallGrid[y * this.size + x];
     };
 
-    buildMap() {
+    getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min;
+    };
+
+    addTrees(trees, col, row) {
+        let num = this.getRandomInt(1,4);
+        this.addObject({
+        	color: '',
+        	texture: new Bitmap(trees[num].texture, trees[num].width, trees[num].height),
+        	height: 1,
+        	width: 0.5,
+        },col,row);
+   }
+
+    buildMap(trees) {
         this.wallGrid.fill(0);
         for (let i = 0; i < this.size * this.size; i++) {
             let row = Math.floor(i/this.size);
@@ -27,7 +43,12 @@ export class Map {
             //генерация лабиринта
             if((row !== 1) && (row !== this.size - 2)
             && (col !== 1) && (col !== this.size - 2)) {
-                if (Math.random() > 0.7) this.wallGrid[i] = 1;
+                if (Math.random() > 0.4) {
+                    this.addTrees(trees, col+2, row+2);
+                }
+                if (Math.random() > 0.7) {
+                    this.wallGrid[i] = 1;
+                }
             }
             //генерация забора
             if((row === 0) || (row === this.size - 1)
