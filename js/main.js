@@ -19,12 +19,16 @@ document.getElementById('play').addEventListener('click', function(){
 	setTimeout(()=>{
 		document.querySelector('.menu').style.display = 'none';
 	},500);
-	let player = new Player(2, 2, 1);
+
+	let trees = assets.trees;
+	let papers = assets.papers;
+	console.log(papers)
+
 	let map = new Map(32);
+	let player = new Player(2, 2, 1, papers, map);
 	let objects = new Objects(map);
 	let controls = new Controls(player);
 	let loop = new GameLoop();
-	let trees = assets.trees;
 
 	map.buildMap(trees);
 

@@ -3,10 +3,12 @@ import { Paper } from "./Paper.js";
 import { CIRCLE } from "../main.js";
 
 export class Player {
-    constructor(x, y, direction) {
+    constructor(x, y, direction, papers, map) {
         this.x = x;
         this.y = y;
         this.direction = direction;
+        this.papers = papers;
+        this.map = map;
         this.right_hand = new Bitmap('img/knife_hand.png', 200, 200);
         this.left_hand = new Bitmap('img/left_hand.png', 200, 200);
         this.paces = 0;
@@ -36,7 +38,13 @@ export class Player {
         if (controls.shift) this.speed = 4; else  this.speed = 1;
     };
 
+
     dosmth(action){
         if(action === 'enter') console.log('Bam!');
+        if(action === 'space') {
+            console.log('The bomb has been planted!');
+            this.paper.placePaper(this.papers, this.x, this.y, this.map);
+        }
+        if(action === 'escape') location.reload();
     }
 }

@@ -2,7 +2,8 @@ export class Controls {
     constructor(player) {
         this.player = player;
         this.codes  = { 37: 'left', 39: 'right', 38: 'forward', 40: 'backward', 65: 'sideLeft',
-                        68: 'sideRight', 87: 'forward', 83: 'backward', 13:'enter', 16 :'shift' };
+                        68: 'sideRight', 87: 'forward', 83: 'backward', 13:'enter', 16 :'shift',
+                        32: "space", 27: 'escape' };
         this.states = { 'left': false, 'right': false, 'forward': false, 'backward': false, 'shift': false};
         this.actions = ['enter'];
         document.addEventListener('keydown', this.onKey.bind(this, true), false);
