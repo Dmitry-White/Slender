@@ -10,7 +10,7 @@ import { assets } from "./json/assets.json";
 
 export const CIRCLE = Math.PI * 2;
 let display = document.getElementById('display');
-export let camera = new Camera(display,320, 0.8);
+export let camera = new Camera(display,640, 0.8);
 
 document.getElementById('play').addEventListener('click', function(){
 	document.querySelector('canvas').style.display = 'block';
@@ -19,12 +19,16 @@ document.getElementById('play').addEventListener('click', function(){
 	setTimeout(()=>{
 		document.querySelector('.menu').style.display = 'none';
 	},500);
-	let player = new Player(2, 2, 1);
+
+	let trees = assets.trees;
+	let papers = assets.papers;
+	console.log(papers)
+
 	let map = new Map(32);
+	let player = new Player(2, 2, 1, papers, map);
 	let objects = new Objects(map);
 	let controls = new Controls(player);
 	let loop = new GameLoop();
-	let trees = assets.trees;
 
 	map.buildMap(trees);
 
