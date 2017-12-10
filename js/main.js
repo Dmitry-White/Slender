@@ -10,7 +10,7 @@ import { Bitmap } from "./components/Bitmap.js";
 export const CIRCLE = Math.PI * 2;
 
 let display = document.getElementById('display');
-let player = new Player(1, 1, 0);
+let player = new Player(1, 1, 1);
 let map = new Map(14);
 let objects = new Objects(map);
 let controls = new Controls(player);
