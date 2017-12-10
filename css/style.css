@@ -50,11 +50,21 @@ table {
 
 html,
 body {
-    background-color: #111;
     font-family: Helvetica;
     width: 100vw;
-    overflow: hidden;
+    overflow-x: hidden;
     height: 100vh;
+	background-color: #111;
+}
+.menu{
+	background-color: #111;
+	position: fixed;
+	min-height: 100vh;
+}
+canvas{
+	display: none;
+	margin: 0;
+   	padding: 0;
 }
 header {
     padding: 20px 50px;

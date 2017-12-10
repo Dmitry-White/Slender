@@ -10,9 +10,12 @@ export const CIRCLE = Math.PI * 2;
 export let camera = new Camera(display,1280, 0.8);
 
 document.getElementById('play').addEventListener('click', function(){
-	document.querySelector('.menu').style.display = 'none';
-
-	let display = document.getElementById('display');
+	document.querySelector('canvas').style.display = 'block';
+	let btns = document.getElementsByClassName('slider-title');
+	document.querySelector('.menu').classList.add('fadeOut');
+	setTimeout(()=>{
+		document.querySelector('.menu').style.display = 'none';
+	},1000);
 	let player = new Player(1, 1, 1);
 	let map = new Map(14);
 	let objects = new Objects(map);
