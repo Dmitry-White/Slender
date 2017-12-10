@@ -1,4 +1,5 @@
 import { Player } from "./components/Player.js";
+import { Sounds } from "./components/Sounds.js"
 import { Map } from "./components/Map.js";
 import { MapObject } from "./components/MapObject.js";
 import { Objects } from "./components/Objects.js";
@@ -22,8 +23,8 @@ document.getElementById('play').addEventListener('click', function(){
 
 	let trees = assets.trees;
 	let papers = assets.papers;
-	console.log(papers)
 
+	let sounds = new Sounds();
 	let map = new Map(32);
 	let player = new Player(2, 2, 1, papers, map);
 	let objects = new Objects(map);

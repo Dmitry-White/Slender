@@ -14,6 +14,7 @@ export class Player {
         this.paces = 0;
         this.paper = new Paper(0,0);
         this.speed = 1;
+        this.sound_end = true;
     };
 
     rotate(angle) {
@@ -31,13 +32,29 @@ export class Player {
     update(controls, map, seconds) {
         if (controls.left) this.rotate(-Math.PI * seconds);
         if (controls.right) this.rotate(Math.PI * seconds);
-        if (controls.forward) this.walk(this.speed * seconds, map, this.direction);
-        if (controls.backward) this.walk(-(this.speed) * seconds, map, this.direction);
+        if (controls.forward) {
+            if (this.sound_end) this.makeSound('forward_step');
+            this.walk(this.speed * seconds, map, this.direction);
+        }
+        if (controls.backward) {
+            if (this.sound_end) this.makeSound('backward_step');
+            this.walk(-(this.speed) * seconds, map, this.direction);
+        }
         if (controls.sideLeft) this.walk(this.speed * seconds, map, this.direction - Math.PI/2);
         if (controls.sideRight) this.walk(-(this.speed) * seconds, map, this.direction - Math.PI/2);
         if (controls.shift) this.speed = 4; else  this.speed = 1;
     };
 
+    makeSound(sound_id) {
+        self = this;
+        self.sound_end = false;
+        soundManager.play(sound_id,{
+            multiShotEvents: true,
+            onfinish: ()=> {
+                self.sound_end = true;
+            }
+        });
+    }
 
     dosmth(action){
         if(action === 'enter') console.log('Bam!');

@@ -8,5 +8,8 @@
     },
     "scripts": {
         "webpack": "webpack --watch"
+    },
+    "dependencies": {
+        "soundmanager2": "^2.97.20170602"
     }
 }
