@@ -1,0 +1,41 @@
+{
+    "assets": {
+        "trees" : {
+            "0" : {
+                "texture": "img/tree_0.png",
+                "width" : 200,
+                "height" : 200
+            },
+            "1" : {
+                "texture": "img/tree_1.png",
+                "width" : 200,
+                "height" : 200
+            },
+            "2" : {
+                "texture": "img/tree_2.png",
+                "width" : 200,
+                "height" : 200
+            },
+            "3" : {
+                "texture": "img/tree_3.png",
+                "width" : 200,
+                "height" : 200
+            },
+            "4" : {
+                "texture": "img/tree_4.png",
+                "width" : 200,
+                "height" : 100
+            },
+            "5" : {
+                "texture": "img/tree_5.png",
+                "width" : 200,
+                "height" : 100
+            },
+            "6" : {
+                "texture": "img/tree_6.png",
+                "width" : 200,
+                "height" : 100
+            }
+        }
+    }
+}

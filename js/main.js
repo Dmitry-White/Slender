@@ -6,6 +6,7 @@ import { Controls } from "./components/Controls.js";
 import { Camera } from "./components/Camera.js";
 import { GameLoop } from "./components/GameLoop.js";
 import { Bitmap } from "./components/Bitmap.js";
+import { assets } from "./json/assets.json";
 
 export const CIRCLE = Math.PI * 2;
 
@@ -16,8 +17,9 @@ let objects = new Objects(map);
 let controls = new Controls(player);
 export let camera = new Camera(display, 320, 0.8);
 let loop = new GameLoop();
+let trees = assets.trees;
 
-map.buildMap();
+map.buildMap(trees);
 
 map.addObject({
 	color: '#cf3c8c', //цвет для ребят. если куст - не указывать
