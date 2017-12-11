@@ -3,6 +3,7 @@ import { camera } from "../main.js";
 
 export class Camera {
     constructor(canvas, resolution, fov, state) {
+        this.state = state;
         this.ctx = canvas.getContext('2d');
     	this.width = canvas.width = window.innerWidth;
     	this.height = canvas.height = window.innerHeight;
@@ -10,9 +11,7 @@ export class Camera {
     	this.spacing = this.width / resolution;
     	this.fov = fov;
     	this.range = 14;
-    	this.lightRange = 5;
     	this.scale = (this.width + this.height) / 1200;
-        this.state = state;
     };
 
     render(player, map, objects) {
@@ -40,6 +39,7 @@ export class Camera {
     };
 
     drawColumn(column, ray, angle, map) {
+        this.lightRange = this.state.lightRange;
     	let ctx = this.ctx;
     	let wallTexture = map.wallTexture;
     	let left = Math.floor(column*this.spacing);

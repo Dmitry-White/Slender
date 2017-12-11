@@ -10,6 +10,7 @@ import { GameLoop } from "./components/GameLoop.js";
 
 
 var state = {
+	lightRange: 1,
 	shadows: "#000",
 	drops: "#000",
 	ground: "#56361f",
@@ -94,6 +95,7 @@ window.onload = function() {
 	};
 
 	function changeToWinter() {
+		state.lightRange = 5;
 		state.shadows = "#fff";
 		state.drops = "#fff";
 		state.ground = "#fff";
