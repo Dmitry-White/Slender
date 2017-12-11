@@ -5,9 +5,17 @@ export class Sounds{
             url: './soundmanager2/',
             onready: function() {
                 // ------------------ Menu ------------------------
-                let menu_ambient =  soundManager.createSound({
-                    id: 'menu_ambient',
-                    url: 'sounds/ambient/menu_ambient.mp3'
+                let piano_menu_ambient =  soundManager.createSound({
+                    id: 'piano_menu_ambient',
+                    url: 'sounds/ambient/piano_menu_ambient.mp3'
+                });
+                let static_menu_ambient =  soundManager.createSound({
+                    id: 'static_menu_ambient',
+                    url: 'sounds/ambient/static_menu_ambient.mp3'
+                });
+                let slender_logo_hover =  soundManager.createSound({
+                    id: 'slender_logo_hover',
+                    url: 'sounds/menu/slender_logo_hover.mp3'
                 });
                 let play_button_hover =  soundManager.createSound({
                     id: 'play_button_hover',
@@ -41,7 +49,7 @@ export class Sounds{
                     url: 'sounds/walking/dodge_step_1.mp3'
                 });
                 // ------------------------------------------------
-                
+
             },
         });
     };

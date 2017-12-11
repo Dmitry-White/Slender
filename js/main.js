@@ -15,23 +15,10 @@ export let camera = new Camera(display,640, 0.8);
 let sounds = new Sounds();
 
 window.onload = function() {
-	sounds.loopSound('menu_ambient');
-	document.getElementById('play').addEventListener('mouseover', function(){
-		sounds.loopSound("play_button_hover");
-	});
-
-	document.getElementById('play').addEventListener('mouseout', function(){
-		soundManager.stop('play_button_hover');
-	});
-
-	document.getElementById('checkbox').addEventListener('change', function(){
-		if (this.checked) {
-			sounds.makeSound("ho_ho_ho");
-		}
-	});
+	enableMenuSounds()
 
 	document.getElementById('play').addEventListener('click', function(){
-		soundManager.stop('play_button_hover');
+		disableMenuSounds()
 		document.querySelector('canvas').style.display = 'block';
 		let btns = document.getElementsByClassName('slider-title');
 		document.querySelector('.menu').classList.add('fadeOut');
@@ -78,4 +65,37 @@ window.onload = function() {
 		    camera.render(player, map, objects);
 		});
 	});
+
+	function enableMenuSounds() {
+		sounds.loopSound('piano_menu_ambient');
+		sounds.loopSound('static_menu_ambient');
+		document.getElementById('play').addEventListener('mouseover', function(){
+			sounds.loopSound("play_button_hover");
+		});
+
+		document.getElementById('play').addEventListener('mouseout', function(){
+			soundManager.stop('play_button_hover');
+		});
+
+		document.getElementById('logo').addEventListener('mouseover', function(){
+			sounds.loopSound("slender_logo_hover");
+		});
+
+		document.getElementById('logo').addEventListener('mouseout', function(){
+			soundManager.stop('slender_logo_hover');
+		});
+
+		document.getElementById('checkbox').addEventListener('change', function(){
+			if (this.checked) {
+				sounds.makeSound("ho_ho_ho");
+			}
+		});
+	};
+
+	function disableMenuSounds() {
+		soundManager.stop('slender_logo_hover');
+		soundManager.stop('play_button_hover');
+		soundManager.stop('piano_menu_ambient');
+		soundManager.stop('static_menu_ambient');
+	}
 };
