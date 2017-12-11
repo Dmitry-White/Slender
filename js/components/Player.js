@@ -39,6 +39,7 @@ export class Player {
         if (in_the_x_way <= 0) this.x += dx;
         if (in_the_y_way <= 0) this.y += dy;
         this.paces += distance;
+        console.log(direction);
     };
 
     update(controls, map, seconds) {

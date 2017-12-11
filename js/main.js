@@ -68,14 +68,15 @@ window.onload = function() {
 	        texture: new Bitmap('img/cowboy.png', 639, 1500),
 	        height: .7,
 	        width: .225,
-	        floorOffset: 0
+	        floorOffset: 0,
+			map:map
 		}
 		man.x = 5;
 		man.y = 5;
-		map.addObject(man);
+		map.addObject(man,true);
 		man.x = 2;
 		man.y = 9;
-		map.addObject(man);
+		map.addObject(man,true);
 		let player = new Player( { x:1.5,
 								   y:1.5,
 								   direction:1,

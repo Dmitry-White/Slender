@@ -137,7 +137,7 @@ export class Map {
 
     update() {
         this.objects.forEach(function(item){
-    		if(item.logic) item.logic();
+    		if(item.logic!=false) {item.logic()}
     	});
     };
 

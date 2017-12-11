@@ -1,19 +1,19 @@
 import { Bitmap } from "./Bitmap.js";
+import { CIRCLE } from "../main.js";
 
 export class Objects {
-    constructor(object,map,live) {
+    constructor(object,live) {
         for(let prop in object){
     		this[prop] = object[prop];
     	}
         //this.collection = [];
-        this.map = map;
-        this.logic = live ? this.badGuyLogic() : false;
+        this.logic = live ? this.badGuyLogic : false;
         this.hitting_the_fence = false;
         this.hitting_the_wall = false;
     };
 
     badGuyLogic(){
-        walk(0.1, this.map, randomNum(max));
+        this.walk(0.04, this.map, this.randomNum(CIRCLE));
     }
 
     walk(distance, map, direction) {
@@ -24,20 +24,12 @@ export class Objects {
 
         if (in_the_x_way == 2 || in_the_y_way == 2) {
             this.hitting_the_fence = true;
-            this.snowWalkSound();
         } else if (in_the_x_way == 1 || in_the_y_way == 1) {
             this.hitting_the_wall = true;
-            this.snowWalkSound();
         }
         if (in_the_x_way <= 0) this.x += dx;
         if (in_the_y_way <= 0) this.y += dy;
     };
-
-    update() {
-        this.map.objects.forEach(function(item){
-            item.logic && item.logic();
-        });
-    }
 
     randomNum(max) {
         return Math.floor(0 + Math.random() * (max + 1 - 0));
