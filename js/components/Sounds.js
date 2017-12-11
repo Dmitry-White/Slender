@@ -55,6 +55,10 @@ export class Sounds{
                 // ------------------------------------------------
 
                 // --------------- General Stuff-------------------
+                let entering_area =  soundManager.createSound({
+                    id: 'entering_area',
+                    url: 'sounds/objects/entering_area.mp3'
+                });
                 let hitting_the_fence =  soundManager.createSound({
                     id: 'hitting_the_fence',
                     url: 'sounds/objects/hitting_the_fence.mp3'

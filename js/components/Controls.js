@@ -14,8 +14,8 @@ export class Controls {
         document.addEventListener('touchend', this.onTouchEnd.bind(this), false);
         document.addEventListener('mousemove', this.onMouseMovement.bind(this), false);
         document.querySelector('canvas').onclick = document.body.requestPointerLock ||
-                                document.body.mozRequestPointerLock ||
-                                document.body.webkitRequestPointerLock;
+                                                   document.body.mozRequestPointerLock ||
+                                                   document.body.webkitRequestPointerLock;
     };
 
     onTouch(e) {

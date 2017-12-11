@@ -7,6 +7,7 @@ export class Map {
         this.wallGrid = new Uint8Array(size * size);
         this.skybox = new Bitmap('img/sky_panorama.jpg', 2000, 750);
         this.fenceTexture = new Bitmap('img/fence.png', 1024, 1024);
+        this.fenceDoorTexture = new Bitmap('img/fence_door_0.jpg', 2048, 1024);
         this.wallTexture = new Bitmap('img/wall_texture_3.jpg', 1024, 1024);
         this.light = 2;
         this.objects = [];
@@ -56,6 +57,7 @@ export class Map {
                         this.wallGrid[i] = 2;
             }
         };
+        this.wallGrid[1] = 3;
     };
 
     cast(point, angle, range, objects) {

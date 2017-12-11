@@ -1,6 +1,6 @@
-import { Bitmap } from "./Bitmap.js";
 import { Paper } from "./Paper.js";
 import { CIRCLE } from "../main.js";
+import { Bitmap } from "./Bitmap.js";
 
 export class Player {
     constructor(x, y, direction, papers, map, sounds, controls) {

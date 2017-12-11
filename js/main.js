@@ -1,70 +1,82 @@
-import { Player } from "./components/Player.js";
-import { Sounds } from "./components/Sounds.js"
 import { Map } from "./components/Map.js";
-import { MapObject } from "./components/MapObject.js";
+import { assets } from "./json/assets.json";
+import { Camera } from "./components/Camera.js";
+import { Sounds } from "./components/Sounds.js";
+import { Player } from "./components/Player.js";
+import { Bitmap } from "./components/Bitmap.js";
 import { Objects } from "./components/Objects.js";
 import { Controls } from "./components/Controls.js";
-import { Camera } from "./components/Camera.js";
 import { GameLoop } from "./components/GameLoop.js";
-import { Bitmap } from "./components/Bitmap.js";
-import { assets } from "./json/assets.json";
 
 export const CIRCLE = Math.PI * 2;
 let display = document.getElementById('display');
-export let camera = new Camera(display,640, 0.8);
+export let camera = new Camera(display, 640, 0.8);
 let sounds = new Sounds();
 
 window.onload = function() {
-	enableMenuSounds()
+
+	enableMenuSounds();
+
+	document.getElementById('checkbox').addEventListener('change', function(){
+		if (this.checked) {
+			document.querySelector(`.snow`).style.display = 'block';
+			sounds.makeSound("ho_ho_ho");
+			// Change to Winter Mode
+		} else {
+		   	document.querySelector(`.snow`).style.display = 'none';
+		   	// Change to Vanilla Mode
+	   }
+	});
 
 	document.getElementById('play').addEventListener('click', function(){
-		disableMenuSounds()
-		document.querySelector('canvas').style.display = 'block';
-		let btns = document.getElementsByClassName('slider-title');
+		disableMenuSounds();
+
+		try {
+			document.body.requestPointerLock();
+		} catch (e) {
+			document.body.webkitRequestPointerLock();
+		}
+
+
 		document.querySelector('.menu').classList.add('fadeOut');
 		setTimeout(()=>{
 			document.querySelector('.menu').style.display = 'none';
 		},500);
+
+		loadGame();
+	});
+
+	function loadGame() {
 
 		let trees = assets.trees;
 		let papers = assets.papers;
 
 		let map = new Map(32);
 		let objects = new Objects(map);
-		let player = new Player(2, 2, 1, papers, map, sounds);
+		let player = new Player(1.5, 1.5, 1, papers, map, sounds);
 		let controls = new Controls(player);
 		let loop = new GameLoop();
 
 		sounds.loopSound('wind_ambient');
 		map.buildMap(trees);
 
-		map.addObject({
-			color: '#cf3c8c', //цвет для ребят. если куст - не указывать
-			texture: new Bitmap('img/cowboy.png', 639, 1500),
-			height: .7,
-			width: .225,
-			floorOffset: 0,
-			speed: .1//,
-			//logic: badGuyLogic()
-		},5,5);
+		soundManager.play("entering_area",{
+            multiShotEvents: true,
+            onfinish: ()=> {
+				startGame();
+            }
+        });
 
-		map.addObject({
-			color: '#cf3c8c',
-			texture: new Bitmap('img/cowboy.png', 639, 1500),
-			height: .7,
-			width: .225,
-			floorOffset: 0,
-			speed: .1//,
-			//logic: badGuyLogic()
-		},3,9);
-
-		loop.start(function frame(seconds) {
-		    //map.update(seconds); //молнии
-		    objects.update();
-		    player.update(controls.states, map, seconds);
-		    camera.render(player, map, objects);
-		});
-	});
+		function startGame() {
+			document.querySelector('canvas').style.display = 'block';
+			loop.start(function frame(seconds) {
+				//map.update(seconds); //молнии
+				objects.update();
+				player.update(controls.states, map, seconds);
+				camera.render(player, map, objects);
+			});
+		}
+	};
 
 	function enableMenuSounds() {
 		sounds.loopSound('piano_menu_ambient');
@@ -85,12 +97,6 @@ window.onload = function() {
 		document.getElementById('logo').addEventListener('mouseout', function(){
 			soundManager.stop('slender_logo_hover');
 		});
-
-		document.getElementById('checkbox').addEventListener('change', function(){
-			if (this.checked) {
-				sounds.makeSound("ho_ho_ho");
-			}
-		});
 	};
 
 	function disableMenuSounds() {
@@ -98,5 +104,5 @@ window.onload = function() {
 		soundManager.stop('play_button_hover');
 		soundManager.stop('piano_menu_ambient');
 		soundManager.stop('static_menu_ambient');
-	}
+	};
 };

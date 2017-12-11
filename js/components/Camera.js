@@ -51,7 +51,10 @@ export class Camera {
     	while (++hit < ray.length && ray[hit].height <= 0);
     	for (let s = (ray.length - 1); s >= 0; s--) {
     		step = ray[s];
-            if(step.height === 2){
+            if (step.height === 3) {
+                wallTexture = map.fenceDoorTexture;
+                step.height = 1;
+            } else if(step.height === 2){
                 wallTexture = map.fenceTexture;
                 step.height = 1;
             } else wallTexture = map.wallTexture;
@@ -67,7 +70,7 @@ export class Camera {
     			ctx.globalAlpha = 1;
     			ctx.drawImage(wallTexture.image, textureX, 0, 1, wallTexture.height, left, wall.top, width, wall.height);
 
-    			ctx.fillStyle = '#1c3140';
+    			ctx.fillStyle = '#fff';
     			ctx.globalAlpha = Math.max((step.distance + step.shading) / this.lightRange - map.light, 0);
     			ctx.fillRect(left, wall.top, width, wall.height);
     			hitDistance = step.distance;
