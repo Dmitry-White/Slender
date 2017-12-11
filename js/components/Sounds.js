@@ -48,6 +48,18 @@ export class Sounds{
                     id: 'dodge_step_1',
                     url: 'sounds/walking/dodge_step_1.mp3'
                 });
+                let running =  soundManager.createSound({
+                    id: 'running',
+                    url: 'sounds/walking/running.mp3'
+                });
+                let hitting_the_fence =  soundManager.createSound({
+                    id: 'hitting_the_fence',
+                    url: 'sounds/objects/hitting_the_fence.mp3'
+                });
+                let hitting_the_wall =  soundManager.createSound({
+                    id: 'hitting_the_wall',
+                    url: 'sounds/objects/hitting_the_wall.mp3'
+                });
                 // ------------------------------------------------
 
             },

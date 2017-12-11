@@ -69,7 +69,8 @@ window.onload = function() {
 	function enableMenuSounds() {
 		sounds.loopSound('piano_menu_ambient');
 		sounds.loopSound('static_menu_ambient');
-		document.getElementById('play').addEventListener('mouseover', function(){
+
+		document.getElementById('play').addEventListener('mouseover', function(e){
 			sounds.loopSound("play_button_hover");
 		});
 

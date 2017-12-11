@@ -14,5 +14,6 @@ export class Paper{
         	height: 0.2,
         	width: 0.2,
         },col,row);
+        return num;
    }
 }

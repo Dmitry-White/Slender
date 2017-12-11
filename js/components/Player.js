@@ -15,6 +15,9 @@ export class Player {
         this.paces = 0;
         this.paper = new Paper(0,0);
         this.speed = 1;
+        this.running = false;
+        this.hitting_the_fence = false;
+        this.hitting_the_wall = false;
     };
 
     rotate(angle) {
@@ -24,8 +27,19 @@ export class Player {
     walk(distance, map, direction) {
         let dx = Math.cos(direction) * distance;
         let dy = Math.sin(direction) * distance;
-        if (map.get(this.x + dx, this.y) <= 0) this.x += dx;
-        if (map.get(this.x, this.y + dy) <= 0) this.y += dy;
+        let in_the_x_way = map.get(this.x + dx, this.y);
+        let in_the_y_way = map.get(this.x, this.y + dy);
+
+        console.log(in_the_x_way, in_the_y_way);
+        if (in_the_x_way == 2 || in_the_y_way == 2) {
+            this.hitting_the_fence = true;
+            this.snowWalkSound();
+        } else if (in_the_x_way == 1 || in_the_y_way == 1) {
+            this.hitting_the_wall = true;
+            this.snowWalkSound();
+        }
+        if (in_the_x_way <= 0) this.x += dx;
+        if (in_the_y_way <= 0) this.y += dy;
         this.paces += distance;
     };
 
@@ -48,13 +62,29 @@ export class Player {
             this.snowDodgeSound()
             this.walk(-(this.speed/2) * seconds, map, this.direction - Math.PI/2);
         }
-        if (controls.shift) this.speed = 4; else  this.speed = 1;
+        if (controls.shift) {
+            this.running = true;
+            this.speed = 3;
+        } else  {
+            this.running = false;
+            this.speed = 1;
+        }
     };
 
     snowWalkSound() {
         if (this.sounds.sound_end) {
-            (Math.random() > 0.5) ? this.sounds.makeSound('forward_step') :
-                                    this.sounds.makeSound('backward_step');
+            if (this.hitting_the_fence) {
+                this.sounds.makeSound('hitting_the_fence');
+                this.hitting_the_fence = false;
+            } else if (this.hitting_the_wall) {
+                this.sounds.makeSound('hitting_the_wall');
+                this.hitting_the_wall = false;
+            } else if (this.running) {
+                this.sounds.makeSound('running');
+            } else {
+                (Math.random() > 0.5) ? this.sounds.makeSound('forward_step') :
+                                        this.sounds.makeSound('backward_step');
+            }
         }
     }
 
