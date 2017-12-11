@@ -50,6 +50,7 @@ export class Camera {
         let step;
 
     	while (++hit < ray.length && ray[hit].height <= 0);
+
     	for (let s = (ray.length - 1); s >= 0; s--) {
     		step = ray[s];
             if (step.height === 3) {
@@ -60,7 +61,7 @@ export class Camera {
                 step.height = 1;
             } else wallTexture = map.wallTexture;
 
-    		let rainDrops = Math.pow(Math.random(), 30) * 3;
+    		let rainDrops = Math.pow(Math.random(), 30) * s;
     		let rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
     		let textureX,wall;
 
@@ -72,6 +73,7 @@ export class Camera {
     			ctx.drawImage(wallTexture.image, textureX, 0, 1, wallTexture.height, left, wall.top, width, wall.height);
 
     			ctx.fillStyle = this.state.shadows;
+                this.shading = step.shading;
     			ctx.globalAlpha = Math.max((step.distance + step.shading) / this.lightRange - map.light, 0);
     			ctx.fillRect(left, wall.top, width, wall.height);
     			hitDistance = step.distance;
@@ -86,7 +88,7 @@ export class Camera {
 
     		}
     		ctx.fillStyle = this.state.drops;
-    		ctx.globalAlpha = 1;
+    		ctx.globalAlpha = 0.15;
     		while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top,
                                                 this.state.particlesWidth,
                                                 this.state.particlesHeight);
@@ -190,11 +192,13 @@ export class Camera {
     		if(spriteIsInColumn){
                 let brightness = Math.max(sprite.distanceFromPlayer / this.lightRange - map.light, 0) * 100;
                 textureX = Math.floor( sprite.texture.width / sprite.render.numColumns * ( column - sprite.render.firstColumn ) );
-    			this.ctx.fillStyle = 'black';
+                ctx.drawImage(sprite.texture.image, textureX, 0, 1, sprite.texture.height, left, sprite.render.top, width, sprite.render.height);
+    			this.ctx.fillStyle = '#000';
     			this.ctx.globalAlpha = 1;
-    			sprite.texture.image.style.webkitFilter = 'brightness(' + brightness + '%)';
-    			sprite.texture.image.style.filter = 'brightness(' + brightness  + '%)';
-    			ctx.drawImage(sprite.texture.image, textureX, 0, 1, sprite.texture.height, left, sprite.render.top, width, sprite.render.height);
+                console.log(brightness);
+                //console.log(sprite.texture.image.style);
+    			//sprite.texture.image.style.webkitFilter = 'brightness(' + brightness + '%)';
+    			//sprite.texture.image.style.filter = 'brightness(' + brightness  + '%)';
     		}
     	};
     }

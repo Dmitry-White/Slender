@@ -10,15 +10,15 @@ import { GameLoop } from "./components/GameLoop.js";
 
 
 var state = {
-	light : 0,
+	light : 1,
 	lightning : true,
 	lightRange : 1.5,
 	shadows : "#000",
-	drops : "#000",
+	drops : "#fff",
 	ground : /*"#000",*/"56361f",
-	param : 0.4,
-	particlesWidth : 1,
-	particlesHeight : 1,
+	param : 0.1,
+	particlesWidth : 2,
+	particlesHeight : 20,
 	sky_texture : "img/sky_panorama.jpg",
 	wall_texture : "img/wall_texture.jpg"
 }
