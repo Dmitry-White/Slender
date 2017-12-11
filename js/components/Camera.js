@@ -22,8 +22,8 @@ export class Camera {
     };
 
     drawSky(direction, sky, ambient) {
-        let width = this.width * (CIRCLE / 2 / this.fov);
-    	let left = -width * direction / CIRCLE / 2;
+        let width =  sky.width * (this.height / sky.height) * 2;
+    	let left = -width * direction / CIRCLE ;
 
     	this.ctx.save();
     	this.ctx.drawImage(sky.image, left, 0, width, this.height);
@@ -107,8 +107,6 @@ export class Camera {
 
             allObjects.push(columnProps);
         }
-        this.ctx.restore();
-        this.ctx.save();
         this.drawSprites(player,map,allObjects);
         this.ctx.restore();
     };

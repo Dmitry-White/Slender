@@ -64,11 +64,7 @@ export class Player {
             this.snowDodgeSound()
             this.walk(-(this.speed/2) * seconds, map, this.direction - Math.PI/2);
         }
-        if (controls.shift) {
-            this.speed = 3;
-        } else  {
-            this.speed = 1;
-        }
+        controls.shift ? this.speed = 3 : this.speed = 1;
     };
 
     snowWalkSound() {

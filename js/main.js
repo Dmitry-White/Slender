@@ -10,13 +10,15 @@ import { GameLoop } from "./components/GameLoop.js";
 
 
 var state = {
-	lightRange: 1,
-	shadows: "#000",
-	drops: "#000",
-	ground: "#56361f",
+	lightRange : 1,
+	shadows : "#000",
+	drops : "#000",
+	ground : "#000",//56361f",
 	param : 0.4,
-	particlesWidth: 1,
-	particlesHeight: 1
+	particlesWidth : 1,
+	particlesHeight : 1,
+	sky_texture : "img/sky_panorama.jpg",
+	wall_texture : "img/wall_texture.jpg"
 }
 
 export const CIRCLE = Math.PI * 2;
@@ -63,7 +65,7 @@ window.onload = function() {
 		let bushes = assets.bushes;
 		let papers = assets.papers;
 
-		let map = new Map(32);
+		let map = new Map(32, state);
 		let objects = new Objects(map);
 		let player = new Player(1, 1, 1, papers, map, sounds);
 		let controls = new Controls(player);
@@ -102,7 +104,9 @@ window.onload = function() {
 		state.param = 0.1;
 		state.particlesWidth = 6;
 		state.particlesHeight = 6;
-	}
+		state.sky_texture = "img/sky_panorama_snow.jpg";
+		state.wall_texture = "img/wall_texture_snow.jpg";
+	};
 
 	function enableMenuSounds() {
 		sounds.loopSound('piano_menu_ambient');
