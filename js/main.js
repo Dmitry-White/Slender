@@ -118,10 +118,6 @@ window.onload = function() {
 			}
 		});
 
-		document.getElementById('play_link').addEventListener('mouseover',function(e) {
-    		e.stopPropagation();
-		}, true);
-
 		document.getElementById('play').addEventListener('mouseout', function(e){
 			if (e.target.id == 'play') {
 				soundManager.stop('play_button_hover');
