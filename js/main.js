@@ -10,7 +10,7 @@ import { GameLoop } from "./components/GameLoop.js";
 
 
 var state = {
-	lightRange : 1,
+	lightRange : 1.5,
 	shadows : "#000",
 	drops : "#000",
 	ground : "#000",//56361f",
