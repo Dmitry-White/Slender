@@ -3,13 +3,14 @@ import { MapObject } from "./MapObject.js";
 
 export class Map {
     constructor(size, state) {
+        this.state = state;
         this.size = size;
         this.wallGrid = new Uint8Array(size * size);
         this.skybox = new Bitmap(state.sky_texture, 2000, 750);
         this.fenceTexture = new Bitmap('img/fence.png', 1024, 1024);
         this.fenceDoorTexture = new Bitmap('img/fence_door_0.jpg', 2048, 1024);
         this.wallTexture = new Bitmap(state.wall_texture, 1024, 1024);
-        this.light = 2;
+        this.light = state.light;
         this.objects = [];
     };
 
@@ -121,15 +122,15 @@ export class Map {
     	}
     };
 
-    /*update(seconds) {
+    update(seconds) {
         // --------------------- Random Lighting -------------------------------
-        //if (this.light > 0) this.light = Math.max(this.light - 10 * seconds, 0);
-        //else if (Math.random() * 5 < seconds) this.light = 2;
+        if (this.light > 0) this.light = Math.max(this.light - 10 * seconds, 0);
+        else if (Math.random() * 5 < seconds) this.light = 2;
         // ---------------------------------------------------------------------
 
         //this.light = Math.max(this.light - 10 * seconds, 0.4);  // nigth mode
-        this.light = 2; //day mode
-    };*/
+        //this.light = 2; //day mode
+    };
 
     addObject(object,x,y) {
         this.objects.push( new MapObject(object,x,y) );

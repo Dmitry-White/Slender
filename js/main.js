@@ -10,10 +10,12 @@ import { GameLoop } from "./components/GameLoop.js";
 
 
 var state = {
+	light : 0,
+	lightning : true,
 	lightRange : 1.5,
 	shadows : "#000",
 	drops : "#000",
-	ground : "#000",//56361f",
+	ground : /*"#000",*/"56361f",
 	param : 0.4,
 	particlesWidth : 1,
 	particlesHeight : 1,
@@ -88,7 +90,7 @@ window.onload = function() {
 		function startGame() {
 			document.querySelector('canvas').style.display = 'block';
 			loop.start(function frame(seconds) {
-				//map.update(seconds); //молнии
+				//if (state.lightning) map.update(seconds); //молнии
 				objects.update();
 				player.update(controls.states, map, seconds);
 				camera.render(player, map, objects);
@@ -97,6 +99,8 @@ window.onload = function() {
 	};
 
 	function changeToWinter() {
+		state.light = 1;
+		state.lightning = false;
 		state.lightRange = 5;
 		state.shadows = "#fff";
 		state.drops = "#fff";
