@@ -27,34 +27,49 @@ export class Map {
     };
 
     addTrees(trees, col, row) {
-        let num = this.getRandomInt(1,4);
-        this.addObject({
-        	color: '',
-        	texture: new Bitmap(trees[num].texture, trees[num].width, trees[num].height),
-        	height: 1,
-        	width: 0.5,
-        },col,row);
-   }
+        if (this.get(col, row) == 0) {
+            let num = this.getRandomInt(0,4);
+            this.addObject({
+            	color: '',
+            	texture: new Bitmap(trees[num].texture, trees[num].width, trees[num].height),
+            	height: 1,
+            	width: 0.5,
+            },col,row);
+        };
+    };
 
-    buildMap(trees) {
+    addBushes(bushes, col, row) {
+        if (this.get(col, row) == 0) {
+            let num = this.getRandomInt(0,5);
+            this.addObject({
+            	color: '',
+            	texture: new Bitmap(bushes[num].texture, bushes[num].width, bushes[num].height),
+            	height: 0.5,
+            	width: 0.5,
+            },col,row);
+        };
+    };
+
+    buildMap(trees, bushes) {
         this.wallGrid.fill(0);
         for (let i = 0; i < this.size * this.size; i++) {
             let row = Math.floor(i/this.size);
             let col = i - this.size * row;
-            //генерация лабиринта
+            // Generate the labirinth
             if((row !== 1) && (row !== this.size - 2)
             && (col !== 1) && (col !== this.size - 2)) {
-                if (Math.random() > 0.4) {
-                    this.addTrees(trees, col+2, row+2);
+                if (Math.random() > 0.2) {
+                    Math.random() > 0.5 ? this.addBushes(bushes, col+1.5, row+1.5)
+                                        : this.addTrees(trees, col+1.5, row+1.5);
                 }
                 if (Math.random() > 0.7) {
                     this.wallGrid[i] = 1;
                 }
             }
-            //генерация забора
+            // Generate the fence
             if((row === 0) || (row === this.size - 1)
             || (col === 0) || (col === this.size - 1)) {
-                        this.wallGrid[i] = 2;
+                this.wallGrid[i] = 2;
             }
         };
         this.wallGrid[1] = 3;

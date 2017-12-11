@@ -49,6 +49,7 @@ window.onload = function() {
 	function loadGame() {
 
 		let trees = assets.trees;
+		let bushes = assets.bushes;
 		let papers = assets.papers;
 
 		let map = new Map(32);
@@ -58,14 +59,18 @@ window.onload = function() {
 		let loop = new GameLoop();
 
 		sounds.loopSound('wind_ambient');
-		map.buildMap(trees);
+		map.buildMap(trees, bushes);
 
+		// /* Comment this to skip intro
 		soundManager.play("entering_area",{
             multiShotEvents: true,
             onfinish: ()=> {
 				startGame();
             }
         });
+		// */
+		// Uncomment this to skip intro
+		//startGame();
 
 		function startGame() {
 			document.querySelector('canvas').style.display = 'block';

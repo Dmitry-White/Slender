@@ -20,21 +20,33 @@
                 "texture": "img/trees/tree_3.png",
                 "width" : 200,
                 "height" : 200
+            }
+        },
+        "bushes" : {
+            "0" : {
+                "texture": "img/bushes/bush_0.png",
+                "width" : 200,
+                "height" : 109
+            },
+            "1" : {
+                "texture": "img/bushes/bush_1.png",
+                "width" : 200,
+                "height" : 105
+            },
+            "2" : {
+                "texture": "img/bushes/bush_2.png",
+                "width" : 200,
+                "height" : 311
+            },
+            "3" : {
+                "texture": "img/bushes/bush_3.png",
+                "width" : 200,
+                "height" : 168
             },
             "4" : {
-                "texture": "img/trees/tree_4.png",
+                "texture": "img/bushes/bush_4.png",
                 "width" : 200,
-                "height" : 100
-            },
-            "5" : {
-                "texture": "img/trees/tree_5.png",
-                "width" : 200,
-                "height" : 100
-            },
-            "6" : {
-                "texture": "img/trees/tree_6.png",
-                "width" : 200,
-                "height" : 100
+                "height" : 278
             }
         },
         "papers" : {
