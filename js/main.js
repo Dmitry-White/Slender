@@ -54,7 +54,7 @@ window.onload = function() {
 
 		let map = new Map(32);
 		let objects = new Objects(map);
-		let player = new Player(1.5, 1.5, 1, papers, map, sounds);
+		let player = new Player(1, 1, 1, papers, map, sounds);
 		let controls = new Controls(player);
 		let loop = new GameLoop();
 
@@ -88,11 +88,19 @@ window.onload = function() {
 		sounds.loopSound('static_menu_ambient');
 
 		document.getElementById('play').addEventListener('mouseover', function(e){
-			sounds.loopSound("play_button_hover");
+			if (e.target.id == 'play') {
+				sounds.loopSound("play_button_hover");
+			}
+			console.log(e.target, " - ", e.currentTarget)
 		});
+		document.getElementById('play_link').addEventListener('mouseover',function(e) {
+    		e.stopPropagation();
+		}, true);
 
-		document.getElementById('play').addEventListener('mouseout', function(){
-			soundManager.stop('play_button_hover');
+		document.getElementById('play').addEventListener('mouseout', function(e){
+			if (e.target.id == 'play') {
+				soundManager.stop('play_button_hover');
+			}
 		});
 
 		document.getElementById('logo').addEventListener('mouseover', function(){
@@ -101,6 +109,25 @@ window.onload = function() {
 
 		document.getElementById('logo').addEventListener('mouseout', function(){
 			soundManager.stop('slender_logo_hover');
+		});
+
+		document.getElementById('about_us').addEventListener('mouseover', function(){
+			sounds.loopSound("about_us");
+			soundManager.mute('piano_menu_ambient');
+		});
+
+		document.getElementById('about_us').addEventListener('mouseout', function(){
+			soundManager.stop('about_us');
+			soundManager.unmute('piano_menu_ambient');
+		});
+		document.getElementById('about_game').addEventListener('mouseover', function(){
+			sounds.loopSound("about_game");
+			soundManager.mute('piano_menu_ambient');
+		});
+
+		document.getElementById('about_game').addEventListener('mouseout', function(){
+			soundManager.stop('about_game');
+			soundManager.unmute('piano_menu_ambient');
 		});
 	};
 

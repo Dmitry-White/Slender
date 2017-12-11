@@ -11,7 +11,8 @@ export class Sounds{
                 });
                 let static_menu_ambient =  soundManager.createSound({
                     id: 'static_menu_ambient',
-                    url: 'sounds/ambient/static_menu_ambient.mp3'
+                    url: 'sounds/ambient/static_menu_ambient.mp3',
+                    volume: 50,
                 });
                 let slender_logo_hover =  soundManager.createSound({
                     id: 'slender_logo_hover',
@@ -24,6 +25,14 @@ export class Sounds{
                 let ho_ho_ho =  soundManager.createSound({
                     id: 'ho_ho_ho',
                     url: 'sounds/menu/ho_ho_ho.mp3'
+                });
+                let about_us =  soundManager.createSound({
+                    id: 'about_us',
+                    url: 'sounds/menu/about_us.mp3'
+                });
+                let about_game =  soundManager.createSound({
+                    id: 'about_game',
+                    url: 'sounds/menu/about_game.mp3'
                 });
                 // ------------------------------------------------
 
