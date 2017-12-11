@@ -1,5 +1,6 @@
 import { Bitmap } from "./Bitmap.js";
 import { Objects } from "./Objects.js";
+import { Person } from "./Person.js";
 
 export class Map {
     constructor(size) {
@@ -29,23 +30,23 @@ export class Map {
     addTrees(trees, col, row) {
         if (this.get(col, row) == 0) {
             let num = this.getRandomInt(0,4);
-            this.addObject({
+            this.addObject(new Objects({
             	texture: new Bitmap(trees[num].texture, trees[num].width, trees[num].height),
                 x:col,
                 y:row
-            });
+            }));
         };
     };
 
     addBushes(bushes, col, row) {
         if (this.get(col, row) == 0) {
             let num = this.getRandomInt(0,5);
-            this.addObject({
+            this.addObject(new Objects({
             	texture: new Bitmap(bushes[num].texture, bushes[num].width, bushes[num].height),
             	height: 0.5,
                 x:col,
                 y:row
-            });
+            }));
         };
     };
 
@@ -132,12 +133,12 @@ export class Map {
 
     update() {
         this.objects.forEach(function(item){
-    		if(item.logic!=false) {item.logic()}
+    		if(item instanceof Person) {item.logic()}
     	});
     };
 
-    addObject(object,map,live) {
-        this.objects.push( new Objects(object,map,live) );
+    addObject(object) {
+        this.objects.push(object);
     }
 
     getObject(x,y) {

@@ -7,6 +7,7 @@ import { Bitmap } from "./components/Bitmap.js";
 import { Objects } from "./components/Objects.js";
 import { Controls } from "./components/Controls.js";
 import { GameLoop } from "./components/GameLoop.js";
+import { Person } from "./components/Person.js";
 
 
 var state = {
@@ -52,7 +53,6 @@ window.onload = function() {
 		setTimeout(()=>{
 			document.querySelector('.menu').style.display = 'none';
 		},500);
-		console.log(state);
 		loadGame();
 	});
 
@@ -63,19 +63,8 @@ window.onload = function() {
 		let papers = assets.papers;
 
 		let map = new Map(32);
-		let man = {
-			color: '#cf3c8c', //цвет для ребят. если куст - не указывать
-	        texture: new Bitmap('img/cowboy.png', 639, 1500),
-	        height: .6,
-	        width: .225,
-			map: map,
-		}
-		man.x = 5;
-		man.y = 5;
-		map.addObject(man,true);
-		man.x = 2;
-		man.y = 9;
-		map.addObject(man,true);
+		map.addObject(new Person(map,5,5));
+		map.addObject(new Person(map,9,2));
 		let player = new Player( { x:1.5,
 								   y:1.5,
 								   direction:1,

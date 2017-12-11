@@ -39,7 +39,6 @@ export class Player {
         if (in_the_x_way <= 0) this.x += dx;
         if (in_the_y_way <= 0) this.y += dy;
         this.paces += distance;
-        console.log(direction);
     };
 
     update(controls, map, seconds) {
@@ -95,7 +94,8 @@ export class Player {
         if(action === 'enter') console.log('Bam!');
         if(action === 'space') {
             if (!this.running && !this.walking && this.sounds.sound_end) {
-                let paper_type = this.paper.placePaper(this.papers, this.x, this.y, this.map);
+                let paper_type = this.map.getRandomInt(0,8);
+                this.map.addObject(new Paper(this.x,this.y, new Bitmap(this.papers[paper_type].texture, this.papers[paper_type].width, this.papers[paper_type].height)));
                 if (paper_type === 0) {
                     this.sounds.makeSound('placing_loo_paper')
                 } else if (paper_type === 7) {
