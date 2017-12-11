@@ -7,7 +7,7 @@ export class Paper{
     };
 
     placePaper(papers, col, row, map) {
-        let num = map.getRandomInt(1,8);
+        let num = map.getRandomInt(0,8);
         map.addObject({
         	color: '',
         	texture: new Bitmap(papers[num].texture, papers[num].width, papers[num].height),

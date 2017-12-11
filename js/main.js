@@ -30,8 +30,8 @@ window.onload = function() {
 		let papers = assets.papers;
 
 		let map = new Map(32);
-		let player = new Player(2, 2, 1, papers, map, sounds);
 		let objects = new Objects(map);
+		let player = new Player(2, 2, 1, papers, map, sounds);
 		let controls = new Controls(player);
 		let loop = new GameLoop();
 

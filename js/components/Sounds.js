@@ -52,6 +52,9 @@ export class Sounds{
                     id: 'running',
                     url: 'sounds/walking/running.mp3'
                 });
+                // ------------------------------------------------
+
+                // --------------- General Stuff-------------------
                 let hitting_the_fence =  soundManager.createSound({
                     id: 'hitting_the_fence',
                     url: 'sounds/objects/hitting_the_fence.mp3'
@@ -59,6 +62,18 @@ export class Sounds{
                 let hitting_the_wall =  soundManager.createSound({
                     id: 'hitting_the_wall',
                     url: 'sounds/objects/hitting_the_wall.mp3'
+                });
+                let placing_paper =  soundManager.createSound({
+                    id: 'placing_paper',
+                    url: 'sounds/objects/placing_paper.mp3'
+                });
+                let placing_loo_paper =  soundManager.createSound({
+                    id: 'placing_loo_paper',
+                    url: 'sounds/objects/placing_loo_paper.mp3'
+                });
+                let placing_bomb =  soundManager.createSound({
+                    id: 'placing_bomb',
+                    url: 'sounds/objects/placing_bomb.mp3'
                 });
                 // ------------------------------------------------
 
