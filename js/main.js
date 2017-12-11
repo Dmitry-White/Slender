@@ -63,10 +63,6 @@ window.onload = function() {
 		let papers = assets.papers;
 
 		let map = new Map(32);
-<<<<<<< Updated upstream
-		let objects = new Objects(map);
-		let player = new Player(1, 1, 1, papers, map, sounds);
-=======
 		let man = {
 			color: '#cf3c8c', //цвет для ребят. если куст - не указывать
 	        texture: new Bitmap('img/cowboy.png', 639, 1500),
@@ -86,7 +82,6 @@ window.onload = function() {
 								   papers:papers,
 								   map:map,
 								   sounds:sounds });
->>>>>>> Stashed changes
 		let controls = new Controls(player);
 		let loop = new GameLoop();
 
