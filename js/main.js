@@ -9,8 +9,7 @@ import { Controls } from "./components/Controls.js";
 import { GameLoop } from "./components/GameLoop.js";
 
 export const CIRCLE = Math.PI * 2;
-let display = document.getElementById('display');
-export let camera = new Camera(display, 640, 0.8);
+export let camera = new Camera(document.getElementById('display'), 640, 0.8);
 let sounds = new Sounds();
 
 window.onload = function() {
@@ -31,11 +30,11 @@ window.onload = function() {
 	document.getElementById('play').addEventListener('click', function(){
 		disableMenuSounds();
 
-		try {
+		/*try {
 			document.body.requestPointerLock();
 		} catch (e) {
 			document.body.webkitRequestPointerLock();
-		}
+		}*/
 
 
 		document.querySelector('.menu').classList.add('fadeOut');
@@ -61,16 +60,16 @@ window.onload = function() {
 		sounds.loopSound('wind_ambient');
 		map.buildMap(trees, bushes);
 
-		// /* Comment this to skip intro
+		 /* Comment this to skip intro
 		soundManager.play("entering_area",{
             multiShotEvents: true,
             onfinish: ()=> {
 				startGame();
             }
         });
-		// */
+		*/
 		// Uncomment this to skip intro
-		//startGame();
+		startGame();
 
 		function startGame() {
 			document.querySelector('canvas').style.display = 'block';

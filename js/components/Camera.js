@@ -250,7 +250,7 @@ export class Camera {
                 if(map.objects[i]===1)
     				ctx.globalAlpha = map.logic ? .8 : .3;
                     ctx.fillStyle = map.objects[i].color || '#67d6a1';
-    				ctx.fillRect(x-10 + (blockSize * map.objects[i].x) + blockSize * .25, y-10 + (blockSize * map.objects[i].y) + blockSize * .25, blockSize * .5, blockSize * .5);
+    				ctx.fillRect(x + (blockSize * (map.objects[i].x - 0.5)) + blockSize * .25, y + (blockSize * (map.objects[i].y - 0.5)) + blockSize * .25, blockSize * .5, blockSize * .5);
     		}
     	}
     	ctx.restore();
