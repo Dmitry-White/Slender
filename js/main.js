@@ -8,8 +8,18 @@ import { Objects } from "./components/Objects.js";
 import { Controls } from "./components/Controls.js";
 import { GameLoop } from "./components/GameLoop.js";
 
+
+var state = {
+	shadows: "#000",
+	drops: "#000",
+	ground: "#56361f",
+	param : 0.4,
+	particlesWidth: 1,
+	particlesHeight: 1
+}
+
 export const CIRCLE = Math.PI * 2;
-export let camera = new Camera(document.getElementById('display'), 640, 0.8);
+export let camera = new Camera(document.getElementById('display'), 640, 0.8, state);
 let sounds = new Sounds();
 
 window.onload = function() {
@@ -20,6 +30,7 @@ window.onload = function() {
 		if (this.checked) {
 			document.querySelector(`.snow`).style.display = 'block';
 			sounds.makeSound("ho_ho_ho");
+			changeToWinter();
 			// Change to Winter Mode
 		} else {
 		   	document.querySelector(`.snow`).style.display = 'none';
@@ -41,7 +52,7 @@ window.onload = function() {
 		setTimeout(()=>{
 			document.querySelector('.menu').style.display = 'none';
 		},500);
-
+		console.log(state);
 		loadGame();
 	});
 
@@ -82,6 +93,15 @@ window.onload = function() {
 		}
 	};
 
+	function changeToWinter() {
+		state.shadows = "#fff";
+		state.drops = "#fff";
+		state.ground = "#fff";
+		state.param = 0.1;
+		state.particlesWidth = 6;
+		state.particlesHeight = 6;
+	}
+
 	function enableMenuSounds() {
 		sounds.loopSound('piano_menu_ambient');
 		sounds.loopSound('static_menu_ambient');
@@ -90,8 +110,8 @@ window.onload = function() {
 			if (e.target.id == 'play') {
 				sounds.loopSound("play_button_hover");
 			}
-			console.log(e.target, " - ", e.currentTarget)
 		});
+
 		document.getElementById('play_link').addEventListener('mouseover',function(e) {
     		e.stopPropagation();
 		}, true);
