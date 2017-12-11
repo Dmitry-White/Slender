@@ -30,10 +30,7 @@ export class Map {
         if (this.get(col, row) == 0) {
             let num = this.getRandomInt(0,4);
             this.addObject({
-            	color: '',
             	texture: new Bitmap(trees[num].texture, trees[num].width, trees[num].height),
-            	height: 1,
-            	width: 0.5,
                 x:col,
                 y:row
             });
@@ -44,10 +41,8 @@ export class Map {
         if (this.get(col, row) == 0) {
             let num = this.getRandomInt(0,5);
             this.addObject({
-            	color: '',
             	texture: new Bitmap(bushes[num].texture, bushes[num].width, bushes[num].height),
             	height: 0.5,
-            	width: 0.5,
                 x:col,
                 y:row
             });

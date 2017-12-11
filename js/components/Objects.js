@@ -3,17 +3,34 @@ import { CIRCLE } from "../main.js";
 
 export class Objects {
     constructor(object,live) {
-        for(let prop in object){
-    		this[prop] = object[prop];
-    	}
         //this.collection = [];
+        this.color = object.color|| '', //цвет для ребят. если куст - не указывать
+        this.texture = object.texture || new Bitmap('img/trees/tree_1.png', 639, 1500),
+        this.height = object.height || 1,
+        this.width = object.width || 0.5,
+        this.floorOffset = object.floorOffset || 0,
+        this.map;
         this.logic = live ? this.badGuyLogic : false;
         this.hitting_the_fence = false;
         this.hitting_the_wall = false;
+        this.count = 0;
+        this.direction = 1;
+        this.speed = 0.5;
+
+        for(let prop in object){
+    		this[prop] = object[prop];
+    	}
     };
 
     badGuyLogic(){
-        this.walk(0.04, this.map, this.randomNum(CIRCLE));
+        this.count += this.randomNum(5);
+
+        if (this.count > 30 / this.speed){
+            console.log(this.count);
+            this.direction = this.randomNum(CIRCLE);
+            this.count = 0;
+        }
+        this.walk(0.04 * this.speed, this.map, this.direction);
     }
 
     walk(distance, map, direction) {

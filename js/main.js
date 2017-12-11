@@ -66,10 +66,9 @@ window.onload = function() {
 		let man = {
 			color: '#cf3c8c', //цвет для ребят. если куст - не указывать
 	        texture: new Bitmap('img/cowboy.png', 639, 1500),
-	        height: .7,
+	        height: .6,
 	        width: .225,
-	        floorOffset: 0,
-			map:map
+			map: map,
 		}
 		man.x = 5;
 		man.y = 5;
