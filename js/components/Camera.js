@@ -2,7 +2,7 @@ import { CIRCLE } from "../main.js";
 import { camera } from "../main.js";
 
 export class Camera {
-    constructor(canvas, resolution, fov) {
+    constructor(canvas, resolution, fov, state) {
         this.ctx = canvas.getContext('2d');
     	this.width = canvas.width = window.innerWidth;
     	this.height = canvas.height = window.innerHeight;
@@ -12,11 +12,12 @@ export class Camera {
     	this.range = 14;
     	this.lightRange = 5;
     	this.scale = (this.width + this.height) / 1200;
+        this.state = state;
     };
 
-    render(player, map, objects) {
+    render(player, map) {
         this.drawSky(player.direction, map.skybox, map.light);
-        this.drawColumns(player, map, objects);
+        this.drawColumns(player, map);
         this.drawWeapon(player.left_hand,player.right_hand, player.paces);
         this.drawMiniMap(player, map);
     };
@@ -31,8 +32,8 @@ export class Camera {
     		this.ctx.drawImage(sky.image, left + width, 0, width, this.height);
     	}
     	if (ambient > 0) {
-    		this.ctx.fillStyle = '#ffffff';
-    		this.ctx.globalAlpha = ambient * 0.1;
+    		this.ctx.fillStyle = this.state.ground;
+    		this.ctx.globalAlpha = ambient * this.state.param;
     		this.ctx.fillRect(0, this.height * 0.5, this.width, this.height * 0.5);
     	}
     	this.ctx.restore();
@@ -70,7 +71,7 @@ export class Camera {
     			ctx.globalAlpha = 1;
     			ctx.drawImage(wallTexture.image, textureX, 0, 1, wallTexture.height, left, wall.top, width, wall.height);
 
-    			ctx.fillStyle = '#fff';
+    			ctx.fillStyle = this.state.shadows;
     			ctx.globalAlpha = Math.max((step.distance + step.shading) / this.lightRange - map.light, 0);
     			ctx.fillRect(left, wall.top, width, wall.height);
     			hitDistance = step.distance;
@@ -84,10 +85,11 @@ export class Camera {
     			});
 
     		}
-
-    		ctx.fillStyle = '#fff';
+    		ctx.fillStyle = this.state.drops;
     		ctx.globalAlpha = 1;
-    		while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top, 6, 6);
+    		while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top,
+                                                this.state.particlesWidth,
+                                                this.state.particlesHeight);
     	}
     	return {
     		objects: objects,
@@ -95,7 +97,7 @@ export class Camera {
     	}
     };
 
-    drawColumns(player, map, objects) {
+    drawColumns(player, map) {
         this.ctx.save();
         let allObjects = [];
         for (let column = 0; column < this.resolution; column++) {

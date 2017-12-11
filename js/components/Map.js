@@ -1,5 +1,5 @@
 import { Bitmap } from "./Bitmap.js";
-import { MapObject } from "./MapObject.js";
+import { Objects } from "./Objects.js";
 
 export class Map {
     constructor(size) {
@@ -34,7 +34,9 @@ export class Map {
             	texture: new Bitmap(trees[num].texture, trees[num].width, trees[num].height),
             	height: 1,
             	width: 0.5,
-            },col,row);
+                x:col,
+                y:row
+            });
         };
     };
 
@@ -46,7 +48,9 @@ export class Map {
             	texture: new Bitmap(bushes[num].texture, bushes[num].width, bushes[num].height),
             	height: 0.5,
             	width: 0.5,
-            },col,row);
+                x:col,
+                y:row
+            });
         };
     };
 
@@ -75,7 +79,7 @@ export class Map {
         this.wallGrid[1] = 3;
     };
 
-    cast(point, angle, range, objects) {
+    cast(point, angle, range) {
     	let self = this;
     	let sin = Math.sin(angle);
     	let cos = Math.cos(angle);
@@ -131,8 +135,14 @@ export class Map {
         this.light = 2; //day mode
     };*/
 
-    addObject(object,x,y) {
-        this.objects.push( new MapObject(object,x,y) );
+    update() {
+        this.objects.forEach(function(item){
+    		if(item.logic) item.logic();
+    	});
+    };
+
+    addObject(object,map,live) {
+        this.objects.push( new Objects(object,map,live) );
     }
 
     getObject(x,y) {
