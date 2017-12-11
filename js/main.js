@@ -63,8 +63,30 @@ window.onload = function() {
 		let papers = assets.papers;
 
 		let map = new Map(32);
+<<<<<<< Updated upstream
 		let objects = new Objects(map);
 		let player = new Player(1, 1, 1, papers, map, sounds);
+=======
+		let man = {
+			color: '#cf3c8c', //цвет для ребят. если куст - не указывать
+	        texture: new Bitmap('img/cowboy.png', 639, 1500),
+	        height: .7,
+	        width: .225,
+	        floorOffset: 0
+		}
+		man.x = 5;
+		man.y = 5;
+		map.addObject(man);
+		man.x = 2;
+		man.y = 9;
+		map.addObject(man);
+		let player = new Player( { x:1.5,
+								   y:1.5,
+								   direction:1,
+								   papers:papers,
+								   map:map,
+								   sounds:sounds });
+>>>>>>> Stashed changes
 		let controls = new Controls(player);
 		let loop = new GameLoop();
 
@@ -85,10 +107,10 @@ window.onload = function() {
 		function startGame() {
 			document.querySelector('canvas').style.display = 'block';
 			loop.start(function frame(seconds) {
-				//map.update(seconds); //молнии
-				objects.update();
+				map.update();
+				//objects.update();
 				player.update(controls.states, map, seconds);
-				camera.render(player, map, objects);
+				camera.render(player, map);
 			});
 		}
 	};

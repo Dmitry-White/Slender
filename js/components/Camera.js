@@ -15,9 +15,9 @@ export class Camera {
         this.state = state;
     };
 
-    render(player, map, objects) {
+    render(player, map) {
         this.drawSky(player.direction, map.skybox, map.light);
-        this.drawColumns(player, map, objects);
+        this.drawColumns(player, map);
         this.drawWeapon(player.left_hand,player.right_hand, player.paces);
         this.drawMiniMap(player, map);
     };
@@ -97,7 +97,7 @@ export class Camera {
     	}
     };
 
-    drawColumns(player, map, objects) {
+    drawColumns(player, map) {
         this.ctx.save();
         let allObjects = [];
         for (let column = 0; column < this.resolution; column++) {

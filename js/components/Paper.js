@@ -13,7 +13,9 @@ export class Paper{
         	texture: new Bitmap(papers[num].texture, papers[num].width, papers[num].height),
         	height: 0.2,
         	width: 0.2,
-        },col,row);
+            x:col,
+            y:row
+        });
         return num;
    }
 }
