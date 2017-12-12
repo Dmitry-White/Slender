@@ -67,7 +67,7 @@ export class Player {
         }
         (controls.shift) ? this.speed = 3 : this.speed = 1;
         map.objects.forEach((item)=>{
-    		if(item instanceof Person && item.alive) {
+    		if(item instanceof Person && item.alive && controls.enter) {
                 this.scare(item);
                 this.eat(item);
             }
@@ -86,10 +86,9 @@ export class Player {
     eat(person){
         let x = this.x - person.x;
         let y = this.y - person.y;
-        if(Math.sqrt(x*x+y*y) < 0.3) {
+        if(Math.sqrt(x*x+y*y) < 0.2) {
             person.alive = false;
-            person.texture = new Bitmap('img/cowboy2.png', 639, 1500);
-            console.log('Omnomnom');
+            person.texture = new Bitmap('img/cowboy3.png', 700, 900);
         }
     }
 
@@ -118,7 +117,13 @@ export class Player {
     }
 
     dosmth(action){
-        if(action === 'enter') console.log('Bam!');
+        if(action === 'enter') {
+            this.map.objects.forEach((item)=>{
+        		if(item instanceof Person && item.alive) {
+                    this.eat(item);
+                }
+        	});
+        }
         if(action === 'space') {
             if (!this.running && !this.walking && this.sounds.sound_end) {
                 let paper_type = Calc.getRandomInt(0,8);
