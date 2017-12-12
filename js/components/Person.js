@@ -16,7 +16,7 @@ export class Person {
         this.hitting_the_wall = false;
         this.count = 0;
         this.direction = 1;
-        this.speed = .5;
+        this.speed = .7;
         this.alive = true;
     };
 
@@ -28,7 +28,7 @@ export class Person {
                 this.direction = this.direction + Calc.getRandomFloat(-(CIRCLE/6),CIRCLE/6);
                 this.count = 0;
             }
-            this.walk(0.04 * this.speed, this.direction);
+            this.walk(0.05 * this.speed, this.direction);
         }
     }
     /*search(){

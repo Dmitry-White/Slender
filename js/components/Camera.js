@@ -1,5 +1,6 @@
 import { CIRCLE } from "../main.js";
 import { camera } from "../main.js";
+import { Objects } from "./Objects.js";
 
 export class Camera {
     constructor(canvas, resolution, fov, state) {
@@ -250,8 +251,11 @@ export class Camera {
     	for (let i = 0; i < map.objects.length; i++){ //спрайты
     		if(map.objects[i]){
                 if(map.objects[i]===1)
-    				ctx.globalAlpha = map.logic ? .8 : .3;
-                    ctx.fillStyle = map.objects[i].color || '#67d6a1';
+                    ctx.fillStyle = map.objects[i].color;//не трогать, так надо!!!!
+                    ctx.globalAlpha = map.objects[i].logic ? .8 : .3;
+                    if (map.objects[i].color === undefined) ctx.globalAlpha = 0;
+                    ctx.fillStyle = map.objects[i].color || 'red';//не трогать, так надо!!!!
+
     				ctx.fillRect(x + (blockSize * (map.objects[i].x - 0.5)) + blockSize * .25, y + (blockSize * (map.objects[i].y - 0.5)) + blockSize * .25, blockSize * .5, blockSize * .5);
     		}
     	}
