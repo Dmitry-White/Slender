@@ -88,7 +88,7 @@ window.onload = function() {
 								   direction:1,
 								   papers:papers,
 								   map:map,
-								   sounds:sounds
+								   sounds:sounds,
 							   	   state:state });
 
 		let controls = new Controls(player);
