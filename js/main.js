@@ -11,12 +11,21 @@ import { Person } from "./components/Person.js";
 
 
 var state = {
-	shadows: "#000",
-	drops: "#000",
-	ground: "#56361f",
-	param : 0.4,
-	particlesWidth: 1,
-	particlesHeight: 1
+	winter : false,
+	light : 2,
+	lightning : true,
+	lightRange : 5,
+	shadows : "#000",
+	drops : "#fff",
+	drops_opacity : 0.15,
+	drops_amount : 30,
+	ground : "56361f",
+	param : 0.1,
+	particlesWidth : 2,
+	particlesHeight : 20,
+	sky_texture : "img/sky_panorama.jpg",
+	wall_texture : "img/rain_wall_texture.jpg",
+	fence_texture : "img/rain_fence.jpg"
 }
 
 export const CIRCLE = Math.PI * 2;
@@ -36,6 +45,7 @@ window.onload = function() {
 		} else {
 		   	document.querySelector(`.snow`).style.display = 'none';
 		   	// Change to Vanilla Mode
+			changeToVanilla();
 	   }
 	});
 
@@ -53,28 +63,39 @@ window.onload = function() {
 		setTimeout(()=>{
 			document.querySelector('.menu').style.display = 'none';
 		},500);
+
 		loadGame();
 	});
 
 	function loadGame() {
 
-		let trees = assets.trees;
-		let bushes = assets.bushes;
+
+		let trees = assets.rain_trees;
+		let bushes = assets.rain_bushes;
+		if (state.winter) {
+			trees = assets.trees;
+			bushes = assets.bushes;
+		}
+
 		let papers = assets.papers;
 
-		let map = new Map(32);
+		let map = new Map(32, state);
 		map.addObject(new Person(map,5,5));
 		map.addObject(new Person(map,9,2));
+		let objects = new Objects(map);
 		let player = new Player( { x:1.5,
 								   y:1.5,
 								   direction:1,
 								   papers:papers,
 								   map:map,
-								   sounds:sounds });
+								   sounds:sounds
+							   	   state:state });
+
 		let controls = new Controls(player);
 		let loop = new GameLoop();
 
-		sounds.loopSound('wind_ambient');
+		(state.winter) ? sounds.loopSound('wind_ambient')
+					   : sounds.loopSound('rain_ambient');
 		map.buildMap(trees, bushes);
 
 		 /* Comment this to skip intro
@@ -91,21 +112,48 @@ window.onload = function() {
 		function startGame() {
 			document.querySelector('canvas').style.display = 'block';
 			loop.start(function frame(seconds) {
-				map.update();
+				if (state.lightning) map.lightning(seconds);
+				map.update(); //молнии
 				//objects.update();
-				player.update(controls.states,map, seconds);
-				camera.render(player, map);
+				player.update(controls.states, map, seconds);
+				camera.render(player, map, objects);
 			});
 		}
 	};
 
 	function changeToWinter() {
+		state.winter = true;
+		state.light = 1;
+		state.lightning = false;
+		state.lightRange = 5;
 		state.shadows = "#fff";
 		state.drops = "#fff";
+		state.drops_opacity = 1;
+		state.drops_amount = 100;
 		state.ground = "#fff";
-		state.param = 0.1;
+		state.param = 0.5;
 		state.particlesWidth = 6;
 		state.particlesHeight = 6;
+		state.fence_texture = "img/fence.png";
+		state.sky_texture = "img/sky_panorama_snow.jpg";
+		state.wall_texture = "img/wall_texture_snow.jpg";
+	};
+	function changeToVanilla() {
+		state.winter = false;
+		state.light = 2;
+		state.lightning = true;
+		state.lightRange = 4;
+		state.shadows = "#000";
+		state.drops = "#fff";
+		state.drops_opacity = 0.15;
+		state.drops_amount = 30;
+		state.ground = "56361f";
+		state.param = 0.1;
+		state.particlesWidth = 2;
+		state.particlesHeight = 20;
+		state.sky_texture = "img/sky_panorama.jpg";
+		state.fence_texture = "img/rain_fence.jpg";
+		state.wall_texture = "img/rain_wall_texture.jpg";
 	}
 
 	function enableMenuSounds() {

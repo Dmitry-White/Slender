@@ -4,14 +4,15 @@ import { Person } from "./Person.js";
 import { Calc } from "./Calc.js";
 
 export class Map {
-    constructor(size) {
+    constructor(size, state) {
+        this.state = state;
         this.size = size;
         this.wallGrid = new Uint8Array(size * size);
-        this.skybox = new Bitmap('img/sky_panorama.jpg', 2000, 750);
-        this.fenceTexture = new Bitmap('img/fence.png', 1024, 1024);
+        this.skybox = new Bitmap(state.sky_texture, 2000, 750);
+        this.fenceTexture = new Bitmap(state.fence_texture, 1024, 1024);
         this.fenceDoorTexture = new Bitmap('img/fence_door_0.jpg', 2048, 1024);
-        this.wallTexture = new Bitmap('img/wall_texture_3.jpg', 1024, 1024);
-        this.light = 2;
+        this.wallTexture = new Bitmap(state.wall_texture, 1024, 1024);
+        this.light = state.light;
         this.objects = [];
     };
 
@@ -116,15 +117,15 @@ export class Map {
     	}
     };
 
-    /*update(seconds) {
+    lightning(seconds) {
         // --------------------- Random Lighting -------------------------------
-        //if (this.light > 0) this.light = Math.max(this.light - 10 * seconds, 0);
-        //else if (Math.random() * 5 < seconds) this.light = 2;
+        if (this.light > 0) this.light = Math.max(this.light - 10 * seconds, 0);
+        else if (Math.random() * 5 < seconds) this.light = 2;
         // ---------------------------------------------------------------------
 
         //this.light = Math.max(this.light - 10 * seconds, 0.4);  // nigth mode
-        this.light = 2; //day mode
-    };*/
+        //this.light = 2; //day mode
+    };
 
     update() {
         this.objects.forEach(function(item){

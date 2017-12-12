@@ -4,6 +4,7 @@ import { Objects } from "./Objects.js";
 
 export class Camera {
     constructor(canvas, resolution, fov, state) {
+        this.state = state;
         this.ctx = canvas.getContext('2d');
     	this.width = canvas.width = window.innerWidth;
     	this.height = canvas.height = window.innerHeight;
@@ -11,9 +12,7 @@ export class Camera {
     	this.spacing = this.width / resolution;
     	this.fov = fov;
     	this.range = 14;
-    	this.lightRange = 5;
     	this.scale = (this.width + this.height) / 1200;
-        this.state = state;
     };
 
     render(player, map) {
@@ -24,8 +23,8 @@ export class Camera {
     };
 
     drawSky(direction, sky, ambient) {
-        let width = this.width * (CIRCLE / 2 / this.fov);
-    	let left = -width * direction / CIRCLE / 2;
+        let width =  sky.width * (this.height / sky.height) * 2;
+    	let left = -width * direction / CIRCLE ;
 
     	this.ctx.save();
     	this.ctx.drawImage(sky.image, left, 0, width, this.height);
@@ -41,6 +40,7 @@ export class Camera {
     };
 
     drawColumn(column, ray, angle, map) {
+        this.lightRange = this.state.lightRange;
     	let ctx = this.ctx;
     	let wallTexture = map.wallTexture;
     	let left = Math.floor(column*this.spacing);
@@ -51,6 +51,7 @@ export class Camera {
         let step;
 
     	while (++hit < ray.length && ray[hit].height <= 0);
+
     	for (let s = (ray.length - 1); s >= 0; s--) {
     		step = ray[s];
             if (step.height === 3) {
@@ -61,7 +62,10 @@ export class Camera {
                 step.height = 1;
             } else wallTexture = map.wallTexture;
 
-    		let rainDrops = Math.pow(Math.random(), 30) * 3;
+            let drops_seed = 0;
+            (this.state.winter) ? drops_seed = 3 : drops_seed = s;
+
+    		let rainDrops = Math.pow(Math.random(), 100) * drops_seed;
     		let rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
     		let textureX,wall;
 
@@ -73,6 +77,7 @@ export class Camera {
     			ctx.drawImage(wallTexture.image, textureX, 0, 1, wallTexture.height, left, wall.top, width, wall.height);
 
     			ctx.fillStyle = this.state.shadows;
+                this.shading = step.shading;
     			ctx.globalAlpha = Math.max((step.distance + step.shading) / this.lightRange - map.light, 0);
     			ctx.fillRect(left, wall.top, width, wall.height);
     			hitDistance = step.distance;
@@ -87,7 +92,7 @@ export class Camera {
 
     		}
     		ctx.fillStyle = this.state.drops;
-    		ctx.globalAlpha = 1;
+    		ctx.globalAlpha = this.state.drops_opacity;
     		while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top,
                                                 this.state.particlesWidth,
                                                 this.state.particlesHeight);
@@ -108,8 +113,6 @@ export class Camera {
 
             allObjects.push(columnProps);
         }
-        this.ctx.restore();
-        this.ctx.save();
         this.drawSprites(player,map,allObjects);
         this.ctx.restore();
     };
@@ -191,13 +194,16 @@ export class Camera {
     		spriteIsInColumn =  left > sprite.render.cameraXOffset - ( sprite.render.width / 2 ) && left < sprite.render.cameraXOffset + ( sprite.render.width / 2 );
 
     		if(spriteIsInColumn){
-                let brightness = Math.max(sprite.distanceFromPlayer / this.lightRange - map.light, 0) * 100;
                 textureX = Math.floor( sprite.texture.width / sprite.render.numColumns * ( column - sprite.render.firstColumn ) );
-    			this.ctx.fillStyle = 'black';
+                ctx.drawImage(sprite.texture.image, textureX, 0, 1, sprite.texture.height, left, sprite.render.top, width, sprite.render.height);
+    			this.ctx.fillStyle = '#000';
     			this.ctx.globalAlpha = 1;
+<<<<<<< HEAD
     			sprite.texture.image.style.webkitFilter = 'brightness(' + brightness + '%)';
     			sprite.texture.image.style.filter = 'brightness(' + 100  + '%)';
     			ctx.drawImage(sprite.texture.image, textureX, 0, 1, sprite.texture.height, left, sprite.render.top, width, sprite.render.height);
+=======
+>>>>>>> movement
     		}
     	};
     }
