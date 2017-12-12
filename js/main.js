@@ -10,12 +10,15 @@ import { GameLoop } from "./components/GameLoop.js";
 
 
 var state = {
-	light : 1,
+	winter : false,
+	light : 2,
 	lightning : true,
-	lightRange : 1.5,
+	lightRange : 5,
 	shadows : "#000",
 	drops : "#fff",
-	ground : /*"#000",*/"56361f",
+	drops_opacity : 0.15,
+	drops_amount : 30,
+	ground : "56361f",
 	param : 0.1,
 	particlesWidth : 2,
 	particlesHeight : 20,
@@ -40,6 +43,7 @@ window.onload = function() {
 		} else {
 		   	document.querySelector(`.snow`).style.display = 'none';
 		   	// Change to Vanilla Mode
+			changeToVanilla();
 	   }
 	});
 
@@ -57,7 +61,7 @@ window.onload = function() {
 		setTimeout(()=>{
 			document.querySelector('.menu').style.display = 'none';
 		},500);
-		console.log(state);
+
 		loadGame();
 	});
 
@@ -69,11 +73,12 @@ window.onload = function() {
 
 		let map = new Map(32, state);
 		let objects = new Objects(map);
-		let player = new Player(1, 1, 1, papers, map, sounds);
+		let player = new Player(1, 1, 1, papers, map, sounds, state);
 		let controls = new Controls(player);
 		let loop = new GameLoop();
 
-		sounds.loopSound('wind_ambient');
+		(state.winter) ? sounds.loopSound('wind_ambient')
+					   : sounds.loopSound('wind_ambient');
 		map.buildMap(trees, bushes);
 
 		 /* Comment this to skip intro
@@ -90,7 +95,7 @@ window.onload = function() {
 		function startGame() {
 			document.querySelector('canvas').style.display = 'block';
 			loop.start(function frame(seconds) {
-				//if (state.lightning) map.update(seconds); //молнии
+				if (state.lightning) map.update(seconds); //молнии
 				objects.update();
 				player.update(controls.states, map, seconds);
 				camera.render(player, map, objects);
@@ -99,18 +104,37 @@ window.onload = function() {
 	};
 
 	function changeToWinter() {
+		state.winter = true;
 		state.light = 1;
 		state.lightning = false;
 		state.lightRange = 5;
 		state.shadows = "#fff";
 		state.drops = "#fff";
+		state.drops_opacity = 1;
+		state.drops_amount = 100;
 		state.ground = "#fff";
-		state.param = 0.1;
+		state.param = 0.5;
 		state.particlesWidth = 6;
 		state.particlesHeight = 6;
 		state.sky_texture = "img/sky_panorama_snow.jpg";
 		state.wall_texture = "img/wall_texture_snow.jpg";
 	};
+	function changeToVanilla() {
+		state.winter = false;
+		state.light = 2;
+		state.lightning = true;
+		state.lightRange = 4;
+		state.shadows = "#000";
+		state.drops = "#fff";
+		state.drops_opacity = 0.15;
+		state.drops_amount = 30;
+		state.ground = "56361f";
+		state.param = 0.1;
+		state.particlesWidth = 2;
+		state.particlesHeight = 20;
+		state.sky_texture = "img/sky_panorama.jpg";
+		state.wall_texture = "img/wall_texture.jpg";
+	}
 
 	function enableMenuSounds() {
 		sounds.loopSound('piano_menu_ambient');

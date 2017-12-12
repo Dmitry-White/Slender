@@ -3,14 +3,14 @@ import { CIRCLE } from "../main.js";
 import { Bitmap } from "./Bitmap.js";
 
 export class Player {
-    constructor(x, y, direction, papers, map, sounds, controls) {
+    constructor(x, y, direction, papers, map, sounds, state) {
         this.x = x;
         this.y = y;
         this.direction = direction;
         this.papers = papers;
         this.map = map;
         this.sounds = sounds;
-        this.controls = controls;
+        this.state = state;
         this.right_hand = new Bitmap('img/knife_hand.png', 200, 200);
         this.left_hand = new Bitmap('img/left_hand.png', 200, 200);
         this.paces = 0;
@@ -32,10 +32,10 @@ export class Player {
 
         if (in_the_x_way == 2 || in_the_y_way == 2) {
             this.hitting_the_fence = true;
-            this.snowWalkSound();
+            this.WalkSound();
         } else if (in_the_x_way == 1 || in_the_y_way == 1) {
             this.hitting_the_wall = true;
-            this.snowWalkSound();
+            this.WalkSound();
         }
         if (in_the_x_way <= 0) this.x += dx;
         if (in_the_y_way <= 0) this.y += dy;
@@ -49,19 +49,19 @@ export class Player {
         if (controls.left) this.rotate(-Math.PI * seconds);
         if (controls.right) this.rotate(Math.PI * seconds);
         if (controls.forward) {
-            this.snowWalkSound()
+            this.walkSound();
             this.walk(this.speed * seconds, map, this.direction);
         }
         if (controls.backward) {
-            this.snowWalkSound()
+            this.walkSound();
             this.walk(-(this.speed) * seconds, map, this.direction);
         }
         if (controls.sideLeft) {
-            this.snowDodgeSound()
+            this.dodgeSound();
             this.walk(this.speed/2 * seconds, map, this.direction - Math.PI/2);
         }
         if (controls.sideRight) {
-            this.snowDodgeSound()
+            this.dodgeSound();
             this.walk(-(this.speed/2) * seconds, map, this.direction - Math.PI/2);
         }
         controls.shift ? this.speed = 3 : this.speed = 1;
@@ -89,6 +89,43 @@ export class Player {
             (Math.random() > 0.5) ? this.sounds.makeSound('dodge_step_0') :
                                     this.sounds.makeSound('dodge_step_1');
         }
+    }
+
+    rainWalkSound() {
+        if (this.sounds.sound_end) {
+            if (this.hitting_the_fence) {
+                this.sounds.makeSound('hitting_the_fence');
+                this.hitting_the_fence = false;
+            } else if (this.hitting_the_wall) {
+                this.sounds.makeSound('hitting_the_wall');
+                this.hitting_the_wall = false;
+            } else if (this.running) {
+                this.sounds.makeSound('running');
+            } else {
+                if (Math.random() > 0.3) {
+                    (Math.random() > 0.5) ? this.sounds.makeSound('rain_forward_step') :
+                                            this.sounds.makeSound('rain_backward_step');
+                } else {
+                    this.sounds.makeSound('rain_step');
+                }
+            }
+        }
+
+    };
+
+    rainDodgeSound() {
+        if (this.sounds.sound_end) {
+            (Math.random() > 0.5) ? this.sounds.makeSound('rain_dodge_step_0') :
+                                    this.sounds.makeSound('rain_dodge_step_1');
+        }
+    };
+
+    walkSound() {
+        (this.state.winter) ? this.snowWalkSound() : this.rainWalkSound();
+    }
+
+    dodgeSound() {
+        (this.state.winter) ? this.snowDodgeSound() : this.rainDodgeSound();
     }
 
     dosmth(action){

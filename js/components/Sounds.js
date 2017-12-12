@@ -63,7 +63,34 @@ export class Sounds{
                 });
                 // ------------------------------------------------
 
-                // --------------- General Stuff-------------------
+                // --------------- Vanilla Mode -------------------
+                let rain_ambient =  soundManager.createSound({
+                    id: 'rain_ambient',
+                    url: 'sounds/ambient/rain_ambient.mp3'
+                });
+                let rain_forward_step =  soundManager.createSound({
+                    id: 'rain_forward_step',
+                    url: 'sounds/walking/rain_forward_step.mp3'
+                });
+                let rain_backward_step =  soundManager.createSound({
+                    id: 'rain_backward_step',
+                    url: 'sounds/walking/rain_backward_step.mp3'
+                });
+                let rain_dodge_step_0 =  soundManager.createSound({
+                    id: 'rain_dodge_step_0',
+                    url: 'sounds/walking/rain_dodge_step_0.mp3'
+                });
+                let rain_dodge_step_1 =  soundManager.createSound({
+                    id: 'rain_dodge_step_1',
+                    url: 'sounds/walking/rain_dodge_step_1.mp3'
+                });
+                let rain_running =  soundManager.createSound({
+                    id: 'running',
+                    url: 'sounds/walking/running.mp3'
+                });
+                // ------------------------------------------------
+
+                // --------------- General Stuff ------------------
                 let entering_area =  soundManager.createSound({
                     id: 'entering_area',
                     url: 'sounds/objects/entering_area.mp3'

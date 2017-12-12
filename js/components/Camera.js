@@ -61,7 +61,8 @@ export class Camera {
                 step.height = 1;
             } else wallTexture = map.wallTexture;
 
-    		let rainDrops = Math.pow(Math.random(), 30) * s;
+
+    		let rainDrops = Math.pow(Math.random(), 100) * s;
     		let rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
     		let textureX,wall;
 
@@ -88,7 +89,7 @@ export class Camera {
 
     		}
     		ctx.fillStyle = this.state.drops;
-    		ctx.globalAlpha = 0.15;
+    		ctx.globalAlpha = this.state.drops_opacity;
     		while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top,
                                                 this.state.particlesWidth,
                                                 this.state.particlesHeight);
@@ -190,15 +191,10 @@ export class Camera {
     		spriteIsInColumn =  left > sprite.render.cameraXOffset - ( sprite.render.width / 2 ) && left < sprite.render.cameraXOffset + ( sprite.render.width / 2 );
 
     		if(spriteIsInColumn){
-                let brightness = Math.max(sprite.distanceFromPlayer / this.lightRange - map.light, 0) * 100;
                 textureX = Math.floor( sprite.texture.width / sprite.render.numColumns * ( column - sprite.render.firstColumn ) );
                 ctx.drawImage(sprite.texture.image, textureX, 0, 1, sprite.texture.height, left, sprite.render.top, width, sprite.render.height);
     			this.ctx.fillStyle = '#000';
     			this.ctx.globalAlpha = 1;
-                console.log(brightness);
-                //console.log(sprite.texture.image.style);
-    			//sprite.texture.image.style.webkitFilter = 'brightness(' + brightness + '%)';
-    			//sprite.texture.image.style.filter = 'brightness(' + brightness  + '%)';
     		}
     	};
     }
