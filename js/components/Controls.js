@@ -3,10 +3,9 @@ export class Controls {
         this.player = player;
         this.codes  = { 37: 'left', 39: 'right', 38: 'forward', 40: 'backward', 65: 'sideLeft',
                         68: 'sideRight', 87: 'forward', 83: 'backward', 13:'enter', 16 :'shift',
-                        32: "space", 27: 'escape' };
+                        32: "space", 27: 'escape' , 69: 'atac'};
         this.states = { 'left': false, 'right': false, 'forward': false, 'backward': false,
                         'shift': false, 'sideLeft': false, 'sideRight': false};
-        this.actions = ['enter'];
         document.addEventListener('keydown', this.onKey.bind(this, true), false);
         document.addEventListener('keyup', this.onKey.bind(this, false), false);
         document.addEventListener('touchstart', this.onTouch.bind(this), false);
@@ -43,7 +42,7 @@ export class Controls {
     onKey(val, e) {
         let state = this.codes[e.keyCode];
         if (typeof state === 'undefined') return;
-        if (typeof this.states[state]!== 'undefined') this.states[state] = val; //если не найдено в состояниях
+        if (typeof this.states[state] !== 'undefined') this.states[state] = val; //если не найдено в состояниях
         else if (val === true) this.player.dosmth(state); //искать в действиях; если кнопка опущена - выполнить
         e.preventDefault && e.preventDefault();
         e.stopPropagation && e.stopPropagation();

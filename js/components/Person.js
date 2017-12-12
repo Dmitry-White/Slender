@@ -17,16 +17,19 @@ export class Person {
         this.count = 0;
         this.direction = 1;
         this.speed = .5;
+        this.alive = true;
     };
 
     logic(){
-        this.count += Calc.getRandomFloat(0, 5);
+        if(this.alive){
+            this.count += Calc.getRandomFloat(0, 5);
 
-        if (this.count > 120 / this.speed){
-            this.direction = this.direction + Calc.getRandomFloat(-(CIRCLE/6),CIRCLE/6);
-            this.count = 0;
+            if (this.count > 120 / this.speed){
+                this.direction = this.direction + Calc.getRandomFloat(-(CIRCLE/6),CIRCLE/6);
+                this.count = 0;
+            }
+            this.walk(0.04 * this.speed, this.direction);
         }
-        this.walk(0.04 * this.speed, this.direction);
     }
     /*search(){
         let paper;
