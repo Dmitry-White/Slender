@@ -67,7 +67,10 @@ export class Player {
         }
         (controls.shift) ? this.speed = 3 : this.speed = 1;
         map.objects.forEach((item)=>{
-    		if(item instanceof Person) this.scare(item);
+    		if(item instanceof Person) {
+                this.scare(item);
+                this.eat(item);
+            }
     	});
     };
 
@@ -76,8 +79,16 @@ export class Player {
         let y = this.y - person.y;
         if(Math.sqrt(x*x+y*y) < 2){
             person.speed = 1;
-            person.direction = this.direction + CIRCLE/4;
+            person.direction = this.direction + CIRCLE/3;
         } else person.speed = 0.5;
+    }
+
+    eat(person){
+        let x = this.x - person.x;
+        let y = this.y - person.y;
+        if(Math.sqrt(x*x+y*y) < 0.3) {
+            console.log('Omnomnom');
+        }
     }
 
     snowWalkSound() {
