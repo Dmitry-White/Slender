@@ -61,8 +61,10 @@ export class Camera {
                 step.height = 1;
             } else wallTexture = map.wallTexture;
 
+            let drops_seed = 0;
+            (this.state.winter) ? drops_seed = 3 : drops_seed = s;
 
-    		let rainDrops = Math.pow(Math.random(), 100) * s;
+    		let rainDrops = Math.pow(Math.random(), 100) * drops_seed;
     		let rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
     		let textureX,wall;
 

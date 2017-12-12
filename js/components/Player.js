@@ -32,10 +32,10 @@ export class Player {
 
         if (in_the_x_way == 2 || in_the_y_way == 2) {
             this.hitting_the_fence = true;
-            this.WalkSound();
+            this.walkSound();
         } else if (in_the_x_way == 1 || in_the_y_way == 1) {
             this.hitting_the_wall = true;
-            this.WalkSound();
+            this.walkSound();
         }
         if (in_the_x_way <= 0) this.x += dx;
         if (in_the_y_way <= 0) this.y += dy;
@@ -94,18 +94,22 @@ export class Player {
     rainWalkSound() {
         if (this.sounds.sound_end) {
             if (this.hitting_the_fence) {
-                this.sounds.makeSound('hitting_the_fence');
+                this.sounds.makeSound('hitting_the_rain_fence');
                 this.hitting_the_fence = false;
             } else if (this.hitting_the_wall) {
                 this.sounds.makeSound('hitting_the_wall');
                 this.hitting_the_wall = false;
             } else if (this.running) {
-                this.sounds.makeSound('running');
+                this.sounds.makeSound('rain_running');
             } else {
-                if (Math.random() > 0.3) {
-                    (Math.random() > 0.5) ? this.sounds.makeSound('rain_forward_step') :
-                                            this.sounds.makeSound('rain_backward_step');
+                if (Math.random() > 0.2) {
+                    if (Math.random() > 0.5) {
+                        this.sounds.makeSound('rain_forward_step');
+                    } else {
+                        this.sounds.makeSound('rain_backward_step');
+                    }
                 } else {
+                    console.log("plyas")
                     this.sounds.makeSound('rain_step');
                 }
             }

@@ -66,7 +66,8 @@ export class Sounds{
                 // --------------- Vanilla Mode -------------------
                 let rain_ambient =  soundManager.createSound({
                     id: 'rain_ambient',
-                    url: 'sounds/ambient/rain_ambient.mp3'
+                    url: 'sounds/ambient/rain_ambient.mp3',
+                    volume: 70
                 });
                 let rain_forward_step =  soundManager.createSound({
                     id: 'rain_forward_step',
@@ -75,6 +76,10 @@ export class Sounds{
                 let rain_backward_step =  soundManager.createSound({
                     id: 'rain_backward_step',
                     url: 'sounds/walking/rain_backward_step.mp3'
+                });
+                let rain_step =  soundManager.createSound({
+                    id: 'rain_step',
+                    url: 'sounds/walking/rain_step.mp3'
                 });
                 let rain_dodge_step_0 =  soundManager.createSound({
                     id: 'rain_dodge_step_0',
@@ -85,8 +90,8 @@ export class Sounds{
                     url: 'sounds/walking/rain_dodge_step_1.mp3'
                 });
                 let rain_running =  soundManager.createSound({
-                    id: 'running',
-                    url: 'sounds/walking/running.mp3'
+                    id: 'rain_running',
+                    url: 'sounds/walking/rain_running.mp3'
                 });
                 // ------------------------------------------------
 
@@ -98,6 +103,11 @@ export class Sounds{
                 let hitting_the_fence =  soundManager.createSound({
                     id: 'hitting_the_fence',
                     url: 'sounds/objects/hitting_the_fence.mp3'
+                });
+                let hitting_the_rain_fence =  soundManager.createSound({
+                    id: 'hitting_the_rain_fence',
+                    url: 'sounds/objects/hitting_the_rain_fence.mp3',
+                    volume:50
                 });
                 let hitting_the_wall =  soundManager.createSound({
                     id: 'hitting_the_wall',

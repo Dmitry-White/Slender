@@ -23,7 +23,8 @@ var state = {
 	particlesWidth : 2,
 	particlesHeight : 20,
 	sky_texture : "img/sky_panorama.jpg",
-	wall_texture : "img/wall_texture.jpg"
+	wall_texture : "img/rain_wall_texture.jpg",
+	fence_texture : "img/rain_fence.jpg"
 }
 
 export const CIRCLE = Math.PI * 2;
@@ -67,8 +68,14 @@ window.onload = function() {
 
 	function loadGame() {
 
-		let trees = assets.trees;
-		let bushes = assets.bushes;
+
+		let trees = assets.rain_trees;
+		let bushes = assets.rain_bushes;
+		if (state.winter) {
+			trees = assets.trees;
+			bushes = assets.bushes;
+		}
+
 		let papers = assets.papers;
 
 		let map = new Map(32, state);
@@ -78,7 +85,7 @@ window.onload = function() {
 		let loop = new GameLoop();
 
 		(state.winter) ? sounds.loopSound('wind_ambient')
-					   : sounds.loopSound('wind_ambient');
+					   : sounds.loopSound('rain_ambient');
 		map.buildMap(trees, bushes);
 
 		 /* Comment this to skip intro
@@ -116,6 +123,7 @@ window.onload = function() {
 		state.param = 0.5;
 		state.particlesWidth = 6;
 		state.particlesHeight = 6;
+		state.fence_texture = "img/fence.png";
 		state.sky_texture = "img/sky_panorama_snow.jpg";
 		state.wall_texture = "img/wall_texture_snow.jpg";
 	};
@@ -133,7 +141,8 @@ window.onload = function() {
 		state.particlesWidth = 2;
 		state.particlesHeight = 20;
 		state.sky_texture = "img/sky_panorama.jpg";
-		state.wall_texture = "img/wall_texture.jpg";
+		state.fence_texture = "img/rain_fence.jpg";
+		state.wall_texture = "img/rain_wall_texture.jpg";
 	}
 
 	function enableMenuSounds() {
