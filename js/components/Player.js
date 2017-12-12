@@ -117,7 +117,7 @@ export class Player {
     }
 
     dosmth(action){
-        if(action === 'enter') {
+        if(action === 'atac') {
             this.map.objects.forEach((item)=>{
         		if(item instanceof Person && item.alive) {
                     this.eat(item);
