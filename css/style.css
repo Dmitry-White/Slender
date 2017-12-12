@@ -158,12 +158,11 @@ p {
     -webkit-transition: border 1s cubic-bezier(0.19, 1, .22, 1), color .6s cubic-bezier(0.19, 1, .22, 1);
     transition: border 1s cubic-bezier(0.19, 1, .22, 1), color .6s cubic-bezier(0.19, 1, .22, 1), background 5s cubic-bezier(0.19, 1, .22, 1);
 }
-.button a,
 .button > span {
     color: #969696;
     font-family: 'Varela Round';
     text-decoration: none;
-cursor: pointer;
+	cursor: pointer;
 }
 .button .mask {
     background: #fff;
@@ -187,7 +186,6 @@ cursor: pointer;
     border-color: #fff;
     /*box-shadow: 0 0 5px rgba(255,245,245,0.8);*/
 }
-.button:hover a,
 .button:hover > span {
     color: #fff;
 }
@@ -203,7 +201,6 @@ cursor: pointer;
 
 .slider-left span,
 .slider-right span {
-    color: #fff;
     text-decoration: none;
     text-align: center;
     display: inline-block;

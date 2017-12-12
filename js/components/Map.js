@@ -1,6 +1,7 @@
 import { Bitmap } from "./Bitmap.js";
 import { Objects } from "./Objects.js";
 import { Person } from "./Person.js";
+import { Calc } from "./Calc.js";
 
 export class Map {
     constructor(size) {
@@ -21,15 +22,9 @@ export class Map {
         return this.wallGrid[y * this.size + x];
     };
 
-    getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min)) + min;
-    };
-
     addTrees(trees, col, row) {
         if (this.get(col, row) == 0) {
-            let num = this.getRandomInt(0,4);
+            let num = Calc.getRandomInt(0,4);
             this.addObject(new Objects({
             	texture: new Bitmap(trees[num].texture, trees[num].width, trees[num].height),
                 x:col,
@@ -40,7 +35,7 @@ export class Map {
 
     addBushes(bushes, col, row) {
         if (this.get(col, row) == 0) {
-            let num = this.getRandomInt(0,5);
+            let num = Calc.getRandomInt(0,5);
             this.addObject(new Objects({
             	texture: new Bitmap(bushes[num].texture, bushes[num].width, bushes[num].height),
             	height: 0.5,

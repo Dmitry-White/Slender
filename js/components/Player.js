@@ -1,6 +1,8 @@
 import { Paper } from "./Paper.js";
 import { CIRCLE } from "../main.js";
 import { Bitmap } from "./Bitmap.js";
+import { Calc } from "./Calc.js";
+import { Person } from "./Person.js";
 
 export class Player {
     constructor(origin) {
@@ -64,7 +66,30 @@ export class Player {
             this.walk(-(this.speed/2) * seconds, map, this.direction - Math.PI/2);
         }
         (controls.shift) ? this.speed = 3 : this.speed = 1;
+        map.objects.forEach((item)=>{
+    		if(item instanceof Person) {
+                this.scare(item);
+                this.eat(item);
+            }
+    	});
     };
+
+    scare(person){
+        let x = this.x - person.x;
+        let y = this.y - person.y;
+        if(Math.sqrt(x*x+y*y) < 2){
+            person.speed = 1;
+            person.direction = this.direction + CIRCLE/3;
+        } else person.speed = 0.5;
+    }
+
+    eat(person){
+        let x = this.x - person.x;
+        let y = this.y - person.y;
+        if(Math.sqrt(x*x+y*y) < 0.3) {
+            console.log('Omnomnom');
+        }
+    }
 
     snowWalkSound() {
         if (this.sounds.sound_end) {
@@ -94,7 +119,7 @@ export class Player {
         if(action === 'enter') console.log('Bam!');
         if(action === 'space') {
             if (!this.running && !this.walking && this.sounds.sound_end) {
-                let paper_type = this.map.getRandomInt(0,8);
+                let paper_type = Calc.getRandomInt(0,8);
                 this.map.addObject(new Paper(this.x,this.y, new Bitmap(this.papers[paper_type].texture, this.papers[paper_type].width, this.papers[paper_type].height)));
                 if (paper_type === 0) {
                     this.sounds.makeSound('placing_loo_paper')

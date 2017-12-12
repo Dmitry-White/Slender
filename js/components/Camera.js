@@ -195,7 +195,7 @@ export class Camera {
     			this.ctx.fillStyle = 'black';
     			this.ctx.globalAlpha = 1;
     			sprite.texture.image.style.webkitFilter = 'brightness(' + brightness + '%)';
-    			sprite.texture.image.style.filter = 'brightness(' + brightness  + '%)';
+    			sprite.texture.image.style.filter = 'brightness(' + 100  + '%)';
     			ctx.drawImage(sprite.texture.image, textureX, 0, 1, sprite.texture.height, left, sprite.render.top, width, sprite.render.height);
     		}
     	};

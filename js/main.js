@@ -93,7 +93,7 @@ window.onload = function() {
 			loop.start(function frame(seconds) {
 				map.update();
 				//objects.update();
-				player.update(controls.states, map, seconds);
+				player.update(controls.states,map, seconds);
 				camera.render(player, map);
 			});
 		}
@@ -117,10 +117,6 @@ window.onload = function() {
 				sounds.loopSound("play_button_hover");
 			}
 		});
-
-		document.getElementById('play_link').addEventListener('mouseover',function(e) {
-    		e.stopPropagation();
-		}, true);
 
 		document.getElementById('play').addEventListener('mouseout', function(e){
 			if (e.target.id == 'play') {
