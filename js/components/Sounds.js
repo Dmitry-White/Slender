@@ -63,7 +63,39 @@ export class Sounds{
                 });
                 // ------------------------------------------------
 
-                // --------------- General Stuff-------------------
+                // --------------- Vanilla Mode -------------------
+                let rain_ambient =  soundManager.createSound({
+                    id: 'rain_ambient',
+                    url: 'sounds/ambient/rain_ambient.mp3',
+                    volume: 70
+                });
+                let rain_forward_step =  soundManager.createSound({
+                    id: 'rain_forward_step',
+                    url: 'sounds/walking/rain_forward_step.mp3'
+                });
+                let rain_backward_step =  soundManager.createSound({
+                    id: 'rain_backward_step',
+                    url: 'sounds/walking/rain_backward_step.mp3'
+                });
+                let rain_step =  soundManager.createSound({
+                    id: 'rain_step',
+                    url: 'sounds/walking/rain_step.mp3'
+                });
+                let rain_dodge_step_0 =  soundManager.createSound({
+                    id: 'rain_dodge_step_0',
+                    url: 'sounds/walking/rain_dodge_step_0.mp3'
+                });
+                let rain_dodge_step_1 =  soundManager.createSound({
+                    id: 'rain_dodge_step_1',
+                    url: 'sounds/walking/rain_dodge_step_1.mp3'
+                });
+                let rain_running =  soundManager.createSound({
+                    id: 'rain_running',
+                    url: 'sounds/walking/rain_running.mp3'
+                });
+                // ------------------------------------------------
+
+                // --------------- General Stuff ------------------
                 let entering_area =  soundManager.createSound({
                     id: 'entering_area',
                     url: 'sounds/objects/entering_area.mp3'
@@ -71,6 +103,11 @@ export class Sounds{
                 let hitting_the_fence =  soundManager.createSound({
                     id: 'hitting_the_fence',
                     url: 'sounds/objects/hitting_the_fence.mp3'
+                });
+                let hitting_the_rain_fence =  soundManager.createSound({
+                    id: 'hitting_the_rain_fence',
+                    url: 'sounds/objects/hitting_the_rain_fence.mp3',
+                    volume:50
                 });
                 let hitting_the_wall =  soundManager.createSound({
                     id: 'hitting_the_wall',
