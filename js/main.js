@@ -93,7 +93,7 @@ window.onload = function() {
 			loop.start(function frame(seconds) {
 				map.update();
 				//objects.update();
-				player.update(controls.states, map, seconds);
+				player.update(controls.states,map, seconds);
 				camera.render(player, map);
 			});
 		}
