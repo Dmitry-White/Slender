@@ -67,7 +67,7 @@ export class Player {
         }
         (controls.shift) ? this.speed = 3 : this.speed = 1;
         map.objects.forEach((item)=>{
-    		if(item instanceof Person) {
+    		if(item instanceof Person && item.alive) {
                 this.scare(item);
                 this.eat(item);
             }
@@ -87,6 +87,8 @@ export class Player {
         let x = this.x - person.x;
         let y = this.y - person.y;
         if(Math.sqrt(x*x+y*y) < 0.3) {
+            person.alive = false;
+            person.texture = new Bitmap('img/cowboy2.png', 639, 1500);
             console.log('Omnomnom');
         }
     }
