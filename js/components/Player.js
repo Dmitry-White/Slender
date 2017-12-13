@@ -78,8 +78,8 @@ export class Player {
         let x = this.x - person.x;
         let y = this.y - person.y;
         if(Math.sqrt(x*x+y*y) < 2){
-            person.speed = 1.2;
-            person.direction = this.direction + CIRCLE/3;
+            person.speed = 4;
+            person.direction = this.direction;
         } else person.speed = .7;
     }
 

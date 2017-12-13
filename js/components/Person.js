@@ -24,7 +24,7 @@ export class Person {
         if(this.alive){
             this.count += Calc.getRandomFloat(0, 5);
 
-            if (this.count > 120 / this.speed){
+            if (this.count > 270){
                 this.direction = this.direction + Calc.getRandomFloat(-(CIRCLE/6),CIRCLE/6);
                 this.count = 0;
             }
