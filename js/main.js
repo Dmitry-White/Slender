@@ -23,9 +23,9 @@ var state = {
 	param : 0.1,
 	particlesWidth : 2,
 	particlesHeight : 20,
-	sky_texture : "img/sky_panorama.jpg",
-	wall_texture : "img/rain_wall_texture.jpg",
-	fence_texture : "img/rain_fence.jpg"
+	sky_texture : "img/rain/rain_sky_panorama.jpg",
+	wall_texture : "img/rain/rain_wall_texture.jpg",
+	fence_texture : "img/rain/rain_fence.jpg"
 }
 
 export const CIRCLE = Math.PI * 2;
@@ -100,7 +100,7 @@ window.onload = function() {
 		map.buildMap(trees, bushes);
 
 		 //Comment this to skip intro
-		let intro = document.querySelector('.intro');
+		/*let intro = document.querySelector('.intro');
  		intro.style.display = 'block';
  		intro.play();
  		 setTimeout(()=>{
@@ -112,10 +112,10 @@ window.onload = function() {
  	 				startGame();
  	             }
  	         });
- 		 },28000);
+ 		 },28000);*/
 
 		// Uncomment this to skip intro
-		//startGame();
+		startGame();
 
 		function startGame() {
 			document.querySelector('canvas').style.display = 'block';
@@ -142,9 +142,9 @@ window.onload = function() {
 		state.param = 0.5;
 		state.particlesWidth = 6;
 		state.particlesHeight = 6;
-		state.fence_texture = "img/fence.png";
-		state.sky_texture = "img/sky_panorama_snow.jpg";
-		state.wall_texture = "img/wall_texture_snow.jpg";
+		state.fence_texture = "img/snow/fence_snow.png";
+		state.sky_texture = "img/snow/sky_panorama_snow.jpg";
+		state.wall_texture = "img/snow/wall_texture_snow.jpg";
 	};
 	function changeToVanilla() {
 		state.winter = false;
@@ -159,9 +159,9 @@ window.onload = function() {
 		state.param = 0.1;
 		state.particlesWidth = 2;
 		state.particlesHeight = 20;
-		state.sky_texture = "img/sky_panorama.jpg";
-		state.fence_texture = "img/rain_fence.jpg";
-		state.wall_texture = "img/rain_wall_texture.jpg";
+		state.sky_texture = "img/rain/rain_sky_panorama.jpg";
+		state.fence_texture = "img/rain/rain_fence.jpg";
+		state.wall_texture = "img/rain/rain_wall_texture.jpg";
 	}
 
 	function enableMenuSounds() {
