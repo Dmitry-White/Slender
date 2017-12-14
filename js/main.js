@@ -62,7 +62,7 @@ window.onload = function() {
 		document.querySelector('.menu').classList.add('fadeOut');
 		setTimeout(()=>{
 			document.querySelector('.menu').style.display = 'none';
-		},500);
+		},700);
 
 		loadGame();
 	});
@@ -80,9 +80,6 @@ window.onload = function() {
 		let papers = assets.papers;
 
 		let map = new Map(32, state);
-		map.addObject(new Person(map,5,5));
-		map.addObject(new Person(map,9,2));
-		let objects = new Objects(map);
 		let player = new Player( { x:1.5,
 								   y:1.5,
 								   direction:1,
@@ -90,6 +87,8 @@ window.onload = function() {
 								   map:map,
 								   sounds:sounds,
 							   	   state:state });
+		map.addObject(new Person(player,map,5,5));
+		map.addObject(new Person(player,map,9,2));
 
 		let controls = new Controls(player);
 		let loop = new GameLoop();
@@ -116,7 +115,7 @@ window.onload = function() {
 				map.update(); //молнии
 				//objects.update();
 				player.update(controls.states, map, seconds);
-				camera.render(player, map, objects);
+				camera.render(player, map);
 			});
 		}
 	};

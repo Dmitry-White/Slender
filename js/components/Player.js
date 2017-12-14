@@ -67,21 +67,7 @@ export class Player {
             this.walk(-(this.speed/2) * seconds, map, this.direction - Math.PI/2);
         }
         (controls.shift) ? this.speed = 3 : this.speed = 1;
-        map.objects.forEach((item)=>{
-    		if(item instanceof Person && item.alive) {
-                this.scare(item);
-            }
-    	});
     };
-
-    scare(person){
-        let x = this.x - person.x;
-        let y = this.y - person.y;
-        if(Math.sqrt(x*x+y*y) < 2){
-            person.speed = 4;
-            person.direction = -this.direction;
-        } else person.speed = .7;
-    }
 
     eat(person){
         let x = this.x - person.x;

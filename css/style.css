@@ -62,8 +62,8 @@ body {
 }
 .menu{
 	background-color: #111;
-	position: fixed;
 	min-height: 100vh;
+	position: absolute;
 }
 canvas{
 	display: none;

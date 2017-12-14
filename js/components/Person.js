@@ -3,7 +3,8 @@ import { Bitmap } from "./Bitmap.js";
 import { Calc } from "./Calc.js";
 
 export class Person {
-    constructor(map,x,y) {
+    constructor(player,map,x,y) {
+        this.player = player;
         this.x = x;
         this.y = y;
         this.color = '#cf3c8c',
@@ -22,14 +23,43 @@ export class Person {
 
     logic(){
         if(this.alive){
-            this.count += Calc.getRandomFloat(0, 5);
+            this.count += 1;
 
             if (this.count > 270){
                 this.direction = this.direction + Calc.getRandomFloat(-(CIRCLE/6),CIRCLE/6);
                 this.count = 0;
             }
+            //this.turn();
+            this.move('img/cowboy');
+            this.run();
             this.walk(0.05 * this.speed, this.direction);
         }
+    }
+    /*turn(){
+        let angle = this.direction;
+        let url = 'img/cowboy';
+        if((angle < CIRCLE/4 && angle > 0) || (angle < CIRCLE && angle >= (CIRCLE - CIRCLE/4))){
+            url = 'img/cowboy_r';
+        } else if(angle < (CIRCLE - CIRCLE/4) && angle >= CIRCLE/4){
+            url = 'img/cowboy_l';
+        }
+        this.move(url);
+    }*/
+    move(url){
+        if (this.count%10 === 0){
+            if (this.count%20 === 0){
+                this.texture = new Bitmap(url + '2.png', 639, 1500);
+            }
+            else this.texture = new Bitmap(url + '.png', 639, 1500);
+        }
+    }
+    run(){
+        let x = this.player.x - this.x;
+        let y = this.player.y - this.y;
+        if(Math.sqrt(x*x+y*y) < 2){
+            this.speed = 3;
+            this.direction = -this.player.direction;
+        } else this.speed = .7;
     }
     /*search(){
         let paper;
