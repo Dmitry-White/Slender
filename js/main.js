@@ -10,20 +10,17 @@ import { Controls } from "./components/Controls.js";
 import { GameLoop } from "./components/GameLoop.js";
 import { Person } from "./components/Person.js";
 
-
-var state = {}
-
-
+let state = {}
 export const CIRCLE = Math.PI * 2;
 export let camera = new Camera(document.getElementById('display'), 640, 0.8, state);
-let sounds = new Sounds();
-let noises = new Sounds();
 
 window.onload = function() {
 
+	let sounds = new Sounds();
+	let noises = new Sounds();
+
 	enableMenuSounds();
 	changeToVanilla();
-	console.log(state)
 
 	document.getElementById('checkbox').addEventListener('change', function(){
 		if (this.checked) {
@@ -38,14 +35,6 @@ window.onload = function() {
 
 	document.getElementById('play').addEventListener('click', function(){
 		soundManager.stopAll();
-		//disableMenuSounds();
-
-		/*try {
-			document.body.requestPointerLock();
-		} catch (e) {
-			document.body.webkitRequestPointerLock();
-		}*/
-
 
 		document.querySelector('.menu').classList.add('fadeOut');
 		setTimeout(()=>{
@@ -56,17 +45,7 @@ window.onload = function() {
 	});
 
 	function loadGame() {
-
-
-		let trees = assets.rain_trees;
-		let bushes = assets.rain_bushes;
-		if (state.winter) {
-			trees = assets.trees;
-			bushes = assets.bushes;
-		}
-
 		let papers = assets.papers;
-
 		let map = new Map(32, state);
 		let loop = new GameLoop(endGame);
 		let obj_sounds = new Sounds(map, loop, state);
@@ -78,54 +57,56 @@ window.onload = function() {
 								   sounds:sounds,
 								   obj_sounds:obj_sounds,
 							   	   state:state });
+		let controls = new Controls(player);
+		let trees = assets.rain_trees;
+		let bushes = assets.rain_bushes;
+
+		if (state.winter) {
+			sounds.loopSound('wind_ambient')
+			trees = assets.trees;
+			bushes = assets.bushes;
+		} else sounds.loopSound('rain_ambient');
+
 		map.addObject(new Person(player,map,5,5));
 		map.addObject(new Person(player,map,9,2));
-
-		let controls = new Controls(player);
-
-
-		(state.winter) ? sounds.loopSound('wind_ambient')
-					   : sounds.loopSound('rain_ambient');
-
 		map.buildMap(trees, bushes);
 
-		 //Comment this to skip intro
-		/*let intro = document.querySelector('.intro');
+		let intro = document.querySelector('.intro');
  		intro.style.display = 'block';
+		enterFS(intro)
  		intro.play();
- 		 setTimeout(()=>{
- 			 intro.pause();
- 			 intro.style.display = 'none';
- 			 soundManager.play("entering_area",{
- 	             multiShotEvents: true,
- 	             onfinish: ()=> {
- 	 				startGame();
- 	             }
- 	         });
- 		 },28000);*/
 
-		// Uncomment this to skip intro
+ 		setTimeout(()=>{
+			exitFS(intro);
+ 			intro.pause();
+ 			intro.style.display = 'none';
+			mouseLock();
+ 			soundManager.play("entering_area",{
+ 	            multiShotEvents: true,
+ 	            onfinish: ()=> {
+ 	 				startGame();
+ 	            }
+ 	        });
+ 		},28000);
+
 		map.objects.forEach((item)=>{
 			if(item instanceof Person && item.alive) {
 				map.people++;
 			}
 		});
 
-
-		startGame();
-
+		//startGame();
 
 		function startGame() {
 			document.querySelector('canvas').style.display = 'block';
 			loop.start(function frame(seconds) {
 				if (state.lightning) map.lightning(seconds);
-				map.update(); //молнии
+				map.update();
 				changeAmbient();
 				player.update(controls.states, map, seconds);
 				camera.render(player, map);
 			});
 		}
-
 
 		function endGame() {
 			console.log("The End!");
@@ -135,6 +116,37 @@ window.onload = function() {
 			document.querySelector('canvas').style.display = 'none';
 		}
 	};
+
+	function enterFS(intro) {
+		if (intro.requestFullscreen) {
+		  	intro.requestFullscreen();
+		} else if (intro.mozRequestFullScreen) {
+		  	intro.mozRequestFullScreen();
+		} else if (intro.webkitRequestFullscreen) {
+		  	intro.webkitRequestFullscreen();
+		}
+	}
+
+	function exitFS(intro) {
+		if (intro.exitFullscreen) {
+			intro.exitFullscreen();
+		} else if (intro.mozExitFullScreen) {
+			intro.mozExitFullScreen();
+		} else if (intro.webkitExitFullscreen) {
+			intro.webkitExitFullscreen();
+		}
+	}
+
+	function mouseLock() {
+		console.log("!")
+		if (document.body.requestPointerLock) {
+		  	document.body.requestPointerLock();
+		} else if (document.body.mozRequestPointerLock) {
+		  	document.body.mozRequestPointerLock();
+		} else if (document.body.webkitRequestPointerLock) {
+		  	document.body.webkitRequestPointerLock();
+		}
+	}
 
 	function changeToWinter() {
 		state.winter = true;
@@ -178,7 +190,6 @@ window.onload = function() {
 		}
 	}
 
-
 	function enableMenuSounds() {
 		sounds.loopSound('piano_menu_ambient');
 		sounds.loopSound('static_menu_ambient');
@@ -221,12 +232,5 @@ window.onload = function() {
 			soundManager.stop('about_game');
 			soundManager.unmute('piano_menu_ambient');
 		});
-	};
-
-	function disableMenuSounds() {
-		soundManager.stop('slender_logo_hover');
-		soundManager.stop('play_button_hover');
-		soundManager.stop('piano_menu_ambient');
-		soundManager.stop('static_menu_ambient');
 	};
 };
