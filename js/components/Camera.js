@@ -249,7 +249,7 @@ export class Camera {
     	}
     	ctx.save();
 
-    	for (let i = 0; i < map.objects.length; i++){ //спрайты
+    	/*for (let i = 0; i < map.objects.length; i++){ //спрайты
     		if(map.objects[i]){
                 if(map.objects[i]===1)
                     ctx.fillStyle = map.objects[i].color;//не трогать, так надо!!!!
@@ -259,7 +259,7 @@ export class Camera {
 
     				ctx.fillRect(x + (blockSize * (map.objects[i].x - 0.5)) + blockSize * .25, y + (blockSize * (map.objects[i].y - 0.5)) + blockSize * .25, blockSize * .5, blockSize * .5);
     		}
-    	}
+    	}*/
     	ctx.restore();
 
     	ctx.globalAlpha = 1; //игрок

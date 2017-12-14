@@ -411,8 +411,8 @@ class Person {
       } //this.turn();
 
 
-      this.move('img/girl/girl'); //this.run();
-
+      this.move('img/girl/girl');
+      this.run();
       this.walk(0.05 * this.speed, this.direction);
     }
   }
@@ -913,19 +913,16 @@ class Camera {
     }
 
     ctx.save();
-
-    for (let i = 0; i < map.objects.length; i++) {
-      //спрайты
-      if (map.objects[i]) {
-        if (map.objects[i] === 1) ctx.fillStyle = map.objects[i].color; //не трогать, так надо!!!!
-
-        ctx.globalAlpha = map.objects[i].logic ? .8 : .3;
-        if (map.objects[i].color === undefined) ctx.globalAlpha = 0;
-        ctx.fillStyle = map.objects[i].color || 'red'; //не трогать, так надо!!!!
-
-        ctx.fillRect(x + blockSize * (map.objects[i].x - 0.5) + blockSize * .25, y + blockSize * (map.objects[i].y - 0.5) + blockSize * .25, blockSize * .5, blockSize * .5);
-      }
-    }
+    /*for (let i = 0; i < map.objects.length; i++){ //спрайты
+    	if(map.objects[i]){
+               if(map.objects[i]===1)
+                   ctx.fillStyle = map.objects[i].color;//не трогать, так надо!!!!
+                   ctx.globalAlpha = map.objects[i].logic ? .8 : .3;
+                   if (map.objects[i].color === undefined) ctx.globalAlpha = 0;
+                   ctx.fillStyle = map.objects[i].color || 'red';//не трогать, так надо!!!!
+    				ctx.fillRect(x + (blockSize * (map.objects[i].x - 0.5)) + blockSize * .25, y + (blockSize * (map.objects[i].y - 0.5)) + blockSize * .25, blockSize * .5, blockSize * .5);
+    	}
+    }*/
 
     ctx.restore();
     ctx.globalAlpha = 1; //игрок
