@@ -75,7 +75,7 @@ window.onload = function() {
 
 		map.buildMap(trees, bushes);
 
-		/*let intro = document.querySelector('.intro');
+		let intro = document.querySelector('.intro');
  		intro.style.display = 'block';
 		enterFS(intro)
  		intro.play();
@@ -92,14 +92,14 @@ window.onload = function() {
  	            }
  	        });
  		},28000);
-		*/
+
 		map.objects.forEach((item)=>{
 			if(item instanceof Person && item.alive) {
 				map.people++;
 			}
 		});
 
-		startGame();
+		//startGame();
 
 		function startGame() {
 			document.querySelector('canvas').style.display = 'block';

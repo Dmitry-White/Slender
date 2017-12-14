@@ -161,30 +161,31 @@ window.onload = function () {
 
 		map.buildMap(trees, bushes);
 
-		/*let intro = document.querySelector('.intro');
-  	intro.style.display = 'block';
-  enterFS(intro)
-  	intro.play();
-   		setTimeout(()=>{
-  	exitFS(intro);
-  		intro.pause();
-  		intro.style.display = 'none';
-  	mouseLock();
-  		soundManager.play("entering_area",{
-              multiShotEvents: true,
-              onfinish: ()=> {
-   				startGame();
-              }
-          });
-  	},28000);
-  */
+		let intro = document.querySelector('.intro');
+		intro.style.display = 'block';
+		enterFS(intro);
+		intro.play();
+
+		setTimeout(() => {
+			exitFS(intro);
+			intro.pause();
+			intro.style.display = 'none';
+			mouseLock();
+			soundManager.play("entering_area", {
+				multiShotEvents: true,
+				onfinish: () => {
+					startGame();
+				}
+			});
+		}, 28000);
+
 		map.objects.forEach(item => {
 			if (item instanceof __WEBPACK_IMPORTED_MODULE_10__components_Person_js__["a" /* Person */] && item.alive) {
 				map.people++;
 			}
 		});
 
-		startGame();
+		//startGame();
 
 		function startGame() {
 			document.querySelector('canvas').style.display = 'block';
