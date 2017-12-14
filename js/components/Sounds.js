@@ -1,6 +1,7 @@
 export class Sounds{
     constructor() {
         this.sound_end = true;
+        this.obj_sound_end = true;
         soundManager.setup({
             url: './soundmanager2/',
             onready: function() {
@@ -125,6 +126,10 @@ export class Sounds{
                     id: 'placing_bomb',
                     url: 'sounds/objects/placing_bomb.mp3'
                 });
+                let killing =  soundManager.createSound({
+                    id: 'killing',
+                    url: 'sounds/objects/killing.mp3'
+                });
                 // ------------------------------------------------
 
             },
@@ -141,14 +146,23 @@ export class Sounds{
     };
 
     makeSound(sound_id) {
-        self = this;
-        self.sound_end = false;
+        this.sound_end = false;
         soundManager.play(sound_id,{
             multiShotEvents: true,
             onfinish: ()=> {
-                self.sound_end = true;
+                this.sound_end = true;
             }
         });
     };
 
+    makeObjSound(sound_id) {
+        self = this;
+        self.obj_sound_end = false;
+        soundManager.play(sound_id,{
+            multiShotEvents: true,
+            onfinish: ()=> {
+                self.obj_sound_end = true;
+            }
+        });
+    };
 }

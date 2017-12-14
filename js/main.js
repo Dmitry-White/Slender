@@ -31,6 +31,7 @@ var state = {
 export const CIRCLE = Math.PI * 2;
 export let camera = new Camera(document.getElementById('display'), 640, 0.8, state);
 let sounds = new Sounds();
+let obj_sounds = new Sounds();
 
 window.onload = function() {
 
@@ -86,6 +87,7 @@ window.onload = function() {
 								   papers:papers,
 								   map:map,
 								   sounds:sounds,
+								   obj_sounds:obj_sounds,
 							   	   state:state });
 		map.addObject(new Person(player,map,5,5));
 		map.addObject(new Person(player,map,9,2));

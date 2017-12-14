@@ -12,6 +12,7 @@ export class Player {
         this.papers = origin.papers;
         this.map = origin.map;
         this.sounds = origin.sounds;
+        this.obj_sounds = origin.obj_sounds;
         this.state = origin.state;
         this.right_hand = new Bitmap('img/knife_hand.png', 200, 200);
         this.left_hand = new Bitmap('img/left_hand.png', 200, 200);
@@ -34,10 +35,12 @@ export class Player {
 
         if (in_the_x_way == 2 || in_the_y_way == 2) {
             this.hitting_the_fence = true;
-            this.walkSound();
+            this.hitObject();
+            this.hitting_the_fence = false;
         } else if (in_the_x_way == 1 || in_the_y_way == 1) {
             this.hitting_the_wall = true;
-            this.walkSound();
+            this.hitObject();
+            this.hitting_the_wall = false;
         }
         if (in_the_x_way <= 0) this.x += dx;
         if (in_the_y_way <= 0) this.y += dy;
@@ -73,6 +76,7 @@ export class Player {
         let x = this.x - person.x;
         let y = this.y - person.y;
         if(Math.sqrt(x*x+y*y) < 0.2) {
+            this.obj_sounds.makeSound('killing')
             person.alive = false;
             person.texture = new Bitmap('img/cowboy3.png', 700, 900);
         }
@@ -80,13 +84,7 @@ export class Player {
 
     snowWalkSound() {
         if (this.sounds.sound_end) {
-            if (this.hitting_the_fence) {
-                this.sounds.makeSound('hitting_the_fence');
-                this.hitting_the_fence = false;
-            } else if (this.hitting_the_wall) {
-                this.sounds.makeSound('hitting_the_wall');
-                this.hitting_the_wall = false;
-            } else if (this.running) {
+            if (this.running) {
                 this.sounds.makeSound('running');
             } else {
                 (Math.random() > 0.5) ? this.sounds.makeSound('forward_step') :
@@ -104,13 +102,7 @@ export class Player {
 
     rainWalkSound() {
         if (this.sounds.sound_end) {
-            if (this.hitting_the_fence) {
-                this.sounds.makeSound('hitting_the_rain_fence');
-                this.hitting_the_fence = false;
-            } else if (this.hitting_the_wall) {
-                this.sounds.makeSound('hitting_the_wall');
-                this.hitting_the_wall = false;
-            } else if (this.running) {
+            if (this.running) {
                 this.sounds.makeSound('rain_running');
             } else {
                 if (Math.random() > 0.2) {
@@ -132,6 +124,31 @@ export class Player {
         if (this.sounds.sound_end) {
             (Math.random() > 0.5) ? this.sounds.makeSound('rain_dodge_step_0') :
                                     this.sounds.makeSound('rain_dodge_step_1');
+        }
+    };
+
+    hitObject() {
+        (this.state.winter) ? this.snowHit() : this.rainHit();
+    }
+
+    snowHit () {
+        if (this.obj_sounds.obj_sound_end) {
+            if (this.hitting_the_fence) {
+                this.obj_sounds.makeObjSound('hitting_the_fence');
+            } else if (this.hitting_the_wall) {
+                this.obj_sounds.makeObjSound('hitting_the_wall');
+            }
+        }
+    };
+    rainHit () {
+        if (this.obj_sounds.obj_sound_end) {
+            if (this.hitting_the_fence) {
+                this.obj_sounds.makeObjSound('hitting_the_rain_fence');
+                this.hitting_the_fence = false;
+            } else if (this.hitting_the_wall) {
+                this.obj_sounds.makeObjSound('hitting_the_wall');
+                this.hitting_the_wall = false;
+            }
         }
     };
 
