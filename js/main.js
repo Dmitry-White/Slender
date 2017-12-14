@@ -99,16 +99,23 @@ window.onload = function() {
 					   : sounds.loopSound('rain_ambient');
 		map.buildMap(trees, bushes);
 
-		 /* Comment this to skip intro
-		soundManager.play("entering_area",{
-            multiShotEvents: true,
-            onfinish: ()=> {
-				startGame();
-            }
-        });
-		*/
+		 //Comment this to skip intro
+		let intro = document.querySelector('.intro');
+ 		intro.style.display = 'block';
+ 		intro.play();
+ 		 setTimeout(()=>{
+ 			 intro.pause();
+ 			 intro.style.display = 'none';
+ 			 soundManager.play("entering_area",{
+ 	             multiShotEvents: true,
+ 	             onfinish: ()=> {
+ 	 				startGame();
+ 	             }
+ 	         });
+ 		 },28000);
+
 		// Uncomment this to skip intro
-		startGame();
+		//startGame();
 
 		function startGame() {
 			document.querySelector('canvas').style.display = 'block';

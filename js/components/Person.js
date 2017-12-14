@@ -31,7 +31,7 @@ export class Person {
             }
             //this.turn();
             this.move('img/cowboy');
-            this.run();
+            //this.run();
             this.walk(0.05 * this.speed, this.direction);
         }
     }

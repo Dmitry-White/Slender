@@ -58,11 +58,15 @@ body {
     width: 100vw;
     overflow-x: hidden;
     height: 100vh;
-	background-color: #111;
+	background-color: #000;
 }
 .menu{
 	background-color: #111;
 	min-height: 100vh;
+	position: absolute;
+}
+.intro{
+	display: none;
 	position: absolute;
 }
 canvas{
