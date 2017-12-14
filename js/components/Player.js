@@ -76,9 +76,12 @@ export class Player {
         let x = this.x - person.x;
         let y = this.y - person.y;
         if(Math.sqrt(x*x+y*y) < 0.2) {
-            this.obj_sounds.makeSound('killing')
+            this.obj_sounds.makeSound('killing');
             person.alive = false;
-            person.texture = new Bitmap('img/cowboy3.png', 700, 900);
+            person.texture = new Bitmap('img/cowboy_f.png', 700, 900);
+            setTimeout(()=>{
+    			person.texture = new Bitmap('img/cowboy3.png', 700, 900);
+    		},7000);
         }
     }
 
