@@ -67,11 +67,15 @@ window.onload = function() {
 			bushes = assets.bushes;
 		} else sounds.loopSound('rain_ambient');
 
-		map.addObject(new Person(player,map,5,5));
-		map.addObject(new Person(player,map,9,2));
+		for (let i = 0; i < 7; i++) {
+			let x = Calc.getRandomInt(2,30)
+			let y = Calc.getRandomInt(2,30)
+			map.addObject(new Person(player,map,x,y));
+		}
+		
 		map.buildMap(trees, bushes);
 
-		let intro = document.querySelector('.intro');
+		/*let intro = document.querySelector('.intro');
  		intro.style.display = 'block';
 		enterFS(intro)
  		intro.play();
@@ -88,14 +92,14 @@ window.onload = function() {
  	            }
  	        });
  		},28000);
-
+		*/
 		map.objects.forEach((item)=>{
 			if(item instanceof Person && item.alive) {
 				map.people++;
 			}
 		});
 
-		//startGame();
+		startGame();
 
 		function startGame() {
 			document.querySelector('canvas').style.display = 'block';
