@@ -72,7 +72,7 @@ window.onload = function() {
 			let y = Calc.getRandomInt(2,30)
 			map.addObject(new Person(player,map,x,y));
 		}
-		
+
 		map.buildMap(trees, bushes);
 
 		/*let intro = document.querySelector('.intro');
@@ -113,7 +113,6 @@ window.onload = function() {
 		}
 
 		function endGame() {
-			console.log("The End!");
 			soundManager.stopAll();
 			let end = Calc.getRandomInt(0,2)
 			sounds.playEnding(end);
@@ -142,7 +141,6 @@ window.onload = function() {
 	}
 
 	function mouseLock() {
-		console.log("!")
 		if (document.body.requestPointerLock) {
 		  	document.body.requestPointerLock();
 		} else if (document.body.mozRequestPointerLock) {

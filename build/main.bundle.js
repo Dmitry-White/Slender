@@ -198,7 +198,6 @@ window.onload = function () {
 		}
 
 		function endGame() {
-			console.log("The End!");
 			soundManager.stopAll();
 			let end = __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__["a" /* Calc */].getRandomInt(0, 2);
 			sounds.playEnding(end);
@@ -227,7 +226,6 @@ window.onload = function () {
 	}
 
 	function mouseLock() {
-		console.log("!");
 		if (document.body.requestPointerLock) {
 			document.body.requestPointerLock();
 		} else if (document.body.mozRequestPointerLock) {
@@ -1379,7 +1377,7 @@ class Player {
                 } else {
                     this.sounds.makeSound('placing_paper');
                 }
-            } else console.log("You can't place a paper while moving!");
+            }
         }
         if (action === 'escape') location.reload();
     }

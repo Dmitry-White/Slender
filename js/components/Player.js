@@ -84,7 +84,7 @@ export class Player {
     		},7000);
             this.map.people--;
         }
-        
+
     }
 
     snowWalkSound() {
@@ -183,7 +183,7 @@ export class Player {
                 } else {
                     this.sounds.makeSound('placing_paper');
                 }
-            } else console.log("You can't place a paper while moving!");
+            }
         }
         if(action === 'escape') location.reload();
     }
