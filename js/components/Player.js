@@ -115,7 +115,6 @@ export class Player {
                         this.sounds.makeSound('rain_backward_step');
                     }
                 } else {
-                    console.log("plyas")
                     this.sounds.makeSound('rain_step');
                 }
             }

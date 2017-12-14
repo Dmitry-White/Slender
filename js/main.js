@@ -1,3 +1,4 @@
+import { Calc } from "./components/Calc.js";
 import { Map } from "./components/Map.js";
 import { assets } from "./json/assets.json";
 import { Camera } from "./components/Camera.js";
@@ -32,6 +33,7 @@ export const CIRCLE = Math.PI * 2;
 export let camera = new Camera(document.getElementById('display'), 640, 0.8, state);
 let sounds = new Sounds();
 let obj_sounds = new Sounds();
+let noises = new Sounds();
 
 window.onload = function() {
 
@@ -97,6 +99,7 @@ window.onload = function() {
 
 		(state.winter) ? sounds.loopSound('wind_ambient')
 					   : sounds.loopSound('rain_ambient');
+
 		map.buildMap(trees, bushes);
 
 		 /* Comment this to skip intro
@@ -115,7 +118,7 @@ window.onload = function() {
 			loop.start(function frame(seconds) {
 				if (state.lightning) map.lightning(seconds);
 				map.update(); //молнии
-				//objects.update();
+				changeAmbient();
 				player.update(controls.states, map, seconds);
 				camera.render(player, map);
 			});
@@ -155,6 +158,13 @@ window.onload = function() {
 		state.sky_texture = "img/sky_panorama.jpg";
 		state.fence_texture = "img/rain_fence.jpg";
 		state.wall_texture = "img/rain_wall_texture.jpg";
+	};
+
+	function changeAmbient() {
+		if (noises.noises_end) {
+			let next = Calc.getRandomInt(0,4)
+			noises.playNoise(next);
+		}
 	}
 
 	function enableMenuSounds() {

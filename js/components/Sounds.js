@@ -2,6 +2,13 @@ export class Sounds{
     constructor() {
         this.sound_end = true;
         this.obj_sound_end = true;
+        this.noises_end = true;
+        this.noises = {
+            0: 'ghost_in_the_house',
+            1: 'just_horror_ambient',
+            2: 'weird_noises',
+            3: 'scary_piano'
+        }
         soundManager.setup({
             url: './soundmanager2/',
             onready: function() {
@@ -132,6 +139,27 @@ export class Sounds{
                 });
                 // ------------------------------------------------
 
+                // --------------- Random Ambient -----------------
+                let ghost_in_the_house =  soundManager.createSound({
+                    id: 'ghost_in_the_house',
+                    url: 'sounds/ambient/ghost_in_the_house.mp3'
+                });
+                let just_horror_ambient =  soundManager.createSound({
+                    id: 'just_horror_ambient',
+                    url: 'sounds/ambient/just_horror_ambient.mp3'
+                });
+                let weird_noises =  soundManager.createSound({
+                    id: 'weird_noises',
+                    url: 'sounds/ambient/weird_noises.mp3'
+                });
+                let scary_piano =  soundManager.createSound({
+                    id: 'scary_piano',
+                    url: 'sounds/ambient/scary_piano.mp3'
+                });
+                // ------------------------------------------------
+
+
+
             },
         });
     };
@@ -162,6 +190,16 @@ export class Sounds{
             multiShotEvents: true,
             onfinish: ()=> {
                 self.obj_sound_end = true;
+            }
+        });
+    };
+
+    playNoise(noise_num) {
+        this.noises_end = false;
+        soundManager.play(this.noises[noise_num],{
+            multiShotEvents: true,
+            onfinish: ()=> {
+                this.noises_end = true;
             }
         });
     };
