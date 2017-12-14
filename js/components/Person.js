@@ -45,6 +45,12 @@ export class Person {
         }
         this.move(url);
     }*/
+    die(){
+        this.texture = new Bitmap('img/girl/girl_die.gif', 639, 1500);
+        setTimeout(()=>{
+            this.texture = new Bitmap('img/girl/girl3.png', 700, 900);
+        },7000);
+    }
     move(url){
         if (this.count%10 === 0){
             if (this.count%20 === 0){

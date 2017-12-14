@@ -69,6 +69,15 @@ body {
 	display: none;
 	position: absolute;
 }
+.text{
+	color: #fff;
+	width: 100vw;
+	height: 100vh;
+	display: none;
+}
+.text h1{
+	margin: auto;
+}
 canvas{
 	display: none;
 	margin: 0;

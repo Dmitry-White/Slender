@@ -78,10 +78,7 @@ export class Player {
         if(Math.sqrt(x*x+y*y) < 0.2) {
             this.obj_sounds.makeSound('killing');
             person.alive = false;
-            person.texture = new Bitmap('img/girl/girl_f.png', 639, 1500);
-            setTimeout(()=>{
-    			person.texture = new Bitmap('img/girl/girl3.png', 700, 900);
-    		},7000);
+            person.die();
             this.map.people--;
         }
 

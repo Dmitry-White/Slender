@@ -84,6 +84,7 @@ window.onload = function() {
 			exitFS(intro);
  			intro.pause();
  			intro.style.display = 'none';
+			document.querySelector('.text').style.display = 'flex';
 			mouseLock();
  			soundManager.play("entering_area",{
  	            multiShotEvents: true,
@@ -102,6 +103,7 @@ window.onload = function() {
 		//startGame();
 
 		function startGame() {
+			document.querySelector('.text').style.display = 'none';
 			document.querySelector('canvas').style.display = 'block';
 			loop.start(function frame(seconds) {
 				if (state.lightning) map.lightning(seconds);
@@ -116,6 +118,10 @@ window.onload = function() {
 			soundManager.stopAll();
 			let end = Calc.getRandomInt(0,2)
 			sounds.playEnding(end);
+			document.querySelector('.text').style.display = 'flex';
+			let text = document.querySelector('.text h1');
+			text.innerHTML = 'Are you sure you win';
+			text.setAttribute('data-text','No one will help you.');
 			document.querySelector('canvas').style.display = 'none';
 		}
 	};
