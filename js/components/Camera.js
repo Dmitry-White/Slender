@@ -31,6 +31,7 @@ export class Camera {
     	if (left < width - this.width) {
     		this.ctx.drawImage(sky.image, left + width, 0, width, this.height);
     	}
+
     	if (ambient > 0) {
     		this.ctx.fillStyle = this.state.ground;
     		this.ctx.globalAlpha = ambient * this.state.param;
@@ -65,7 +66,7 @@ export class Camera {
             let drops_seed = 0;
             (this.state.winter) ? drops_seed = 3 : drops_seed = s;
 
-    		let rainDrops = Math.pow(Math.random(), 100) * drops_seed;
+    		let rainDrops = Math.pow(Math.random(), this.state.drops_amount) * drops_seed;
     		let rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
     		let textureX,wall;
 

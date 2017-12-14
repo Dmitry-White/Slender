@@ -11,49 +11,34 @@ import { GameLoop } from "./components/GameLoop.js";
 import { Person } from "./components/Person.js";
 
 
-var state = {
-	winter : false,
-	light : 2,
-	lightning : true,
-	lightRange : 5,
-	shadows : "#000",
-	drops : "#fff",
-	drops_opacity : 0.15,
-	drops_amount : 30,
-	ground : "56361f",
-	param : 0.1,
-	particlesWidth : 2,
-	particlesHeight : 20,
-	sky_texture : "img/rain/rain_sky_panorama.jpg",
-	wall_texture : "img/rain/rain_wall_texture.jpg",
-	fence_texture : "img/rain/rain_fence.jpg"
-}
+var state = {}
+
 
 export const CIRCLE = Math.PI * 2;
 export let camera = new Camera(document.getElementById('display'), 640, 0.8, state);
 let sounds = new Sounds();
-let obj_sounds = new Sounds();
 let noises = new Sounds();
 
 window.onload = function() {
 
 	enableMenuSounds();
+	changeToVanilla();
+	console.log(state)
 
 	document.getElementById('checkbox').addEventListener('change', function(){
 		if (this.checked) {
 			document.querySelector(`.snow`).style.display = 'block';
 			sounds.makeSound("ho_ho_ho");
 			changeToWinter();
-			// Change to Winter Mode
 		} else {
 		   	document.querySelector(`.snow`).style.display = 'none';
-		   	// Change to Vanilla Mode
 			changeToVanilla();
 	   }
 	});
 
 	document.getElementById('play').addEventListener('click', function(){
-		disableMenuSounds();
+		soundManager.stopAll();
+		//disableMenuSounds();
 
 		/*try {
 			document.body.requestPointerLock();
@@ -83,6 +68,8 @@ window.onload = function() {
 		let papers = assets.papers;
 
 		let map = new Map(32, state);
+		let loop = new GameLoop(endGame);
+		let obj_sounds = new Sounds(map, loop, state);
 		let player = new Player( { x:1.5,
 								   y:1.5,
 								   direction:1,
@@ -95,7 +82,7 @@ window.onload = function() {
 		map.addObject(new Person(player,map,9,2));
 
 		let controls = new Controls(player);
-		let loop = new GameLoop();
+
 
 		(state.winter) ? sounds.loopSound('wind_ambient')
 					   : sounds.loopSound('rain_ambient');
@@ -118,7 +105,15 @@ window.onload = function() {
  		 },28000);*/
 
 		// Uncomment this to skip intro
+		map.objects.forEach((item)=>{
+			if(item instanceof Person && item.alive) {
+				map.people++;
+			}
+		});
+
+
 		startGame();
+
 
 		function startGame() {
 			document.querySelector('canvas').style.display = 'block';
@@ -129,6 +124,15 @@ window.onload = function() {
 				player.update(controls.states, map, seconds);
 				camera.render(player, map);
 			});
+		}
+
+
+		function endGame() {
+			console.log("The End!");
+			soundManager.stopAll();
+			let end = Calc.getRandomInt(0,2)
+			sounds.playEnding(end);
+			document.querySelector('canvas').style.display = 'none';
 		}
 	};
 
@@ -153,12 +157,12 @@ window.onload = function() {
 		state.winter = false;
 		state.light = 2;
 		state.lightning = true;
-		state.lightRange = 4;
+		state.lightRange = 5;
 		state.shadows = "#000";
 		state.drops = "#fff";
 		state.drops_opacity = 0.15;
 		state.drops_amount = 30;
-		state.ground = "56361f";
+		state.ground = "#56361f";
 		state.param = 0.1;
 		state.particlesWidth = 2;
 		state.particlesHeight = 20;
@@ -170,9 +174,10 @@ window.onload = function() {
 	function changeAmbient() {
 		if (noises.noises_end) {
 			let next = Calc.getRandomInt(0,4)
-			noises.playNoise(next);
+			noises.playNoises(next);
 		}
 	}
+
 
 	function enableMenuSounds() {
 		sounds.loopSound('piano_menu_ambient');

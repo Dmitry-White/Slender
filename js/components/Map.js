@@ -12,8 +12,9 @@ export class Map {
         this.fenceTexture = new Bitmap(state.fence_texture, 1024, 1024);
         this.fenceDoorTexture = new Bitmap('img/fence_door_0.jpg', 2048, 1024);
         this.wallTexture = new Bitmap(state.wall_texture, 1024, 1024);
-        this.light = state.light;
+        this.light = this.state.light;
         this.objects = [];
+        this.people = 0;
     };
 
     get(x, y) {

@@ -82,7 +82,9 @@ export class Player {
             setTimeout(()=>{
     			person.texture = new Bitmap('img/girl/girl3.png', 700, 900);
     		},7000);
+            this.map.people--;
         }
+        
     }
 
     snowWalkSound() {

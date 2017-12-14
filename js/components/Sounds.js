@@ -1,5 +1,8 @@
 export class Sounds{
-    constructor() {
+    constructor(map="", loop="", state="") {
+        this.map = map;
+        this.loop = loop;
+        this.state = state;
         this.sound_end = true;
         this.obj_sound_end = true;
         this.noises_end = true;
@@ -8,6 +11,10 @@ export class Sounds{
             1: 'just_horror_ambient',
             2: 'weird_noises',
             3: 'scary_piano'
+        }
+        this.ending = {
+            0: 'come_out',
+            1: 'lululala'
         }
         soundManager.setup({
             url: './soundmanager2/',
@@ -158,7 +165,20 @@ export class Sounds{
                 });
                 // ------------------------------------------------
 
-
+                // ------------------ End Game --------------------
+                let ghost_scream =  soundManager.createSound({
+                    id: 'ghost_scream',
+                    url: 'sounds/ending/ghost_scream.mp3'
+                });
+                let come_out =  soundManager.createSound({
+                    id: 'come_out',
+                    url: 'sounds/ending/come_out.mp3'
+                });
+                let lululala =  soundManager.createSound({
+                    id: 'lululala',
+                    url: 'sounds/ending/lululala.mp3'
+                });
+                // ------------------------------------------------
 
             },
         });
@@ -179,6 +199,7 @@ export class Sounds{
             multiShotEvents: true,
             onfinish: ()=> {
                 this.sound_end = true;
+                this.checkGameEnding();
             }
         });
     };
@@ -193,13 +214,38 @@ export class Sounds{
             }
         });
     };
-
-    playNoise(noise_num) {
+    playNoises(noise_num) {
         this.noises_end = false;
         soundManager.play(this.noises[noise_num],{
             multiShotEvents: true,
             onfinish: ()=> {
                 this.noises_end = true;
+            }
+        });
+    };
+
+    checkGameEnding() {
+        if (this.map.people === 0) {
+            this.state.drops  = "#f00";
+            this.state.ground = "#f00";
+            this.state.lightning = false;
+            this.map.light = 2;
+            this.state.param = 20;
+            this.state.drops_opacity = 1;
+            this.state.particlesWidth = 10;
+            this.state.particlesHeight = 10;
+            soundManager.play("ghost_scream",{
+                onfinish: () => {
+                    this.loop.game_ending = true;
+                }
+            });
+        }
+    }
+
+    playEnding(ending_num) {
+        soundManager.play(this.ending[ending_num],{
+            onfinish: ()=> {
+                location.reload();
             }
         });
     };
