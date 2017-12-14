@@ -58,11 +58,15 @@ body {
     width: 100vw;
     overflow-x: hidden;
     height: 100vh;
-	background-color: #111;
+	background-color: #000;
 }
 .menu{
 	background-color: #111;
 	min-height: 100vh;
+	position: absolute;
+}
+.intro{
+	display: none;
 	position: absolute;
 }
 canvas{
@@ -289,13 +293,13 @@ p {
     background-repeat: no-repeat;
 }
 .how_to_play .scrins:nth-child(1) {
-    background-image: url(../img/img1.jpg);
+    background-image: url(../img/scrins/img1.jpg);
 }
 .how_to_play .scrins:nth-child(2) {
-    background-image: url(../img/img2.jpg);
+    background-image: url(../img/scrins/img2.jpg);
 }
 .how_to_play .scrins:nth-child(3) {
-    background-image: url(../img/img3.jpg);
+    background-image: url(../img/scrins/img3.jpg);
 }
 /****************************************************************/
 .bordered {

@@ -8,7 +8,7 @@ export class Person {
         this.x = x;
         this.y = y;
         this.color = '#cf3c8c',
-        this.texture = new Bitmap('img/cowboy.png', 639, 1500),
+        this.texture = new Bitmap('img/girl/girl.png', 639, 1500),
         this.height = .6,
         this.width = .225,
         this.floorOffset = 0,
@@ -30,18 +30,18 @@ export class Person {
                 this.count = 0;
             }
             //this.turn();
-            this.move('img/cowboy');
-            this.run();
+            this.move('img/girl/girl');
+            //this.run();
             this.walk(0.05 * this.speed, this.direction);
         }
     }
     /*turn(){
         let angle = this.direction;
-        let url = 'img/cowboy';
+        let url = 'img/girl/girl';
         if((angle < CIRCLE/4 && angle > 0) || (angle < CIRCLE && angle >= (CIRCLE - CIRCLE/4))){
-            url = 'img/cowboy_r';
+            url = 'img/girl/girl_r';
         } else if(angle < (CIRCLE - CIRCLE/4) && angle >= CIRCLE/4){
-            url = 'img/cowboy_l';
+            url = 'img/girl/girl_l';
         }
         this.move(url);
     }*/

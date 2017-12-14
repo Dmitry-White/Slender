@@ -14,8 +14,8 @@ export class Player {
         this.sounds = origin.sounds;
         this.obj_sounds = origin.obj_sounds;
         this.state = origin.state;
-        this.right_hand = new Bitmap('img/knife_hand.png', 200, 200);
-        this.left_hand = new Bitmap('img/left_hand.png', 200, 200);
+        this.right_hand = new Bitmap('img/slender/knife_hand.png', 200, 200);
+        this.left_hand = new Bitmap('img/slender/left_hand.png', 200, 200);
         this.paces = 0;
         this.paper = new Paper(0,0);
         this.speed = 1;
@@ -78,9 +78,9 @@ export class Player {
         if(Math.sqrt(x*x+y*y) < 0.2) {
             this.obj_sounds.makeSound('killing');
             person.alive = false;
-            person.texture = new Bitmap('img/cowboy_f.png', 700, 900);
+            person.texture = new Bitmap('img/girl/girl_f.png', 639, 1500);
             setTimeout(()=>{
-    			person.texture = new Bitmap('img/cowboy3.png', 700, 900);
+    			person.texture = new Bitmap('img/girl/girl3.png', 700, 900);
     		},7000);
         }
     }
