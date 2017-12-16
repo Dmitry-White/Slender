@@ -69,7 +69,6 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "camera", function() { return camera; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Map_js__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__json_assets_json__ = __webpack_require__(6);
@@ -94,16 +93,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-let state = {};
+const state = {};
 const CIRCLE = Math.PI * 2;
 /* harmony export (immutable) */ __webpack_exports__["CIRCLE"] = CIRCLE;
 
-let camera = new __WEBPACK_IMPORTED_MODULE_3__components_Camera_js__["a" /* Camera */](document.getElementById('display'), 640, 0.8, state);
+const camera = new __WEBPACK_IMPORTED_MODULE_3__components_Camera_js__["a" /* Camera */](document.getElementById('display'), 640, 0.8, state);
+/* harmony export (immutable) */ __webpack_exports__["camera"] = camera;
+
 
 window.onload = function () {
 
-	let sounds = new __WEBPACK_IMPORTED_MODULE_4__components_Sounds_js__["a" /* Sounds */]();
-	let noises = new __WEBPACK_IMPORTED_MODULE_4__components_Sounds_js__["a" /* Sounds */]();
+	const sounds = new __WEBPACK_IMPORTED_MODULE_4__components_Sounds_js__["a" /* Sounds */]();
+	const noises = new __WEBPACK_IMPORTED_MODULE_4__components_Sounds_js__["a" /* Sounds */]();
 
 	enableMenuSounds(sounds);
 	setToVanilla(state);
@@ -121,6 +122,7 @@ window.onload = function () {
 
 	document.getElementById('play').addEventListener('click', function () {
 		soundManager.stopAll();
+		sounds.sound_end = true;
 
 		document.querySelector('.menu').classList.add('fadeOut');
 		setTimeout(() => {
@@ -131,11 +133,11 @@ window.onload = function () {
 	});
 
 	function loadGame() {
-		let papers = __WEBPACK_IMPORTED_MODULE_2__json_assets_json__["assets"].papers;
-		let map = new __WEBPACK_IMPORTED_MODULE_1__components_Map_js__["a" /* Map */](32, state);
-		let loop = new __WEBPACK_IMPORTED_MODULE_9__components_GameLoop_js__["a" /* GameLoop */](endGame);
-		let obj_sounds = new __WEBPACK_IMPORTED_MODULE_4__components_Sounds_js__["a" /* Sounds */](map, loop, state);
-		let player = new __WEBPACK_IMPORTED_MODULE_5__components_Player_js__["a" /* Player */]({ x: 1.5,
+		const papers = __WEBPACK_IMPORTED_MODULE_2__json_assets_json__["assets"].papers;
+		const map = new __WEBPACK_IMPORTED_MODULE_1__components_Map_js__["a" /* Map */](32, state);
+		const loop = new __WEBPACK_IMPORTED_MODULE_9__components_GameLoop_js__["a" /* GameLoop */](endGame);
+		const obj_sounds = new __WEBPACK_IMPORTED_MODULE_4__components_Sounds_js__["a" /* Sounds */](map, loop, state);
+		const player = new __WEBPACK_IMPORTED_MODULE_5__components_Player_js__["a" /* Player */]({ x: 1.5,
 			y: 1.5,
 			direction: 1,
 			papers: papers,
@@ -143,21 +145,13 @@ window.onload = function () {
 			sounds: sounds,
 			obj_sounds: obj_sounds,
 			state: state });
-		let controls = new __WEBPACK_IMPORTED_MODULE_8__components_Controls_js__["a" /* Controls */](player);
+		const controls = new __WEBPACK_IMPORTED_MODULE_8__components_Controls_js__["a" /* Controls */](player);
 		let trees = __WEBPACK_IMPORTED_MODULE_2__json_assets_json__["assets"].rain_trees;
 		let bushes = __WEBPACK_IMPORTED_MODULE_2__json_assets_json__["assets"].rain_bushes;
 
-		if (state.winter) {
-			sounds.loopSound('wind_ambient');
-			trees = __WEBPACK_IMPORTED_MODULE_2__json_assets_json__["assets"].trees;
-			bushes = __WEBPACK_IMPORTED_MODULE_2__json_assets_json__["assets"].bushes;
-		} else sounds.loopSound('rain_ambient');
+		setMode();
 
-		for (let i = 0; i < 7; i++) {
-			let x = __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__["a" /* Calc */].getRandomInt(2, 30);
-			let y = __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__["a" /* Calc */].getRandomInt(2, 30);
-			map.addObject(new __WEBPACK_IMPORTED_MODULE_10__components_Person_js__["a" /* Person */](player, map, x, y));
-		}
+		addPeople();
 
 		map.buildMap(trees, bushes);
 
@@ -179,12 +173,6 @@ window.onload = function () {
           });
   	},28000);*/
 
-		map.objects.forEach(item => {
-			if (item instanceof __WEBPACK_IMPORTED_MODULE_10__components_Person_js__["a" /* Person */] && item.alive) {
-				map.people++;
-			}
-		});
-
 		startGame();
 
 		function startGame() {
@@ -201,14 +189,31 @@ window.onload = function () {
 
 		function endGame() {
 			soundManager.stopAll();
-			let end = __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__["a" /* Calc */].getRandomInt(0, 2);
+			const end = __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__["a" /* Calc */].getRandomInt(0, 2);
 			sounds.playEnding(end);
 			document.querySelector('.text').style.display = 'flex';
-			let text = document.querySelector('.text h1');
-			text.innerHTML = 'Is it enough blood for you today?';
-			text.setAttribute('data-text', 'No one will help you.');
+			const text = document.querySelector('.text h1');
+			text.innerHTML = 'Are you satisfied?';
+			text.setAttribute('data-text', 'No No Nonono');
 			document.querySelector('canvas').style.display = 'none';
 		}
+
+		function setMode() {
+			if (state.winter) {
+				sounds.loopSound('wind_ambient');
+				trees = __WEBPACK_IMPORTED_MODULE_2__json_assets_json__["assets"].trees;
+				bushes = __WEBPACK_IMPORTED_MODULE_2__json_assets_json__["assets"].bushes;
+			} else sounds.loopSound('rain_ambient');
+		};
+
+		function addPeople() {
+			for (let i = 0; i < 7; i++) {
+				let x = __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__["a" /* Calc */].getRandomInt(2, 30);
+				let y = __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__["a" /* Calc */].getRandomInt(2, 30);
+				map.addObject(new __WEBPACK_IMPORTED_MODULE_10__components_Person_js__["a" /* Person */](player, map, x, y));
+				map.people++;
+			}
+		};
 	};
 };
 
@@ -300,8 +305,8 @@ class Person {
             }
             //this.turn();
             this.move('img/girl/girl');
-            //this.run();
-            //this.walk(0.05 * this.speed, this.direction);
+            this.run();
+            this.walk(0.05 * this.speed, this.direction);
         }
     }
     /*turn(){
@@ -330,8 +335,8 @@ class Person {
         }
     }
     run() {
-        let x = this.player.x - this.x;
-        let y = this.player.y - this.y;
+        const x = this.player.x - this.x;
+        const y = this.player.y - this.y;
         if (Math.sqrt(x * x + y * y) < 2) {
             this.speed = 3;
             this.direction = -this.player.direction;
@@ -349,10 +354,10 @@ class Person {
     }*/
 
     walk(distance, direction) {
-        let dx = Math.cos(direction) * distance;
-        let dy = Math.sin(direction) * distance;
-        let in_the_x_way = this.map.get(this.x + dx, this.y);
-        let in_the_y_way = this.map.get(this.x, this.y + dy);
+        const dx = Math.cos(direction) * distance;
+        const dy = Math.sin(direction) * distance;
+        const in_the_x_way = this.map.get(this.x + dx, this.y);
+        const in_the_y_way = this.map.get(this.x, this.y + dy);
 
         if (in_the_x_way == 2 || in_the_y_way == 2) {
             this.hitting_the_fence = true;
@@ -407,7 +412,7 @@ class Map {
 
     addTrees(trees, col, row) {
         if (this.get(col, row) == 0) {
-            let num = __WEBPACK_IMPORTED_MODULE_3__Calc_js__["a" /* Calc */].getRandomInt(0, 4);
+            const num = __WEBPACK_IMPORTED_MODULE_3__Calc_js__["a" /* Calc */].getRandomInt(0, 4);
             this.addObject(new __WEBPACK_IMPORTED_MODULE_1__Objects_js__["a" /* Objects */]({
                 texture: new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */](trees[num].texture, trees[num].width, trees[num].height),
                 x: col,
@@ -418,7 +423,7 @@ class Map {
 
     addBushes(bushes, col, row) {
         if (this.get(col, row) == 0) {
-            let num = __WEBPACK_IMPORTED_MODULE_3__Calc_js__["a" /* Calc */].getRandomInt(0, 5);
+            const num = __WEBPACK_IMPORTED_MODULE_3__Calc_js__["a" /* Calc */].getRandomInt(0, 5);
             this.addObject(new __WEBPACK_IMPORTED_MODULE_1__Objects_js__["a" /* Objects */]({
                 texture: new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */](bushes[num].texture, bushes[num].width, bushes[num].height),
                 height: 0.5,
@@ -429,10 +434,11 @@ class Map {
     }
 
     buildMap(trees, bushes) {
+        let row, col;
         this.wallGrid.fill(0);
         for (let i = 0; i < this.size * this.size; i++) {
-            let row = Math.floor(i / this.size);
-            let col = i - this.size * row;
+            row = Math.floor(i / this.size);
+            col = i - this.size * row;
             // Generate the labirinth
             if (row !== 1 && row !== this.size - 2 && col !== 1 && col !== this.size - 2) {
                 if (Math.random() > 0.2) {
@@ -451,10 +457,10 @@ class Map {
     }
 
     cast(point, angle, range) {
-        let self = this;
-        let sin = Math.sin(angle);
-        let cos = Math.cos(angle);
-        let noWall = { length2: Infinity };
+        const self = this;
+        const sin = Math.sin(angle);
+        const cos = Math.cos(angle);
+        const noWall = { length2: Infinity };
 
         return ray({
             x: point.x,
@@ -464,9 +470,9 @@ class Map {
         });
 
         function ray(origin) {
-            let stepX = step(sin, cos, origin.x, origin.y);
-            let stepY = step(cos, sin, origin.y, origin.x, true);
-            let nextStep = stepX.length2 < stepY.length2 ? inspect(stepX, 1, 0, origin.distance, stepX.y) : inspect(stepY, 0, 1, origin.distance, stepY.x);
+            const stepX = step(sin, cos, origin.x, origin.y);
+            const stepY = step(cos, sin, origin.y, origin.x, true);
+            const nextStep = stepX.length2 < stepY.length2 ? inspect(stepX, 1, 0, origin.distance, stepX.y) : inspect(stepY, 0, 1, origin.distance, stepY.x);
 
             if (nextStep.distance > range) return [origin];
             return [origin].concat(ray(nextStep));
@@ -474,8 +480,8 @@ class Map {
 
         function step(rise, run, x, y, inverted) {
             if (run === 0) return noWall;
-            let dx = run > 0 ? Math.floor(x + 1) - x : Math.ceil(x - 1) - x;
-            let dy = dx * (rise / run);
+            const dx = run > 0 ? Math.floor(x + 1) - x : Math.ceil(x - 1) - x;
+            const dy = dx * (rise / run);
             return {
                 x: inverted ? y + dy : x + dx,
                 y: inverted ? x + dx : y + dy,
@@ -484,8 +490,8 @@ class Map {
         }
 
         function inspect(step, shiftX, shiftY, distance, offset) {
-            let dx = cos < 0 ? shiftX : 0;
-            let dy = sin < 0 ? shiftY : 0;
+            const dx = cos < 0 ? shiftX : 0;
+            const dy = sin < 0 ? shiftY : 0;
             step.height = self.get(step.x - dx, step.y - dy);
             step.distance = distance + Math.sqrt(step.length2);
             step.object = self.getObject(step.x - dx, step.y - dy);
@@ -564,8 +570,8 @@ class Camera {
     }
 
     drawSky(direction, sky, ambient) {
-        let width = sky.width * (this.height / sky.height) * 2;
-        let left = -width * direction / __WEBPACK_IMPORTED_MODULE_0__main_js__["CIRCLE"];
+        const width = sky.width * (this.height / sky.height) * 2;
+        const left = -width * direction / __WEBPACK_IMPORTED_MODULE_0__main_js__["CIRCLE"];
 
         this.ctx.save();
         this.ctx.drawImage(sky.image, left, 0, width, this.height);
@@ -583,10 +589,10 @@ class Camera {
 
     drawColumn(column, ray, angle, map) {
         this.lightRange = this.state.lightRange;
-        let ctx = this.ctx;
+        const ctx = this.ctx;
+        const left = Math.floor(column * this.spacing);
+        const width = Math.ceil(this.spacing);
         let wallTexture = map.wallTexture;
-        let left = Math.floor(column * this.spacing);
-        let width = Math.ceil(this.spacing);
         let hit = -1;
         let objects = [];
         let hitDistance;
@@ -608,7 +614,7 @@ class Camera {
             this.state.winter ? drops_seed = 3 : drops_seed = s;
 
             let rainDrops = Math.pow(Math.random(), this.state.drops_amount) * drops_seed;
-            let rain = rainDrops > 0 && this.project(0.1, angle, step.distance);
+            const rain = rainDrops > 0 && this.project(0.1, angle, step.distance);
             let textureX, wall;
 
             if (s === hit) {
@@ -657,31 +663,31 @@ class Camera {
     }
 
     drawSprites(player, map, columnProps) {
-        let screenWidth = this.width;
-        let screenHeight = this.height;
-        let screenRatio = screenWidth / this.fov;
-        let resolution = this.resolution;
+        const screenWidth = this.width;
+        const screenHeight = this.height;
+        const screenRatio = screenWidth / this.fov;
+        const resolution = this.resolution;
 
         // calculate each sprite distance to player
         this.setSpriteDistances(map.objects, player);
 
-        var sprites = Array.prototype.slice.call(map.objects).map(function (sprite) {
-            let distX = sprite.x - player.x;
-            let distY = sprite.y - player.y;
-            let width = sprite.width * screenWidth / sprite.distanceFromPlayer;
-            let height = sprite.height * screenHeight / sprite.distanceFromPlayer;
-            let renderedFloorOffset = sprite.floorOffset / sprite.distanceFromPlayer;
-            let angleToPlayer = Math.atan2(distY, distX);
+        let sprites = Array.prototype.slice.call(map.objects).map(function (sprite) {
+            const distX = sprite.x - player.x;
+            const distY = sprite.y - player.y;
+            const width = sprite.width * screenWidth / sprite.distanceFromPlayer;
+            const height = sprite.height * screenHeight / sprite.distanceFromPlayer;
+            const renderedFloorOffset = sprite.floorOffset / sprite.distanceFromPlayer;
+            const angleToPlayer = Math.atan2(distY, distX);
+            const top = screenHeight / 2 * (1 + 1 / sprite.distanceFromPlayer) - height;
+            const numColumns = width / screenWidth * resolution;
             let angleRelativeToPlayerView = player.direction - angleToPlayer;
-            let top = screenHeight / 2 * (1 + 1 / sprite.distanceFromPlayer) - height;
 
             if (angleRelativeToPlayerView >= __WEBPACK_IMPORTED_MODULE_0__main_js__["CIRCLE"] / 2) {
                 angleRelativeToPlayerView -= __WEBPACK_IMPORTED_MODULE_0__main_js__["CIRCLE"];
             }
 
-            let cameraXOffset = __WEBPACK_IMPORTED_MODULE_0__main_js__["camera"].width / 2 - screenRatio * angleRelativeToPlayerView;
-            let numColumns = width / screenWidth * resolution;
-            let firstColumn = Math.floor((cameraXOffset - width / 2) / screenWidth * resolution);
+            const cameraXOffset = __WEBPACK_IMPORTED_MODULE_0__main_js__["camera"].width / 2 - screenRatio * angleRelativeToPlayerView;
+            const firstColumn = Math.floor((cameraXOffset - width / 2) / screenWidth * resolution);
 
             sprite.distanceFromPlayer = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
             sprite.render = {
@@ -698,28 +704,24 @@ class Camera {
         })
         // sort sprites in distance order
         .sort(function (a, b) {
-            if (a.distanceFromPlayer < b.distanceFromPlayer) {
-                return 1;
-            }
-            if (a.distanceFromPlayer > b.distanceFromPlayer) {
-                return -1;
-            }
+            if (a.distanceFromPlayer < b.distanceFromPlayer) return 1;
+            if (a.distanceFromPlayer > b.distanceFromPlayer) return -1;
             return 0;
         });
 
         this.ctx.save();
-        for (var column = 0; column < this.resolution; column++) {
+        for (let column = 0; column < this.resolution; column++) {
             this.drawSpriteColumn(player, map, column, columnProps[column], sprites);
         }
         this.ctx.restore();
     }
 
     drawSpriteColumn(player, map, column, columnProps, sprites) {
-        let ctx = this.ctx;
-        let left = Math.floor(column * this.spacing);
-        let width = Math.ceil(this.spacing);
+        const ctx = this.ctx;
+        const left = Math.floor(column * this.spacing);
+        const width = Math.ceil(this.spacing);
+        const columnWidth = this.width / this.resolution;
         let angle = this.fov * (column / this.resolution - 0.5);
-        let columnWidth = this.width / this.resolution;
         let sprite, props, obj, textureX, height, projection, mappedColumnObj, spriteIsInColumn, top;
 
         sprites = sprites.filter(function (sprite) {
@@ -747,23 +749,23 @@ class Camera {
     }
 
     drawWeapon(left_hand, right_hand, paces) {
-        let bobX = Math.cos(paces * 2) * this.scale * 6;
-        let bobY = Math.sin(paces * 4) * this.scale * 6;
-        let left_r = this.width * 0.6 + bobX;
-        let left_l = this.width * 0.15 + bobX;
-        let top = this.height * 0.6 + bobY;
+        const bobX = Math.cos(paces * 2) * this.scale * 6;
+        const bobY = Math.sin(paces * 4) * this.scale * 6;
+        const left_r = this.width * 0.6 + bobX;
+        const left_l = this.width * 0.15 + bobX;
+        const top = this.height * 0.6 + bobY;
         this.ctx.drawImage(left_hand.image, left_l, top, left_hand.width * this.scale, left_hand.height * this.scale);
         this.ctx.drawImage(right_hand.image, left_r, top, right_hand.width * this.scale, right_hand.height * this.scale);
     }
 
     drawMiniMap(player, map) {
-        let ctx = this.ctx;
-        let miniMapSize = this.width * .2;
-        let x = this.width - miniMapSize - 10; //отступы
-        let y = 10; //отступы
-        let blockSize = miniMapSize / map.size;
-        let triangleX = x + player.x / map.size * miniMapSize;
-        let triangleY = y + player.y / map.size * miniMapSize;
+        const ctx = this.ctx;
+        const miniMapSize = this.width * .2;
+        const x = this.width - miniMapSize - 10; //отступы
+        const y = 10; //отступы
+        const blockSize = miniMapSize / map.size;
+        const triangleX = x + player.x / map.size * miniMapSize;
+        const triangleY = y + player.y / map.size * miniMapSize;
 
         ctx.save();
 
@@ -814,9 +816,9 @@ class Camera {
     }
 
     project(height, angle, distance) {
-        let z = distance * Math.cos(angle);
-        let wallHeight = this.height * height / z;
-        let bottom = this.height / 2 * (1 + 1 / z);
+        const z = distance * Math.cos(angle);
+        const wallHeight = this.height * height / z;
+        const bottom = this.height / 2 * (1 + 1 / z);
         return {
             top: bottom - wallHeight,
             bottom: bottom,
@@ -854,161 +856,161 @@ class Sounds {
             url: './soundmanager2/',
             onready: function () {
                 // ------------------ Menu ------------------------
-                let piano_menu_ambient = soundManager.createSound({
+                const piano_menu_ambient = soundManager.createSound({
                     id: 'piano_menu_ambient',
                     url: 'sounds/ambient/piano_menu_ambient.mp3'
                 });
-                let static_menu_ambient = soundManager.createSound({
+                const static_menu_ambient = soundManager.createSound({
                     id: 'static_menu_ambient',
                     url: 'sounds/ambient/static_menu_ambient.mp3',
                     volume: 50
                 });
-                let slender_logo_hover = soundManager.createSound({
+                const slender_logo_hover = soundManager.createSound({
                     id: 'slender_logo_hover',
                     url: 'sounds/menu/slender_logo_hover.mp3'
                 });
-                let play_button_hover = soundManager.createSound({
+                const play_button_hover = soundManager.createSound({
                     id: 'play_button_hover',
                     url: 'sounds/menu/play_button_hover.mp3'
                 });
-                let ho_ho_ho = soundManager.createSound({
+                const ho_ho_ho = soundManager.createSound({
                     id: 'ho_ho_ho',
                     url: 'sounds/menu/ho_ho_ho.mp3'
                 });
-                let about_us = soundManager.createSound({
+                const about_us = soundManager.createSound({
                     id: 'about_us',
                     url: 'sounds/menu/about_us.mp3'
                 });
-                let about_game = soundManager.createSound({
+                const about_game = soundManager.createSound({
                     id: 'about_game',
                     url: 'sounds/menu/about_game.mp3'
                 });
                 // ------------------------------------------------
 
                 // --------------- Winter Mode --------------------
-                let wind_ambient = soundManager.createSound({
+                const wind_ambient = soundManager.createSound({
                     id: 'wind_ambient',
                     url: 'sounds/ambient/wind_ambient.mp3'
                 });
-                let forward_step = soundManager.createSound({
+                const forward_step = soundManager.createSound({
                     id: 'forward_step',
                     url: 'sounds/walking/forward_step.mp3'
                 });
-                let backward_step = soundManager.createSound({
+                const backward_step = soundManager.createSound({
                     id: 'backward_step',
                     url: 'sounds/walking/backward_step.mp3'
                 });
-                let dodge_step_0 = soundManager.createSound({
+                const dodge_step_0 = soundManager.createSound({
                     id: 'dodge_step_0',
                     url: 'sounds/walking/dodge_step_0.mp3'
                 });
-                let dodge_step_1 = soundManager.createSound({
+                const dodge_step_1 = soundManager.createSound({
                     id: 'dodge_step_1',
                     url: 'sounds/walking/dodge_step_1.mp3'
                 });
-                let running = soundManager.createSound({
+                const running = soundManager.createSound({
                     id: 'running',
                     url: 'sounds/walking/running.mp3'
                 });
                 // ------------------------------------------------
 
                 // --------------- Vanilla Mode -------------------
-                let rain_ambient = soundManager.createSound({
+                const rain_ambient = soundManager.createSound({
                     id: 'rain_ambient',
                     url: 'sounds/ambient/rain_ambient.mp3',
                     volume: 70
                 });
-                let rain_forward_step = soundManager.createSound({
+                const rain_forward_step = soundManager.createSound({
                     id: 'rain_forward_step',
                     url: 'sounds/walking/rain_forward_step.mp3'
                 });
-                let rain_backward_step = soundManager.createSound({
+                const rain_backward_step = soundManager.createSound({
                     id: 'rain_backward_step',
                     url: 'sounds/walking/rain_backward_step.mp3'
                 });
-                let rain_step = soundManager.createSound({
+                const rain_step = soundManager.createSound({
                     id: 'rain_step',
                     url: 'sounds/walking/rain_step.mp3'
                 });
-                let rain_dodge_step_0 = soundManager.createSound({
+                const rain_dodge_step_0 = soundManager.createSound({
                     id: 'rain_dodge_step_0',
                     url: 'sounds/walking/rain_dodge_step_0.mp3'
                 });
-                let rain_dodge_step_1 = soundManager.createSound({
+                const rain_dodge_step_1 = soundManager.createSound({
                     id: 'rain_dodge_step_1',
                     url: 'sounds/walking/rain_dodge_step_1.mp3'
                 });
-                let rain_running = soundManager.createSound({
+                const rain_running = soundManager.createSound({
                     id: 'rain_running',
                     url: 'sounds/walking/rain_running.mp3'
                 });
                 // ------------------------------------------------
 
                 // --------------- General Stuff ------------------
-                let entering_area = soundManager.createSound({
+                const entering_area = soundManager.createSound({
                     id: 'entering_area',
                     url: 'sounds/objects/entering_area.mp3'
                 });
-                let hitting_the_fence = soundManager.createSound({
+                const hitting_the_fence = soundManager.createSound({
                     id: 'hitting_the_fence',
                     url: 'sounds/objects/hitting_the_fence.mp3'
                 });
-                let hitting_the_rain_fence = soundManager.createSound({
+                const hitting_the_rain_fence = soundManager.createSound({
                     id: 'hitting_the_rain_fence',
                     url: 'sounds/objects/hitting_the_rain_fence.mp3',
                     volume: 50
                 });
-                let hitting_the_wall = soundManager.createSound({
+                const hitting_the_wall = soundManager.createSound({
                     id: 'hitting_the_wall',
                     url: 'sounds/objects/hitting_the_wall.mp3'
                 });
-                let placing_paper = soundManager.createSound({
+                const placing_paper = soundManager.createSound({
                     id: 'placing_paper',
                     url: 'sounds/objects/placing_paper.mp3'
                 });
-                let placing_loo_paper = soundManager.createSound({
+                const placing_loo_paper = soundManager.createSound({
                     id: 'placing_loo_paper',
                     url: 'sounds/objects/placing_loo_paper.mp3'
                 });
-                let placing_bomb = soundManager.createSound({
+                const placing_bomb = soundManager.createSound({
                     id: 'placing_bomb',
                     url: 'sounds/objects/placing_bomb.mp3'
                 });
-                let killing = soundManager.createSound({
+                const killing = soundManager.createSound({
                     id: 'killing',
                     url: 'sounds/objects/killing.mp3'
                 });
                 // ------------------------------------------------
 
                 // --------------- Random Ambient -----------------
-                let ghost_in_the_house = soundManager.createSound({
+                const ghost_in_the_house = soundManager.createSound({
                     id: 'ghost_in_the_house',
                     url: 'sounds/ambient/ghost_in_the_house.mp3'
                 });
-                let just_horror_ambient = soundManager.createSound({
+                const just_horror_ambient = soundManager.createSound({
                     id: 'just_horror_ambient',
                     url: 'sounds/ambient/just_horror_ambient.mp3'
                 });
-                let weird_noises = soundManager.createSound({
+                const weird_noises = soundManager.createSound({
                     id: 'weird_noises',
                     url: 'sounds/ambient/weird_noises.mp3'
                 });
-                let scary_piano = soundManager.createSound({
+                const scary_piano = soundManager.createSound({
                     id: 'scary_piano',
                     url: 'sounds/ambient/scary_piano.mp3'
                 });
                 // ------------------------------------------------
 
                 // ------------------ End Game --------------------
-                let ghost_scream = soundManager.createSound({
+                const ghost_scream = soundManager.createSound({
                     id: 'ghost_scream',
                     url: 'sounds/ending/ghost_scream.mp3'
                 });
-                let come_out = soundManager.createSound({
+                const come_out = soundManager.createSound({
                     id: 'come_out',
                     url: 'sounds/ending/come_out.mp3'
                 });
-                let lululala = soundManager.createSound({
+                const lululala = soundManager.createSound({
                     id: 'lululala',
                     url: 'sounds/ending/lululala.mp3'
                 });
@@ -1059,20 +1061,24 @@ class Sounds {
 
     checkGameEnding() {
         if (this.map.people === 0) {
-            this.state.drops = "#f00";
-            this.state.ground = "#f00";
-            this.state.lightning = false;
-            this.map.light = 2;
-            this.state.param = 20;
-            this.state.drops_opacity = 1;
-            this.state.particlesWidth = 10;
-            this.state.particlesHeight = 10;
+            this.makeEndState();
             soundManager.play("ghost_scream", {
                 onfinish: () => {
                     this.loop.game_ending = true;
                 }
             });
         }
+    }
+
+    makeEndState() {
+        this.map.light = 2;
+        this.state.param = 20;
+        this.state.drops = "#f00";
+        this.state.ground = "#f00";
+        this.state.lightning = false;
+        this.state.drops_opacity = 1;
+        this.state.particlesWidth = 10;
+        this.state.particlesHeight = 10;
     }
 
     playEnding(ending_num) {
@@ -1126,10 +1132,10 @@ class Player {
     }
 
     walk(distance, map, direction) {
-        let dx = Math.cos(direction) * distance;
-        let dy = Math.sin(direction) * distance;
-        let in_the_x_way = map.get(this.x + dx, this.y);
-        let in_the_y_way = map.get(this.x, this.y + dy);
+        const dx = Math.cos(direction) * distance;
+        const dy = Math.sin(direction) * distance;
+        const in_the_x_way = map.get(this.x + dx, this.y);
+        const in_the_y_way = map.get(this.x, this.y + dy);
 
         if (in_the_x_way == 2 || in_the_y_way == 2) {
             this.hitting_the_fence = true;
@@ -1170,8 +1176,8 @@ class Player {
     }
 
     eat(person) {
-        let x = this.x - person.x;
-        let y = this.y - person.y;
+        const x = this.x - person.x;
+        const y = this.y - person.y;
         if (Math.sqrt(x * x + y * y) < 0.5) {
             this.obj_sounds.makeSound('killing');
             person.alive = false;
@@ -1263,7 +1269,7 @@ class Player {
         }
         if (action === 'space') {
             if (!this.running && !this.walking && this.sounds.sound_end) {
-                let paper_type = __WEBPACK_IMPORTED_MODULE_3__Calc_js__["a" /* Calc */].getRandomInt(0, 8);
+                const paper_type = __WEBPACK_IMPORTED_MODULE_3__Calc_js__["a" /* Calc */].getRandomInt(0, 8);
                 this.map.addObject(new __WEBPACK_IMPORTED_MODULE_0__Paper_js__["a" /* Paper */](this.x, this.y, new __WEBPACK_IMPORTED_MODULE_2__Bitmap_js__["a" /* Bitmap */](this.papers[paper_type].texture, this.papers[paper_type].width, this.papers[paper_type].height)));
                 if (paper_type === 0) {
                     this.sounds.makeSound('placing_loo_paper');
@@ -1316,7 +1322,7 @@ class Controls {
     }
 
     onTouch(e) {
-        let t = e.touches[0];
+        const t = e.touches[0];
         this.onTouchEnd(e);
         if (t.pageY < window.innerHeight * 0.5) this.onKey(true, { keyCode: 38 });else if (t.pageX < window.innerWidth * 0.5) this.onKey(true, { keyCode: 37 });else if (t.pageY > window.innerWidth * 0.5) this.onKey(true, { keyCode: 39 });
     }
@@ -1336,7 +1342,7 @@ class Controls {
     }
 
     onKey(val, e) {
-        let state = this.codes[e.keyCode];
+        const state = this.codes[e.keyCode];
         if (typeof state === 'undefined') return;
         if (typeof this.states[state] !== 'undefined') this.states[state] = val; //если не найдено в состояниях
         else if (val === true) this.player.dosmth(state); //искать в действиях; если кнопка опущена - выполнить
@@ -1374,7 +1380,7 @@ class GameLoop {
     }
 
     frame(time) {
-        let seconds = (time - this.lastTime) / 1000;
+        const seconds = (time - this.lastTime) / 1000;
         this.lastTime = time;
         if (seconds < 0.2) this.callback(seconds);
         if (this.game_ending) {

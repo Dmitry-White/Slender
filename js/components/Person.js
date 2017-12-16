@@ -31,8 +31,8 @@ export class Person {
             }
             //this.turn();
             this.move('img/girl/girl');
-            //this.run();
-            //this.walk(0.05 * this.speed, this.direction);
+            this.run();
+            this.walk(0.05 * this.speed, this.direction);
         }
     }
     /*turn(){
@@ -62,8 +62,8 @@ export class Person {
         }
     }
     run(){
-        let x = this.player.x - this.x;
-        let y = this.player.y - this.y;
+        const x = this.player.x - this.x;
+        const y = this.player.y - this.y;
         if(Math.sqrt(x*x+y*y) < 2){
             this.speed = 3;
             this.direction = -this.player.direction;
@@ -82,10 +82,10 @@ export class Person {
     }*/
 
     walk(distance, direction) {
-        let dx = Math.cos(direction) * distance;
-        let dy = Math.sin(direction) * distance;
-        let in_the_x_way = this.map.get(this.x + dx, this.y);
-        let in_the_y_way = this.map.get(this.x, this.y + dy);
+        const dx = Math.cos(direction) * distance;
+        const dy = Math.sin(direction) * distance;
+        const in_the_x_way = this.map.get(this.x + dx, this.y);
+        const in_the_y_way = this.map.get(this.x, this.y + dy);
 
         if (in_the_x_way == 2 || in_the_y_way == 2) {
             this.hitting_the_fence = true;

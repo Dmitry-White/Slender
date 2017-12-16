@@ -14,7 +14,7 @@ export class GameLoop {
     };
 
     frame(time) {
-        let seconds = (time - this.lastTime) / 1000;
+        const seconds = (time - this.lastTime) / 1000;
         this.lastTime = time;
         if (seconds < 0.2) this.callback(seconds);
         if (this.game_ending) {

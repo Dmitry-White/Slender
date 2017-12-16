@@ -26,7 +26,7 @@ export class Map {
 
     addTrees(trees, col, row) {
         if (this.get(col, row) == 0) {
-            let num = Calc.getRandomInt(0,4);
+            const num = Calc.getRandomInt(0,4);
             this.addObject(new Objects({
             	texture: new Bitmap(trees[num].texture, trees[num].width, trees[num].height),
                 x:col,
@@ -37,7 +37,7 @@ export class Map {
 
     addBushes(bushes, col, row) {
         if (this.get(col, row) == 0) {
-            let num = Calc.getRandomInt(0,5);
+            const num = Calc.getRandomInt(0,5);
             this.addObject(new Objects({
             	texture: new Bitmap(bushes[num].texture, bushes[num].width, bushes[num].height),
             	height: 0.5,
@@ -48,10 +48,11 @@ export class Map {
     };
 
     buildMap(trees, bushes) {
+        let row, col;
         this.wallGrid.fill(0);
         for (let i = 0; i < this.size * this.size; i++) {
-            let row = Math.floor(i/this.size);
-            let col = i - this.size * row;
+            row = Math.floor(i/this.size);
+            col = i - this.size * row;
             // Generate the labirinth
             if((row !== 1) && (row !== this.size - 2)
             && (col !== 1) && (col !== this.size - 2)) {
@@ -73,10 +74,10 @@ export class Map {
     };
 
     cast(point, angle, range) {
-    	let self = this;
-    	let sin = Math.sin(angle);
-    	let cos = Math.cos(angle);
-    	let noWall = { length2: Infinity };
+    	const self = this;
+    	const sin = Math.sin(angle);
+    	const cos = Math.cos(angle);
+    	const noWall = { length2: Infinity };
 
     	return ray({
     		x: point.x,
@@ -86,9 +87,9 @@ export class Map {
     	});
 
     	function ray(origin) {
-    		let stepX = step(sin, cos, origin.x, origin.y);
-    		let stepY = step(cos, sin, origin.y, origin.x, true);
-    		let nextStep = stepX.length2 < stepY.length2 ? inspect(stepX, 1, 0, origin.distance, stepX.y) : inspect(stepY, 0, 1, origin.distance, stepY.x);
+    		const stepX = step(sin, cos, origin.x, origin.y);
+    		const stepY = step(cos, sin, origin.y, origin.x, true);
+    		const nextStep = stepX.length2 < stepY.length2 ? inspect(stepX, 1, 0, origin.distance, stepX.y) : inspect(stepY, 0, 1, origin.distance, stepY.x);
 
     		if (nextStep.distance > range) return [origin];
     		return [origin].concat(ray(nextStep));
@@ -96,8 +97,8 @@ export class Map {
 
     	function step(rise, run, x, y, inverted) {
     		if (run === 0) return noWall;
-    		let dx = run > 0 ? Math.floor(x + 1) - x : Math.ceil(x - 1) - x;
-    		let dy = dx * (rise / run);
+    		const dx = run > 0 ? Math.floor(x + 1) - x : Math.ceil(x - 1) - x;
+    		const dy = dx * (rise / run);
     		return {
     			x: inverted ? y + dy : x + dx,
     			y: inverted ? x + dx : y + dy,
@@ -106,8 +107,8 @@ export class Map {
     	}
 
     	function inspect(step, shiftX, shiftY, distance, offset) {
-    		let dx = cos < 0 ? shiftX : 0;
-    		let dy = sin < 0 ? shiftY : 0;
+    		const dx = cos < 0 ? shiftX : 0;
+    		const dy = sin < 0 ? shiftY : 0;
     		step.height = self.get(step.x - dx, step.y - dy);
     		step.distance = distance + Math.sqrt(step.length2);
     		step.object = self.getObject(step.x - dx, step.y - dy);

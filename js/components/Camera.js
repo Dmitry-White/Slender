@@ -23,8 +23,8 @@ export class Camera {
     };
 
     drawSky(direction, sky, ambient) {
-        let width =  sky.width * (this.height / sky.height) * 2;
-    	let left = -width * direction / CIRCLE ;
+        const width =  sky.width * (this.height / sky.height) * 2;
+    	const left = -width * direction / CIRCLE ;
 
     	this.ctx.save();
     	this.ctx.drawImage(sky.image, left, 0, width, this.height);
@@ -42,10 +42,10 @@ export class Camera {
 
     drawColumn(column, ray, angle, map) {
         this.lightRange = this.state.lightRange;
-    	let ctx = this.ctx;
-    	let wallTexture = map.wallTexture;
-    	let left = Math.floor(column*this.spacing);
-		let width = Math.ceil(this.spacing);
+    	const ctx = this.ctx;
+    	const left = Math.floor(column*this.spacing);
+		const width = Math.ceil(this.spacing);
+        let wallTexture = map.wallTexture;
     	let hit = -1;
         let objects = [];
     	let hitDistance;
@@ -67,8 +67,8 @@ export class Camera {
             (this.state.winter) ? drops_seed = 3 : drops_seed = s;
 
     		let rainDrops = Math.pow(Math.random(), this.state.drops_amount) * drops_seed;
-    		let rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
-    		let textureX,wall;
+    		const rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
+    		let textureX, wall;
 
     		if (s === hit) {
     			textureX = Math.floor(wallTexture.width * step.offset);
@@ -119,33 +119,32 @@ export class Camera {
     };
 
     drawSprites(player,map,columnProps) {
-        let screenWidth = this.width;
-    	let screenHeight = this.height;
-    	let screenRatio = screenWidth / this.fov;
-    	let resolution = this.resolution;
+        const screenWidth = this.width;
+    	const screenHeight = this.height;
+    	const screenRatio = screenWidth / this.fov;
+    	const resolution = this.resolution;
 
     	// calculate each sprite distance to player
     	this.setSpriteDistances(map.objects, player);
 
-
-    	var sprites = Array.prototype.slice.call(map.objects)
+    	let sprites = Array.prototype.slice.call(map.objects)
     		.map(function(sprite){
-    			let distX = sprite.x - player.x;
-    			let distY = sprite.y - player.y;
-    			let width = sprite.width * screenWidth / sprite.distanceFromPlayer;
-    			let height = sprite.height * screenHeight /  sprite.distanceFromPlayer;
-    			let renderedFloorOffset = sprite.floorOffset / sprite.distanceFromPlayer;
-    			let angleToPlayer = Math.atan2(distY,distX);
+    			const distX = sprite.x - player.x;
+    			const distY = sprite.y - player.y;
+    			const width = sprite.width * screenWidth / sprite.distanceFromPlayer;
+    			const height = sprite.height * screenHeight /  sprite.distanceFromPlayer;
+    			const renderedFloorOffset = sprite.floorOffset / sprite.distanceFromPlayer;
+    			const angleToPlayer = Math.atan2(distY,distX);
+                const top = (screenHeight / 2) * (1 + 1 / sprite.distanceFromPlayer) - height;
+                const numColumns = width / screenWidth * resolution;
     			let angleRelativeToPlayerView = player.direction - angleToPlayer;
-    			let top = (screenHeight / 2) * (1 + 1 / sprite.distanceFromPlayer) - height;
 
     			if(angleRelativeToPlayerView >= CIRCLE / 2){
     				angleRelativeToPlayerView -= CIRCLE;
     			}
 
-                let cameraXOffset = ( camera.width / 2 ) - (screenRatio * angleRelativeToPlayerView);
-    			let numColumns = width / screenWidth * resolution;
-    			let firstColumn = Math.floor( (cameraXOffset - width/2 ) / screenWidth * resolution);
+                const cameraXOffset = ( camera.width / 2 ) - (screenRatio * angleRelativeToPlayerView);
+    			const firstColumn = Math.floor( (cameraXOffset - width/2 ) / screenWidth * resolution);
 
     			sprite.distanceFromPlayer = Math.sqrt( Math.pow( distX, 2) + Math.pow( distY, 2) );
     			sprite.render = {
@@ -162,29 +161,25 @@ export class Camera {
     		})
     		// sort sprites in distance order
     		.sort(function(a,b){
-    			if(a.distanceFromPlayer < b.distanceFromPlayer){
-    				return 1;
-    			}
-    			if(a.distanceFromPlayer > b.distanceFromPlayer){
-    				return -1;
-    			}
+    			if(a.distanceFromPlayer < b.distanceFromPlayer)	return 1;
+    			if(a.distanceFromPlayer > b.distanceFromPlayer)	return -1;
     			return 0;
     		});
 
     	this.ctx.save();
-    	for (var column = 0; column < this.resolution; column++) {
+    	for (let column = 0; column < this.resolution; column++) {
     		this.drawSpriteColumn(player,map,column,columnProps[column], sprites);
     	}
     	this.ctx.restore();
     }
 
-    drawSpriteColumn(player,map,column,columnProps,sprites) {
-        let ctx = this.ctx;
-    	let left = Math.floor(column * this.spacing);
-    	let width = Math.ceil(this.spacing);
+    drawSpriteColumn(player, map, column, columnProps, sprites) {
+        const ctx = this.ctx;
+    	const left = Math.floor(column * this.spacing);
+    	const width = Math.ceil(this.spacing);
+        const columnWidth = this.width / this.resolution;
     	let angle = this.fov * (column / this.resolution - 0.5);
-    	let columnWidth = this.width / this.resolution;
-    	let sprite,props,obj,textureX,height,projection, mappedColumnObj,spriteIsInColumn,top;
+    	let sprite, props, obj, textureX, height, projection, mappedColumnObj, spriteIsInColumn, top;
 
     	sprites = sprites.filter(function(sprite){
             return !columnProps.hit || sprite.distanceFromPlayer < columnProps.hit;
@@ -211,23 +206,23 @@ export class Camera {
     }
 
     drawWeapon(left_hand,right_hand, paces) {
-        let bobX = Math.cos(paces * 2) * this.scale * 6;
-        let bobY = Math.sin(paces * 4) * this.scale * 6;
-        let left_r = this.width * 0.6 + bobX;
-        let left_l = this.width * 0.15 + bobX;
-        let top = this.height * 0.6 + bobY;
+        const bobX = Math.cos(paces * 2) * this.scale * 6;
+        const bobY = Math.sin(paces * 4) * this.scale * 6;
+        const left_r = this.width * 0.6 + bobX;
+        const left_l = this.width * 0.15 + bobX;
+        const top = this.height * 0.6 + bobY;
         this.ctx.drawImage(left_hand.image, left_l, top, left_hand.width * this.scale, left_hand.height * this.scale);
         this.ctx.drawImage(right_hand.image, left_r, top, right_hand.width * this.scale, right_hand.height * this.scale);
     };
 
     drawMiniMap(player, map) {
-    	let ctx = this.ctx;
-    	let miniMapSize = this.width * .2;
-    	let x = this.width - miniMapSize - 10;//отступы
-    	let y = 10;//отступы
-		let blockSize = miniMapSize / map.size;
-    	let triangleX = x + (player.x / map.size * miniMapSize);
-    	let triangleY = y + (player.y / map.size * miniMapSize);
+    	const ctx = this.ctx;
+    	const miniMapSize = this.width * .2;
+    	const x = this.width - miniMapSize - 10;//отступы
+    	const y = 10;//отступы
+		const blockSize = miniMapSize / map.size;
+    	const triangleX = x + (player.x / map.size * miniMapSize);
+    	const triangleY = y + (player.y / map.size * miniMapSize);
 
     	ctx.save();
 
@@ -279,9 +274,9 @@ export class Camera {
     };
 
     project(height, angle, distance) {
-    	let z = distance * Math.cos(angle);
-    	let wallHeight = this.height * height / z;
-    	let bottom = this.height / 2 * (1 + 1 / z);
+    	const z = distance * Math.cos(angle);
+    	const wallHeight = this.height * height / z;
+    	const bottom = this.height / 2 * (1 + 1 / z);
     	return {
     		top: bottom - wallHeight,
             bottom: bottom,

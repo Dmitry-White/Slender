@@ -28,10 +28,10 @@ export class Player {
     };
 
     walk(distance, map, direction) {
-        let dx = Math.cos(direction) * distance;
-        let dy = Math.sin(direction) * distance;
-        let in_the_x_way = map.get(this.x + dx, this.y);
-        let in_the_y_way = map.get(this.x, this.y + dy);
+        const dx = Math.cos(direction) * distance;
+        const dy = Math.sin(direction) * distance;
+        const in_the_x_way = map.get(this.x + dx, this.y);
+        const in_the_y_way = map.get(this.x, this.y + dy);
 
         if (in_the_x_way == 2 || in_the_y_way == 2) {
             this.hitting_the_fence = true;
@@ -73,8 +73,8 @@ export class Player {
     };
 
     eat(person){
-        let x = this.x - person.x;
-        let y = this.y - person.y;
+        const x = this.x - person.x;
+        const y = this.y - person.y;
         if(Math.sqrt(x*x+y*y) < 0.5) {
             this.obj_sounds.makeSound('killing');
             person.alive = false;
@@ -171,7 +171,7 @@ export class Player {
         }
         if(action === 'space') {
             if (!this.running && !this.walking && this.sounds.sound_end) {
-                let paper_type = Calc.getRandomInt(0,8);
+                const paper_type = Calc.getRandomInt(0,8);
                 this.map.addObject(new Paper(this.x,this.y, new Bitmap(this.papers[paper_type].texture, this.papers[paper_type].width, this.papers[paper_type].height)));
                 if (paper_type === 0) {
                     this.sounds.makeSound('placing_loo_paper')

@@ -10,14 +10,14 @@ import { Controls } from "./components/Controls.js";
 import { GameLoop } from "./components/GameLoop.js";
 import { Person } from "./components/Person.js";
 
-let state = {}
+const state = {}
 export const CIRCLE = Math.PI * 2;
-export let camera = new Camera(document.getElementById('display'), 640, 0.8, state);
+export const camera = new Camera(document.getElementById('display'), 640, 0.8, state);
 
 window.onload = function() {
 
-	let sounds = new Sounds();
-	let noises = new Sounds();
+	const sounds = new Sounds();
+	const noises = new Sounds();
 
 	enableMenuSounds(sounds);
 	setToVanilla(state);
@@ -35,6 +35,7 @@ window.onload = function() {
 
 	document.getElementById('play').addEventListener('click', function(){
 		soundManager.stopAll();
+		sounds.sound_end = true;
 
 		document.querySelector('.menu').classList.add('fadeOut');
 		setTimeout(()=>{
@@ -45,33 +46,25 @@ window.onload = function() {
 	});
 
 	function loadGame() {
-		let papers = assets.papers;
-		let map = new Map(32, state);
-		let loop = new GameLoop(endGame);
-		let obj_sounds = new Sounds(map, loop, state);
-		let player = new Player( { x:1.5,
-								   y:1.5,
-								   direction:1,
-								   papers:papers,
-								   map:map,
-								   sounds:sounds,
-								   obj_sounds:obj_sounds,
-							   	   state:state });
-		let controls = new Controls(player);
+		const papers = assets.papers;
+		const map = new Map(32, state);
+		const loop = new GameLoop(endGame);
+		const obj_sounds = new Sounds(map, loop, state);
+		const player = new Player({ x:1.5,
+								   	y:1.5,
+								   	direction:1,
+								   	papers:papers,
+								   	map:map,
+								   	sounds:sounds,
+								   	obj_sounds:obj_sounds,
+							   	   	state:state });
+		const controls = new Controls(player);
 		let trees = assets.rain_trees;
 		let bushes = assets.rain_bushes;
 
-		if (state.winter) {
-			sounds.loopSound('wind_ambient')
-			trees = assets.trees;
-			bushes = assets.bushes;
-		} else sounds.loopSound('rain_ambient');
+		setMode();
 
-		for (let i = 0; i < 7; i++) {
-			let x = Calc.getRandomInt(2,30)
-			let y = Calc.getRandomInt(2,30)
-			map.addObject(new Person(player,map,x,y));
-		}
+		addPeople();
 
 		map.buildMap(trees, bushes);
 
@@ -94,12 +87,6 @@ window.onload = function() {
  	        });
  		},28000);*/
 
-		map.objects.forEach((item)=>{
-			if(item instanceof Person && item.alive) {
-				map.people++;
-			}
-		});
-
 		startGame();
 
 		function startGame() {
@@ -116,14 +103,32 @@ window.onload = function() {
 
 		function endGame() {
 			soundManager.stopAll();
-			let end = Calc.getRandomInt(0,2)
+			const end = Calc.getRandomInt(0,2)
 			sounds.playEnding(end);
 			document.querySelector('.text').style.display = 'flex';
-			let text = document.querySelector('.text h1');
-			text.innerHTML = 'Is it enough blood for you today?';
-			text.setAttribute('data-text','No one will help you.');
+			const text = document.querySelector('.text h1');
+			text.innerHTML = 'Are you satisfied?';
+			text.setAttribute('data-text','No No Nonono');
 			document.querySelector('canvas').style.display = 'none';
 		}
+
+		function setMode() {
+			if (state.winter) {
+				sounds.loopSound('wind_ambient')
+				trees = assets.trees;
+				bushes = assets.bushes;
+			} else sounds.loopSound('rain_ambient');
+		};
+
+		function addPeople() {
+			for (let i = 0; i < 7; i++) {
+				let x = Calc.getRandomInt(2,30)
+				let y = Calc.getRandomInt(2,30)
+				map.addObject(new Person(player,map,x,y));
+				map.people++;
+			}
+		};
+
 	};
 
 };

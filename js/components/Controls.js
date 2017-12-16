@@ -18,7 +18,7 @@ export class Controls {
     };
 
     onTouch(e) {
-        let t = e.touches[0];
+        const t = e.touches[0];
         this.onTouchEnd(e);
         if (t.pageY < window.innerHeight * 0.5) this.onKey(true, { keyCode: 38 });
         else if (t.pageX < window.innerWidth * 0.5) this.onKey(true, { keyCode: 37 });
@@ -40,7 +40,7 @@ export class Controls {
     };
 
     onKey(val, e) {
-        let state = this.codes[e.keyCode];
+        const state = this.codes[e.keyCode];
         if (typeof state === 'undefined') return;
         if (typeof this.states[state] !== 'undefined') this.states[state] = val; //если не найдено в состояниях
         else if (val === true) this.player.dosmth(state); //искать в действиях; если кнопка опущена - выполнить

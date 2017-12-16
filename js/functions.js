@@ -65,7 +65,7 @@ function setToVanilla(state) {
 
 function changeAmbient(noises, Calc) {
     if (noises.noises_end) {
-        let next = Calc.getRandomInt(0,4)
+        const next = Calc.getRandomInt(0,4)
         noises.playNoises(next);
     }
 }
