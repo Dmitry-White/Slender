@@ -75,7 +75,7 @@ window.onload = function() {
 
 		map.buildMap(trees, bushes);
 
-		let intro = document.querySelector('.intro');
+		/*let intro = document.querySelector('.intro');
  		intro.style.display = 'block';
 		enterFS(intro)
  		intro.play();
@@ -92,7 +92,7 @@ window.onload = function() {
  	 				startGame();
  	            }
  	        });
- 		},28000);
+ 		},28000);*/
 
 		map.objects.forEach((item)=>{
 			if(item instanceof Person && item.alive) {
@@ -100,7 +100,7 @@ window.onload = function() {
 			}
 		});
 
-		//startGame();
+		startGame();
 
 		function startGame() {
 			document.querySelector('.text').style.display = 'none';
