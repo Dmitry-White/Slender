@@ -314,13 +314,13 @@ p {
     background-repeat: no-repeat;
 }
 .how_to_play .scrins:nth-child(1) {
-    background-image: url(../img/scrins/img1.jpg);
+    background-image: url(../img/scrins/img1.png);
 }
 .how_to_play .scrins:nth-child(2) {
-    background-image: url(../img/scrins/img2.jpg);
+    background-image: url(../img/scrins/img2.png);
 }
 .how_to_play .scrins:nth-child(3) {
-    background-image: url(../img/scrins/img3.jpg);
+    background-image: url(../img/scrins/img3.png);
 }
 /****************************************************************/
 .bordered {
