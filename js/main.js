@@ -120,7 +120,7 @@ window.onload = function() {
 			sounds.playEnding(end);
 			document.querySelector('.text').style.display = 'flex';
 			let text = document.querySelector('.text h1');
-			text.innerHTML = 'Are you sure you win';
+			text.innerHTML = 'Is it enough blood for you today?';
 			text.setAttribute('data-text','No one will help you.');
 			document.querySelector('canvas').style.display = 'none';
 		}
