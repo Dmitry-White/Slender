@@ -8,7 +8,7 @@ export class Person {
         this.x = x;
         this.y = y;
         this.color = '#cf3c8c',
-        this.texture = new Bitmap('img/girl/girl.png', 639, 1500),
+        this.texture = new Bitmap('img/girl/girl.png', 114, 300),
         this.height = .6,
         this.width = .225,
         this.floorOffset = 0,
@@ -31,8 +31,8 @@ export class Person {
             }
             //this.turn();
             this.move('img/girl/girl');
-            this.run();
-            this.walk(0.05 * this.speed, this.direction);
+            //this.run();
+            //this.walk(0.05 * this.speed, this.direction);
         }
     }
     /*turn(){
@@ -46,17 +46,19 @@ export class Person {
         this.move(url);
     }*/
     die(){
-        this.texture = new Bitmap('img/girl/girl_die.gif', 639, 1500);
+        this.texture = new Bitmap('img/girl/girl_die.gif', 114, 300);
         setTimeout(()=>{
-            this.texture = new Bitmap('img/girl/girl3.png', 700, 900);
+            this.texture = new Bitmap('img/girl/girl3.png', 300, 56);
+            this.height = .2;
+            this.width = 0.7;
         },7000);
     }
     move(url){
         if (this.count%10 === 0){
             if (this.count%20 === 0){
-                this.texture = new Bitmap(url + '2.png', 639, 1500);
+                this.texture = new Bitmap(url + '2.png', 114, 300);
             }
-            else this.texture = new Bitmap(url + '.png', 639, 1500);
+            else this.texture = new Bitmap(url + '.png', 114, 300);
         }
     }
     run(){

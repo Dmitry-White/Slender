@@ -155,28 +155,30 @@ window.onload = function () {
     }
 
     map.buildMap(trees, bushes);
-    let intro = document.querySelector('.intro');
-    intro.style.display = 'block';
-    enterFS(intro);
-    intro.play();
-    setTimeout(() => {
-      exitFS(intro);
-      intro.pause();
-      intro.style.display = 'none';
-      document.querySelector('.text').style.display = 'flex';
-      mouseLock();
-      soundManager.play("entering_area", {
-        multiShotEvents: true,
-        onfinish: () => {
-          startGame();
-        }
-      });
-    }, 28000);
+    /*let intro = document.querySelector('.intro');
+    	intro.style.display = 'block';
+    enterFS(intro)
+    	intro.play();
+    		setTimeout(()=>{
+    	exitFS(intro);
+    		intro.pause();
+    		intro.style.display = 'none';
+    	document.querySelector('.text').style.display = 'flex';
+    	mouseLock();
+    		soundManager.play("entering_area",{
+                multiShotEvents: true,
+                onfinish: ()=> {
+     				startGame();
+                }
+            });
+    	},28000);*/
+
     map.objects.forEach(item => {
       if (item instanceof __WEBPACK_IMPORTED_MODULE_10__components_Person_js__["a" /* Person */] && item.alive) {
         map.people++;
       }
-    }); //startGame();
+    });
+    startGame();
 
     function startGame() {
       document.querySelector('.text').style.display = 'none';
@@ -392,7 +394,7 @@ class Person {
     this.player = player;
     this.x = x;
     this.y = y;
-    this.color = '#cf3c8c', this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/girl/girl.png', 639, 1500), this.height = .6, this.width = .225, this.floorOffset = 0, this.map = map;
+    this.color = '#cf3c8c', this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/girl/girl.png', 114, 300), this.height = .6, this.width = .225, this.floorOffset = 0, this.map = map;
     this.hitting_the_fence = false;
     this.hitting_the_wall = false;
     this.count = 0;
@@ -411,9 +413,8 @@ class Person {
       } //this.turn();
 
 
-      this.move('img/girl/girl');
-      this.run();
-      this.walk(0.05 * this.speed, this.direction);
+      this.move('img/girl/girl'); //this.run();
+      //this.walk(0.05 * this.speed, this.direction);
     }
   }
   /*turn(){
@@ -429,17 +430,19 @@ class Person {
 
 
   die() {
-    this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/girl/girl_die.gif', 639, 1500);
+    this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/girl/girl_die.gif', 114, 300);
     setTimeout(() => {
-      this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/girl/girl3.png', 700, 900);
+      this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/girl/girl3.png', 300, 56);
+      this.height = .2;
+      this.width = 0.7;
     }, 7000);
   }
 
   move(url) {
     if (this.count % 10 === 0) {
       if (this.count % 20 === 0) {
-        this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */](url + '2.png', 639, 1500);
-      } else this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */](url + '.png', 639, 1500);
+        this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */](url + '2.png', 114, 300);
+      } else this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */](url + '.png', 114, 300);
     }
   }
 
@@ -913,16 +916,19 @@ class Camera {
     }
 
     ctx.save();
-    /*for (let i = 0; i < map.objects.length; i++){ //спрайты
-    	if(map.objects[i]){
-               if(map.objects[i]===1)
-                   ctx.fillStyle = map.objects[i].color;//не трогать, так надо!!!!
-                   ctx.globalAlpha = map.objects[i].logic ? .8 : .3;
-                   if (map.objects[i].color === undefined) ctx.globalAlpha = 0;
-                   ctx.fillStyle = map.objects[i].color || 'red';//не трогать, так надо!!!!
-    				ctx.fillRect(x + (blockSize * (map.objects[i].x - 0.5)) + blockSize * .25, y + (blockSize * (map.objects[i].y - 0.5)) + blockSize * .25, blockSize * .5, blockSize * .5);
-    	}
-    }*/
+
+    for (let i = 0; i < map.objects.length; i++) {
+      //спрайты
+      if (map.objects[i]) {
+        if (map.objects[i] === 1) ctx.fillStyle = map.objects[i].color; //не трогать, так надо!!!!
+
+        ctx.globalAlpha = map.objects[i].logic ? .8 : .3;
+        if (map.objects[i].color === undefined) ctx.globalAlpha = 0;
+        ctx.fillStyle = map.objects[i].color || 'red'; //не трогать, так надо!!!!
+
+        ctx.fillRect(x + blockSize * (map.objects[i].x - 0.5) + blockSize * .25, y + blockSize * (map.objects[i].y - 0.5) + blockSize * .25, blockSize * .5, blockSize * .5);
+      }
+    }
 
     ctx.restore();
     ctx.globalAlpha = 1; //игрок
@@ -1304,7 +1310,7 @@ class Player {
     let x = this.x - person.x;
     let y = this.y - person.y;
 
-    if (Math.sqrt(x * x + y * y) < 0.2) {
+    if (Math.sqrt(x * x + y * y) < 0.5) {
       this.obj_sounds.makeSound('killing');
       person.alive = false;
       person.die();

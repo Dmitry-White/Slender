@@ -75,7 +75,7 @@ export class Player {
     eat(person){
         let x = this.x - person.x;
         let y = this.y - person.y;
-        if(Math.sqrt(x*x+y*y) < 0.2) {
+        if(Math.sqrt(x*x+y*y) < 0.5) {
             this.obj_sounds.makeSound('killing');
             person.alive = false;
             person.die();
