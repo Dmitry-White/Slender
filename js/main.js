@@ -68,9 +68,11 @@ window.onload = function() {
 		} else sounds.loopSound('rain_ambient');
 
 		for (let i = 0; i < 7; i++) {
-			let x = Calc.getRandomInt(2,30)
-			let y = Calc.getRandomInt(2,30)
-			map.addObject(new Person(player,map,x,y));
+			let x = Calc.getRandomInt(2,30);
+			let y = Calc.getRandomInt(2,30);
+			let pic_num = Calc.getRandomInt(1,5);
+			console.log(pic_num);
+			map.addObject(new Person(player,map,x,y,pic_num));
 		}
 
 		map.buildMap(trees, bushes);

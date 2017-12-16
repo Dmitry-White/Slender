@@ -3,12 +3,13 @@ import { Bitmap } from "./Bitmap.js";
 import { Calc } from "./Calc.js";
 
 export class Person {
-    constructor(player,map,x,y) {
+    constructor(player,map,x,y,pic_num) {
         this.player = player;
         this.x = x;
         this.y = y;
         this.color = '#cf3c8c',
-        this.texture = new Bitmap('img/girl/girl.png', 114, 300),
+        this.texture = new Bitmap('img/girl/girl-'+pic_num+'.png', 114, 300),
+        this.pic_num = pic_num;
         this.height = .6,
         this.width = .225,
         this.floorOffset = 0,
@@ -48,7 +49,7 @@ export class Person {
     die(){
         this.texture = new Bitmap('img/girl/girl_die.gif', 114, 300);
         setTimeout(()=>{
-            this.texture = new Bitmap('img/girl/girl3.png', 300, 56);
+            this.texture = new Bitmap('img/girl/girl3-'+this.pic_num+'.png', 300, 56);
             this.height = .2;
             this.width = 0.7;
         },7000);
@@ -56,9 +57,9 @@ export class Person {
     move(url){
         if (this.count%10 === 0){
             if (this.count%20 === 0){
-                this.texture = new Bitmap(url + '2.png', 114, 300);
+                this.texture = new Bitmap(url + '2-'+this.pic_num+'.png', 114, 300);
             }
-            else this.texture = new Bitmap(url + '.png', 114, 300);
+            else this.texture = new Bitmap(url + '-'+this.pic_num +'.png', 114, 300);
         }
     }
     run(){
