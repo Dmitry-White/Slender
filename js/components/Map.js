@@ -9,9 +9,9 @@ export class Map {
         this.size = size;
         this.wallGrid = new Uint8Array(size * size);
         this.skybox = new Bitmap(state.sky_texture, 2000, 750);
-        this.fenceTexture = new Bitmap(state.fence_texture, 1024, 1024);
-        this.fenceDoorTexture = new Bitmap('img/fence_door_0.jpg', 2048, 1024);
-        this.wallTexture = new Bitmap(state.wall_texture, 1024, 1024);
+        this.fenceTexture = new Bitmap(state.fence_texture, 512, 512);
+        this.fenceDoorTexture = new Bitmap('img/fence_door_0.jpg', 512, 256);
+        this.wallTexture = new Bitmap(state.wall_texture, 512, 512);
         this.light = this.state.light;
         this.objects = [];
         this.people = 0;
