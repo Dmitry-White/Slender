@@ -210,7 +210,9 @@ window.onload = function () {
 			for (let i = 0; i < 7; i++) {
 				let x = __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__["a" /* Calc */].getRandomInt(2, 30);
 				let y = __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__["a" /* Calc */].getRandomInt(2, 30);
-				map.addObject(new __WEBPACK_IMPORTED_MODULE_10__components_Person_js__["a" /* Person */](player, map, x, y));
+				let pic_num = __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__["a" /* Calc */].getRandomInt(1, 5);
+				console.log(pic_num);
+				map.addObject(new __WEBPACK_IMPORTED_MODULE_10__components_Person_js__["a" /* Person */](player, map, x, y, pic_num));
 				map.people++;
 			}
 		};
@@ -282,11 +284,12 @@ class Objects {
 
 
 class Person {
-    constructor(player, map, x, y) {
+    constructor(player, map, x, y, pic_num) {
         this.player = player;
         this.x = x;
         this.y = y;
-        this.color = '#cf3c8c', this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/girl/girl.png', 114, 300), this.height = .6, this.width = .225, this.floorOffset = 0, this.map = map;
+        this.color = '#cf3c8c', this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/girl/girl-' + pic_num + '.png', 114, 300), this.pic_num = pic_num;
+        this.height = .6, this.width = .225, this.floorOffset = 0, this.map = map;
         this.hitting_the_fence = false;
         this.hitting_the_wall = false;
         this.count = 0;
@@ -322,7 +325,7 @@ class Person {
     die() {
         this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/girl/girl_die.gif', 114, 300);
         setTimeout(() => {
-            this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/girl/girl3.png', 300, 56);
+            this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/girl/girl3-' + this.pic_num + '.png', 300, 56);
             this.height = .2;
             this.width = 0.7;
         }, 7000);
@@ -330,8 +333,8 @@ class Person {
     move(url) {
         if (this.count % 10 === 0) {
             if (this.count % 20 === 0) {
-                this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */](url + '2.png', 114, 300);
-            } else this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */](url + '.png', 114, 300);
+                this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */](url + '2-' + this.pic_num + '.png', 114, 300);
+            } else this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */](url + '-' + this.pic_num + '.png', 114, 300);
         }
     }
     run() {
