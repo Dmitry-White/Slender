@@ -1,11 +1,11 @@
 import { Paper } from "./Paper.js";
-import { CIRCLE } from "../main.js";
 import { Bitmap } from "./Bitmap.js";
 import { Calc } from "./Calc.js";
 import { Person } from "./Person.js";
 
 export class Player {
     constructor(origin) {
+        this.CIRCLE = origin.CIRCLE;
         this.x = origin.x;
         this.y = origin.y;
         this.direction = origin.direction;
@@ -24,7 +24,7 @@ export class Player {
     };
 
     rotate(angle) {
-        this.direction = (this.direction + angle + CIRCLE) % (CIRCLE);
+        this.direction = (this.direction + angle + this.CIRCLE) % (this.CIRCLE);
     };
 
     walk(distance, map, direction) {
@@ -80,7 +80,8 @@ export class Player {
             person.alive = false;
             person.die();
             this.map.people--;
-        }
+        } else this.obj_sounds.makeSound('slashing');
+        console.log("To be eaten: ",this.map.people)
 
     }
 

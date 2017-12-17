@@ -69,154 +69,35 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Map_js__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__json_assets_json__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__json_assets_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__json_assets_json__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Camera_js__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Sounds_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Player_js__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Bitmap_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_Objects_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_Controls_js__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_GameLoop_js__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_Person_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Game_js__ = __webpack_require__(13);
 
 
+window.onload = () => {
+	const game = new __WEBPACK_IMPORTED_MODULE_0__components_Game_js__["a" /* Game */]();
 
-
-
-
-
-
-
-
-
-
-const state = {};
-const CIRCLE = Math.PI * 2;
-/* harmony export (immutable) */ __webpack_exports__["CIRCLE"] = CIRCLE;
-
-const camera = new __WEBPACK_IMPORTED_MODULE_3__components_Camera_js__["a" /* Camera */](document.getElementById('display'), 640, 0.8, state);
-/* harmony export (immutable) */ __webpack_exports__["camera"] = camera;
-
-
-window.onload = function () {
-
-	const sounds = new __WEBPACK_IMPORTED_MODULE_4__components_Sounds_js__["a" /* Sounds */]();
-	const noises = new __WEBPACK_IMPORTED_MODULE_4__components_Sounds_js__["a" /* Sounds */]();
-
-	enableMenuSounds(sounds);
-	setToVanilla(state);
+	game.enableMenuSounds();
+	game.setToVanilla();
 
 	document.getElementById('checkbox').addEventListener('change', function () {
 		if (this.checked) {
 			document.querySelector(`.snow`).style.display = 'block';
-			sounds.makeSound("ho_ho_ho");
-			setToWinter(state);
+			game.sounds.makeSound("ho_ho_ho");
+			game.setToWinter();
 		} else {
 			document.querySelector(`.snow`).style.display = 'none';
-			setToVanilla(state);
+			game.setToVanilla();
 		}
 	});
 
 	document.getElementById('play').addEventListener('click', function () {
 		soundManager.stopAll();
-		sounds.sound_end = true;
-
+		game.sounds.sound_end = true;
 		document.querySelector('.menu').classList.add('fadeOut');
 		setTimeout(() => {
 			document.querySelector('.menu').style.display = 'none';
 		}, 700);
-
-		loadGame();
+		game.loadGame();
 	});
-
-	function loadGame() {
-		const papers = __WEBPACK_IMPORTED_MODULE_2__json_assets_json__["assets"].papers;
-		const map = new __WEBPACK_IMPORTED_MODULE_1__components_Map_js__["a" /* Map */](32, state);
-		const loop = new __WEBPACK_IMPORTED_MODULE_9__components_GameLoop_js__["a" /* GameLoop */](endGame);
-		const obj_sounds = new __WEBPACK_IMPORTED_MODULE_4__components_Sounds_js__["a" /* Sounds */](map, loop, state);
-		const player = new __WEBPACK_IMPORTED_MODULE_5__components_Player_js__["a" /* Player */]({ x: 1.5,
-			y: 1.5,
-			direction: 1,
-			papers: papers,
-			map: map,
-			sounds: sounds,
-			obj_sounds: obj_sounds,
-			state: state });
-		const controls = new __WEBPACK_IMPORTED_MODULE_8__components_Controls_js__["a" /* Controls */](player);
-		let trees = __WEBPACK_IMPORTED_MODULE_2__json_assets_json__["assets"].rain_trees;
-		let bushes = __WEBPACK_IMPORTED_MODULE_2__json_assets_json__["assets"].rain_bushes;
-
-		setMode();
-
-		addPeople();
-
-		map.buildMap(trees, bushes);
-
-		/*let intro = document.querySelector('.intro');
-  	intro.style.display = 'block';
-  enterFS(intro)
-  	intro.play();
-   		setTimeout(()=>{
-  	exitFS(intro);
-  		intro.pause();
-  		intro.style.display = 'none';
-  	document.querySelector('.text').style.display = 'flex';
-  	mouseLock();
-  		soundManager.play("entering_area",{
-              multiShotEvents: true,
-              onfinish: ()=> {
-   				startGame();
-              }
-          });
-  	},28000);*/
-
-		startGame();
-
-		function startGame() {
-			document.querySelector('.text').style.display = 'none';
-			document.querySelector('canvas').style.display = 'block';
-			loop.start(function frame(seconds) {
-				if (state.lightning) map.lightning(seconds);
-				map.update();
-				changeAmbient(noises, __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__["a" /* Calc */]);
-				player.update(controls.states, map, seconds);
-				camera.render(player, map);
-			});
-		}
-
-		function endGame() {
-			soundManager.stopAll();
-			const end = __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__["a" /* Calc */].getRandomInt(0, 2);
-			sounds.playEnding(end);
-			document.querySelector('.text').style.display = 'flex';
-			const text = document.querySelector('.text h1');
-			text.innerHTML = 'Are you satisfied?';
-			text.setAttribute('data-text', 'No No Nonono');
-			document.querySelector('canvas').style.display = 'none';
-		}
-
-		function setMode() {
-			if (state.winter) {
-				sounds.loopSound('wind_ambient');
-				trees = __WEBPACK_IMPORTED_MODULE_2__json_assets_json__["assets"].trees;
-				bushes = __WEBPACK_IMPORTED_MODULE_2__json_assets_json__["assets"].bushes;
-			} else sounds.loopSound('rain_ambient');
-		};
-
-		function addPeople() {
-			for (let i = 0; i < 7; i++) {
-				let x = __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__["a" /* Calc */].getRandomInt(2, 30);
-				let y = __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__["a" /* Calc */].getRandomInt(2, 30);
-				let pic_num = __WEBPACK_IMPORTED_MODULE_0__components_Calc_js__["a" /* Calc */].getRandomInt(1, 5);
-				console.log(pic_num);
-				map.addObject(new __WEBPACK_IMPORTED_MODULE_10__components_Person_js__["a" /* Person */](player, map, x, y, pic_num));
-				map.people++;
-			}
-		};
-	};
 };
 
 /***/ }),
@@ -259,8 +140,6 @@ class Calc {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_js__ = __webpack_require__(0);
-
 
 
 class Objects {
@@ -276,19 +155,18 @@ class Objects {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_js__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Calc_js__ = __webpack_require__(2);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Calc_js__ = __webpack_require__(2);
 
 
 
 class Person {
-    constructor(player, map, x, y, pic_num) {
+    constructor(player, map, x, y, pic_num, CIRCLE) {
+        this.CIRCLE = CIRCLE;
         this.player = player;
         this.x = x;
         this.y = y;
-        this.color = '#cf3c8c', this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/girl/girl-' + pic_num + '.png', 114, 300), this.pic_num = pic_num;
+        this.color = '#cf3c8c', this.texture = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/girl/girl-' + pic_num + '.png', 114, 300), this.pic_num = pic_num;
         this.height = .6, this.width = .225, this.floorOffset = 0, this.map = map;
         this.hitting_the_fence = false;
         this.hitting_the_wall = false;
@@ -303,7 +181,7 @@ class Person {
             this.count += 1;
 
             if (this.count > 270) {
-                this.direction = this.direction + __WEBPACK_IMPORTED_MODULE_2__Calc_js__["a" /* Calc */].getRandomFloat(-(__WEBPACK_IMPORTED_MODULE_0__main_js__["CIRCLE"] / 6), __WEBPACK_IMPORTED_MODULE_0__main_js__["CIRCLE"] / 6);
+                this.direction = this.direction + __WEBPACK_IMPORTED_MODULE_1__Calc_js__["a" /* Calc */].getRandomFloat(-(this.CIRCLE / 6), this.CIRCLE / 6);
                 this.count = 0;
             }
             //this.turn();
@@ -315,17 +193,17 @@ class Person {
     /*turn(){
         let angle = this.direction;
         let url = 'img/girl/girl';
-        if((angle < CIRCLE/4 && angle > 0) || (angle < CIRCLE && angle >= (CIRCLE - CIRCLE/4))){
+        if((angle < this.CIRCLE/4 && angle > 0) || (angle < this.CIRCLE && angle >= (this.CIRCLE - this.CIRCLE/4))){
             url = 'img/girl/girl_r';
-        } else if(angle < (CIRCLE - CIRCLE/4) && angle >= CIRCLE/4){
+        } else if(angle < (this.CIRCLE - this.CIRCLE/4) && angle >= this.CIRCLE/4){
             url = 'img/girl/girl_l';
         }
         this.move(url);
     }*/
     die() {
-        this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/girl/girl_die.gif', 114, 300);
+        this.texture = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/girl/girl_die.gif', 114, 300);
         setTimeout(() => {
-            this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/girl/girl3-' + this.pic_num + '.png', 300, 56);
+            this.texture = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */]('img/girl/girl3-' + this.pic_num + '.png', 300, 56);
             this.height = .2;
             this.width = 0.7;
         }, 7000);
@@ -333,8 +211,8 @@ class Person {
     move(url) {
         if (this.count % 10 === 0) {
             if (this.count % 20 === 0) {
-                this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */](url + '2-' + this.pic_num + '.png', 114, 300);
-            } else this.texture = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */](url + '-' + this.pic_num + '.png', 114, 300);
+                this.texture = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */](url + '2-' + this.pic_num + '.png', 114, 300);
+            } else this.texture = new __WEBPACK_IMPORTED_MODULE_0__Bitmap_js__["a" /* Bitmap */](url + '-' + this.pic_num + '.png', 114, 300);
         }
     }
     run() {
@@ -364,11 +242,11 @@ class Person {
 
         if (in_the_x_way == 2 || in_the_y_way == 2) {
             this.hitting_the_fence = true;
-            this.direction = direction + __WEBPACK_IMPORTED_MODULE_0__main_js__["CIRCLE"] / 6;
+            this.direction = direction + this.CIRCLE / 6;
             this.walk(distance, this.map, this.direction);
         } else if (in_the_x_way == 1 || in_the_y_way == 1) {
             this.hitting_the_wall = true;
-            this.direction = direction + __WEBPACK_IMPORTED_MODULE_0__main_js__["CIRCLE"] / 6;
+            this.direction = direction + this.CIRCLE / 6;
             this.walk(distance, this.map, this.direction);
         }
         if (in_the_x_way <= 0) this.x += dx;
@@ -546,14 +424,12 @@ module.exports = {"assets":{"trees":{"0":{"texture":"img/trees/tree_0.png","widt
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__main_js__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Objects_js__ = __webpack_require__(3);
-
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Objects_js__ = __webpack_require__(3);
 
 
 class Camera {
-    constructor(canvas, resolution, fov, state) {
+    constructor(canvas, resolution, fov, state, CIRCLE) {
+        this.CIRCLE = CIRCLE;
         this.state = state;
         this.ctx = canvas.getContext('2d');
         this.width = canvas.width = window.innerWidth;
@@ -574,7 +450,7 @@ class Camera {
 
     drawSky(direction, sky, ambient) {
         const width = sky.width * (this.height / sky.height) * 2;
-        const left = -width * direction / __WEBPACK_IMPORTED_MODULE_0__main_js__["CIRCLE"];
+        const left = -width * direction / this.CIRCLE;
 
         this.ctx.save();
         this.ctx.drawImage(sky.image, left, 0, width, this.height);
@@ -674,7 +550,7 @@ class Camera {
         // calculate each sprite distance to player
         this.setSpriteDistances(map.objects, player);
 
-        let sprites = Array.prototype.slice.call(map.objects).map(function (sprite) {
+        let sprites = Array.prototype.slice.call(map.objects).map(sprite => {
             const distX = sprite.x - player.x;
             const distY = sprite.y - player.y;
             const width = sprite.width * screenWidth / sprite.distanceFromPlayer;
@@ -685,11 +561,11 @@ class Camera {
             const numColumns = width / screenWidth * resolution;
             let angleRelativeToPlayerView = player.direction - angleToPlayer;
 
-            if (angleRelativeToPlayerView >= __WEBPACK_IMPORTED_MODULE_0__main_js__["CIRCLE"] / 2) {
-                angleRelativeToPlayerView -= __WEBPACK_IMPORTED_MODULE_0__main_js__["CIRCLE"];
+            if (angleRelativeToPlayerView >= this.CIRCLE / 2) {
+                angleRelativeToPlayerView -= this.CIRCLE;
             }
 
-            const cameraXOffset = __WEBPACK_IMPORTED_MODULE_0__main_js__["camera"].width / 2 - screenRatio * angleRelativeToPlayerView;
+            const cameraXOffset = this.width / 2 - screenRatio * angleRelativeToPlayerView;
             const firstColumn = Math.floor((cameraXOffset - width / 2) / screenWidth * resolution);
 
             sprite.distanceFromPlayer = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
@@ -979,6 +855,10 @@ class Sounds {
                     id: 'placing_bomb',
                     url: 'sounds/objects/placing_bomb.mp3'
                 });
+                const slashing = soundManager.createSound({
+                    id: 'slashing',
+                    url: 'sounds/objects/slashing.mp3'
+                });
                 const killing = soundManager.createSound({
                     id: 'killing',
                     url: 'sounds/objects/killing.mp3'
@@ -1064,6 +944,7 @@ class Sounds {
 
     checkGameEnding() {
         if (this.map.people === 0) {
+            console.log("People = 0");
             this.makeEndState();
             soundManager.play("ghost_scream", {
                 onfinish: () => {
@@ -1101,11 +982,9 @@ class Sounds {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Paper_js__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__main_js__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Bitmap_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Calc_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Person_js__ = __webpack_require__(4);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Calc_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Person_js__ = __webpack_require__(4);
 
 
 
@@ -1113,6 +992,7 @@ class Sounds {
 
 class Player {
     constructor(origin) {
+        this.CIRCLE = origin.CIRCLE;
         this.x = origin.x;
         this.y = origin.y;
         this.direction = origin.direction;
@@ -1121,8 +1001,8 @@ class Player {
         this.sounds = origin.sounds;
         this.obj_sounds = origin.obj_sounds;
         this.state = origin.state;
-        this.right_hand = new __WEBPACK_IMPORTED_MODULE_2__Bitmap_js__["a" /* Bitmap */]('img/slender/knife_hand.png', 200, 200);
-        this.left_hand = new __WEBPACK_IMPORTED_MODULE_2__Bitmap_js__["a" /* Bitmap */]('img/slender/left_hand.png', 200, 200);
+        this.right_hand = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/slender/knife_hand.png', 200, 200);
+        this.left_hand = new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */]('img/slender/left_hand.png', 200, 200);
         this.paces = 0;
         this.paper = new __WEBPACK_IMPORTED_MODULE_0__Paper_js__["a" /* Paper */](0, 0);
         this.speed = 1;
@@ -1131,7 +1011,7 @@ class Player {
     }
 
     rotate(angle) {
-        this.direction = (this.direction + angle + __WEBPACK_IMPORTED_MODULE_1__main_js__["CIRCLE"]) % __WEBPACK_IMPORTED_MODULE_1__main_js__["CIRCLE"];
+        this.direction = (this.direction + angle + this.CIRCLE) % this.CIRCLE;
     }
 
     walk(distance, map, direction) {
@@ -1186,7 +1066,8 @@ class Player {
             person.alive = false;
             person.die();
             this.map.people--;
-        }
+        } else this.obj_sounds.makeSound('slashing');
+        console.log("To be eaten: ", this.map.people);
     }
 
     snowWalkSound() {
@@ -1265,15 +1146,15 @@ class Player {
     dosmth(action) {
         if (action === 'atac') {
             this.map.objects.forEach(item => {
-                if (item instanceof __WEBPACK_IMPORTED_MODULE_4__Person_js__["a" /* Person */] && item.alive) {
+                if (item instanceof __WEBPACK_IMPORTED_MODULE_3__Person_js__["a" /* Person */] && item.alive) {
                     this.eat(item);
                 }
             });
         }
         if (action === 'space') {
             if (!this.running && !this.walking && this.sounds.sound_end) {
-                const paper_type = __WEBPACK_IMPORTED_MODULE_3__Calc_js__["a" /* Calc */].getRandomInt(0, 8);
-                this.map.addObject(new __WEBPACK_IMPORTED_MODULE_0__Paper_js__["a" /* Paper */](this.x, this.y, new __WEBPACK_IMPORTED_MODULE_2__Bitmap_js__["a" /* Bitmap */](this.papers[paper_type].texture, this.papers[paper_type].width, this.papers[paper_type].height)));
+                const paper_type = __WEBPACK_IMPORTED_MODULE_2__Calc_js__["a" /* Calc */].getRandomInt(0, 8);
+                this.map.addObject(new __WEBPACK_IMPORTED_MODULE_0__Paper_js__["a" /* Paper */](this.x, this.y, new __WEBPACK_IMPORTED_MODULE_1__Bitmap_js__["a" /* Bitmap */](this.papers[paper_type].texture, this.papers[paper_type].width, this.papers[paper_type].height)));
                 if (paper_type === 0) {
                     this.sounds.makeSound('placing_loo_paper');
                 } else if (paper_type === 7) {
@@ -1355,8 +1236,8 @@ class Controls {
 
     onMouseMovement(e) {
         let x = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
-        if (x > 0) this.player.rotate(Math.PI / 40);
-        if (x < 0) this.player.rotate(-Math.PI / 40);
+        if (x > 0) this.player.rotate(Math.PI / 50);
+        if (x < 0) this.player.rotate(-Math.PI / 50);
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Controls;
@@ -1368,7 +1249,8 @@ class Controls {
 
 "use strict";
 class GameLoop {
-    constructor(endGame) {
+    constructor(game, endGame) {
+        this.sounds = game.sounds;
         this.endGame = endGame;
         this.game_ending = false;
         this.frame = this.frame.bind(this);
@@ -1376,7 +1258,7 @@ class GameLoop {
         this.callback = function () {};
     }
 
-    start(callback, endGame) {
+    start(callback) {
         this.callback = callback;
         requestAnimationFrame(this.frame);
         return;
@@ -1394,6 +1276,246 @@ class GameLoop {
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = GameLoop;
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Map_js__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Calc_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Sounds_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Person_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Player_js__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Bitmap_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Camera_js__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Objects_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Controls_js__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__GameLoop_js__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__json_assets_json__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__json_assets_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__json_assets_json__);
+
+
+
+
+
+
+
+
+
+
+
+
+class Game {
+    constructor() {
+        this.state = {};
+        this.CIRCLE = Math.PI * 2;
+        this.papers = __WEBPACK_IMPORTED_MODULE_10__json_assets_json__["assets"].papers;
+        this.trees = __WEBPACK_IMPORTED_MODULE_10__json_assets_json__["assets"].rain_trees;
+        this.bushes = __WEBPACK_IMPORTED_MODULE_10__json_assets_json__["assets"].rain_bushes;
+        this.sounds = new __WEBPACK_IMPORTED_MODULE_2__Sounds_js__["a" /* Sounds */]();
+        this.noises = new __WEBPACK_IMPORTED_MODULE_2__Sounds_js__["a" /* Sounds */]();
+        this.loop = new __WEBPACK_IMPORTED_MODULE_9__GameLoop_js__["a" /* GameLoop */](this, this.endGame);
+        this.camera = new __WEBPACK_IMPORTED_MODULE_6__Camera_js__["a" /* Camera */](document.getElementById('display'), 640, 0.8, this.state, this.CIRCLE);
+    }
+
+    loadGame() {
+        this.obj_sounds = new __WEBPACK_IMPORTED_MODULE_2__Sounds_js__["a" /* Sounds */](this.map, this.loop, this.state);
+        this.map = new __WEBPACK_IMPORTED_MODULE_0__Map_js__["a" /* Map */](32, this.state);
+        this.player = new __WEBPACK_IMPORTED_MODULE_4__Player_js__["a" /* Player */]({ x: 1.5,
+            y: 1.5,
+            direction: 1,
+            papers: this.papers,
+            map: this.map,
+            sounds: this.sounds,
+            obj_sounds: this.obj_sounds,
+            state: this.state,
+            CIRCLE: this.CIRCLE });
+        this.controls = new __WEBPACK_IMPORTED_MODULE_8__Controls_js__["a" /* Controls */](this.player);
+        this.setMode();
+
+        this.addPeople();
+
+        this.map.buildMap(this.trees, this.bushes);
+
+        /*let intro = document.querySelector('.intro');
+        	intro.style.display = 'block';
+        this.enterFS(intro)
+        	intro.play();
+         		setTimeout(()=>{
+        	this.exitFS(intro);
+        		intro.pause();
+        		intro.style.display = 'none';
+        	document.querySelector('.text').style.display = 'flex';
+        	this.mouseLock();
+        		soundManager.play("entering_area",{
+                    multiShotEvents: true,
+                    onfinish: ()=> {
+         				this.startGame();
+                    }
+                });
+        	},28000);*/
+
+        this.startGame();
+    }
+
+    startGame() {
+        document.querySelector('.text').style.display = 'none';
+        document.querySelector('canvas').style.display = 'block';
+        this.loop.start(seconds => {
+            if (this.state.lightning) this.map.lightning(seconds);
+            this.map.update();
+            this.changeAmbient();
+            this.player.update(this.controls.states, this.map, seconds);
+            this.camera.render(this.player, this.map);
+        });
+    }
+
+    endGame() {
+        soundManager.stopAll();
+        const end = __WEBPACK_IMPORTED_MODULE_1__Calc_js__["a" /* Calc */].getRandomInt(0, 2);
+        this.sounds.playEnding(end);
+        document.querySelector('.text').style.display = 'flex';
+        const text = document.querySelector('.text h1');
+        text.innerHTML = 'Do you want to play more?';
+        text.setAttribute('data-text', 'Do you want to kiLL more?');
+        document.querySelector('canvas').style.display = 'none';
+    }
+
+    setMode() {
+        if (this.state.winter) {
+            this.sounds.loopSound('wind_ambient');
+            this.trees = __WEBPACK_IMPORTED_MODULE_10__json_assets_json__["assets"].trees;
+            this.bushes = __WEBPACK_IMPORTED_MODULE_10__json_assets_json__["assets"].bushes;
+        } else this.sounds.loopSound('rain_ambient');
+    }
+
+    addPeople() {
+        for (let i = 0; i < 7; i++) {
+            let x = __WEBPACK_IMPORTED_MODULE_1__Calc_js__["a" /* Calc */].getRandomInt(2, 30);
+            let y = __WEBPACK_IMPORTED_MODULE_1__Calc_js__["a" /* Calc */].getRandomInt(2, 30);
+            let pic_num = __WEBPACK_IMPORTED_MODULE_1__Calc_js__["a" /* Calc */].getRandomInt(1, 5);
+            console.log(pic_num);
+            this.map.addObject(new __WEBPACK_IMPORTED_MODULE_3__Person_js__["a" /* Person */](this.player, this.map, x, y, pic_num, this.CIRCLE));
+            this.map.people++;
+        }
+    }
+
+    changeAmbient() {
+        if (this.noises.noises_end) {
+            const next = __WEBPACK_IMPORTED_MODULE_1__Calc_js__["a" /* Calc */].getRandomInt(0, 4);
+            this.noises.playNoises(next);
+        };
+    }
+
+    enterFS(intro) {
+        if (intro.requestFullscreen) {
+            intro.requestFullscreen();
+        } else if (intro.mozRequestFullScreen) {
+            intro.mozRequestFullScreen();
+        } else if (intro.webkitRequestFullscreen) {
+            intro.webkitRequestFullscreen();
+        }
+    }
+
+    exitFS(intro) {
+        if (intro.exitFullscreen) {
+            intro.exitFullscreen();
+        } else if (intro.mozExitFullScreen) {
+            intro.mozExitFullScreen();
+        } else if (intro.webkitExitFullscreen) {
+            intro.webkitExitFullscreen();
+        }
+    }
+
+    mouseLock() {
+        if (document.body.requestPointerLock) {
+            document.body.requestPointerLock();
+        } else if (document.body.mozRequestPointerLock) {
+            document.body.mozRequestPointerLock();
+        } else if (document.body.webkitRequestPointerLock) {
+            document.body.webkitRequestPointerLock();
+        }
+    }
+
+    setToWinter() {
+        this.state.winter = true;
+        this.state.light = 1;
+        this.state.lightning = false;
+        this.state.lightRange = 5;
+        this.state.shadows = "#fff";
+        this.state.drops = "#fff";
+        this.state.drops_opacity = 1;
+        this.state.drops_amount = 100;
+        this.state.ground = "#fff";
+        this.state.param = 0.5;
+        this.state.particlesWidth = 6;
+        this.state.particlesHeight = 6;
+        this.state.fence_texture = "img/snow/fence_snow.png";
+        this.state.sky_texture = "img/snow/sky_panorama_snow.jpg";
+        this.state.wall_texture = "img/snow/wall_texture_snow.jpg";
+    }
+
+    setToVanilla() {
+        this.state.winter = false;
+        this.state.light = 2;
+        this.state.lightning = true;
+        this.state.lightRange = 5;
+        this.state.shadows = "#000";
+        this.state.drops = "#fff";
+        this.state.drops_opacity = 0.15;
+        this.state.drops_amount = 30;
+        this.state.ground = "#56361f";
+        this.state.param = 0.1;
+        this.state.particlesWidth = 2;
+        this.state.particlesHeight = 20;
+        this.state.sky_texture = "img/rain/rain_sky_panorama.jpg";
+        this.state.fence_texture = "img/rain/rain_fence.jpg";
+        this.state.wall_texture = "img/rain/rain_wall_texture.jpg";
+    }
+
+    enableMenuSounds() {
+        this.sounds.loopSound('piano_menu_ambient');
+        this.sounds.loopSound('static_menu_ambient');
+
+        document.getElementById('play').addEventListener('mouseover', () => {
+            this.sounds.loopSound("play_button_hover");
+        });
+
+        document.getElementById('play').addEventListener('mouseout', () => {
+            soundManager.stop('play_button_hover');
+        });
+
+        document.getElementById('logo').addEventListener('mouseover', () => {
+            this.sounds.loopSound("slender_logo_hover");
+        });
+
+        document.getElementById('logo').addEventListener('mouseout', () => {
+            soundManager.stop('slender_logo_hover');
+        });
+
+        document.getElementById('about_us').addEventListener('mouseover', () => {
+            this.sounds.loopSound("about_us");
+            soundManager.mute('piano_menu_ambient');
+        });
+
+        document.getElementById('about_us').addEventListener('mouseout', () => {
+            soundManager.stop('about_us');
+            soundManager.unmute('piano_menu_ambient');
+        });
+        document.getElementById('about_game').addEventListener('mouseover', () => {
+            this.sounds.loopSound("about_game");
+            soundManager.mute('piano_menu_ambient');
+        });
+
+        document.getElementById('about_game').addEventListener('mouseout', () => {
+            soundManager.stop('about_game');
+            soundManager.unmute('piano_menu_ambient');
+        });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Game;
 
 
 /***/ })

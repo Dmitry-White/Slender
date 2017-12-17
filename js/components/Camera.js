@@ -1,9 +1,8 @@
-import { CIRCLE } from "../main.js";
-import { camera } from "../main.js";
 import { Objects } from "./Objects.js";
 
 export class Camera {
-    constructor(canvas, resolution, fov, state) {
+    constructor(canvas, resolution, fov, state, CIRCLE) {
+        this.CIRCLE = CIRCLE;
         this.state = state;
         this.ctx = canvas.getContext('2d');
     	this.width = canvas.width = window.innerWidth;
@@ -24,7 +23,7 @@ export class Camera {
 
     drawSky(direction, sky, ambient) {
         const width =  sky.width * (this.height / sky.height) * 2;
-    	const left = -width * direction / CIRCLE ;
+    	const left = -width * direction / this.CIRCLE ;
 
     	this.ctx.save();
     	this.ctx.drawImage(sky.image, left, 0, width, this.height);
@@ -118,7 +117,7 @@ export class Camera {
         this.ctx.restore();
     };
 
-    drawSprites(player,map,columnProps) {
+    drawSprites(player, map, columnProps) {
         const screenWidth = this.width;
     	const screenHeight = this.height;
     	const screenRatio = screenWidth / this.fov;
@@ -128,7 +127,7 @@ export class Camera {
     	this.setSpriteDistances(map.objects, player);
 
     	let sprites = Array.prototype.slice.call(map.objects)
-    		.map(function(sprite){
+    		.map((sprite) => {
     			const distX = sprite.x - player.x;
     			const distY = sprite.y - player.y;
     			const width = sprite.width * screenWidth / sprite.distanceFromPlayer;
@@ -139,11 +138,11 @@ export class Camera {
                 const numColumns = width / screenWidth * resolution;
     			let angleRelativeToPlayerView = player.direction - angleToPlayer;
 
-    			if(angleRelativeToPlayerView >= CIRCLE / 2){
-    				angleRelativeToPlayerView -= CIRCLE;
+    			if(angleRelativeToPlayerView >= this.CIRCLE / 2){
+    				angleRelativeToPlayerView -= this.CIRCLE;
     			}
 
-                const cameraXOffset = ( camera.width / 2 ) - (screenRatio * angleRelativeToPlayerView);
+                const cameraXOffset = ( this.width / 2 ) - (screenRatio * angleRelativeToPlayerView);
     			const firstColumn = Math.floor( (cameraXOffset - width/2 ) / screenWidth * resolution);
 
     			sprite.distanceFromPlayer = Math.sqrt( Math.pow( distX, 2) + Math.pow( distY, 2) );

@@ -140,6 +140,10 @@ export class Sounds{
                     id: 'placing_bomb',
                     url: 'sounds/objects/placing_bomb.mp3'
                 });
+                const slashing =  soundManager.createSound({
+                    id: 'slashing',
+                    url: 'sounds/objects/slashing.mp3'
+                });
                 const killing =  soundManager.createSound({
                     id: 'killing',
                     url: 'sounds/objects/killing.mp3'
@@ -226,6 +230,7 @@ export class Sounds{
 
     checkGameEnding() {
         if (this.map.people === 0) {
+            console.log("People = 0")
             this.makeEndState();
             soundManager.play("ghost_scream",{
                 onfinish: () => {

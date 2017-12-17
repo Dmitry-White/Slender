@@ -1,5 +1,4 @@
 import { Bitmap } from "./Bitmap.js";
-import { CIRCLE } from "../main.js";
 
 export class Objects {
     constructor(object) {

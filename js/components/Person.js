@@ -1,9 +1,9 @@
-import { CIRCLE } from "../main.js";
 import { Bitmap } from "./Bitmap.js";
 import { Calc } from "./Calc.js";
 
 export class Person {
-    constructor(player,map,x,y,pic_num) {
+    constructor(player, map, x, y, pic_num, CIRCLE) {
+        this.CIRCLE = CIRCLE;
         this.player = player;
         this.x = x;
         this.y = y;
@@ -27,7 +27,7 @@ export class Person {
             this.count += 1;
 
             if (this.count > 270){
-                this.direction = this.direction + Calc.getRandomFloat(-(CIRCLE/6),CIRCLE/6);
+                this.direction = this.direction + Calc.getRandomFloat(-(this.CIRCLE/6),this.CIRCLE/6);
                 this.count = 0;
             }
             //this.turn();
@@ -39,9 +39,9 @@ export class Person {
     /*turn(){
         let angle = this.direction;
         let url = 'img/girl/girl';
-        if((angle < CIRCLE/4 && angle > 0) || (angle < CIRCLE && angle >= (CIRCLE - CIRCLE/4))){
+        if((angle < this.CIRCLE/4 && angle > 0) || (angle < this.CIRCLE && angle >= (this.CIRCLE - this.CIRCLE/4))){
             url = 'img/girl/girl_r';
-        } else if(angle < (CIRCLE - CIRCLE/4) && angle >= CIRCLE/4){
+        } else if(angle < (this.CIRCLE - this.CIRCLE/4) && angle >= this.CIRCLE/4){
             url = 'img/girl/girl_l';
         }
         this.move(url);
@@ -90,11 +90,11 @@ export class Person {
 
         if (in_the_x_way == 2 || in_the_y_way == 2) {
             this.hitting_the_fence = true;
-            this.direction = direction + CIRCLE/6;
+            this.direction = direction + this.CIRCLE/6;
             this.walk(distance, this.map, this.direction);
         } else if (in_the_x_way == 1 || in_the_y_way == 1) {
             this.hitting_the_wall = true;
-            this.direction = direction + CIRCLE/6;
+            this.direction = direction + this.CIRCLE/6;
             this.walk(distance, this.map, this.direction);
         }
         if (in_the_x_way <= 0) this.x += dx;

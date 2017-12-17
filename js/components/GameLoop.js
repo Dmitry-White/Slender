@@ -1,5 +1,6 @@
 export class GameLoop {
-    constructor(endGame) {
+    constructor(game, endGame) {
+        this.sounds = game.sounds;
         this.endGame = endGame;
         this.game_ending = false;
         this.frame = this.frame.bind(this);
@@ -7,7 +8,7 @@ export class GameLoop {
         this.callback = function() {};
     };
 
-    start(callback, endGame) {
+    start(callback) {
         this.callback = callback;
         requestAnimationFrame(this.frame);
         return;
