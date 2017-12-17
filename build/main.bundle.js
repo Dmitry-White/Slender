@@ -78,8 +78,9 @@ window.onload = () => {
 	game.enableMenuSounds();
 	game.setToVanilla();
 
-	document.getElementById('checkbox').addEventListener('change', function () {
-		if (this.checked) {
+	const checkbox = document.getElementById('checkbox');
+	checkbox.addEventListener('change', () => {
+		if (checkbox.checked) {
 			document.querySelector(`.snow`).style.display = 'block';
 			game.sounds.makeSound("ho_ho_ho");
 			game.setToWinter();
@@ -89,7 +90,7 @@ window.onload = () => {
 		}
 	});
 
-	document.getElementById('play').addEventListener('click', function () {
+	document.getElementById('play').addEventListener('click', () => {
 		soundManager.stopAll();
 		game.sounds.sound_end = true;
 		document.querySelector('.menu').classList.add('fadeOut');
@@ -388,7 +389,7 @@ class Map {
     }
 
     update() {
-        this.objects.forEach(function (item) {
+        this.objects.forEach(item => {
             if (item instanceof __WEBPACK_IMPORTED_MODULE_2__Person_js__["a" /* Person */]) {
                 item.logic();
             }
@@ -578,7 +579,7 @@ class Camera {
             return sprite;
         })
         // sort sprites in distance order
-        .sort(function (a, b) {
+        .sort((a, b) => {
             if (a.distanceFromPlayer < b.distanceFromPlayer) return 1;
             if (a.distanceFromPlayer > b.distanceFromPlayer) return -1;
             return 0;
@@ -599,7 +600,7 @@ class Camera {
         let angle = this.fov * (column / this.resolution - 0.5);
         let sprite, props, obj, textureX, height, projection, mappedColumnObj, spriteIsInColumn, top;
 
-        sprites = sprites.filter(function (sprite) {
+        sprites = sprites.filter(sprite => {
             return !columnProps.hit || sprite.distanceFromPlayer < columnProps.hit;
         });
 
@@ -729,7 +730,7 @@ class Sounds {
         };
         soundManager.setup({
             url: './soundmanager2/',
-            onready: function () {
+            onready: () => {
                 // ------------------ Menu ------------------------
                 const piano_menu_ambient = soundManager.createSound({
                     id: 'piano_menu_ambient',
@@ -1248,7 +1249,7 @@ class GameLoop {
         this.game_ending = false;
         this.frame = this.frame.bind(this);
         this.lastTime = 0;
-        this.callback = function () {};
+        this.callback = () => {};
     }
 
     start(callback) {

@@ -130,7 +130,7 @@ export class Map {
     };
 
     update() {
-        this.objects.forEach(function(item){
+        this.objects.forEach((item) => {
     		if(item instanceof Person) {item.logic()}
     	});
     };

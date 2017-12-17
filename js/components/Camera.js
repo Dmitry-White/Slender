@@ -159,7 +159,7 @@ export class Camera {
     			return sprite;
     		})
     		// sort sprites in distance order
-    		.sort(function(a,b){
+    		.sort((a,b) => {
     			if(a.distanceFromPlayer < b.distanceFromPlayer)	return 1;
     			if(a.distanceFromPlayer > b.distanceFromPlayer)	return -1;
     			return 0;
@@ -180,7 +180,7 @@ export class Camera {
     	let angle = this.fov * (column / this.resolution - 0.5);
     	let sprite, props, obj, textureX, height, projection, mappedColumnObj, spriteIsInColumn, top;
 
-    	sprites = sprites.filter(function(sprite){
+    	sprites = sprites.filter((sprite) => {
             return !columnProps.hit || sprite.distanceFromPlayer < columnProps.hit;
     	});
 

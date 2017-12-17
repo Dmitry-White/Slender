@@ -5,7 +5,7 @@ export class GameLoop {
         this.game_ending = false;
         this.frame = this.frame.bind(this);
         this.lastTime = 0;
-        this.callback = function() {};
+        this.callback = () => {};
     };
 
     start(callback) {

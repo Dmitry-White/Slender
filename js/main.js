@@ -6,8 +6,9 @@ window.onload = () => {
 	game.enableMenuSounds();
 	game.setToVanilla();
 
-	document.getElementById('checkbox').addEventListener('change', function(){
-		if (this.checked) {
+	const checkbox = document.getElementById('checkbox');
+	checkbox.addEventListener('change', () => {
+		if (checkbox.checked) {
 			document.querySelector(`.snow`).style.display = 'block';
 			game.sounds.makeSound("ho_ho_ho");
 			game.setToWinter();
@@ -17,7 +18,7 @@ window.onload = () => {
 	   }
 	});
 
-	document.getElementById('play').addEventListener('click', function(){
+	document.getElementById('play').addEventListener('click', () => {
 		soundManager.stopAll();
 		game.sounds.sound_end = true;
 		document.querySelector('.menu').classList.add('fadeOut');

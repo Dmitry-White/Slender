@@ -18,7 +18,7 @@ export class Sounds{
         }
         soundManager.setup({
             url: './soundmanager2/',
-            onready: function() {
+            onready: () => {
                 // ------------------ Menu ------------------------
                 const piano_menu_ambient =  soundManager.createSound({
                     id: 'piano_menu_ambient',
