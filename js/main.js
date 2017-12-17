@@ -1,7 +1,5 @@
 import { Game } from "./components/Game.js";
 
-
-
 window.onload = () => {
 	const game = new Game();
 

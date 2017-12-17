@@ -198,12 +198,46 @@ export class Game {
         soundManager.load('dodge_step_1');
         soundManager.load('running');
         // ------------------------------------------------
+
+        // --------------- Vanilla Mode -------------------
+        soundManager.load('rain_ambient');
+        soundManager.load('rain_forward_step');
+        soundManager.load('rain_backward_step');
+        soundManager.load('rain_step');
+        soundManager.load('rain_dodge_step_0');
+        soundManager.load('rain_dodge_step_1');
+        soundManager.load('rain_running');
+        // ------------------------------------------------
+
+        // --------------- General Stuff ------------------
+        soundManager.load('entering_area');
+        soundManager.load('hitting_the_fence');
+        soundManager.load('hitting_the_rain_fence');
+        soundManager.load('hitting_the_wall');
+        soundManager.load('placing_paper');
+        soundManager.load('placing_loo_paper');
+        soundManager.load('placing_bomb');
+        soundManager.load('slashing');
+        soundManager.load('killing');
+        // ------------------------------------------------
+
+        // --------------- Random Ambient -----------------
+        soundManager.load('ghost_in_the_house');
+        soundManager.load('just_horror_ambient');
+        soundManager.load('weird_noises');
+        soundManager.load('scary_piano');
+        // ------------------------------------------------
+
+        // ------------------ End Game --------------------
+        soundManager.load('ghost_scream');
+        soundManager.load('come_out');
+        soundManager.load('lululala');
+        // ------------------------------------------------
     }
 
     enableMenuSounds() {
         this.sounds.loopSound('piano_menu_ambient');
         this.sounds.loopSound('static_menu_ambient');
-
         document.getElementById('play').addEventListener('mouseover', () => {
             this.sounds.loopSound("play_button_hover");
         });

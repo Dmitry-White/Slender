@@ -82,7 +82,7 @@ export class Sounds{
                 const rain_ambient =  soundManager.createSound({
                     id: 'rain_ambient',
                     url: 'sounds/ambient/rain_ambient.mp3',
-                    volume: 70
+                    volume: 80
                 });
                 const rain_forward_step =  soundManager.createSound({
                     id: 'rain_forward_step',
@@ -134,7 +134,8 @@ export class Sounds{
                 });
                 const placing_loo_paper =  soundManager.createSound({
                     id: 'placing_loo_paper',
-                    url: 'sounds/objects/placing_loo_paper.mp3'
+                    url: 'sounds/objects/placing_loo_paper.mp3',
+                    volume:40
                 });
                 const placing_bomb =  soundManager.createSound({
                     id: 'placing_bomb',
