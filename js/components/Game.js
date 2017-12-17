@@ -179,6 +179,27 @@ export class Game {
         this.state.wall_texture = "img/rain/rain_wall_texture.jpg";
     };
 
+    loadSounds() {
+        // ------------------ Menu ------------------------
+        soundManager.load('piano_menu_ambient');
+        soundManager.load('static_menu_ambient');
+        soundManager.load('slender_logo_hover');
+        soundManager.load('play_button_hover');
+        soundManager.load('ho_ho_ho');
+        soundManager.load('about_us');
+        soundManager.load('about_game');
+        // ------------------------------------------------
+
+        // --------------- Winter Mode --------------------
+        soundManager.load('wind_ambient');
+        soundManager.load('forward_step');
+        soundManager.load('backward_step');
+        soundManager.load('dodge_step_0');
+        soundManager.load('dodge_step_1');
+        soundManager.load('running');
+        // ------------------------------------------------
+    }
+
     enableMenuSounds() {
         this.sounds.loopSound('piano_menu_ambient');
         this.sounds.loopSound('static_menu_ambient');

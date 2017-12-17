@@ -140,6 +140,7 @@ export class Player {
             }
         }
     };
+
     rainHit() {
         if (this.obj_sounds.obj_sound_end) {
             if (this.hitting_the_fence) {

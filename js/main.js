@@ -1,8 +1,11 @@
 import { Game } from "./components/Game.js";
 
+
+
 window.onload = () => {
 	const game = new Game();
 
+	game.loadSounds();
 	game.enableMenuSounds();
 	game.setToVanilla();
 
