@@ -240,12 +240,8 @@ class Person {
         const in_the_x_way = this.map.get(this.x + dx, this.y);
         const in_the_y_way = this.map.get(this.x, this.y + dy);
 
-        if (in_the_x_way == 2 || in_the_y_way == 2) {
+        if (in_the_x_way == 2 || in_the_y_way == 2 || in_the_x_way == 1 || in_the_y_way == 1) {
             this.hitting_the_fence = true;
-            this.direction = direction + this.CIRCLE / 6;
-            this.walk(distance, this.map, this.direction);
-        } else if (in_the_x_way == 1 || in_the_y_way == 1) {
-            this.hitting_the_wall = true;
             this.direction = direction + this.CIRCLE / 6;
             this.walk(distance, this.map, this.direction);
         }
@@ -1020,15 +1016,12 @@ class Player {
         const in_the_x_way = map.get(this.x + dx, this.y);
         const in_the_y_way = map.get(this.x, this.y + dy);
 
-        if (in_the_x_way == 2 || in_the_y_way == 2) {
+        if (in_the_x_way == 2 || in_the_y_way == 2 || in_the_x_way == 1 || in_the_y_way == 1) {
             this.hitting_the_fence = true;
             this.hitObject();
             this.hitting_the_fence = false;
-        } else if (in_the_x_way == 1 || in_the_y_way == 1) {
-            this.hitting_the_wall = true;
-            this.hitObject();
-            this.hitting_the_wall = false;
         }
+
         if (in_the_x_way <= 0) this.x += dx;
         if (in_the_y_way <= 0) this.y += dy;
         this.paces += distance;
