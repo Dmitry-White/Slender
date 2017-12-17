@@ -186,24 +186,19 @@ export class Game {
         document.getElementById('play').addEventListener('mouseover', () => {
             this.sounds.loopSound("play_button_hover");
         });
-
         document.getElementById('play').addEventListener('mouseout', () => {
             soundManager.stop('play_button_hover');
         });
-
         document.getElementById('logo').addEventListener('mouseover', () => {
             this.sounds.loopSound("slender_logo_hover");
         });
-
         document.getElementById('logo').addEventListener('mouseout', () => {
             soundManager.stop('slender_logo_hover');
         });
-
         document.getElementById('about_us').addEventListener('mouseover', () => {
             this.sounds.loopSound("about_us");
             soundManager.mute('piano_menu_ambient');
         });
-
         document.getElementById('about_us').addEventListener('mouseout', () => {
             soundManager.stop('about_us');
             soundManager.unmute('piano_menu_ambient');
@@ -212,7 +207,6 @@ export class Game {
             this.sounds.loopSound("about_game");
             soundManager.mute('piano_menu_ambient');
         });
-
         document.getElementById('about_game').addEventListener('mouseout', () => {
             soundManager.stop('about_game');
             soundManager.unmute('piano_menu_ambient');

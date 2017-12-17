@@ -217,18 +217,18 @@ export class Camera {
     drawMiniMap(player, map) {
     	const ctx = this.ctx;
     	const miniMapSize = this.width * .2;
-    	const x = this.width - miniMapSize - 10;//отступы
-    	const y = 10;//отступы
+    	const x = this.width - miniMapSize - 10;
+    	const y = 10;
 		const blockSize = miniMapSize / map.size;
     	const triangleX = x + (player.x / map.size * miniMapSize);
     	const triangleY = y + (player.y / map.size * miniMapSize);
 
     	ctx.save();
 
-    	ctx.globalAlpha = .5; //фон карты
+    	ctx.globalAlpha = .5; // map background
     	ctx.fillRect(x, y, miniMapSize, miniMapSize);
 
-        ctx.globalAlpha = .5; //блоки
+        ctx.globalAlpha = .5; // blocks
     	ctx.fillStyle = '#4c8847';
 
         for (let i = 0; i < map.size * map.size; i++) {
@@ -243,20 +243,20 @@ export class Camera {
     	}
     	ctx.save();
 
-    	for (let i = 0; i < map.objects.length; i++){ //спрайты
+    	for (let i = 0; i < map.objects.length; i++){ // sprites
     		if(map.objects[i]){
                 if(map.objects[i]===1)
-                    ctx.fillStyle = map.objects[i].color;//не трогать, так надо!!!!
+                    ctx.fillStyle = map.objects[i].color;
                     ctx.globalAlpha = map.objects[i].logic ? .8 : .3;
                     if (map.objects[i].color === undefined) ctx.globalAlpha = 0;
-                    ctx.fillStyle = map.objects[i].color || 'red';//не трогать, так надо!!!!
+                    ctx.fillStyle = map.objects[i].color || 'red';
 
     				ctx.fillRect(x + (blockSize * (map.objects[i].x - 0.5)) + blockSize * .25, y + (blockSize * (map.objects[i].y - 0.5)) + blockSize * .25, blockSize * .5, blockSize * .5);
     		}
     	}
     	ctx.restore();
 
-    	ctx.globalAlpha = 1; //игрок
+    	ctx.globalAlpha = 1; // player
     	ctx.fillStyle = '#fff';
     	ctx.moveTo(triangleX,triangleY);
     	ctx.translate(triangleX,triangleY);

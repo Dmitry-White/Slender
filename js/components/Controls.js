@@ -42,14 +42,14 @@ export class Controls {
     onKey(val, e) {
         const state = this.codes[e.keyCode];
         if (typeof state === 'undefined') return;
-        if (typeof this.states[state] !== 'undefined') this.states[state] = val; //если не найдено в состояниях
-        else if (val === true) this.player.dosmth(state); //искать в действиях; если кнопка опущена - выполнить
+        if (typeof this.states[state] !== 'undefined') this.states[state] = val;
+        else if (val === true) this.player.dosmth(state);
         e.preventDefault && e.preventDefault();
         e.stopPropagation && e.stopPropagation();
     };
 
     onMouseMovement(e) {
-        let x = (e.movementX || e.mozMovementX || e.webkitMovementX || 0);
+        const x = (e.movementX || e.mozMovementX || e.webkitMovementX || 0);
         if (x > 0) this.player.rotate(Math.PI/50);
         if (x < 0) this.player.rotate(-Math.PI/50);
     };

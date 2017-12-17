@@ -380,12 +380,7 @@ class Map {
     }
 
     lightning(seconds) {
-        // --------------------- Random Lighting -------------------------------
         if (this.light > 0) this.light = Math.max(this.light - 10 * seconds, 0);else if (Math.random() * 5 < seconds) this.light = 2;
-        // ---------------------------------------------------------------------
-
-        //this.light = Math.max(this.light - 10 * seconds, 0.4);  // nigth mode
-        //this.light = 2; //day mode
     }
 
     update() {
@@ -637,18 +632,18 @@ class Camera {
     drawMiniMap(player, map) {
         const ctx = this.ctx;
         const miniMapSize = this.width * .2;
-        const x = this.width - miniMapSize - 10; //отступы
-        const y = 10; //отступы
+        const x = this.width - miniMapSize - 10;
+        const y = 10;
         const blockSize = miniMapSize / map.size;
         const triangleX = x + player.x / map.size * miniMapSize;
         const triangleY = y + player.y / map.size * miniMapSize;
 
         ctx.save();
 
-        ctx.globalAlpha = .5; //фон карты
+        ctx.globalAlpha = .5; // map background
         ctx.fillRect(x, y, miniMapSize, miniMapSize);
 
-        ctx.globalAlpha = .5; //блоки
+        ctx.globalAlpha = .5; // blocks
         ctx.fillStyle = '#4c8847';
 
         for (let i = 0; i < map.size * map.size; i++) {
@@ -664,19 +659,19 @@ class Camera {
         ctx.save();
 
         for (let i = 0; i < map.objects.length; i++) {
-            //спрайты
+            // sprites
             if (map.objects[i]) {
-                if (map.objects[i] === 1) ctx.fillStyle = map.objects[i].color; //не трогать, так надо!!!!
+                if (map.objects[i] === 1) ctx.fillStyle = map.objects[i].color;
                 ctx.globalAlpha = map.objects[i].logic ? .8 : .3;
                 if (map.objects[i].color === undefined) ctx.globalAlpha = 0;
-                ctx.fillStyle = map.objects[i].color || 'red'; //не трогать, так надо!!!!
+                ctx.fillStyle = map.objects[i].color || 'red';
 
                 ctx.fillRect(x + blockSize * (map.objects[i].x - 0.5) + blockSize * .25, y + blockSize * (map.objects[i].y - 0.5) + blockSize * .25, blockSize * .5, blockSize * .5);
             }
         }
         ctx.restore();
 
-        ctx.globalAlpha = 1; //игрок
+        ctx.globalAlpha = 1; // player
         ctx.fillStyle = '#fff';
         ctx.moveTo(triangleX, triangleY);
         ctx.translate(triangleX, triangleY);
@@ -1222,14 +1217,13 @@ class Controls {
     onKey(val, e) {
         const state = this.codes[e.keyCode];
         if (typeof state === 'undefined') return;
-        if (typeof this.states[state] !== 'undefined') this.states[state] = val; //если не найдено в состояниях
-        else if (val === true) this.player.dosmth(state); //искать в действиях; если кнопка опущена - выполнить
+        if (typeof this.states[state] !== 'undefined') this.states[state] = val;else if (val === true) this.player.dosmth(state);
         e.preventDefault && e.preventDefault();
         e.stopPropagation && e.stopPropagation();
     }
 
     onMouseMovement(e) {
-        let x = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
+        const x = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
         if (x > 0) this.player.rotate(Math.PI / 50);
         if (x < 0) this.player.rotate(-Math.PI / 50);
     }
@@ -1476,24 +1470,19 @@ class Game {
         document.getElementById('play').addEventListener('mouseover', () => {
             this.sounds.loopSound("play_button_hover");
         });
-
         document.getElementById('play').addEventListener('mouseout', () => {
             soundManager.stop('play_button_hover');
         });
-
         document.getElementById('logo').addEventListener('mouseover', () => {
             this.sounds.loopSound("slender_logo_hover");
         });
-
         document.getElementById('logo').addEventListener('mouseout', () => {
             soundManager.stop('slender_logo_hover');
         });
-
         document.getElementById('about_us').addEventListener('mouseover', () => {
             this.sounds.loopSound("about_us");
             soundManager.mute('piano_menu_ambient');
         });
-
         document.getElementById('about_us').addEventListener('mouseout', () => {
             soundManager.stop('about_us');
             soundManager.unmute('piano_menu_ambient');
@@ -1502,7 +1491,6 @@ class Game {
             this.sounds.loopSound("about_game");
             soundManager.mute('piano_menu_ambient');
         });
-
         document.getElementById('about_game').addEventListener('mouseout', () => {
             soundManager.stop('about_game');
             soundManager.unmute('piano_menu_ambient');
