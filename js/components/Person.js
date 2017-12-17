@@ -22,21 +22,23 @@ export class Person {
         this.alive = true;
     };
 
-    logic(){
+    logic() {
         if(this.alive){
             this.count += 1;
 
             if (this.count > 270){
                 this.direction = this.direction + Calc.getRandomFloat(-(this.CIRCLE/6),this.CIRCLE/6);
                 this.count = 0;
-            }
+            };
+            //this.search();
             //this.turn();
             this.move('img/girl/girl');
             this.run();
             this.walk(0.05 * this.speed, this.direction);
-        }
-    }
-    /*turn(){
+        };
+    };
+
+    /*turn() {
         let angle = this.direction;
         let url = 'img/girl/girl';
         if((angle < this.CIRCLE/4 && angle > 0) || (angle < this.CIRCLE && angle >= (this.CIRCLE - this.CIRCLE/4))){
@@ -46,41 +48,49 @@ export class Person {
         }
         this.move(url);
     }*/
-    die(){
+
+    die() {
         this.texture = new Bitmap('img/girl/girl_die.gif', 114, 300);
-        setTimeout(()=>{
+        setTimeout( ()=> {
             this.texture = new Bitmap('img/girl/girl3-'+this.pic_num+'.png', 300, 56);
             this.height = .2;
             this.width = 0.7;
         },7000);
-    }
-    move(url){
-        if (this.count%10 === 0){
+    };
+
+    move(url) {
+        if (this.count%10 === 0) {
             if (this.count%20 === 0){
                 this.texture = new Bitmap(url + '2-'+this.pic_num+'.png', 114, 300);
-            }
-            else this.texture = new Bitmap(url + '-'+this.pic_num +'.png', 114, 300);
-        }
-    }
-    run(){
+            } else this.texture = new Bitmap(url + '-'+this.pic_num +'.png', 114, 300);
+        };
+    };
+
+    run() {
         const x = this.player.x - this.x;
         const y = this.player.y - this.y;
-        if(Math.sqrt(x*x+y*y) < 2){
+        if (Math.sqrt(x*x+y*y) < 2) {
             this.speed = 3;
             this.direction = -this.player.direction;
         } else this.speed = .7;
-    }
-    /*search(){
-        let paper;
-        this.map.objects.forEach((item)=>{
-    		if(item instanceof Paper) paper = item;
-    	});
-        let x = this.x - paper.x;
-        let y = this.y - paper.y;
-        if(Math.sqrt(x*x+y*y) < 10){
+    };
 
-        } else
-    }*/
+    search() {
+        try {
+            let paper;
+            this.map.objects.forEach((item)=>{
+                if(item instanceof Paper) {
+                    paper = item;
+                    console.log("Paper!")
+                }
+            });
+            let x = this.x - paper.x;
+            let y = this.y - paper.y;
+            //if(Math.sqrt(x*x+y*y) < 10){
+        } catch (e) {
+            //console.log("No paper!")
+        }
+    }
 
     walk(distance, direction) {
         const dx = Math.cos(direction) * distance;
@@ -93,7 +103,7 @@ export class Person {
             this.hitting_the_fence = true;
             this.direction = direction + this.CIRCLE/6;
             this.walk(distance, this.map, this.direction);
-        }
+        };
         if (in_the_x_way <= 0) this.x += dx;
         if (in_the_y_way <= 0) this.y += dy;
     };

@@ -39,7 +39,7 @@ export class Player {
             this.hitObject();
             this.hitting_the_fence = false;
         }
-        
+
         if (in_the_x_way <= 0) this.x += dx;
         if (in_the_y_way <= 0) this.y += dy;
         this.paces += distance;
@@ -70,7 +70,7 @@ export class Player {
         (controls.shift) ? this.speed = 3 : this.speed = 1;
     };
 
-    eat(person){
+    eat(person) {
         const x = this.x - person.x;
         const y = this.y - person.y;
         if(Math.sqrt(x*x+y*y) < 0.5) {
@@ -131,7 +131,7 @@ export class Player {
         (this.state.winter) ? this.snowHit() : this.rainHit();
     }
 
-    snowHit () {
+    snowHit() {
         if (this.obj_sounds.obj_sound_end) {
             if (this.hitting_the_fence) {
                 this.obj_sounds.makeObjSound('hitting_the_fence');
@@ -140,7 +140,7 @@ export class Player {
             }
         }
     };
-    rainHit () {
+    rainHit() {
         if (this.obj_sounds.obj_sound_end) {
             if (this.hitting_the_fence) {
                 this.obj_sounds.makeObjSound('hitting_the_rain_fence');
@@ -180,6 +180,7 @@ export class Player {
                     this.sounds.makeSound('placing_paper');
                 }
             }
+            console.log(this.map.objects)
         }
         if(action === 'escape') location.reload();
     }

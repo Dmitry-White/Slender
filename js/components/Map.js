@@ -139,6 +139,4 @@ export class Map {
     	y = Math.floor(y);
     	return this.objects[y * this.size + x];
     }
-
-
 }
