@@ -42,7 +42,7 @@ export class Game {
 
 		this.map.buildMap(this.trees, this.bushes);
 
-		/*let intro = document.querySelector('.intro');
+		let intro = document.querySelector('.intro');
  		intro.style.display = 'block';
 		this.enterFS(intro)
  		intro.play();
@@ -59,9 +59,9 @@ export class Game {
  	 				this.startGame();
  	            }
  	        });
- 		},28000);*/
+ 		},28000);
 
-		this.startGame();
+		//this.startGame();
 	};
 
     startGame() {
