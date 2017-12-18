@@ -14,20 +14,28 @@ import { assets } from "../json/assets.json";
 
 export class Game {
     constructor() {
-        this.mode = {}
-        this.game_ending = false;
         this.CIRCLE = Math.PI * 2;
+        this.PPL_NUM = 8;
+        this.PPL_XY = 30;
+        this.MAP_SIZE = 32;
+        this.RESOLUTION = 640;
+        this.video = document.querySelector('.intro');
+        this.message = document.querySelector('.text');
+        this.message_child = document.querySelector('.text h1');
+        this.canvas = document.getElementById('display');
+        this.mode = {};
+        this.game_ending = false;
         this.papers = assets.papers;
         this.trees = assets.rain_trees;
 		this.bushes = assets.rain_bushes;
-        this.sounds = new Sounds();
-        this.noises = new Noises();
-        this.loop = new GameLoop(this, this.endGame);
-        this.camera = new Camera(document.getElementById('display'), 640, 0.8, this.mode, this.CIRCLE);
+        this.sounds = new Sounds(this);
     };
 
     loadGame() {
-        this.map = new Map(32, this.mode);
+        this.camera = new Camera(this.canvas, this.RESOLUTION, 0.8, this.mode, this.CIRCLE);
+        this.loop = new GameLoop(this, this.endGame);
+        this.map = new Map(this.MAP_SIZE, this.mode);
+        this.noises = new Noises();
         this.obj_sounds = new ObjSounds(this, this.map, this.mode);
         this.player = new Player( {x : 1.5, y : 1.5, direction : 1, game : this} );
 		this.controls = new Controls(this.player);
@@ -36,16 +44,15 @@ export class Game {
 		this.addPeople();
 		this.map.buildMap(this.trees, this.bushes);
         /*
-		let intro = document.querySelector('.intro');
- 		intro.style.display = 'block';
-		this.enterFS(intro)
- 		intro.play();
+ 		this.video.style.display = 'block';
+		this.enterFS(this.video)
+ 		this.video.play();
 
  		setTimeout(()=>{
-			this.exitFS(intro);
- 			intro.pause();
- 			intro.style.display = 'none';
-			document.querySelector('.text').style.display = 'flex';
+			this.exitFS(this.video);
+ 			this.video.pause();
+ 			this.video.style.display = 'none';
+			this.message.style.display = 'flex';
 			this.mouseLock();
  			soundManager.play("entering_area",{
  	            multiShotEvents: true,
@@ -59,15 +66,15 @@ export class Game {
 	};
 
     startGame() {
-        //this.game_ending = true;
-        document.querySelector('.text').style.display = 'none';
-        document.querySelector('canvas').style.display = 'block';
+        this.message.style.display = 'none';
+        this.canvas.style.display = 'block';
         this.loop.start((seconds) => {
             if (this.mode.lightning) this.map.lightning(seconds);
             this.map.update();
             this.changeAmbient();
             this.player.update(this.controls.states, this.map, seconds);
             this.camera.render(this.player, this.map);
+            this.checkEnding();
         });
     };
 
@@ -80,36 +87,52 @@ export class Game {
         this.game.showEndingScreen();
     };
 
+    makeEndmode() {
+        this.map.light = 2;
+        this.mode.param = 20;
+        this.mode.drops  = "#f00";
+        this.mode.ground = "#f00";
+        this.mode.lightning = false;
+        this.mode.drops_opacity = 1;
+        this.mode.particlesWidth = 10;
+        this.mode.particlesHeight = 10;
+    };
+
+    checkEnding() {
+        if (this.map.people == 0 && this.obj_sounds.obj_sound_end) {
+            this.makeEndmode();
+            this.obj_sounds.playScream();
+        };
+    }
+
     showEndingScreen() {
-        document.querySelector('.text').style.display = 'flex';
-        const text = document.querySelector('.text h1');
-        text.innerHTML = 'Do you want to play more?';
-        text.setAttribute('data-text','Do you want to kiLL more?');
-        document.querySelector('canvas').style.display = 'none';
+        this.message.style.display = 'flex';
+        this.message_child.innerHTML = 'Do you want to play more?';
+        this.message_child.setAttribute('data-text','Do you want to kiLL more?');
+        this.canvas.style.display = 'none';
     };
 
     setMode() {
         if (this.mode.winter) {
-            this.sounds.loopSound('wind_ambient')
+            this.sounds.loopSound('wind_ambient');
             this.trees = assets.trees;
             this.bushes = assets.bushes;
         } else this.sounds.loopSound('rain_ambient');
     };
 
     addPeople() {
-        for (let i = 0; i < 7; i++) {
-            let x = Calc.getRandomInt(2,30)
-            let y = Calc.getRandomInt(2,30)
-            let pic_num = Calc.getRandomInt(1,5);
-            console.log(pic_num);
-            this.map.addObject(new Person(this.player, this.map , x, y, pic_num, this.CIRCLE));
+        for (let i = 0; i < this.PPL_NUM; i++) {
+            let x = Calc.getRandomInt(2, this.PPL_XY);
+            let y = Calc.getRandomInt(2, this.PPL_XY);
+            let pic_num = Calc.getRandomInt(1, 5);
+            this.map.addObject(new Person(this.player, this.map, x, y, pic_num, this.CIRCLE));
             this.map.people++;
         }
     };
 
     changeAmbient() {
         if (this.noises.noises_end) {
-            const next = Calc.getRandomInt(0,4)
+            const next = Calc.getRandomInt(0,4);
             this.noises.playNoises(next);
         };
     };

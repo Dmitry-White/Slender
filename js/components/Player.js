@@ -18,7 +18,7 @@ export class Player {
         this.right_hand = new Bitmap('img/slender/knife_hand.png', 200, 200);
         this.left_hand = new Bitmap('img/slender/left_hand.png', 200, 200);
         this.paces = 0;
-        this.paper = new Paper(0,0);
+        this.prev_paper_place = [];
         this.speed = 1;
         this.hitting_the_fence = false;
         this.hitting_the_wall = false;
@@ -72,30 +72,6 @@ export class Player {
             this.walk(-(this.speed/2) * seconds, map, this.direction - Math.PI/2);
         }
         (controls.shift) ? this.speed = 3 : this.speed = 1;
-    };
-
-    attack() {
-        let x, y;
-        let victim;
-        let nearVictim = false
-        this.map.objects.some((item)=>{
-            if(item instanceof Person && item.alive) {
-                victim = item;
-                x = this.x - victim.x;
-                y = this.y - victim.y;
-                if (Math.sqrt(x*x+y*y) < 0.5) {
-                    return nearVictim = true;
-                }
-            }
-        });
-        if(nearVictim) {
-            this.obj_sounds.makeSound('killing');
-            victim.alive = false;
-            victim.die();
-            this.map.people--;
-        } else if (this.obj_sounds.obj_sound_end) {
-            this.obj_sounds.makeSound('slashing');
-        }
     };
 
     snowWalkSound() {
@@ -177,23 +153,54 @@ export class Player {
     };
 
     dosmth(action){
-        if(action === 'attack') {
+        if (action === 'attack') {
             this.attack();
         }
-        if(action === 'space') {
-            if (!this.running && !this.walking && this.sounds.sound_end) {
-                const paper_type = Calc.getRandomInt(0,8);
-                this.map.addObject(new Paper(this.x,this.y, new Bitmap(this.papers[paper_type].texture, this.papers[paper_type].width, this.papers[paper_type].height)));
-                if (paper_type === 0) {
-                    this.obj_sounds.makeSound('placing_loo_paper')
-                } else if (paper_type === 7) {
-                    this.obj_sounds.makeSound('placing_bomb');
-                } else {
-                    this.obj_sounds.makeSound('placing_paper');
+        if (action === 'space') {
+            this.placePaper();
+        }
+        if (action === 'escape') location.reload();
+    };
+
+    attack() {
+        let x, y;
+        let victim;
+        let nearVictim = false
+        this.map.objects.some((item)=>{
+            if(item instanceof Person && item.alive) {
+                victim = item;
+                x = this.x - victim.x;
+                y = this.y - victim.y;
+                if (Math.sqrt(x*x+y*y) < 0.5) {
+                    return nearVictim = true;
                 }
             }
-            console.log(this.map.objects)
+        });
+        if(nearVictim) {
+            this.obj_sounds.makeSound('killing');
+            victim.alive = false;
+            victim.die();
+            this.map.people--;
+        } else if (this.obj_sounds.obj_sound_end) {
+            this.obj_sounds.makeSound('slashing');
         }
-        if(action === 'escape') location.reload();
     };
+
+    placePaper() {
+        let same_place = this.prev_paper_place[0] === this.x &&
+                         this.prev_paper_place[1] === this.y;
+        if (!this.running && !this.walking && this.sounds.sound_end && !same_place) {
+            const paper_type = Calc.getRandomInt(0,8);
+            this.map.addObject(new Paper(this.x,this.y, new Bitmap(this.papers[paper_type].texture, this.papers[paper_type].width, this.papers[paper_type].height)));
+            if (paper_type === 0) {
+                this.obj_sounds.makeSound('placing_loo_paper')
+            } else if (paper_type === 7) {
+                this.obj_sounds.makeSound('placing_bomb');
+            } else {
+                this.obj_sounds.makeSound('placing_paper');
+            }
+            this.prev_paper_place = [this.x, this.y];
+            console.log(this.map.objects);
+        }
+    }
 }

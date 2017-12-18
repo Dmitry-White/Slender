@@ -1,5 +1,6 @@
 export class Sounds{
-    constructor() {
+    constructor(game) {
+        this.game = game;
         this.sound_end = true;
         this.ending = {
             0: 'come_out',
@@ -132,21 +133,10 @@ export class Sounds{
         soundManager.play(sound_id,{
             multiShotEvents: true,
             onfinish: ()=> {
-                this.obj_sound_end = true
+                this.obj_sound_end = true;
                 this.sound_end = true;
             }
         });
-    };
-
-    makeEndmode() {
-        this.map.light = 2;
-        this.mode.param = 20;
-        this.mode.drops  = "#f00";
-        this.mode.ground = "#f00";
-        this.mode.lightning = false;
-        this.mode.drops_opacity = 1;
-        this.mode.particlesWidth = 10;
-        this.mode.particlesHeight = 10;
     };
 
     playEnding(ending_num) {

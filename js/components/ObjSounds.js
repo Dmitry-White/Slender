@@ -57,19 +57,14 @@ export class ObjSounds extends Sounds {
     makeSound(sound_id) {
         this.obj_sound_end = false
         super.makeSound(sound_id);
-        this.checkGameEnding();
     };
 
-    checkGameEnding() {
-        console.log("To be eaten: ",this.map.people)
-        if (this.map.people == 0) {
-            console.log("People = 0");
-            this.makeEndmode();
-            soundManager.play("ghost_scream",{
-                onfinish: () => {
-                    this.game.game_ending = true;
-                }
-            });
-        };
+    playScream() {
+        this.obj_sound_end = false;
+        soundManager.play("ghost_scream",{
+            onfinish: () => {
+                this.game.game_ending = true;
+            }
+        });
     };
 };
