@@ -4,15 +4,15 @@ import { Person } from "./Person.js";
 import { Calc } from "./Calc.js";
 
 export class Map {
-    constructor(size, state) {
-        this.state = state;
+    constructor(size, mode) {
+        this.mode = mode;
         this.size = size;
         this.wallGrid = new Uint8Array(size * size);
-        this.skybox = new Bitmap(state.sky_texture, 2000, 750);
-        this.fenceTexture = new Bitmap(state.fence_texture, 512, 512);
+        this.skybox = new Bitmap(mode.sky_texture, 2000, 750);
+        this.fenceTexture = new Bitmap(mode.fence_texture, 512, 512);
         this.fenceDoorTexture = new Bitmap('img/fence_door_0.jpg', 512, 256);
-        this.wallTexture = new Bitmap(state.wall_texture, 512, 512);
-        this.light = this.state.light;
+        this.wallTexture = new Bitmap(mode.wall_texture, 512, 512);
+        this.light = this.mode.light;
         this.objects = [];
         this.people = 0;
     };

@@ -5,15 +5,16 @@ import { Person } from "./Person.js";
 
 export class Player {
     constructor(origin) {
-        this.CIRCLE = origin.CIRCLE;
         this.x = origin.x;
         this.y = origin.y;
         this.direction = origin.direction;
-        this.papers = origin.papers;
-        this.map = origin.map;
-        this.sounds = origin.sounds;
-        this.obj_sounds = origin.obj_sounds;
-        this.state = origin.state;
+        this.CIRCLE = origin.game.CIRCLE;
+        this.papers = origin.game.papers;
+        this.map = origin.game.map;
+        this.sounds = origin.game.sounds;
+        this.obj_sounds = origin.game.obj_sounds;
+        this.mode = origin.game.mode;
+        this.game = origin.game
         this.right_hand = new Bitmap('img/slender/knife_hand.png', 200, 200);
         this.left_hand = new Bitmap('img/slender/left_hand.png', 200, 200);
         this.paces = 0;
@@ -77,13 +78,11 @@ export class Player {
         const x = this.x - person.x;
         const y = this.y - person.y;
         if(Math.sqrt(x*x+y*y) < 0.5) {
-            this.obj_sounds.makeSound('killing');
+            this.obj_sounds.makeSound('killing', 'obj');
             person.alive = false;
             person.die();
             this.map.people--;
-        } else this.obj_sounds.makeSound('slashing');
-        console.log("To be eaten: ",this.map.people)
-
+        } else this.obj_sounds.makeSound('slashing', 'obj');
     }
 
     snowWalkSound() {
@@ -131,15 +130,15 @@ export class Player {
     };
 
     hitObject() {
-        (this.state.winter) ? this.snowHit() : this.rainHit();
+        (this.mode.winter) ? this.snowHit() : this.rainHit();
     }
 
     snowHit() {
         if (this.obj_sounds.obj_sound_end) {
             if (this.hitting_the_fence) {
-                this.obj_sounds.makeObjSound('hitting_the_fence');
+                this.obj_sounds.makeSound('hitting_the_fence', 'obj');
             } else if (this.hitting_the_wall) {
-                this.obj_sounds.makeObjSound('hitting_the_wall');
+                this.obj_sounds.makeSound('hitting_the_wall', 'obj');
             }
         }
     };
@@ -147,21 +146,21 @@ export class Player {
     rainHit() {
         if (this.obj_sounds.obj_sound_end) {
             if (this.hitting_the_fence) {
-                this.obj_sounds.makeObjSound('hitting_the_rain_fence');
+                this.obj_sounds.makeSound('hitting_the_rain_fence', 'obj');
                 this.hitting_the_fence = false;
             } else if (this.hitting_the_wall) {
-                this.obj_sounds.makeObjSound('hitting_the_wall');
+                this.obj_sounds.makeSound('hitting_the_wall', 'obj');
                 this.hitting_the_wall = false;
             }
         }
     };
 
     walkSound() {
-        (this.state.winter) ? this.snowWalkSound() : this.rainWalkSound();
+        (this.mode.winter) ? this.snowWalkSound() : this.rainWalkSound();
     }
 
     dodgeSound() {
-        (this.state.winter) ? this.snowDodgeSound() : this.rainDodgeSound();
+        (this.mode.winter) ? this.snowDodgeSound() : this.rainDodgeSound();
     }
 
     dosmth(action){
@@ -177,11 +176,11 @@ export class Player {
                 const paper_type = Calc.getRandomInt(0,8);
                 this.map.addObject(new Paper(this.x,this.y, new Bitmap(this.papers[paper_type].texture, this.papers[paper_type].width, this.papers[paper_type].height)));
                 if (paper_type === 0) {
-                    this.sounds.makeSound('placing_loo_paper')
+                    this.obj_sounds.makeSound('placing_loo_paper','obj')
                 } else if (paper_type === 7) {
-                    this.sounds.makeSound('placing_bomb');
+                    this.obj_sounds.makeSound('placing_bomb', 'obj');
                 } else {
-                    this.sounds.makeSound('placing_paper');
+                    this.obj_sounds.makeSound('placing_paper', 'obj');
                 }
             }
             console.log(this.map.objects)

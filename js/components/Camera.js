@@ -1,9 +1,9 @@
 import { Objects } from "./Objects.js";
 
 export class Camera {
-    constructor(canvas, resolution, fov, state, CIRCLE) {
+    constructor(canvas, resolution, fov, mode, CIRCLE) {
         this.CIRCLE = CIRCLE;
-        this.state = state;
+        this.mode = mode;
         this.ctx = canvas.getContext('2d');
     	this.width = canvas.width = window.innerWidth;
     	this.height = canvas.height = window.innerHeight;
@@ -32,15 +32,15 @@ export class Camera {
     	}
 
     	if (ambient > 0) {
-    		this.ctx.fillStyle = this.state.ground;
-    		this.ctx.globalAlpha = ambient * this.state.param;
+    		this.ctx.fillStyle = this.mode.ground;
+    		this.ctx.globalAlpha = ambient * this.mode.param;
     		this.ctx.fillRect(0, this.height * 0.5, this.width, this.height * 0.5);
     	}
     	this.ctx.restore();
     };
 
     drawColumn(column, ray, angle, map) {
-        this.lightRange = this.state.lightRange;
+        this.lightRange = this.mode.lightRange;
     	const ctx = this.ctx;
     	const left = Math.floor(column*this.spacing);
 		const width = Math.ceil(this.spacing);
@@ -63,9 +63,9 @@ export class Camera {
             } else wallTexture = map.wallTexture;
 
             let drops_seed = 0;
-            (this.state.winter) ? drops_seed = 3 : drops_seed = s;
+            (this.mode.winter) ? drops_seed = 3 : drops_seed = s;
 
-    		let rainDrops = Math.pow(Math.random(), this.state.drops_amount) * drops_seed;
+    		let rainDrops = Math.pow(Math.random(), this.mode.drops_amount) * drops_seed;
     		const rain = (rainDrops > 0) && this.project(0.1, angle, step.distance);
     		let textureX, wall;
 
@@ -76,7 +76,7 @@ export class Camera {
     			ctx.globalAlpha = 1;
     			ctx.drawImage(wallTexture.image, textureX, 0, 1, wallTexture.height, left, wall.top, width, wall.height);
 
-    			ctx.fillStyle = this.state.shadows;
+    			ctx.fillStyle = this.mode.shadows;
                 this.shading = step.shading;
     			ctx.globalAlpha = Math.max((step.distance + step.shading) / this.lightRange - map.light, 0);
     			ctx.fillRect(left, wall.top, width, wall.height);
@@ -91,11 +91,11 @@ export class Camera {
     			});
 
     		}
-    		ctx.fillStyle = this.state.drops;
-    		ctx.globalAlpha = this.state.drops_opacity;
+    		ctx.fillStyle = this.mode.drops;
+    		ctx.globalAlpha = this.mode.drops_opacity;
     		while (--rainDrops > 0) ctx.fillRect(left, Math.random() * rain.top,
-                                                this.state.particlesWidth,
-                                                this.state.particlesHeight);
+                                                this.mode.particlesWidth,
+                                                this.mode.particlesHeight);
     	}
     	return {
     		objects: objects,

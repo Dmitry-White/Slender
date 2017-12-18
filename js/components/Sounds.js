@@ -1,8 +1,8 @@
 export class Sounds{
-    constructor(map="", loop="", state="") {
+    constructor(game="", map="", mode="") {
+        this.game = game;
         this.map = map;
-        this.loop = loop;
-        this.state = state;
+        this.mode = mode;
         this.sound_end = true;
         this.obj_sound_end = true;
         this.noises_end = true;
@@ -198,27 +198,19 @@ export class Sounds{
         });
     };
 
-    makeSound(sound_id) {
-        this.sound_end = false;
+    makeSound(sound_id, obj="") {
+        if (obj == "obj") this.obj_sound_end = false
+        else this.sound_end = false;
         soundManager.play(sound_id,{
             multiShotEvents: true,
             onfinish: ()=> {
-                this.sound_end = true;
+                if (obj == "obj") this.obj_sound_end = true
+                else this.sound_end = true;
                 this.checkGameEnding();
             }
         });
     };
 
-    makeObjSound(sound_id) {
-        self = this;
-        self.obj_sound_end = false;
-        soundManager.play(sound_id,{
-            multiShotEvents: true,
-            onfinish: ()=> {
-                self.obj_sound_end = true;
-            }
-        });
-    };
     playNoises(noise_num) {
         this.noises_end = false;
         soundManager.play(this.noises[noise_num],{
@@ -230,26 +222,27 @@ export class Sounds{
     };
 
     checkGameEnding() {
-        if (this.map.people === 0) {
-            console.log("People = 0")
-            this.makeEndState();
+        console.log("To be eaten: ",this.map.people)
+        if (this.map.people == 0) {
+            console.log("People = 0");
+            this.makeEndmode();
             soundManager.play("ghost_scream",{
                 onfinish: () => {
-                    this.loop.game_ending = true;
+                    this.game.game_ending = true;
                 }
             });
         }
     }
 
-    makeEndState() {
+    makeEndmode() {
         this.map.light = 2;
-        this.state.param = 20;
-        this.state.drops  = "#f00";
-        this.state.ground = "#f00";
-        this.state.lightning = false;
-        this.state.drops_opacity = 1;
-        this.state.particlesWidth = 10;
-        this.state.particlesHeight = 10;
+        this.mode.param = 20;
+        this.mode.drops  = "#f00";
+        this.mode.ground = "#f00";
+        this.mode.lightning = false;
+        this.mode.drops_opacity = 1;
+        this.mode.particlesWidth = 10;
+        this.mode.particlesHeight = 10;
     }
 
     playEnding(ending_num) {

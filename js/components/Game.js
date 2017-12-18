@@ -12,7 +12,8 @@ import { assets } from "../json/assets.json";
 
 export class Game {
     constructor() {
-        this.state = {}
+        this.mode = {}
+        this.game_ending = false;
         this.CIRCLE = Math.PI * 2;
         this.papers = assets.papers;
         this.trees = assets.rain_trees;
@@ -20,28 +21,19 @@ export class Game {
         this.sounds = new Sounds();
         this.noises = new Sounds();
         this.loop = new GameLoop(this, this.endGame);
-        this.camera = new Camera(document.getElementById('display'), 640, 0.8, this.state, this.CIRCLE);
+        this.camera = new Camera(document.getElementById('display'), 640, 0.8, this.mode, this.CIRCLE);
     };
 
     loadGame() {
-        this.obj_sounds = new Sounds(this.map, this.loop, this.state);
-        this.map = new Map(32, this.state);
-        this.player = new Player( { x : 1.5,
-								   	y : 1.5,
-								   	direction : 1,
-								   	papers : this.papers,
-								   	map : this.map,
-								   	sounds : this.sounds,
-								   	obj_sounds : this.obj_sounds,
-							   	   	state : this.state,
-                                    CIRCLE : this.CIRCLE });
+        this.map = new Map(32, this.mode);
+        this.obj_sounds = new Sounds(this, this.map, this.mode);
+        this.player = new Player( {x : 1.5, y : 1.5, direction : 1, game : this} );
 		this.controls = new Controls(this.player);
+
 		this.setMode();
-
 		this.addPeople();
-
 		this.map.buildMap(this.trees, this.bushes);
-
+        /*
 		let intro = document.querySelector('.intro');
  		intro.style.display = 'block';
 		this.enterFS(intro)
@@ -60,15 +52,16 @@ export class Game {
  	            }
  	        });
  		},28000);
-
-		//this.startGame();
+        */
+		this.startGame();
 	};
 
     startGame() {
+        //this.game_ending = true;
         document.querySelector('.text').style.display = 'none';
         document.querySelector('canvas').style.display = 'block';
         this.loop.start((seconds) => {
-            if (this.state.lightning) this.map.lightning(seconds);
+            if (this.mode.lightning) this.map.lightning(seconds);
             this.map.update();
             this.changeAmbient();
             this.player.update(this.controls.states, this.map, seconds);
@@ -78,8 +71,14 @@ export class Game {
 
     endGame() {
         soundManager.stopAll();
-        const end = Calc.getRandomInt(0,2);
-        this.sounds.playEnding(end);
+
+        const end_song = Calc.getRandomInt(0,2);
+        this.game.sounds.playEnding(end_song);
+
+        this.game.showEndingScreen();
+    };
+
+    showEndingScreen() {
         document.querySelector('.text').style.display = 'flex';
         const text = document.querySelector('.text h1');
         text.innerHTML = 'Do you want to play more?';
@@ -88,7 +87,7 @@ export class Game {
     };
 
     setMode() {
-        if (this.state.winter) {
+        if (this.mode.winter) {
             this.sounds.loopSound('wind_ambient')
             this.trees = assets.trees;
             this.bushes = assets.bushes;
@@ -144,39 +143,39 @@ export class Game {
     };
 
     setToWinter() {
-        this.state.winter = true;
-        this.state.light = 1;
-        this.state.lightning = false;
-        this.state.lightRange = 5;
-        this.state.shadows = "#fff";
-        this.state.drops = "#fff";
-        this.state.drops_opacity = 1;
-        this.state.drops_amount = 100;
-        this.state.ground = "#fff";
-        this.state.param = 0.5;
-        this.state.particlesWidth = 6;
-        this.state.particlesHeight = 6;
-        this.state.fence_texture = "img/snow/fence_snow.png";
-        this.state.sky_texture = "img/snow/sky_panorama_snow.jpg";
-        this.state.wall_texture = "img/snow/wall_texture_snow.jpg";
+        this.mode.winter = true;
+        this.mode.light = 1;
+        this.mode.lightning = false;
+        this.mode.lightRange = 5;
+        this.mode.shadows = "#fff";
+        this.mode.drops = "#fff";
+        this.mode.drops_opacity = 1;
+        this.mode.drops_amount = 100;
+        this.mode.ground = "#fff";
+        this.mode.param = 0.5;
+        this.mode.particlesWidth = 6;
+        this.mode.particlesHeight = 6;
+        this.mode.fence_texture = "img/snow/fence_snow.png";
+        this.mode.sky_texture = "img/snow/sky_panorama_snow.jpg";
+        this.mode.wall_texture = "img/snow/wall_texture_snow.jpg";
     };
 
     setToVanilla() {
-        this.state.winter = false;
-        this.state.light = 2;
-        this.state.lightning = true;
-        this.state.lightRange = 5;
-        this.state.shadows = "#000";
-        this.state.drops = "#fff";
-        this.state.drops_opacity = 0.15;
-        this.state.drops_amount = 30;
-        this.state.ground = "#56361f";
-        this.state.param = 0.1;
-        this.state.particlesWidth = 2;
-        this.state.particlesHeight = 20;
-        this.state.sky_texture = "img/rain/rain_sky_panorama.jpg";
-        this.state.fence_texture = "img/rain/rain_fence.jpg";
-        this.state.wall_texture = "img/rain/rain_wall_texture.jpg";
+        this.mode.winter = false;
+        this.mode.light = 2;
+        this.mode.lightning = true;
+        this.mode.lightRange = 5;
+        this.mode.shadows = "#000";
+        this.mode.drops = "#fff";
+        this.mode.drops_opacity = 0.15;
+        this.mode.drops_amount = 30;
+        this.mode.ground = "#56361f";
+        this.mode.param = 0.1;
+        this.mode.particlesWidth = 2;
+        this.mode.particlesHeight = 20;
+        this.mode.sky_texture = "img/rain/rain_sky_panorama.jpg";
+        this.mode.fence_texture = "img/rain/rain_fence.jpg";
+        this.mode.wall_texture = "img/rain/rain_wall_texture.jpg";
     };
 
     loadSounds() {
