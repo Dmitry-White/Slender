@@ -1,6 +1,7 @@
 import { Map } from "./Map.js";
 import { Calc } from "./Calc.js";
 import { Sounds } from "./Sounds.js";
+import { Noises } from "./Noises.js";
 import { Person } from "./Person.js";
 import { Player } from "./Player.js";
 import { Bitmap } from "./Bitmap.js";
@@ -8,6 +9,7 @@ import { Camera } from "./Camera.js";
 import { Objects } from "./Objects.js";
 import { Controls } from "./Controls.js";
 import { GameLoop } from "./GameLoop.js";
+import { ObjSounds } from "./ObjSounds.js";
 import { assets } from "../json/assets.json";
 
 export class Game {
@@ -19,14 +21,14 @@ export class Game {
         this.trees = assets.rain_trees;
 		this.bushes = assets.rain_bushes;
         this.sounds = new Sounds();
-        this.noises = new Sounds();
+        this.noises = new Noises();
         this.loop = new GameLoop(this, this.endGame);
         this.camera = new Camera(document.getElementById('display'), 640, 0.8, this.mode, this.CIRCLE);
     };
 
     loadGame() {
         this.map = new Map(32, this.mode);
-        this.obj_sounds = new Sounds(this, this.map, this.mode);
+        this.obj_sounds = new ObjSounds(this, this.map, this.mode);
         this.player = new Player( {x : 1.5, y : 1.5, direction : 1, game : this} );
 		this.controls = new Controls(this.player);
 

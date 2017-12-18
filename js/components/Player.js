@@ -74,16 +74,29 @@ export class Player {
         (controls.shift) ? this.speed = 3 : this.speed = 1;
     };
 
-    eat(person) {
-        const x = this.x - person.x;
-        const y = this.y - person.y;
-        if(Math.sqrt(x*x+y*y) < 0.5) {
-            this.obj_sounds.makeSound('killing', 'obj');
-            person.alive = false;
-            person.die();
+    attack() {
+        let x, y;
+        let victim;
+        let nearVictim = false
+        this.map.objects.some((item)=>{
+            if(item instanceof Person && item.alive) {
+                victim = item;
+                x = this.x - victim.x;
+                y = this.y - victim.y;
+                if (Math.sqrt(x*x+y*y) < 0.5) {
+                    return nearVictim = true;
+                }
+            }
+        });
+        if(nearVictim) {
+            this.obj_sounds.makeSound('killing');
+            victim.alive = false;
+            victim.die();
             this.map.people--;
-        } else this.obj_sounds.makeSound('slashing', 'obj');
-    }
+        } else if (this.obj_sounds.obj_sound_end) {
+            this.obj_sounds.makeSound('slashing');
+        }
+    };
 
     snowWalkSound() {
         if (this.sounds.sound_end) {
@@ -94,14 +107,14 @@ export class Player {
                                         this.sounds.makeSound('backward_step');
             }
         }
-    }
+    };
 
     snowDodgeSound() {
         if (this.sounds.sound_end) {
             (Math.random() > 0.5) ? this.sounds.makeSound('dodge_step_0') :
                                     this.sounds.makeSound('dodge_step_1');
         }
-    }
+    };
 
     rainWalkSound() {
         if (this.sounds.sound_end) {
@@ -131,14 +144,14 @@ export class Player {
 
     hitObject() {
         (this.mode.winter) ? this.snowHit() : this.rainHit();
-    }
+    };
 
     snowHit() {
         if (this.obj_sounds.obj_sound_end) {
             if (this.hitting_the_fence) {
-                this.obj_sounds.makeSound('hitting_the_fence', 'obj');
+                this.obj_sounds.makeSound('hitting_the_fence');
             } else if (this.hitting_the_wall) {
-                this.obj_sounds.makeSound('hitting_the_wall', 'obj');
+                this.obj_sounds.makeSound('hitting_the_wall');
             }
         }
     };
@@ -146,10 +159,10 @@ export class Player {
     rainHit() {
         if (this.obj_sounds.obj_sound_end) {
             if (this.hitting_the_fence) {
-                this.obj_sounds.makeSound('hitting_the_rain_fence', 'obj');
+                this.obj_sounds.makeSound('hitting_the_rain_fence');
                 this.hitting_the_fence = false;
             } else if (this.hitting_the_wall) {
-                this.obj_sounds.makeSound('hitting_the_wall', 'obj');
+                this.obj_sounds.makeSound('hitting_the_wall');
                 this.hitting_the_wall = false;
             }
         }
@@ -157,34 +170,30 @@ export class Player {
 
     walkSound() {
         (this.mode.winter) ? this.snowWalkSound() : this.rainWalkSound();
-    }
+    };
 
     dodgeSound() {
         (this.mode.winter) ? this.snowDodgeSound() : this.rainDodgeSound();
-    }
+    };
 
     dosmth(action){
-        if(action === 'atac') {
-            this.map.objects.forEach((item)=>{
-        		if(item instanceof Person && item.alive) {
-                    this.eat(item);
-                }
-        	});
+        if(action === 'attack') {
+            this.attack();
         }
         if(action === 'space') {
             if (!this.running && !this.walking && this.sounds.sound_end) {
                 const paper_type = Calc.getRandomInt(0,8);
                 this.map.addObject(new Paper(this.x,this.y, new Bitmap(this.papers[paper_type].texture, this.papers[paper_type].width, this.papers[paper_type].height)));
                 if (paper_type === 0) {
-                    this.obj_sounds.makeSound('placing_loo_paper','obj')
+                    this.obj_sounds.makeSound('placing_loo_paper')
                 } else if (paper_type === 7) {
-                    this.obj_sounds.makeSound('placing_bomb', 'obj');
+                    this.obj_sounds.makeSound('placing_bomb');
                 } else {
-                    this.obj_sounds.makeSound('placing_paper', 'obj');
+                    this.obj_sounds.makeSound('placing_paper');
                 }
             }
             console.log(this.map.objects)
         }
         if(action === 'escape') location.reload();
-    }
+    };
 }

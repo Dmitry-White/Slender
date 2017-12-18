@@ -1,21 +1,10 @@
 export class Sounds{
-    constructor(game="", map="", mode="") {
-        this.game = game;
-        this.map = map;
-        this.mode = mode;
+    constructor() {
         this.sound_end = true;
-        this.obj_sound_end = true;
-        this.noises_end = true;
-        this.noises = {
-            0: 'ghost_in_the_house',
-            1: 'just_horror_ambient',
-            2: 'weird_noises',
-            3: 'scary_piano'
-        }
         this.ending = {
             0: 'come_out',
             1: 'lululala'
-        }
+        };
         soundManager.setup({
             url: './soundmanager2/',
             onready: () => {
@@ -110,66 +99,6 @@ export class Sounds{
                 });
                 // ------------------------------------------------
 
-                // --------------- General Stuff ------------------
-                const entering_area =  soundManager.createSound({
-                    id: 'entering_area',
-                    url: 'sounds/objects/entering_area.mp3'
-                });
-                const hitting_the_fence =  soundManager.createSound({
-                    id: 'hitting_the_fence',
-                    url: 'sounds/objects/hitting_the_fence.mp3'
-                });
-                const hitting_the_rain_fence =  soundManager.createSound({
-                    id: 'hitting_the_rain_fence',
-                    url: 'sounds/objects/hitting_the_rain_fence.mp3',
-                    volume:50
-                });
-                const hitting_the_wall =  soundManager.createSound({
-                    id: 'hitting_the_wall',
-                    url: 'sounds/objects/hitting_the_wall.mp3'
-                });
-                const placing_paper =  soundManager.createSound({
-                    id: 'placing_paper',
-                    url: 'sounds/objects/placing_paper.mp3'
-                });
-                const placing_loo_paper =  soundManager.createSound({
-                    id: 'placing_loo_paper',
-                    url: 'sounds/objects/placing_loo_paper.mp3',
-                    volume:40
-                });
-                const placing_bomb =  soundManager.createSound({
-                    id: 'placing_bomb',
-                    url: 'sounds/objects/placing_bomb.mp3'
-                });
-                const slashing =  soundManager.createSound({
-                    id: 'slashing',
-                    url: 'sounds/objects/slashing.mp3'
-                });
-                const killing =  soundManager.createSound({
-                    id: 'killing',
-                    url: 'sounds/objects/killing.mp3'
-                });
-                // ------------------------------------------------
-
-                // --------------- Random Ambient -----------------
-                const ghost_in_the_house =  soundManager.createSound({
-                    id: 'ghost_in_the_house',
-                    url: 'sounds/ambient/ghost_in_the_house.mp3'
-                });
-                const just_horror_ambient =  soundManager.createSound({
-                    id: 'just_horror_ambient',
-                    url: 'sounds/ambient/just_horror_ambient.mp3'
-                });
-                const weird_noises =  soundManager.createSound({
-                    id: 'weird_noises',
-                    url: 'sounds/ambient/weird_noises.mp3'
-                });
-                const scary_piano =  soundManager.createSound({
-                    id: 'scary_piano',
-                    url: 'sounds/ambient/scary_piano.mp3'
-                });
-                // ------------------------------------------------
-
                 // ------------------ End Game --------------------
                 const ghost_scream =  soundManager.createSound({
                     id: 'ghost_scream',
@@ -185,7 +114,7 @@ export class Sounds{
                 });
                 // ------------------------------------------------
 
-            },
+            }
         });
     };
 
@@ -198,41 +127,16 @@ export class Sounds{
         });
     };
 
-    makeSound(sound_id, obj="") {
-        if (obj == "obj") this.obj_sound_end = false
-        else this.sound_end = false;
+    makeSound(sound_id) {
+        this.sound_end = false;
         soundManager.play(sound_id,{
             multiShotEvents: true,
             onfinish: ()=> {
-                if (obj == "obj") this.obj_sound_end = true
-                else this.sound_end = true;
-                this.checkGameEnding();
+                this.obj_sound_end = true
+                this.sound_end = true;
             }
         });
     };
-
-    playNoises(noise_num) {
-        this.noises_end = false;
-        soundManager.play(this.noises[noise_num],{
-            multiShotEvents: true,
-            onfinish: ()=> {
-                this.noises_end = true;
-            }
-        });
-    };
-
-    checkGameEnding() {
-        console.log("To be eaten: ",this.map.people)
-        if (this.map.people == 0) {
-            console.log("People = 0");
-            this.makeEndmode();
-            soundManager.play("ghost_scream",{
-                onfinish: () => {
-                    this.game.game_ending = true;
-                }
-            });
-        }
-    }
 
     makeEndmode() {
         this.map.light = 2;
@@ -243,7 +147,7 @@ export class Sounds{
         this.mode.drops_opacity = 1;
         this.mode.particlesWidth = 10;
         this.mode.particlesHeight = 10;
-    }
+    };
 
     playEnding(ending_num) {
         soundManager.play(this.ending[ending_num],{
@@ -252,4 +156,4 @@ export class Sounds{
             }
         });
     };
-}
+};

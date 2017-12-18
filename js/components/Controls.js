@@ -2,10 +2,10 @@ export class Controls {
     constructor(player) {
         this.player = player;
         this.codes  = { 37: 'left', 39: 'right', 38: 'forward', 40: 'backward', 65: 'sideLeft',
-                        68: 'sideRight', 87: 'forward', 83: 'backward', 13:'enter', 16 :'shift',
-                        32: "space", 27: 'escape' , 69: 'atac'};
+                        68: 'sideRight', 87: 'forward', 83: 'backward', 13:'enter', 16: 'shift',
+                        32: "space", 27: 'escape' , 69: 'attack' };
         this.states = { 'left': false, 'right': false, 'forward': false, 'backward': false,
-                        'shift': false, 'sideLeft': false, 'sideRight': false};
+                        'shift': false, 'sideLeft': false, 'sideRight': false };
         document.addEventListener('keydown', this.onKey.bind(this, true), false);
         document.addEventListener('keyup', this.onKey.bind(this, false), false);
         document.addEventListener('touchstart', this.onTouch.bind(this), false);
