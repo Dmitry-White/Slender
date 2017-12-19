@@ -275,7 +275,6 @@ export class Camera {
     };
 
     drawText() {
-
     	this.ctx.save();
 
         this.ctx.font = "80px DieDieDie";
@@ -284,7 +283,7 @@ export class Camera {
     	this.ctx.fillText(this.map.people,80,80);
 
         this.ctx.restore();
-    }
+    };
 
     project(height, angle, distance) {
     	const z = distance * Math.cos(angle);
