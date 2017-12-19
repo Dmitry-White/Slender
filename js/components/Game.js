@@ -32,9 +32,9 @@ export class Game {
     };
 
     loadGame() {
-        this.camera = new Camera(this.canvas, this.RESOLUTION, 0.8, this.mode, this.CIRCLE);
-        this.loop = new GameLoop(this, this.endGame);
         this.map = new Map(this.MAP_SIZE, this.mode);
+        this.camera = new Camera(this.canvas, this.RESOLUTION, 0.8, this.mode, this.CIRCLE, this.map);
+        this.loop = new GameLoop(this, this.endGame);
         this.noises = new Noises();
         this.obj_sounds = new ObjSounds(this, this.map, this.mode);
         this.player = new Player( {x : 1.5, y : 1.5, direction : 1, game : this} );
@@ -43,7 +43,7 @@ export class Game {
 		this.setMode();
 		this.addPeople();
 		this.map.buildMap(this.trees, this.bushes);
-
+        /*
  		this.video.style.display = 'block';
 		this.enterFS(this.video)
  		this.video.play();
@@ -61,8 +61,8 @@ export class Game {
  	            }
  	        });
  		},28000);
-
-		//this.startGame();
+        */
+		this.startGame();
 	};
 
     startGame() {
@@ -79,11 +79,9 @@ export class Game {
     };
 
     endGame() {
-        soundManager.stopAll();
-
         const end_song = Calc.getRandomInt(0,2);
+        soundManager.stopAll();
         this.game.sounds.playEnding(end_song);
-
         this.game.showEndingScreen();
     };
 

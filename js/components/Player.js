@@ -15,10 +15,10 @@ export class Player {
         this.obj_sounds = origin.game.obj_sounds;
         this.mode = origin.game.mode;
         this.game = origin.game
-        this.right_hand = new Bitmap('img/slender/knife_hand.png', 200, 200);
+        this.right_hand = new Bitmap('img/slender/right_hand.png', 200, 200);
         this.left_hand = new Bitmap('img/slender/left_hand.png', 200, 200);
         this.paces = 0;
-        this.prev_paper_place = [];
+        this.prev_paper_place = [0, 0];
         this.speed = 1;
         this.hitting_the_fence = false;
         this.hitting_the_wall = false;
@@ -179,6 +179,7 @@ export class Player {
         if(nearVictim) {
             this.obj_sounds.makeSound('killing');
             victim.alive = false;
+            victim.color = undefined;
             victim.die();
             this.map.people--;
         } else if (this.obj_sounds.obj_sound_end) {

@@ -1,13 +1,14 @@
 import { Objects } from "./Objects.js";
 
 export class Camera {
-    constructor(canvas, resolution, fov, mode, CIRCLE) {
+    constructor(canvas, resolution, fov, mode, CIRCLE, map) {
         this.CIRCLE = CIRCLE;
         this.mode = mode;
         this.ctx = canvas.getContext('2d');
     	this.width = canvas.width = window.innerWidth;
     	this.height = canvas.height = window.innerHeight;
     	this.resolution = resolution;
+        this.map = map;
     	this.spacing = this.width / resolution;
     	this.fov = fov;
     	this.range = 14;
@@ -19,6 +20,7 @@ export class Camera {
         this.drawColumns(player, map);
         this.drawWeapon(player.left_hand,player.right_hand, player.paces);
         this.drawMiniMap(player, map);
+        this.drawText(map);
     };
 
     drawSky(direction, sky, ambient) {
@@ -271,6 +273,18 @@ export class Camera {
     	ctx.restore();
 
     };
+
+    drawText() {
+
+    	this.ctx.save();
+
+        this.ctx.font = "80px DieDieDie";
+        this.ctx.globalAlpha = 1;
+        this.mode.winter ? this.ctx.fillStyle = '#000' : this.ctx.fillStyle = '#fff';
+    	this.ctx.fillText(this.map.people,80,80);
+
+        this.ctx.restore();
+    }
 
     project(height, angle, distance) {
     	const z = distance * Math.cos(angle);
