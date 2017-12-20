@@ -17,6 +17,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new BabiliPlugin()
+        //new BabiliPlugin()
     ]
 };

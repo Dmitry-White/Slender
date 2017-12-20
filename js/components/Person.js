@@ -1,53 +1,44 @@
-import { Bitmap } from "./Bitmap.js";
 import { Calc } from "./Calc.js";
+import { Paper } from "./Paper.js";
+import { Bitmap } from "./Bitmap.js";
 
 export class Person {
     constructor(player, map, x, y, pic_num, CIRCLE) {
         this.CIRCLE = CIRCLE;
         this.player = player;
+        this.map = map;
         this.x = x;
         this.y = y;
+        this.pic_num = pic_num;
         this.color = '#cf3c8c',
         this.texture = new Bitmap('img/girl/girl-'+pic_num+'.png', 114, 300),
-        this.pic_num = pic_num;
         this.height = .6,
         this.width = .225,
         this.floorOffset = 0,
-        this.map = map;
         this.hitting_the_fence = false;
         this.hitting_the_wall = false;
         this.count = 0;
         this.direction = 1;
         this.speed = .7;
         this.alive = true;
+        this.found_paper = false;
     };
 
     logic() {
         if(this.alive){
-            this.count += 1;
-
             if (this.count > 270){
                 this.direction = this.direction + Calc.getRandomFloat(-(this.CIRCLE/6),this.CIRCLE/6);
                 this.count = 0;
             };
-            //this.search();
-            //this.turn();
-            this.move('img/girl/girl');
-            this.run();
-            this.walk(0.05 * this.speed, this.direction);
+            this.search()
+            if (!this.found_paper) {
+                this.count += 1;
+                this.run();
+                this.walk(0.05 * this.speed, this.direction);
+                this.move('img/girl/girl');
+            }
         };
     };
-
-    /*turn() {
-        let angle = this.direction;
-        let url = 'img/girl/girl';
-        if((angle < this.CIRCLE/4 && angle > 0) || (angle < this.CIRCLE && angle >= (this.CIRCLE - this.CIRCLE/4))){
-            url = 'img/girl/girl_r';
-        } else if(angle < (this.CIRCLE - this.CIRCLE/4) && angle >= this.CIRCLE/4){
-            url = 'img/girl/girl_l';
-        }
-        this.move(url);
-    }*/
 
     die() {
         this.texture = new Bitmap('img/girl/girl_die.gif', 114, 300);
@@ -76,19 +67,32 @@ export class Person {
     };
 
     search() {
-        try {
-            let paper;
-            this.map.objects.forEach((item)=>{
-                if(item instanceof Paper) {
-                    paper = item;
-                    console.log("Paper!")
-                }
-            });
-            let x = this.x - paper.x;
-            let y = this.y - paper.y;
-            //if(Math.sqrt(x*x+y*y) < 10){
-        } catch (e) {
-            //console.log("No paper!")
+        let dx, dy, dist_to_paper;
+        let paper;
+        this.map.objects.some((item)=>{
+            if(item instanceof Paper) {
+                paper = item;
+                dx = this.x - paper.x;
+                dy = this.y - paper.y;
+                dist_to_paper = Math.sqrt(dx*dx+dy*dy);
+                this.isNearPaper(dist_to_paper, dx, dy);
+            }
+        });
+    }
+
+    isNearPaper(dist_to_paper, dx, dy) {
+        let dist_to_walk;
+        if(dist_to_paper < 5){
+            this.found_paper = true;
+            if (dist_to_paper < 0.3) {
+                this.speed = 0;
+            } else {
+                dist_to_walk = 0.008 * this.speed;
+                (dx > 0) ? this.x -= dist_to_walk : this.x += dist_to_walk;
+                (dy > 0) ? this.y -= dist_to_walk : this.y += dist_to_walk;
+                this.count += 0.5;
+                this.move('img/girl/girl');
+            }
         }
     }
 
@@ -100,9 +104,7 @@ export class Person {
 
         if ((in_the_x_way == 2 || in_the_y_way == 2) ||
             (in_the_x_way == 1 || in_the_y_way == 1)){
-            this.hitting_the_fence = true;
             this.direction = direction + this.CIRCLE/6;
-            this.walk(distance, this.map, this.direction);
         };
         if (in_the_x_way <= 0) this.x += dx;
         if (in_the_y_way <= 0) this.y += dy;
