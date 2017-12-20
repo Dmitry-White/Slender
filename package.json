@@ -1,17 +1,17 @@
 {
-    "name": "match-match-game",
-    "main": "js/main.js",
-    "devDependencies": {
-        "babel-core": "^6.26.0",
-        "babel-loader": "^7.1.2",
-        "babili-webpack-plugin": "^0.1.2",
-        "webpack": "^3.8.1"
-    },
-    "scripts": {
-        "game": "webpack",
-        "dev": "webpack --watch"
-    },
-    "dependencies": {
-        "soundmanager2": "^2.97.20170602"
-    }
+  "name": "match-match-game",
+  "main": "js/main.js",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babili-webpack-plugin": "^0.1.2",
+    "webpack": "^3.8.1"
+  },
+  "scripts": {
+    "game": "webpack",
+    "dev": "webpack --watch"
+  },
+  "dependencies": {
+    "soundmanager2": "^2.97.20170602"
+  }
 }

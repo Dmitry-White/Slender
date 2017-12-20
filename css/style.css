@@ -48,9 +48,10 @@ blockquote, q{quotes:none;}
 blockquote:before, blockquote:after,
 q:before, q:after{content:'';content:none;}
 table{border-collapse:collapse;border-spacing:0;}
+
 html,
 body{font-family:Helvetica;width:100vw;overflow-x:hidden;height:100vh;background-color:#111;}
-.menu{background-color:#111;min-height:100vh;position:absolute;}
+.menu{background-color:#111;min-height:100vh;position:absolute;width:100vw;overflow-x:hidden;}
 .intro{display:none;position:absolute;}
 .text{color:#fff;width:100vw;height:100vh;display:none;}
 .text h1{margin:auto;}
