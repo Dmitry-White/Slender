@@ -182,10 +182,23 @@ class Person {
     }
 
     run() {
+        let dead, dx_dead, dy_dead, dist_to_dead;
         let dist_to_player = this.distTo(this.player);
+        this.map.objects.some(item => {
+            if (item instanceof Person && !item.alive) {
+                dead = item;
+                dx_dead = this.x - dead.x;
+                dy_dead = this.y - dead.y;
+                dist_to_dead = this.distTo(dead);
+            }
+        });
         if (dist_to_player < 2) {
             this.speed = 3;
             this.direction = -this.player.direction;
+        } else if (dist_to_dead < 3) {
+            console.log("OMG THERE'S A DEAD BODY!");
+            this.speed = 3;
+            this.direction = this.direction + __WEBPACK_IMPORTED_MODULE_0__Calc_js__["a" /* Calc */].getRandomFloat(-(this.CIRCLE / 6), this.CIRCLE / 6);
         } else this.speed = .7;
     }
 
