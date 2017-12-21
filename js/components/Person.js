@@ -15,13 +15,12 @@ export class Person {
         this.height = .6,
         this.width = .225,
         this.floorOffset = 0,
-        this.hitting_the_fence = false;
-        this.hitting_the_wall = false;
         this.count = 0;
         this.direction = 1;
         this.speed = .7;
         this.alive = true;
         this.found_paper = false;
+        this.taking_paper = false;
     };
 
     logic() {
@@ -30,8 +29,8 @@ export class Person {
                 this.direction = this.direction + Calc.getRandomFloat(-(this.CIRCLE/6),this.CIRCLE/6);
                 this.count = 0;
             };
-            this.search()
-            if (!this.found_paper) {
+            this.search();
+            if (!this.found_paper && !this.taking_paper) {
                 this.count += 1;
                 this.run();
                 this.walk(0.05 * this.speed, this.direction);
@@ -57,10 +56,15 @@ export class Person {
         };
     };
 
+    distTo(thing) {
+        const x = thing.x - this.x;
+        const y = thing.y - this.y;
+        return Math.sqrt(x*x+y*y);
+    }
+
     run() {
-        const x = this.player.x - this.x;
-        const y = this.player.y - this.y;
-        if (Math.sqrt(x*x+y*y) < 2) {
+        let dist_to_player = this.distTo(this.player);
+        if (dist_to_player < 2) {
             this.speed = 3;
             this.direction = -this.player.direction;
         } else this.speed = .7;
@@ -74,27 +78,28 @@ export class Person {
                 paper = item;
                 dx = this.x - paper.x;
                 dy = this.y - paper.y;
-                dist_to_paper = Math.sqrt(dx*dx+dy*dy);
+                dist_to_paper = this.distTo(paper);
                 this.isNearPaper(dist_to_paper, dx, dy);
             }
         });
-    }
+    };
 
     isNearPaper(dist_to_paper, dx, dy) {
         let dist_to_walk;
-        if(dist_to_paper < 5){
+        if(dist_to_paper < 5 && this.distTo(this.player) > 3){
             this.found_paper = true;
             if (dist_to_paper < 0.3) {
                 this.speed = 0;
+                this.taking_paper = true;
             } else {
                 dist_to_walk = 0.008 * this.speed;
                 (dx > 0) ? this.x -= dist_to_walk : this.x += dist_to_walk;
                 (dy > 0) ? this.y -= dist_to_walk : this.y += dist_to_walk;
                 this.count += 0.5;
                 this.move('img/girl/girl');
-            }
-        }
-    }
+            };
+        } else this.found_paper = false;
+    };
 
     walk(distance, direction) {
         const dx = Math.cos(direction) * distance;
