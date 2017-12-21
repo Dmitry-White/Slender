@@ -21,6 +21,7 @@ export class Person {
         this.alive = true;
         this.found_paper = false;
         this.taking_paper = false;
+        this.paper_near_person = 0;
     };
 
     logic() {
@@ -98,6 +99,21 @@ export class Person {
     takingPaper() {
         this.speed = 0;
         this.taking_paper = true;
+        this.takePaper();
+    };
+
+    takePaper() {
+        this.paper_near_person++;
+        if (this.paper_near_person === 100) {
+            let idx = this.map.objects.indexOf(this.paper);
+            if (idx !== -1) {
+                this.map.objects.splice(idx, 1);
+            }
+            this.found_paper = false;
+            this.taking_paper = false;
+            console.log("Taken!");
+            console.log(this.map.objects);
+        };
     };
 
     approachPaper() {
