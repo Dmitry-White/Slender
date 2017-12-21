@@ -59,7 +59,7 @@ canvas{display:none;margin:0;padding:0;}
 header{padding:20px 50px;height:auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
 .header-buttons{display:flex;flex-direction:column;align-items:center;}
 main{position:relative;padding:0 50px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
-i{margin-left:-30px;color:#fff;}
+i{color:#fff;}
 small{font-size:0.5em;color:#333;}
 h1{font-weight:100;letter-spacing:.3rem;font-size:6em;color:#fff;position:relative;text-shadow:0 0 5px rgba(255, 245, 245, 0.8);white-space:nowrap;}
 h1:after{content:attr(data-text);left:0;position:absolute;text-shadow:-1px 0 green;color:#fff;background:#111;overflow:hidden;clip:rect(0, 900px, 0, 0);-webkit-animation:glitch 2s infinite linear alternate-reverse;}
@@ -94,7 +94,7 @@ p{color:#aaa;font-weight:100;line-height:24px;letter-spacing:1.5px;text-align:ju
 .slider-right .slider-data article:last-child p{padding-left:55px;}
 .how_to_play{margin-top:30px;}
 .how_to_play h3{text-align:center;margin:20px;text-shadow:0 0 5px rgba(255, 245, 245, 0.8);letter-spacing:.3rem;font-family:'Varela Round';text-decoration:none;}
-.how_to_play figure{display:flex;align-items:flex-start;justify-content:space-around;flex-wrap:wrap;}
+.how_to_play figure{display:flex;align-items:flex-start;justify-content:space-around;flex-wrap:wrap; width: 80vw; margin-bottom: 40px;}
 .how_to_play .scrins{margin:30px 0 0;width:300px;height:160px;background-position:center;background-size:cover;background-repeat:no-repeat;}
 .how_to_play .scrins:nth-child(1){background-image:url(../img/scrins/img1.jpg);}
 .how_to_play .scrins:nth-child(2){background-image:url(../img/scrins/img2.jpg);}
@@ -132,6 +132,110 @@ input:checked + .slider:before{background-color:#828282;transform:translateX(26p
 .block{display: block;}
 .flex{display: flex;}
 .none{display: none;}
+.center{display: flex; flex-direction: column;align-items: center;margin: 20px 0 0;}
+
+
+button {
+  overflow: visible;
+  border: 0;
+  padding: 0;
+  margin: 1rem;
+}
+.btn.striped-shadow span {
+  display: block;
+  position: relative;
+  z-index: 2;
+  border: 5px solid;
+}
+.btn.striped-shadow.white span {
+  border-color: #fff;
+  color: #fff;
+  background: #111;
+  padding: 0 10px;
+}
+
+.btn {
+  font-family: 'Bungee Shade', sans-serif;
+  height: 65px;
+  line-height: 65px;
+  display: inline-block;
+  letter-spacing: 1px;
+  position: relative;
+  font-size: 1rem;
+  transition: opacity .3s, z-index .3s step-end, -webkit-transform .3s;
+  transition: opacity .3s, z-index .3s step-end, transform .3s;
+  transition: opacity .3s,
+    z-index .3s step-end,
+    transform .3s,
+    -webkit-transform .3s;
+  z-index: 1;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.btn {
+  /*width: 155px;*/
+  height: 42px;
+  line-height: 30px;
+}
+
+button.btn.striped-shadow.white:after, button.btn.striped-shadow.white:before {
+  background-image: linear-gradient(
+    135deg,
+    transparent 0,
+    transparent 5px,
+    #fff 5px,
+    #fff 10px,
+    transparent 10px
+  );
+}
+
+button.btn.striped-shadow:hover:before {
+  max-height: calc(100% - 10px);
+}
+
+button.btn.striped-shadow:after {
+  width: calc(100% - 4px);
+  height: 8px;
+  left: -10px;
+  bottom: -9px;
+  background-size: 15px 8px;
+  background-repeat: repeat-x;
+}
+button.btn.striped-shadow:after, button.btn.striped-shadow:before {
+  content: '';
+  display: block;
+  position: absolute;
+  z-index: 1;
+  transition: max-height .3s, width .3s, -webkit-transform .3s;
+  transition: transform .3s, max-height .3s, width .3s;
+  transition: transform .3s, max-height .3s, width .3s, -webkit-transform .3s;
+}
+
+.btn.striped-shadow:hover {
+  -webkit-transform: translate(-12px, 12px);
+  -ms-transform: translate(-12px, 12px);
+  transform: translate(-12px, 12px);
+  z-index: 3;
+}
+
+button.btn.striped-shadow:hover:after, button.btn.striped-shadow:hover:before {
+  -webkit-transform: translate(12px, -12px);
+  -ms-transform: translate(12px, -12px);
+  transform: translate(12px, -12px);
+}
+button.btn.striped-shadow:before {
+  width: 8px;
+  max-height: calc(100% - 5px);
+  height: 100%;
+  left: -10px;
+  bottom: -5px;
+  background-size: 8px 15px;
+  background-repeat: repeat-y;
+  background-position: 0 100%;
+}
+
+
 @keyframes Snow{0%{transform:translateY(0px);opacity:0;}
 50%{transform:translateY(25px);opacity:1;}
 100%{transform:translateY(45px);opacity:0.3;}
