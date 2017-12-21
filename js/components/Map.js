@@ -15,6 +15,7 @@ export class Map {
         this.light = this.mode.light;
         this.objects = [];
         this.people = 0;
+        this.show_message = 0;
     };
 
     get(x, y) {

@@ -20,7 +20,8 @@ export class Camera {
         this.drawColumns(player, map);
         this.drawWeapon(player.left_hand,player.right_hand, player.paces,player.grab_dist,player.put_dist);
         this.drawMiniMap(player, map);
-        this.drawText(map);
+        this.drawText();
+        this.drawWarning();
     };
 
     drawSky(direction, sky, ambient) {
@@ -284,6 +285,17 @@ export class Camera {
 
         this.ctx.restore();
     };
+
+    drawWarning() {
+        this.ctx.save();
+
+        this.ctx.font = "50px DieDieDie";
+        this.ctx.globalAlpha = this.map.show_message;
+        this.mode.winter ? this.ctx.fillStyle = '#000' : this.ctx.fillStyle = '#fff';
+    	this.ctx.fillText("stand still to place paper", 380,80);
+
+        this.ctx.restore();
+    }
 
     project(height, angle, distance) {
     	const z = distance * Math.cos(angle);

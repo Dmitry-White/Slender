@@ -235,7 +235,11 @@ export class Player {
                 this.obj_sounds.makeSound('placing_paper');
             }
             this.prev_paper_place = [this.x, this.y];
-            console.log(this.map.objects);
+        } else {
+            this.map.show_message = 1;
+            setTimeout(()=>{
+    			this.map.show_message = 0;
+    		},3000);
         }
     }
 }
