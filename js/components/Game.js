@@ -37,7 +37,7 @@ export class Game {
         this.loop = new GameLoop(this, this.endGame);
         this.noises = new Noises();
         this.obj_sounds = new ObjSounds(this, this.map, this.mode);
-        this.player = new Player( {x : 1.5, y : 1.5, direction : 1, game : this} );
+        this.player = new Player( {x : 1.5, y : 1.5, direction : 1.57, game : this} );
 		this.controls = new Controls(this.player);
 
 		this.setMode();
