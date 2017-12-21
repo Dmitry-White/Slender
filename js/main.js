@@ -10,11 +10,11 @@ window.onload = () => {
 	const checkbox = document.getElementById('checkbox');
 	checkbox.addEventListener('change', () => {
 		if (checkbox.checked) {
-			document.querySelector(`.snow`).style.display = 'block';
+			document.querySelector(`.snow`).classList.add('block');
 			game.sounds.makeSound("ho_ho_ho");
 			game.setToWinter();
 		} else {
-		   	document.querySelector(`.snow`).style.display = 'none';
+		   	document.querySelector(`.snow`).classList.remove('block');
 			game.setToVanilla();
 	   }
 	});
@@ -24,7 +24,7 @@ window.onload = () => {
 		game.sounds.sound_end = true;
 		document.querySelector('.menu').classList.add('fadeOut');
 		setTimeout(()=>{
-			document.querySelector('.menu').style.display = 'none';
+			document.querySelector('.menu').classList.add('none');
 		},700);
 		game.loadGame();
 	});

@@ -129,6 +129,9 @@ input:checked + .slider:before{background-color:#828282;transform:translateX(26p
 .flake6{animation-delay:1.2s;left:9px;}
 .flake7{animation-duration:2.2s;animation-delay:1.2s;left:-15px;}
 .flake8{animation-delay:1.4s;left:35px;}
+.block{display: block;}
+.flex{display: flex;}
+.none{display: none;}
 @keyframes Snow{0%{transform:translateY(0px);opacity:0;}
 50%{transform:translateY(25px);opacity:1;}
 100%{transform:translateY(45px);opacity:0.3;}

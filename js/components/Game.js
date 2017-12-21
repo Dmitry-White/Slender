@@ -15,7 +15,7 @@ import { assets } from "../json/assets.json";
 export class Game {
     constructor() {
         this.CIRCLE = Math.PI * 2;
-        this.PPL_NUM = 8;
+        this.PPL_NUM = 1;
         this.PPL_XY = 30;
         this.MAP_SIZE = 32;
         this.RESOLUTION = 640;
@@ -44,15 +44,15 @@ export class Game {
 		this.addPeople();
 		this.map.buildMap(this.trees, this.bushes);
 
- 		/*this.video.style.display = 'block';
+ 		this.video.classList.add('block');
 		this.enterFS(this.video)
  		this.video.play();
 
  		setTimeout(()=>{
 			this.exitFS(this.video);
  			this.video.pause();
- 			this.video.style.display = 'none';
-			this.message.style.display = 'flex';
+ 			this.video.classList.remove('block');
+			this.message.classList.add('flex');
 			this.mouseLock();
  			soundManager.play("entering_area",{
  	            multiShotEvents: true,
@@ -60,14 +60,14 @@ export class Game {
  	 				this.startGame();
  	            }
  	        });
- 		},28000);*/
+ 		},28000);
 
-		this.startGame();
+		//this.startGame();
 	};
 
     startGame() {
-        this.message.style.display = 'none';
-        this.canvas.style.display = 'block';
+        this.message.classList.remove('flex');
+        this.canvas.classList.add('block');
         this.loop.start((seconds) => {
             if (this.mode.lightning) this.map.lightning(seconds);
             this.map.update();
@@ -104,10 +104,10 @@ export class Game {
     }
 
     showEndingScreen() {
-        this.message.style.display = 'flex';
+        this.message.classList.add('flex');
         this.message_child.innerHTML = 'Do you want to play more?';
         this.message_child.setAttribute('data-text','Do you want to kiLL more?');
-        this.canvas.style.display = 'none';
+        this.canvas.classList.remove('block');
     };
 
     setMode() {
