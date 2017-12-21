@@ -19,6 +19,7 @@ export class Person {
         this.direction = 1;
         this.speed = .7;
         this.alive = true;
+        //this.found_dead = false;
         this.found_paper = false;
         this.taking_paper = false;
         this.paper_near_person = 0;
@@ -30,23 +31,42 @@ export class Person {
                 this.direction = this.direction + Calc.getRandomFloat(-(this.CIRCLE/6),this.CIRCLE/6);
                 this.count = 0;
             };
-            this.search();
+
+            //this.lookForDead()
+            this.searchForPaper();
             if (!this.found_paper && !this.taking_paper) {
-                this.count += 1;
-                this.run();
-                this.walk(0.05 * this.speed, this.direction);
-                this.move('img/girl/girl');
+                this.wonderAround();
             }
         };
     };
 
-    die() {
-        this.texture = new Bitmap('img/girl/girl_die.gif', 114, 300);
-        setTimeout( ()=> {
-            this.texture = new Bitmap('img/girl/girl3-'+this.pic_num+'.png', 300, 56);
-            this.height = .2;
-            this.width = 0.7;
-        },7000);
+    wonderAround() {
+        this.count += 1;
+        this.run();
+        this.walk(0.05 * this.speed, this.direction);
+    };
+
+    run() {
+        let dist_to_player = this.distTo(this.player);
+        if (dist_to_player < 2) {
+            this.speed = 3;
+            this.direction = -this.player.direction;
+        } else this.speed = .7;
+    };
+
+    walk(distance, direction) {
+        const dx = Math.cos(direction) * distance;
+        const dy = Math.sin(direction) * distance;
+        const in_the_x_way = this.map.get(this.x + dx, this.y);
+        const in_the_y_way = this.map.get(this.x, this.y + dy);
+
+        if ((in_the_x_way == 2 || in_the_y_way == 2) ||
+            (in_the_x_way == 1 || in_the_y_way == 1)){
+            this.direction = direction + this.CIRCLE/6;
+        };
+        if (in_the_x_way <= 0) this.x += dx;
+        if (in_the_y_way <= 0) this.y += dy;
+        this.move('img/girl/girl');
     };
 
     move(url) {
@@ -57,54 +77,28 @@ export class Person {
         };
     };
 
-    distTo(thing) {
-        const x = thing.x - this.x;
-        const y = thing.y - this.y;
-        return Math.sqrt(x*x+y*y);
-    }
-
-    run() {
-        let dead, dx_dead, dy_dead, dist_to_dead;
-        let dist_to_player = this.distTo(this.player);
-        this.map.objects.some((item)=>{
-            if(item instanceof Person && !item.alive) {
-                dead = item;
-                dx_dead = this.x - dead.x;
-                dy_dead = this.y - dead.y;
-                dist_to_dead = this.distTo(dead);
-            }
-        });
-        if (dist_to_player < 2) {
-            this.speed = 3;
-            this.direction = -this.player.direction;
-        } else if (dist_to_dead < 3) {
-            console.log("OMG THERE'S A DEAD BODY!")
-            this.speed = 3;
-            this.direction = this.direction + Calc.getRandomFloat(-(this.CIRCLE/6),this.CIRCLE/6);
-        } else this.speed = .7;
-    };
-
-    search() {
+    searchForPaper() {
         let dx, dy, dist_to_paper;
         let paper;
         this.map.objects.some((item)=>{
             if(item instanceof Paper) {
-                this.paper = item;
-                this.dx = this.x - this.paper.x;
-                this.dy = this.y - this.paper.y;
-                dist_to_paper = this.distTo(this.paper);
-                this.isNearPaper(dist_to_paper);
+                paper = item;
+                dx = this.x - paper.x;
+                dy = this.y - paper.y;
+                dist_to_paper = this.distTo(paper);
+                this.isNearPaper(dist_to_paper, paper, dx, dy);
             }
         });
     };
 
-    isNearPaper(dist_to_paper) {
+    isNearPaper(dist_to_paper, paper, dx, dy) {
         if(dist_to_paper < 5 && this.distTo(this.player) > 3){
+            this.paper = paper;
             this.found_paper = true;
             if (dist_to_paper < 0.3) {
                 this.takingPaper()
             } else {
-                this.approachPaper();
+                this.approachPaper(dx, dy);
             };
         } else this.found_paper = false;
     };
@@ -122,34 +116,73 @@ export class Person {
             if (idx !== -1) {
                 this.map.objects.splice(idx, 1);
             }
-            this.found_paper = false;
-            this.taking_paper = false;
-            console.log("Taken!");
-            console.log(this.map.objects);
+            this.map.objects.forEach((item)=>{
+                if(item instanceof Person) {
+                    item.found_paper = false;
+                    item.taking_paper = false;
+                    item.paper_near_person = 0;
+                }
+            });
         };
     };
 
-    approachPaper() {
+    approachPaper(dx, dy) {
         let dist_to_walk;
-        dist_to_walk = 0.008 * this.speed;
-        (this.dx > 0) ? this.x -= dist_to_walk : this.x += dist_to_walk;
-        (this.dy > 0) ? this.y -= dist_to_walk : this.y += dist_to_walk;
+        dist_to_walk = 0.007 * this.speed;
+        (dx >= 0) ? this.x -= dist_to_walk : this.x += dist_to_walk;
+        (dy >= 0) ? this.y -= dist_to_walk : this.y += dist_to_walk;
         this.count += 0.5;
         this.move('img/girl/girl');
     };
 
-    walk(distance, direction) {
-        const dx = Math.cos(direction) * distance;
-        const dy = Math.sin(direction) * distance;
-        const in_the_x_way = this.map.get(this.x + dx, this.y);
-        const in_the_y_way = this.map.get(this.x, this.y + dy);
-
-        if ((in_the_x_way == 2 || in_the_y_way == 2) ||
-            (in_the_x_way == 1 || in_the_y_way == 1)){
-            this.direction = direction + this.CIRCLE/6;
-        };
-        if (in_the_x_way <= 0) this.x += dx;
-        if (in_the_y_way <= 0) this.y += dy;
+    /*
+    lookForDead() {
+        let dead, dx_dead, dy_dead, dist_to_dead;
+        this.map.objects.some((item)=>{
+            if(item instanceof Person && !item.alive) {
+                dead = item;
+                dist_to_dead = this.distTo(dead);
+                this.isNearDead(dist_to_dead, dead);
+            }
+        });
     };
 
+    isNearDead(dist_to_dead, dead) {
+        if (dist_to_dead < 3) {
+            console.log("OMG BODY!")
+            this.dead = dead;
+            this.found_dead = true;
+            this.runFromDead();
+        } else {
+            this.stayCalm();
+        }
+    }
+
+    /*
+    runFromDead() {
+        this.found_paper = false;
+        this.taking_paper = false;
+        this.speed = 3;
+        this.direction = Calc.getRandomFloat(1,4);
+    };
+
+    stayCalm() {
+        this.speed = .7;
+        this.found_dead = false;
+    };*/
+
+    die() {
+        this.texture = new Bitmap('img/girl/girl_die.gif', 114, 300);
+        setTimeout( ()=> {
+            this.texture = new Bitmap('img/girl/girl3-'+this.pic_num+'.png', 300, 56);
+            this.height = .2;
+            this.width = 0.7;
+        },7000);
+    };
+
+    distTo(thing) {
+        const x = thing.x - this.x;
+        const y = thing.y - this.y;
+        return Math.sqrt(x*x+y*y);
+    };
 }
