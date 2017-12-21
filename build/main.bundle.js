@@ -193,30 +193,38 @@ class Person {
         let paper;
         this.map.objects.some(item => {
             if (item instanceof __WEBPACK_IMPORTED_MODULE_1__Paper_js__["a" /* Paper */]) {
-                paper = item;
-                dx = this.x - paper.x;
-                dy = this.y - paper.y;
-                dist_to_paper = this.distTo(paper);
-                this.isNearPaper(dist_to_paper, dx, dy);
+                this.paper = item;
+                this.dx = this.x - this.paper.x;
+                this.dy = this.y - this.paper.y;
+                dist_to_paper = this.distTo(this.paper);
+                this.isNearPaper(dist_to_paper);
             }
         });
     }
 
-    isNearPaper(dist_to_paper, dx, dy) {
-        let dist_to_walk;
+    isNearPaper(dist_to_paper) {
         if (dist_to_paper < 5 && this.distTo(this.player) > 3) {
             this.found_paper = true;
             if (dist_to_paper < 0.3) {
-                this.speed = 0;
-                this.taking_paper = true;
+                this.takingPaper();
             } else {
-                dist_to_walk = 0.008 * this.speed;
-                dx > 0 ? this.x -= dist_to_walk : this.x += dist_to_walk;
-                dy > 0 ? this.y -= dist_to_walk : this.y += dist_to_walk;
-                this.count += 0.5;
-                this.move('img/girl/girl');
+                this.approachPaper();
             };
         } else this.found_paper = false;
+    }
+
+    takingPaper() {
+        this.speed = 0;
+        this.taking_paper = true;
+    }
+
+    approachPaper() {
+        let dist_to_walk;
+        dist_to_walk = 0.008 * this.speed;
+        this.dx > 0 ? this.x -= dist_to_walk : this.x += dist_to_walk;
+        this.dy > 0 ? this.y -= dist_to_walk : this.y += dist_to_walk;
+        this.count += 0.5;
+        this.move('img/girl/girl');
     }
 
     walk(distance, direction) {
