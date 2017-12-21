@@ -15,7 +15,15 @@ export class Map {
         this.light = this.mode.light;
         this.objects = [];
         this.people = 0;
-        this.show_message = 0;
+        this.papers = 0;
+        this.show_no_paper = 0;
+        this.show_loo = 0;
+        this.show_bomb = 0;
+        this.show_tip = 0;
+        this.show_warning = 0;
+        this.show_die = 0;
+        this.show_taken = 0;
+        this.show_all_dead = 0;
     };
 
     get(x, y) {

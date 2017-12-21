@@ -15,6 +15,7 @@ import { assets } from "../json/assets.json";
 export class Game {
     constructor() {
         this.CIRCLE = Math.PI * 2;
+        this.PAPER_NUM = 8;
         this.PPL_NUM = 8;
         this.PPL_XY = 30;
         this.MAP_SIZE = 32;
@@ -33,7 +34,7 @@ export class Game {
 
     loadGame() {
         this.map = new Map(this.MAP_SIZE, this.mode);
-        this.camera = new Camera(this.canvas, this.RESOLUTION, 0.8, this.mode, this.CIRCLE, this.map);
+        this.camera = new Camera(this.canvas, this.RESOLUTION, 0.8, this.mode, this.CIRCLE, this.map, this.PAPER_NUM);
         this.loop = new GameLoop(this, this.endGame);
         this.noises = new Noises();
         this.obj_sounds = new ObjSounds(this, this.map, this.mode);
@@ -98,6 +99,14 @@ export class Game {
 
     checkEnding() {
         if (this.map.people == 0 && this.obj_sounds.obj_sound_end) {
+            this.map.show_all_dead = 1;
+            this.map.show_loo = 0;
+            this.map.show_bomb = 0;
+            this.map.show_tip = 0;
+            this.map.show_warning = 0;
+            setTimeout(()=>{
+    			this.map.show_all_dead = 0;
+    		},3000);
             this.makeEndmode();
             this.obj_sounds.playScream();
         };

@@ -54,7 +54,7 @@ body{font-family:Helvetica;width:100vw;overflow-x:hidden;height:100vh;background
 .menu{background-color:#111;min-height:100vh;position:absolute;width:100vw;overflow-x:hidden;}
 .intro{display:none;position:absolute;}
 .text{color:#fff;width:100vw;height:100vh;display:none;}
-.text h1{margin:auto;}
+.text h1{margin:auto;font-family: 'DieDieDie';}
 canvas{display:none;margin:0;padding:0;}
 header{padding:10px 50px;height:auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
 .header-buttons{display:flex;flex-direction:column;align-items:center;}

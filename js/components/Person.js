@@ -11,7 +11,7 @@ export class Person {
         this.y = y;
         this.pic_num = pic_num;
         this.color = '#cf3c8c',
-        this.texture = new Bitmap('img/girl/girl-'+pic_num+'.png', 114, 300),
+        this.texture = new Bitmap('img/npc/npc-'+pic_num+'.png', 114, 300),
         this.height = .6,
         this.width = .225,
         this.floorOffset = 0,
@@ -66,7 +66,7 @@ export class Person {
         };
         if (in_the_x_way <= 0) this.x += dx;
         if (in_the_y_way <= 0) this.y += dy;
-        this.move('img/girl/girl');
+        this.move('img/npc/npc');
     };
 
     move(url) {
@@ -111,7 +111,7 @@ export class Person {
 
     takePaper() {
         this.paper_near_person++;
-        if (this.paper_near_person === 100) {
+        if (this.paper_near_person === 70) {
             let idx = this.map.objects.indexOf(this.paper);
             if (idx !== -1) {
                 this.map.objects.splice(idx, 1);
@@ -123,6 +123,7 @@ export class Person {
                     item.paper_near_person = 0;
                 }
             });
+            this.showTakenMessage();
         };
     };
 
@@ -132,7 +133,7 @@ export class Person {
         (dx >= 0) ? this.x -= dist_to_walk : this.x += dist_to_walk;
         (dy >= 0) ? this.y -= dist_to_walk : this.y += dist_to_walk;
         this.count += 0.5;
-        this.move('img/girl/girl');
+        this.move('img/npc/npc');
     };
 
     /*
@@ -172,9 +173,9 @@ export class Person {
     };*/
 
     die() {
-        this.texture = new Bitmap('img/girl/girl_die.gif', 114, 300);
+        this.texture = new Bitmap('img/npc/npc_die.gif', 114, 300);
         setTimeout( ()=> {
-            this.texture = new Bitmap('img/girl/girl3-'+this.pic_num+'.png', 300, 56);
+            this.texture = new Bitmap('img/npc/npc3-'+this.pic_num+'.png', 300, 56);
             this.height = .2;
             this.width = 0.7;
         },7000);
@@ -185,4 +186,11 @@ export class Person {
         const y = thing.y - this.y;
         return Math.sqrt(x*x+y*y);
     };
+
+    showTakenMessage() {
+        this.map.show_taken = 1;
+        setTimeout(()=>{
+            this.map.show_taken = 0;
+        },3000);
+    }
 }

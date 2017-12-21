@@ -10,6 +10,7 @@ export class Player {
         this.y = origin.y;
         this.direction = origin.direction;
         this.CIRCLE = origin.game.CIRCLE;
+        this.PAPER_NUM = origin.game.PAPER_NUM;
         this.papers = origin.game.papers;
         this.map = origin.game.map;
         this.sounds = origin.game.sounds;
@@ -219,27 +220,91 @@ export class Player {
         victim.color = undefined;
         victim.die();
         this.map.people--;
+        this.showDieMessage();
     }
 
     placePaper() {
-        let same_place = this.prev_paper_place[0] === this.x &&
-                         this.prev_paper_place[1] === this.y;
-        if (!this.running && !this.walking && this.sounds.sound_end && !same_place) {
-            const paper_type = Calc.getRandomInt(0,8);
-            this.map.addObject(new Paper(this.x,this.y, new Bitmap(this.papers[paper_type].texture, this.papers[paper_type].width, this.papers[paper_type].height)));
-            if (paper_type === 0) {
-                this.obj_sounds.makeSound('placing_loo_paper')
-            } else if (paper_type === 7) {
-                this.obj_sounds.makeSound('placing_bomb');
-            } else {
-                this.obj_sounds.makeSound('placing_paper');
-            }
-            this.prev_paper_place = [this.x, this.y];
+        if (this.map.papers >= this.PAPER_NUM) {
+            this.showNoPaperMessage();
         } else {
-            this.map.show_message = 1;
-            setTimeout(()=>{
-    			this.map.show_message = 0;
-    		},3000);
+            let same_place = this.prev_paper_place[0] === this.x &&
+                             this.prev_paper_place[1] === this.y;
+            if (!this.running && !this.walking && this.sounds.sound_end && !same_place) {
+                const paper_type = Calc.getRandomInt(0,8);
+                this.map.addObject(new Paper(this.x,this.y, new Bitmap(this.papers[paper_type].texture, this.papers[paper_type].width, this.papers[paper_type].height)));
+                if (paper_type === 0) {
+                    this.obj_sounds.makeSound('placing_loo_paper');
+                    this.showLooMessage();
+                } else if (paper_type === 7) {
+                    this.obj_sounds.makeSound('placing_bomb');
+                    this.showBombMessage();
+                } else {
+                    this.obj_sounds.makeSound('placing_paper');
+                    this.showPaperMessage();
+                }
+                this.prev_paper_place = [this.x, this.y];
+                this.map.papers++;
+            } else {
+                this.showWarningMessage();
+            }
         }
+    };
+
+    showNoPaperMessage() {
+        this.map.show_no_paper = 1;
+        this.map.show_loo = 0;
+        this.map.show_bomb = 0;
+        this.map.show_tip = 0;
+        this.map.show_warning = 0;
+        setTimeout(()=>{
+            this.map.show_no_paper = 0;
+        },3000);
+    };
+
+    showLooMessage() {
+        this.map.show_loo = 1;
+        this.map.show_bomb = 0;
+        this.map.show_tip = 0;
+        this.map.show_warning = 0;
+        setTimeout(()=>{
+            this.map.show_loo = 0;
+        },3000);
+    };
+
+    showBombMessage() {
+        this.map.show_loo = 0;
+        this.map.show_bomb = 1;
+        this.map.show_tip = 0;
+        this.map.show_warning = 0;
+        setTimeout(()=>{
+            this.map.show_bomb = 0;
+        },3000);
+    };
+
+    showPaperMessage() {
+        this.map.show_loo = 0;
+        this.map.show_bomb = 0;
+        this.map.show_tip = 1;
+        this.map.show_warning = 0;
+        setTimeout(()=>{
+            this.map.show_tip = 0;
+        },3000);
+    };
+
+    showWarningMessage() {
+        this.map.show_loo = 0;
+        this.map.show_bomb = 0;
+        this.map.show_tip = 0;
+        this.map.show_warning = 1;
+        setTimeout(()=>{
+            this.map.show_warning = 0;
+        },3000);
+    };
+
+    showDieMessage() {
+        this.map.show_die = 1;
+        setTimeout(()=>{
+            this.map.show_die = 0;
+        },3000);
     }
 }
