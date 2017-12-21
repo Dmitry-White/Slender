@@ -44,7 +44,7 @@ export class Game {
 		this.addPeople();
 		this.map.buildMap(this.trees, this.bushes);
 
- 		this.video.style.display = 'block';
+ 		/*this.video.style.display = 'block';
 		this.enterFS(this.video)
  		this.video.play();
 
@@ -60,9 +60,9 @@ export class Game {
  	 				this.startGame();
  	            }
  	        });
- 		},28000);
+ 		},28000);*/
 
-		//this.startGame();
+		this.startGame();
 	};
 
     startGame() {

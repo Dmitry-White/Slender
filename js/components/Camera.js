@@ -18,7 +18,7 @@ export class Camera {
     render(player, map) {
         this.drawSky(player.direction, map.skybox, map.light);
         this.drawColumns(player, map);
-        this.drawWeapon(player.left_hand,player.right_hand, player.paces);
+        this.drawWeapon(player.left_hand,player.right_hand, player.paces,player.grab_dist,player.put_dist);
         this.drawMiniMap(player, map);
         this.drawText(map);
     };
@@ -206,14 +206,14 @@ export class Camera {
     	}
     }
 
-    drawWeapon(left_hand,right_hand, paces) {
+    drawWeapon(left_hand,right_hand, paces, grab, put) {
         const bobX = Math.cos(paces * 2) * this.scale * 6;
         const bobY = Math.sin(paces * 4) * this.scale * 6;
         const left_r = this.width * 0.6 + bobX;
         const left_l = this.width * 0.15 + bobX;
         const top = this.height * 0.6 + bobY;
-        this.ctx.drawImage(left_hand.image, left_l, top, left_hand.width * this.scale, left_hand.height * this.scale);
-        this.ctx.drawImage(right_hand.image, left_r, top, right_hand.width * this.scale, right_hand.height * this.scale);
+        this.ctx.drawImage(left_hand.image, left_l + grab, top + put, left_hand.width * this.scale, left_hand.height * this.scale);
+        this.ctx.drawImage(right_hand.image, left_r - grab, top + put, right_hand.width * this.scale, right_hand.height * this.scale);
     };
 
     drawMiniMap(player, map) {

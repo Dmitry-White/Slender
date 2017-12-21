@@ -2,6 +2,7 @@ import { Paper } from "./Paper.js";
 import { Bitmap } from "./Bitmap.js";
 import { Calc } from "./Calc.js";
 import { Person } from "./Person.js";
+import { Camera } from "./Camera.js";
 
 export class Player {
     constructor(origin) {
@@ -22,6 +23,10 @@ export class Player {
         this.speed = 1;
         this.hitting_the_fence = false;
         this.hitting_the_wall = false;
+        this.grab_dist = 0;
+        this.grab_state = false;
+        this.put_dist = 0;
+        this.put_state = false;
     };
 
     rotate(angle) {
@@ -71,9 +76,32 @@ export class Player {
             this.dodgeSound();
             this.walk(-(this.speed/2) * seconds, map, this.direction - Math.PI/2);
         }
+        this.grab();
+        this.put();
+
         (controls.shift) ? this.speed = 3 : this.speed = 1;
     };
 
+    grab(){
+        if (this.grab_state === true && this.grab_dist < 300){
+            this.grab_dist+=50;
+        } else {
+            this.grab_state = false;
+            if (this.grab_dist!=0){
+            this.grab_dist-=25;
+            }
+        }
+    }
+    put(){
+        if (this.put_state === true && this.put_dist < 400){
+            this.put_dist+=30;
+        } else {
+            this.put_state = false;
+            if (this.put_dist!=0){
+            this.put_dist-=15;
+            }
+        }
+    }
     snowWalkSound() {
         if (this.sounds.sound_end) {
             if (this.running) {
@@ -154,9 +182,11 @@ export class Player {
 
     dosmth(action){
         if (action === 'attack') {
+            this.grab_state = true;
             this.attack();
         }
         if (action === 'space') {
+            this.put_state = true;
             this.placePaper();
         }
         if (action === 'escape') location.reload();
@@ -165,7 +195,7 @@ export class Player {
     attack() {
         let x, y;
         let victim;
-        let nearVictim = false
+        let nearVictim = false;
         this.map.objects.some((item)=>{
             if(item instanceof Person && item.alive) {
                 victim = item;
@@ -177,15 +207,19 @@ export class Player {
             }
         });
         if(nearVictim) {
-            this.obj_sounds.makeSound('killing');
-            victim.alive = false;
-            victim.color = undefined;
-            victim.die();
-            this.map.people--;
+            this.eat(victim);
         } else if (this.obj_sounds.obj_sound_end) {
             this.obj_sounds.makeSound('slashing');
         }
     };
+
+    eat(victim){
+        this.obj_sounds.makeSound('killing');
+        victim.alive = false;
+        victim.color = undefined;
+        victim.die();
+        this.map.people--;
+    }
 
     placePaper() {
         let same_place = this.prev_paper_place[0] === this.x &&
