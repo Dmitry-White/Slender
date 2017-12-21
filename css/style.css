@@ -60,7 +60,7 @@ header{padding:20px 50px;height:auto;display:flex;justify-content:space-between;
 .header-buttons{display:flex;flex-direction:column;align-items:center;}
 main{position:relative;padding:0 50px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
 i{color:#fff;}
-small{font-size:0.5em;color:#333;}
+small{font-size:0.7em;color:#333;}
 h1{font-weight:100;letter-spacing:.3rem;font-size:6em;color:#fff;position:relative;text-shadow:0 0 5px rgba(255, 245, 245, 0.8);white-space:nowrap;}
 h1:after{content:attr(data-text);left:0;position:absolute;text-shadow:-1px 0 green;color:#fff;background:#111;overflow:hidden;clip:rect(0, 900px, 0, 0);-webkit-animation:glitch 2s infinite linear alternate-reverse;}
 h1:before{content:attr(data-text);position:absolute;left:0;text-shadow:1px 0 red;color:#fff;background:#111;overflow:hidden;clip:rect(0, 900px, 0, 0);-webkit-animation:glitch3 6s infinite linear alternate-reverse;}
