@@ -139,7 +139,7 @@ button {
   overflow: visible;
   border: 0;
   padding: 0;
-  margin: 0.8rem;
+  margin: 0.8rem 1.5rem 0.8rem 0;
 }
 .btn.striped-shadow span {
   display: block;
