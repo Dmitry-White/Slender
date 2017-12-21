@@ -15,7 +15,7 @@ import { assets } from "../json/assets.json";
 export class Game {
     constructor() {
         this.CIRCLE = Math.PI * 2;
-        this.PPL_NUM = 1;
+        this.PPL_NUM = 8;
         this.PPL_XY = 30;
         this.MAP_SIZE = 32;
         this.RESOLUTION = 640;

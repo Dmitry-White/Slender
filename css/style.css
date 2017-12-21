@@ -60,7 +60,7 @@ header{padding:10px 50px;height:auto;display:flex;justify-content:space-between;
 .header-buttons{display:flex;flex-direction:column;align-items:center;}
 main{position:relative;padding:0 50px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
 i{color:#fff;}
-small{font-size:0.7em;color:#333;}
+small{font-size:0.7em;color:#333;margin-left: -0.8rem}
 h1{font-weight:100;letter-spacing:.3rem;font-size:6em;color:#fff;position:relative;text-shadow:0 0 5px rgba(255, 245, 245, 0.8);white-space:nowrap; -webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;}
 h1:after{content:attr(data-text);left:0;position:absolute;text-shadow:-1px 0 green;color:#fff;background:#111;overflow:hidden;clip:rect(0, 900px, 0, 0);-webkit-animation:glitch 2s infinite linear alternate-reverse;}
 h1:before{content:attr(data-text);position:absolute;left:0;text-shadow:1px 0 red;color:#fff;background:#111;overflow:hidden;clip:rect(0, 900px, 0, 0);-webkit-animation:glitch3 6s infinite linear alternate-reverse;}
@@ -153,11 +153,13 @@ button {
   background: #111;
   padding: 0 10px;
 }
-
+.striped-shadow:last-child{
+    margin-right: 0.8rem;
+}
 .btn {
+height: 42px;
+line-height: 30px;
   font-family: 'Bungee Shade', sans-serif;
-  height: 65px;
-  line-height: 65px;
   display: inline-block;
   letter-spacing: 1px;
   position: relative;
@@ -171,12 +173,6 @@ button {
   z-index: 1;
   background-color: transparent;
   cursor: pointer;
-}
-
-.btn {
-  /*width: 155px;*/
-  height: 42px;
-  line-height: 30px;
 }
 
 button.btn.striped-shadow.white:after, button.btn.striped-shadow.white:before {
