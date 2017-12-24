@@ -6,11 +6,10 @@
 
 <br/>
 
-![forthebadge](http://forthebadge.com/images/badges/kinda-sfw.svg)
+[![forthebadge]](http://forthebadge.com/images/badges/kinda-sfw.svg)
 [![forthebadge](http://forthebadge.com/images/badges/built-with-science.svg)](http://forthebadge.com)
 [![forthebadge](http://forthebadge.com/images/badges/makes-people-smile.svg)](http://forthebadge.com)
 [![forthebadge](http://forthebadge.com/images/badges/powered-by-responsibility.svg)](http://forthebadge.com)
-![forthebadge](http://forthebadge.com/images/badges/designed-in-ms-paint.svg)
  
 ## Description
 A pseudo 3D game with HTML5 Canvas, CoreJS and Raycasting
