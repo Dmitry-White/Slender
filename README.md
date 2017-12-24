@@ -10,6 +10,12 @@
 ![forthebadge](http://forthebadge.com/images/badges/built-with-science.svg)
 ![forthebadge](http://forthebadge.com/images/badges/makes-people-smile.svg)
 ![forthebadge](http://forthebadge.com/images/badges/powered-by-responsibility.svg)
+
+<br/>
+
+<div align="center">
+  <a href="https://dmitry-white.github.io/Slender/">![play](https://user-images.githubusercontent.com/25229823/34329445-9d487bce-e911-11e7-9d5f-cd52d6dc325f.png)</a>
+</div>
  
 ## Description
 A pseudo 3D game with HTML5 Canvas, CoreJS and Raycasting
