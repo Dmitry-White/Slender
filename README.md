@@ -39,7 +39,7 @@ npm run game
 * [Lode](http://lodev.org/cgtutor/raycasting.html) - Lode's Computer Graphics Tutorial
 * [Hunter Loftis](http://www.playfuljs.com/a-first-person-engine-in-265-lines/) - A first-person engine in 265 lines
 
-## Co-athor
+## Co-author
 * **Victoria Budyonnaya** - *A beast when it comes to html and beauty* - [Elkinny](https://github.com/elkinny)
 
 ## License
