@@ -43,5 +43,5 @@ npm run game
 * **Victoria Budyonnaya** - *A beast when it comes to html and beauty* - [Elkinny](https://github.com/elkinny)
 
 ## License
-This project is licensed under the MIT License
+This project is licensed under the MIT License.
 
