@@ -11,8 +11,6 @@
 ![forthebadge](http://forthebadge.com/images/badges/makes-people-smile.svg)
 ![forthebadge](http://forthebadge.com/images/badges/powered-by-responsibility.svg)
 
-<br/>
-
 <div align="center">
   <a href="https://dmitry-white.github.io/Slender/"><img src="img/play.png" /></a>
 </div>
