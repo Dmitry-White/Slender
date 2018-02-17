@@ -17,9 +17,15 @@
   <a href="https://dmitry-white.github.io/Slender/"><img src="img/play.png" /></a>
 </div>
 
- 
 ## Description
-A pseudo 3D game with HTML5 Canvas, CoreJS and Raycasting
+<div align="center">
+  A pseudo 3D game with HTML5 Canvas, CoreJS and Raycasting
+  <br/>
+  <br/>
+  <img width="200" height="107" src="img/screens/img1.jpg" />
+  <img width="200" height="107" src="img/screens/img2.jpg" />
+  <img width="200" height="107" src="img/screens/img3.jpg" />
+</div>
 
 ## Story
 In vanilla Slender game all you have to do, as human, is to collect eight pieces of paper scattered among trees and bushes.
@@ -43,5 +49,5 @@ npm run game
 * **Victoria Budyonnaya** - *A beast when it comes to html and beauty* - [Elkinny](https://github.com/elkinny)
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the MIT License
 
