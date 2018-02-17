@@ -3,7 +3,9 @@
 <div align="center">
   <sub>Slender Impostors Team. Making creepy stuff that makes you kill yourself... laughing :)</sub>
 </div>
+
 <br/>
+
 ![forthebadge](http://forthebadge.com/images/badges/kinda-sfw.svg)
 ![forthebadge](http://forthebadge.com/images/badges/built-with-science.svg)
 ![forthebadge](http://forthebadge.com/images/badges/makes-people-smile.svg)
@@ -12,6 +14,7 @@
 <div align="center">
   <a href="https://dmitry-white.github.io/Slender/"><img src="img/play.png" /></a>
 </div>
+
 ## Description
 <div align="center">
   A pseudo 3D game with HTML5 Canvas, CoreJS and Raycasting
