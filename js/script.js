@@ -1,23 +1,33 @@
-function set_slides(side, dir){
-    let val = '50px';
-    if (!dir){
-        dir = 'out';
-        val = 'calc(-40vw - 70px)'
-    } else dir = 'over';
-    document.querySelector(`.slider-${side} .slider-title`).addEventListener(`mouse${dir}`, () => {
-        document.querySelector(`.slider-${side} .slider-data`).style[side] = val;
-    });
+const checkbox = document.querySelector('#checkbox');
+const snowBlock = document.querySelector('.snow');
+
+const snowHandler = () => {
+  if (snowBlock.style.display === 'block')
+    snowBlock.style.display = 'none';
+  else snowBlock.style.display = 'block';
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    set_slides('right',true);
-    set_slides('right',false);
-    set_slides('left',true);
-    set_slides('left',false);
-});
+const set_slides = (side, dir) => {
+  const slideTitle = document.querySelector(`.slider-${side} .slider-title`);
+  const slideData = document.querySelector(`.slider-${side} .slider-data`);
 
-document.getElementById(`checkbox`).addEventListener(`change`, () => {
-    if(document.querySelector(`.snow`).style.display === 'block')
-        document.querySelector(`.snow`).style.display = 'none';
-    else document.querySelector(`.snow`).style.display = 'block';
-});
+  let val = '50px';
+  if (!dir) {
+    dir = 'out';
+    val = 'calc(-40vw - 70px)'
+  } else dir = 'over';
+
+  const mouseMoveHandler = () => slideData.style[side] = val;
+
+  slideTitle.addEventListener(`mouse${dir}`, mouseMoveHandler);
+}
+
+const initSlides = () => {
+  set_slides('right', true);
+  set_slides('right', false);
+  set_slides('left', true);
+  set_slides('left', false);
+}
+
+checkbox.addEventListener('change', snowHandler);
+document.addEventListener("DOMContentLoaded", initSlides);

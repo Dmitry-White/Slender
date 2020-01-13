@@ -1,31 +1,51 @@
 import { Game } from "./components/Game.js";
 
-window.onload = () => {
-	const game = new Game();
+const snowBlock = document.querySelector('.snow');
+const checkbox = document.querySelector('#checkbox');
+const playButton = document.querySelector('#play');
+const mainBlock = document.querySelector('.menu');
 
-	game.loadSounds();
-	game.enableMenuSounds();
-	game.setToVanilla();
+const hideMainBlock = () => {
+  mainBlock.classList.add('fadeOut');
 
-	const checkbox = document.getElementById('checkbox');
-	checkbox.addEventListener('change', () => {
-		if (checkbox.checked) {
-			document.querySelector(`.snow`).classList.add('block');
-			game.sounds.makeSound("ho_ho_ho");
-			game.setToWinter();
-		} else {
-		   	document.querySelector(`.snow`).classList.remove('block');
-			game.setToVanilla();
-	   }
-	});
-
-	document.getElementById('play').addEventListener('click', () => {
-		soundManager.stopAll();
-		game.sounds.sound_end = true;
-		document.querySelector('.menu').classList.add('fadeOut');
-		setTimeout(()=>{
-			document.querySelector('.menu').classList.add('none');
-		},700);
-		game.loadGame();
-	});
+  setTimeout(() => mainBlock.classList.add('none'), 700);
 };
+
+const init = () => {
+  const game = new Game();
+
+  game.loadSounds();
+  game.enableMenuSounds();
+  game.setToVanilla();
+
+  const changeGameMode = () => {
+    if (checkbox.checked) {
+      snowBlock.classList.add('block');
+
+      game.sounds.makeSound("ho_ho_ho");
+      game.setToWinter();
+    } else {
+      snowBlock.classList.remove('block');
+
+      game.setToVanilla();
+    }
+  };
+
+  const stopMenuSounds = () => {
+    soundManager.stopAll();
+    game.sounds.sound_end = true;
+  };
+
+  const initializeGame = () => {
+    stopMenuSounds();
+
+    hideMainBlock();
+
+    game.loadGame();
+  };
+
+  checkbox.addEventListener('change', changeGameMode);
+  playButton.addEventListener('click', initializeGame);
+};
+
+document.addEventListener("DOMContentLoaded", init);
