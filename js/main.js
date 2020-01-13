@@ -1,4 +1,4 @@
-import { Game } from "./components/Game.js";
+import Game from "./components/Game.js";
 
 const snowBlock = document.querySelector('.snow');
 const checkbox = document.querySelector('#checkbox');
