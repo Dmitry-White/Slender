@@ -1,12 +1,13 @@
-import { preloadSounds, SM_URL, SONGS, playSM } from '../utils/sound';
+import { preloadSounds, SM_URL, playSM } from '../utils/sound';
+import SOUNDS from '../json/sounds.json';
 
 class Sounds {
   constructor(game) {
     this.game = game;
     this.sound_end = true;
     this.ending = {
-      0: SONGS.END.COME_OUT.id,
-      1: SONGS.END.LULU.id
+      0: SOUNDS.END.COME_OUT.id,
+      1: SOUNDS.END.LULU.id
     };
     soundManager.setup({
       url: SM_URL,

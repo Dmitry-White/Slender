@@ -1,166 +1,6 @@
+import SOUNDS from '../json/sounds.json';
+
 const SM_URL = './soundmanager2/';
-const SONGS = {
-  MENU: {
-    PIANO_MENU: {
-      id: 'piano_menu_ambient',
-      url: 'sounds/ambient/piano_menu_ambient.mp3'
-    },
-    STATIC_MENU: {
-      id: 'static_menu_ambient',
-      url: 'sounds/ambient/static_menu_ambient.mp3',
-      volume: 50,
-    },
-    SLENDER_LOGO: {
-      id: 'slender_logo_hover',
-      url: 'sounds/menu/slender_logo_hover.mp3'
-    },
-    PLAY_BUTTON: {
-      id: 'play_button_hover',
-      url: 'sounds/menu/play_button_hover.mp3'
-    },
-    HO_HO: {
-      id: 'ho_ho_ho',
-      url: 'sounds/menu/ho_ho_ho.mp3'
-    },
-    ABOUT_US: {
-      id: 'about_us',
-      url: 'sounds/menu/about_us.mp3'
-    },
-    ABOUT_GAME: {
-      id: 'about_game',
-      url: 'sounds/menu/about_game.mp3'
-    },
-  },
-  WINTER: {
-    WIND: {
-      id: 'wind_ambient',
-      url: 'sounds/ambient/wind_ambient.mp3'
-    },
-    FORWARD_STEP: {
-      id: 'forward_step',
-      url: 'sounds/walking/forward_step.mp3'
-    },
-    BACKWARD_STEP: {
-      id: 'backward_step',
-      url: 'sounds/walking/backward_step.mp3'
-    },
-    DODGE_STEP_0: {
-      id: 'dodge_step_0',
-      url: 'sounds/walking/dodge_step_0.mp3'
-    },
-    DODGE_STEP_1: {
-      id: 'dodge_step_1',
-      url: 'sounds/walking/dodge_step_1.mp3'
-    },
-    RUNNING: {
-      id: 'running',
-      url: 'sounds/walking/running.mp3'
-    },
-  },
-  VANILLA: {
-    RAIN: {
-      id: 'rain_ambient',
-      url: 'sounds/ambient/rain_ambient.mp3',
-      volume: 80
-    },
-    RAIN_FORWARD_STEP: {
-      id: 'rain_forward_step',
-      url: 'sounds/walking/rain_forward_step.mp3'
-    },
-    RAIN_BACKWARD_STEP: {
-      id: 'rain_backward_step',
-      url: 'sounds/walking/rain_backward_step.mp3'
-    },
-    RAIN_STEP: {
-      id: 'rain_step',
-      url: 'sounds/walking/rain_step.mp3'
-    },
-    RAIN_DODGE_STEP_0: {
-      id: 'rain_dodge_step_0',
-      url: 'sounds/walking/rain_dodge_step_0.mp3'
-    },
-    RAIN_DODGE_STEP_1: {
-      id: 'rain_dodge_step_1',
-      url: 'sounds/walking/rain_dodge_step_1.mp3'
-    },
-    RAIN_RUNNING: {
-      id: 'rain_running',
-      url: 'sounds/walking/rain_running.mp3'
-    }
-  },
-  END: {
-    GHOST: {
-      id: 'ghost_scream',
-      url: 'sounds/ending/ghost_scream.mp3'
-    },
-    COME_OUT: {
-      id: 'come_out',
-      url: 'sounds/ending/come_out.mp3'
-    },
-    LULU: {
-      id: 'lululala',
-      url: 'sounds/ending/lululala.mp3'
-    },
-  },
-  GENERAL: {
-    ENTERING: {
-      id: 'entering_area',
-      url: 'sounds/objects/entering_area.mp3'
-    },
-    HIT_FENCE: {
-      id: 'hitting_the_fence',
-      url: 'sounds/objects/hitting_the_fence.mp3'
-    },
-    HIT_RAIN_FENCE: {
-      id: 'hitting_the_rain_fence',
-      url: 'sounds/objects/hitting_the_rain_fence.mp3',
-      volume: 50
-    },
-    HIT_WALL: {
-      id: 'hitting_the_wall',
-      url: 'sounds/objects/hitting_the_wall.mp3'
-    },
-    PLACE_PAPER: {
-      id: 'placing_paper',
-      url: 'sounds/objects/placing_paper.mp3'
-    },
-    PLACE_LOO_PAPER: {
-      id: 'placing_loo_paper',
-      url: 'sounds/objects/placing_loo_paper.mp3',
-      volume: 40
-    },
-    PLACE_BOMB: {
-      id: 'placing_bomb',
-      url: 'sounds/objects/placing_bomb.mp3'
-    },
-    SLASHING: {
-      id: 'slashing',
-      url: 'sounds/objects/slashing.mp3'
-    },
-    KILLING: {
-      id: 'killing',
-      url: 'sounds/objects/killing.mp3'
-    },
-  },
-  RANDOM: {
-    GHOST: {
-      id: 'ghost_in_the_house',
-      url: 'sounds/ambient/ghost_in_the_house.mp3'
-    },
-    JUST_HORROR: {
-      id: 'just_horror_ambient',
-      url: 'sounds/ambient/just_horror_ambient.mp3'
-    },
-    WEIRD_NOISES: {
-      id: 'weird_noises',
-      url: 'sounds/ambient/weird_noises.mp3'
-    },
-    SCARY_PIANO: {
-      id: 'scary_piano',
-      url: 'sounds/ambient/scary_piano.mp3'
-    }
-  }
-};
 
 const preloadGroup = (group) => {
   Object.entries(group).forEach(([_, val]) => {
@@ -169,7 +9,7 @@ const preloadGroup = (group) => {
 };
 
 const preloadSounds = () => {
-  const { MENU, WINTER, VANILLA, END, GENERAL, RANDOM } = SONGS;
+  const { MENU, WINTER, VANILLA, END, GENERAL, RANDOM } = SOUNDS;
 
   preloadGroup(MENU);
   preloadGroup(WINTER);
@@ -186,5 +26,5 @@ export {
   preloadSounds,
   playSM,
   SM_URL,
-  SONGS,
+  SOUNDS,
 }

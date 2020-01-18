@@ -1,5 +1,5 @@
 import { Sounds } from "./Sounds.js";
-import { preloadGroup, SM_URL, SONGS, playSM } from '../utils/sound';
+import { playSM } from '../utils/sound';
 
 class ObjSounds extends Sounds {
   constructor(game, map, mode) {

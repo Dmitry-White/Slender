@@ -1,13 +1,14 @@
-import { SONGS, playSM } from '../utils/sound';
+import { playSM } from '../utils/sound';
+import SOUNDS from '../json/sounds.json';
 
 class Noises {
   constructor() {
     this.noises_end = true;
     this.noises = {
-      0: SONGS.RANDOM.GHOST,
-      1: SONGS.RANDOM.JUST_HORROR,
-      2: SONGS.RANDOM.WEIRD_NOISES,
-      3: SONGS.RANDOM.SCARY_PIANO,
+      0: SOUNDS.RANDOM.GHOST,
+      1: SOUNDS.RANDOM.JUST_HORROR,
+      2: SOUNDS.RANDOM.WEIRD_NOISES,
+      3: SOUNDS.RANDOM.SCARY_PIANO,
     }
   }
 
