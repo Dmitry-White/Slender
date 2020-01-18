@@ -9,7 +9,10 @@ import { GameLoop } from "./GameLoop.js";
 import { ObjSounds } from "./ObjSounds.js";
 
 import { getRandomInt } from '../utils/calc';
+import { playSM, preloadSounds } from '../utils/sound';
+
 import { assets } from "../json/assets.json";
+import { GENERAL, WINTER, VANILLA, MENU } from '../json/sounds.json'
 
 const videoBlock = document.querySelector('.intro');
 const messageBlock = document.querySelector('.text');
@@ -49,26 +52,26 @@ class Game {
     this.addPeople();
     this.map.buildMap(this.trees, this.bushes);
 
-    videoBlock.classList.add('block');
-    this.enterFS(videoBlock);
-    videoBlock.play();
+    // videoBlock.classList.add('block');
+    // this.enterFS(videoBlock);
+    // videoBlock.play();
 
-    setTimeout(() => {
-      this.exitFS(videoBlock);
-      videoBlock.pause();
-      videoBlock.classList.remove('block');
+    // setTimeout(() => {
+    //   const { ENTERING } = GENERAL;
 
-      messageBlock.classList.add('flex');
-      this.mouseLock();
-      soundManager.play("entering_area", {
-        multiShotEvents: true,
-        onfinish: () => {
-          this.startGame();
-        }
-      });
-    }, 28000);
+    //   this.exitFS(videoBlock);
+    //   videoBlock.pause();
+    //   videoBlock.classList.remove('block');
 
-    //this.startGame();
+    //   messageBlock.classList.add('flex');
+    //   this.mouseLock();
+    //   playSM(ENTERING.id, {
+    //     multiShotEvents: true,
+    //     onfinish: () => this.startGame()
+    //   });
+    // }, 28000);
+
+    this.startGame();
   };
 
   startGame() {
@@ -105,11 +108,13 @@ class Game {
 
   checkEnding() {
     if (this.map.people == 0 && this.obj_sounds.obj_sound_end) {
+
       this.map.show_all_dead = 1;
       this.map.show_loo = 0;
       this.map.show_bomb = 0;
       this.map.show_tip = 0;
       this.map.show_warning = 0;
+
       setTimeout(() => {
         this.map.show_all_dead = 0;
       }, 3000);
@@ -126,11 +131,15 @@ class Game {
   };
 
   setMode() {
-    if (this.mode.winter) {
-      this.sounds.loopSound('wind_ambient');
+    const { winter } = this.mode;
+    const { WIND } = WINTER;
+    const { RAIN } = VANILLA;
+
+    if (winter) {
+      this.sounds.loopSound(WIND.id);
       this.trees = assets.trees;
       this.bushes = assets.bushes;
-    } else this.sounds.loopSound('rain_ambient');
+    } else this.sounds.loopSound(RAIN.id);
   };
 
   addPeople() {
@@ -181,100 +190,61 @@ class Game {
   };
 
   setToWinter() {
-    this.mode.winter = true;
-    this.mode.light = 1;
-    this.mode.lightning = false;
-    this.mode.lightRange = 5;
-    this.mode.shadows = "#fff";
-    this.mode.drops = "#fff";
-    this.mode.drops_opacity = 1;
-    this.mode.drops_amount = 100;
-    this.mode.ground = "#fff";
-    this.mode.param = 0.5;
-    this.mode.particlesWidth = 6;
-    this.mode.particlesHeight = 6;
-    this.mode.fence_texture = "img/snow/fence_snow.png";
-    this.mode.sky_texture = "img/snow/sky_panorama_snow.jpg";
-    this.mode.wall_texture = "img/snow/wall_texture_snow.jpg";
+    this.mode = {
+      winter: true,
+      light: 1,
+      lightning: false,
+      lightRange: 5,
+      shadows: "#fff",
+      drops: "#fff",
+      drops_opacity: 1,
+      drops_amount: 100,
+      ground: "#fff",
+      param: 0.5,
+      particlesWidth: 6,
+      particlesHeight: 6,
+      fence_texture: "img/snow/fence_snow.png",
+      sky_texture: "img/snow/sky_panorama_snow.jpg",
+      wall_texture: "img/snow/wall_texture_snow.jpg",
+    }
   };
 
   setToVanilla() {
-    this.mode.winter = false;
-    this.mode.light = 2;
-    this.mode.lightning = true;
-    this.mode.lightRange = 5;
-    this.mode.shadows = "#000";
-    this.mode.drops = "#fff";
-    this.mode.drops_opacity = 0.15;
-    this.mode.drops_amount = 30;
-    this.mode.ground = "#56361f";
-    this.mode.param = 0.1;
-    this.mode.particlesWidth = 2;
-    this.mode.particlesHeight = 20;
-    this.mode.sky_texture = "img/rain/rain_sky_panorama.jpg";
-    this.mode.fence_texture = "img/rain/rain_fence.jpg";
-    this.mode.wall_texture = "img/rain/rain_wall_texture.jpg";
+    this.mode = {
+      winter: false,
+      light: 2,
+      lightning: true,
+      lightRange: 5,
+      shadows: "#000",
+      drops: "#fff",
+      drops_opacity: 0.15,
+      drops_amount: 30,
+      ground: "#56361f",
+      param: 0.1,
+      particlesWidth: 2,
+      particlesHeight: 20,
+      sky_texture: "img/rain/rain_sky_panorama.jpg",
+      fence_texture: "img/rain/rain_fence.jpg",
+      wall_texture: "img/rain/rain_wall_texture.jpg",
+    }
   };
 
   loadSounds() {
-    // ------------------ Menu ------------------------
-    soundManager.load('piano_menu_ambient');
-    soundManager.load('static_menu_ambient');
-    soundManager.load('slender_logo_hover');
-    soundManager.load('play_button_hover');
-    soundManager.load('ho_ho_ho');
-    soundManager.load('about_us');
-    soundManager.load('about_game');
-    // ------------------------------------------------
-
-    // --------------- Winter Mode --------------------
-    soundManager.load('wind_ambient');
-    soundManager.load('forward_step');
-    soundManager.load('backward_step');
-    soundManager.load('dodge_step_0');
-    soundManager.load('dodge_step_1');
-    soundManager.load('running');
-    // ------------------------------------------------
-
-    // --------------- Vanilla Mode -------------------
-    soundManager.load('rain_ambient');
-    soundManager.load('rain_forward_step');
-    soundManager.load('rain_backward_step');
-    soundManager.load('rain_step');
-    soundManager.load('rain_dodge_step_0');
-    soundManager.load('rain_dodge_step_1');
-    soundManager.load('rain_running');
-    // ------------------------------------------------
-
-    // --------------- General Stuff ------------------
-    soundManager.load('entering_area');
-    soundManager.load('hitting_the_fence');
-    soundManager.load('hitting_the_rain_fence');
-    soundManager.load('hitting_the_wall');
-    soundManager.load('placing_paper');
-    soundManager.load('placing_loo_paper');
-    soundManager.load('placing_bomb');
-    soundManager.load('slashing');
-    soundManager.load('killing');
-    // ------------------------------------------------
-
-    // --------------- Random Ambient -----------------
-    soundManager.load('ghost_in_the_house');
-    soundManager.load('just_horror_ambient');
-    soundManager.load('weird_noises');
-    soundManager.load('scary_piano');
-    // ------------------------------------------------
-
-    // ------------------ End Game --------------------
-    soundManager.load('ghost_scream');
-    soundManager.load('come_out');
-    soundManager.load('lululala');
-    // ------------------------------------------------
+    preloadSounds();
   }
 
   enableMenuSounds() {
-    this.sounds.loopSound('piano_menu_ambient');
-    this.sounds.loopSound('static_menu_ambient');
+    const {
+      PIANO_MENU,
+      STATIC_MENU,
+      SLENDER_LOGO,
+      PLAY_BUTTON,
+      ABOUT_US,
+      ABOUT_GAME,
+    } = MENU;
+
+    this.sounds.loopSound(PIANO_MENU.id);
+    this.sounds.loopSound(STATIC_MENU.id);
 
     const startHandler = (name, mute) => {
       this.sounds.loopSound(name);
@@ -285,17 +255,17 @@ class Game {
       unmute && soundManager.unmute(unmute);
     };
 
-    const startPlayHandler = () => startHandler("play_button_hover");
-    const stopPlayHandler = () => stopHandler('play_button_hover');
+    const startPlayHandler = () => startHandler(PLAY_BUTTON.id);
+    const stopPlayHandler = () => stopHandler(PLAY_BUTTON.id);
 
-    const startLogoHandler = () => startHandler("slender_logo_hover");
-    const stopLogoHandler = () => stopHandler('slender_logo_hover');
+    const startLogoHandler = () => startHandler(SLENDER_LOGO.id);
+    const stopLogoHandler = () => stopHandler(SLENDER_LOGO.id);
 
-    const startAboutUsHandler = () => startHandler("about_us", 'piano_menu_ambient');
-    const stopAboutUsHandler = () => stopHandler('about_us', 'piano_menu_ambient');
+    const startAboutUsHandler = () => startHandler(ABOUT_US.id, PIANO_MENU.id);
+    const stopAboutUsHandler = () => stopHandler(ABOUT_US.id, PIANO_MENU.id);
 
-    const startAboutGameHandler = () => startHandler("about_game", 'piano_menu_ambient');
-    const stopAboutGameHandler = () => stopHandler('about_game', 'piano_menu_ambient');
+    const startAboutGameHandler = () => startHandler(ABOUT_GAME.id, PIANO_MENU.id);
+    const stopAboutGameHandler = () => stopHandler(ABOUT_GAME.id, PIANO_MENU.id);
 
     playButton.addEventListener('mouseover', startPlayHandler);
     playButton.addEventListener('mouseout', stopPlayHandler);

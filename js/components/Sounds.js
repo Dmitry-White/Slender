@@ -1,4 +1,4 @@
-import { preloadSounds, SM_URL, playSM } from '../utils/sound';
+import { precreateSounds, SM_URL, playSM } from '../utils/sound';
 import SOUNDS from '../json/sounds.json';
 
 class Sounds {
@@ -11,7 +11,7 @@ class Sounds {
     };
     soundManager.setup({
       url: SM_URL,
-      onready: () => preloadSounds()
+      onready: () => precreateSounds()
     });
   };
 
