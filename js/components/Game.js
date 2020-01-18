@@ -1,5 +1,4 @@
 import { Map } from "./Map.js";
-import { Calc } from "./Calc.js";
 import { Sounds } from "./Sounds.js";
 import { Noises } from "./Noises.js";
 import { Person } from "./Person.js";
@@ -8,6 +7,8 @@ import { Camera } from "./Camera.js";
 import { Controls } from "./Controls.js";
 import { GameLoop } from "./GameLoop.js";
 import { ObjSounds } from "./ObjSounds.js";
+
+import { getRandomInt } from '../utils/calc';
 import { assets } from "../json/assets.json";
 
 const videoBlock = document.querySelector('.intro');
@@ -85,7 +86,7 @@ class Game {
   };
 
   endGame() {
-    const end_song = Calc.getRandomInt(0, 2);
+    const end_song = getRandomInt(0, 2);
     soundManager.stopAll();
     this.game.sounds.playEnding(end_song);
     this.game.showEndingScreen();
@@ -134,9 +135,9 @@ class Game {
 
   addPeople() {
     for (let i = 0; i < this.PPL_NUM; i++) {
-      let x = Calc.getRandomInt(2, this.PPL_XY);
-      let y = Calc.getRandomInt(2, this.PPL_XY);
-      let pic_num = Calc.getRandomInt(1, 5);
+      let x = getRandomInt(2, this.PPL_XY);
+      let y = getRandomInt(2, this.PPL_XY);
+      let pic_num = getRandomInt(1, 5);
       this.map.addObject(new Person(this.player, this.map, x, y, pic_num, this.CIRCLE));
       this.map.people++;
     }
@@ -144,7 +145,7 @@ class Game {
 
   changeAmbient() {
     if (this.noises.noises_end) {
-      const next = Calc.getRandomInt(0, 4);
+      const next = getRandomInt(0, 4);
       this.noises.playNoises(next);
     };
   };
