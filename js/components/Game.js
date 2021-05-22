@@ -1,12 +1,14 @@
-import { Map } from './Map.js';
-import { Sounds } from './Sounds.js';
-import { Noises } from './Noises.js';
-import { Person } from './Person.js';
-import { Player } from './Player.js';
-import { Camera } from './Camera.js';
-import { Controls } from './Controls.js';
-import { GameLoop } from './GameLoop.js';
-import { ObjSounds } from './ObjSounds.js';
+import { soundManager } from 'soundmanager2';
+
+import Map from './Map';
+import Sounds from './Sounds';
+import Noises from './Noises';
+import Person from './Person';
+import Player from './Player';
+import Camera from './Camera';
+import Controls from './Controls';
+import GameLoop from './GameLoop';
+import ObjSounds from './ObjSounds';
 
 import { getRandomInt } from '../utils/calc';
 import { playSM, preloadSounds } from '../utils/sound';
@@ -61,21 +63,21 @@ class Game {
     this.map.buildMap(this.trees, this.bushes);
 
     // videoBlock.classList.add('block');
-    // this.enterFS(videoBlock);
+    // Game.enterFS(videoBlock);
     // videoBlock.play();
 
     // setTimeout(() => {
     //   const { ENTERING } = GENERAL;
 
-    //   this.exitFS(videoBlock);
+    //   Game.exitFS(videoBlock);
     //   videoBlock.pause();
     //   videoBlock.classList.remove('block');
 
     //   messageBlock.classList.add('flex');
-    //   this.mouseLock();
+    //   Game.mouseLock();
     //   playSM(ENTERING.id, {
     //     multiShotEvents: true,
-    //     onfinish: () => this.startGame()
+    //     onfinish: () => this.startGame(),
     //   });
     // }, 28000);
 
@@ -97,10 +99,10 @@ class Game {
   }
 
   endGame() {
-    const end_song = getRandomInt(0, 2);
+    const endSong = getRandomInt(0, 2);
     soundManager.stopAll();
-    this.game.sounds.playEnding(end_song);
-    this.game.showEndingScreen();
+    this.game.sounds.playEnding(endSong);
+    Game.showEndingScreen();
   }
 
   makeEndmode() {
@@ -115,7 +117,7 @@ class Game {
   }
 
   checkEnding() {
-    if (this.map.people == 0 && this.obj_sounds.obj_sound_end) {
+    if (this.map.people === 0 && this.obj_sounds.obj_sound_end) {
       this.map.show_all_dead = 1;
       this.map.show_loo = 0;
       this.map.show_bomb = 0;
@@ -130,7 +132,7 @@ class Game {
     }
   }
 
-  showEndingScreen() {
+  static showEndingScreen() {
     messageBlock.classList.add('flex');
     messageChildBlock.innerHTML = 'Do you want to play more?';
     messageChildBlock.setAttribute('data-text', 'Do you want to kiLL more?');
@@ -153,22 +155,22 @@ class Game {
     for (let i = 0; i < this.PPL_NUM; i++) {
       const x = getRandomInt(2, this.PPL_XY);
       const y = getRandomInt(2, this.PPL_XY);
-      const pic_num = getRandomInt(1, 5);
+      const picNum = getRandomInt(1, 5);
       this.map.addObject(
-        new Person(this.player, this.map, x, y, pic_num, this.CIRCLE),
+        new Person(this.player, this.map, x, y, picNum, this.CIRCLE),
       );
       this.map.people++;
     }
   }
 
   changeAmbient() {
-    if (this.noises.noises_end) {
+    if (this.noises.noisesEnd) {
       const next = getRandomInt(0, 4);
       this.noises.playNoises(next);
     }
   }
 
-  enterFS(intro) {
+  static enterFS(intro) {
     if (intro.requestFullscreen) {
       intro.requestFullscreen();
     } else if (intro.mozRequestFullScreen) {
@@ -178,7 +180,7 @@ class Game {
     }
   }
 
-  exitFS(intro) {
+  static exitFS(intro) {
     if (intro.exitFullscreen) {
       intro.exitFullscreen();
     } else if (intro.mozExitFullScreen) {
@@ -188,7 +190,7 @@ class Game {
     }
   }
 
-  mouseLock() {
+  static mouseLock() {
     if (document.body.requestPointerLock) {
       document.body.requestPointerLock();
     } else if (document.body.mozRequestPointerLock) {
@@ -238,7 +240,7 @@ class Game {
     };
   }
 
-  loadSounds() {
+  static loadSounds() {
     preloadSounds();
   }
 

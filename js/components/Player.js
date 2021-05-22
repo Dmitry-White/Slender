@@ -1,10 +1,10 @@
-import { Paper } from './Paper.js';
-import { Bitmap } from './Bitmap.js';
-import { Person } from './Person.js';
+import Paper from './Paper';
+import Bitmap from './Bitmap';
+import Person from './Person';
 
 import { getRandomInt } from '../utils/calc';
 
-export class Player {
+class Player {
   constructor(origin) {
     this.x = origin.x;
     this.y = origin.y;
@@ -24,7 +24,7 @@ export class Player {
     this.speed = 1;
     this.hitting_the_fence = false;
     this.hitting_the_wall = false;
-    this.grab_dist = 0;
+    this.grabDist = 0;
     this.grab_state = false;
     this.put_dist = 0;
     this.put_state = false;
@@ -37,21 +37,21 @@ export class Player {
   walk(distance, map, direction) {
     const dx = Math.cos(direction) * distance;
     const dy = Math.sin(direction) * distance;
-    const in_the_x_way = map.get(this.x + dx, this.y);
-    const in_the_y_way = map.get(this.x, this.y + dy);
+    const inDirectionX = map.get(this.x + dx, this.y);
+    const inDirectionY = map.get(this.x, this.y + dy);
 
-    if (in_the_x_way == 2 || in_the_y_way == 2) {
+    if (inDirectionX === 2 || inDirectionY === 2) {
       this.hitting_the_fence = true;
       this.hitObject();
       this.hitting_the_fence = false;
-    } else if (in_the_x_way == 1 || in_the_y_way == 1) {
+    } else if (inDirectionX === 1 || inDirectionY === 1) {
       this.hitting_the_wall = true;
       this.hitObject();
       this.hitting_the_wall = false;
     }
 
-    if (in_the_x_way <= 0) this.x += dx;
-    if (in_the_y_way <= 0) this.y += dy;
+    if (inDirectionX <= 0) this.x += dx;
+    if (inDirectionY <= 0) this.y += dy;
     this.paces += distance;
   }
 
@@ -87,12 +87,12 @@ export class Player {
   }
 
   grab() {
-    if (this.grab_state === true && this.grab_dist < 300) {
-      this.grab_dist += 50;
+    if (this.grab_state === true && this.grabDist < 300) {
+      this.grabDist += 50;
     } else {
       this.grab_state = false;
-      if (this.grab_dist != 0) {
-        this.grab_dist -= 25;
+      if (this.grabDist !== 0) {
+        this.grabDist -= 25;
       }
     }
   }
@@ -102,7 +102,7 @@ export class Player {
       this.put_dist += 30;
     } else {
       this.put_state = false;
-      if (this.put_dist != 0) {
+      if (this.put_dist !== 0) {
         this.put_dist -= 15;
       }
     }
@@ -195,7 +195,7 @@ export class Player {
       this.put_state = true;
       this.placePaper();
     }
-    if (action === 'escape') location.reload();
+    if (action === 'escape') window.location.reload();
   }
 
   attack() {
@@ -233,31 +233,31 @@ export class Player {
     if (this.map.papers >= this.PAPER_NUM) {
       this.showNoPaperMessage();
     } else {
-      const same_place =
+      const samePlace =
         this.prev_paper_place[0] === this.x &&
         this.prev_paper_place[1] === this.y;
       if (
         !this.running &&
         !this.walking &&
         this.sounds.sound_end &&
-        !same_place
+        !samePlace
       ) {
-        const paper_type = getRandomInt(0, 8);
+        const paperType = getRandomInt(0, 8);
         this.map.addObject(
           new Paper(
             this.x,
             this.y,
             new Bitmap(
-              this.papers[paper_type].texture,
-              this.papers[paper_type].width,
-              this.papers[paper_type].height,
+              this.papers[paperType].texture,
+              this.papers[paperType].width,
+              this.papers[paperType].height,
             ),
           ),
         );
-        if (paper_type === 0) {
+        if (paperType === 0) {
           this.obj_sounds.makeSound('placing_loo_paper');
           this.showLooMessage();
-        } else if (paper_type === 7) {
+        } else if (paperType === 7) {
           this.obj_sounds.makeSound('placing_bomb');
           this.showBombMessage();
         } else {
@@ -330,3 +330,5 @@ export class Player {
     }, 3000);
   }
 }
+
+export default Player;

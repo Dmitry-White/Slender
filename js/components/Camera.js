@@ -1,7 +1,8 @@
-import { Objects } from './Objects.js';
 import { getRandomInt } from '../utils/calc';
 
-export class Camera {
+import Objects from './Objects';
+
+class Camera {
   constructor(canvas, resolution, fov, mode, CIRCLE, map, PAPER_NUM) {
     this.CIRCLE = CIRCLE;
     this.PAPER_NUM = PAPER_NUM;
@@ -24,7 +25,7 @@ export class Camera {
       player.left_hand,
       player.right_hand,
       player.paces,
-      player.grab_dist,
+      player.grabDist,
       player.put_dist,
     );
     this.drawMiniMap(player, map);
@@ -514,3 +515,5 @@ export class Camera {
     };
   }
 }
+
+export default Camera;

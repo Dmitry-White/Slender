@@ -1,6 +1,8 @@
+import { soundManager } from 'soundmanager2';
+
 import SOUNDS from '../json/sounds.json';
 
-const SM_URL = './soundmanager2/';
+const SM_URL = 'node_modules/soundmanager2/swf';
 
 const prepareFunc = (func, group) =>
   Object.entries(group).forEach(([_, val]) => func(val));

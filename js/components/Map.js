@@ -1,10 +1,10 @@
-import { Bitmap } from './Bitmap.js';
-import { Objects } from './Objects.js';
-import { Person } from './Person.js';
+import Bitmap from './Bitmap';
+import Objects from './Objects';
+import Person from './Person';
 
 import { getRandomInt } from '../utils/calc';
 
-export class Map {
+class Map {
   constructor(size, mode) {
     this.mode = mode;
     this.size = size;
@@ -35,7 +35,7 @@ export class Map {
   }
 
   addTrees(trees, col, row) {
-    if (this.get(col, row) == 0) {
+    if (this.get(col, row) === 0) {
       const num = getRandomInt(0, 4);
       this.addObject(
         new Objects({
@@ -52,7 +52,7 @@ export class Map {
   }
 
   addBushes(bushes, col, row) {
-    if (this.get(col, row) == 0) {
+    if (this.get(col, row) === 0) {
       const num = getRandomInt(0, 5);
       this.addObject(
         new Objects({
@@ -177,3 +177,5 @@ export class Map {
     return this.objects[y * this.size + x];
   }
 }
+
+export default Map;

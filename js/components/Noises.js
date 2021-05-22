@@ -3,7 +3,7 @@ import SOUNDS from '../json/sounds.json';
 
 class Noises {
   constructor() {
-    this.noises_end = true;
+    this.noisesEnd = true;
     this.noises = {
       0: SOUNDS.RANDOM.GHOST,
       1: SOUNDS.RANDOM.JUST_HORROR,
@@ -12,13 +12,15 @@ class Noises {
     };
   }
 
-  playNoises(noise_num) {
-    this.noises_end = false;
-    playSM(this.noises[noise_num], {
+  playNoises(noiseNum) {
+    this.noisesEnd = false;
+    playSM(this.noises[noiseNum], {
       multiShotEvents: true,
-      onfinish: () => (this.noises_end = true),
+      onfinish: () => {
+        this.noisesEnd = true;
+      },
     });
   }
 }
 
-export { Noises };
+export default Noises;

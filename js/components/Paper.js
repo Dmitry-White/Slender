@@ -1,4 +1,4 @@
-export class Paper {
+class Paper {
   constructor(x, y, texture) {
     this.color = '#fff';
     this.x = x;
@@ -8,3 +8,5 @@ export class Paper {
     this.texture = texture;
   }
 }
+
+export default Paper;

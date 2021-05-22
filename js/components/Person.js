@@ -1,29 +1,29 @@
-import { Paper } from './Paper.js';
-import { Bitmap } from './Bitmap.js';
+import Paper from './Paper';
+import Bitmap from './Bitmap';
 
 import { getRandomFloat } from '../utils/calc';
 
-export class Person {
-  constructor(player, map, x, y, pic_num, CIRCLE) {
+class Person {
+  constructor(player, map, x, y, picNum, CIRCLE) {
     this.CIRCLE = CIRCLE;
     this.player = player;
     this.map = map;
     this.x = x;
     this.y = y;
-    this.pic_num = pic_num;
-    (this.color = '#cf3c8c'),
-      (this.texture = new Bitmap(`img/npc/npc-${pic_num}.png`, 114, 300)),
-      (this.height = 0.6),
-      (this.width = 0.225),
-      (this.floorOffset = 0),
-      (this.count = 0);
+    this.picNum = picNum;
+    this.color = '#cf3c8c';
+    this.texture = new Bitmap(`img/npc/npc-${picNum}.png`, 114, 300);
+    this.height = 0.6;
+    this.width = 0.225;
+    this.floorOffset = 0;
+    this.count = 0;
     this.direction = 1;
     this.speed = 0.7;
     this.alive = true;
     // this.found_dead = false;
     this.found_paper = false;
     this.taking_paper = false;
-    this.paper_near_person = 0;
+    this.paperNearPerson = 0;
   }
 
   logic() {
@@ -48,8 +48,8 @@ export class Person {
   }
 
   run() {
-    const dist_to_player = this.distTo(this.player);
-    if (dist_to_player < 2) {
+    const distToPlayer = this.distTo(this.player);
+    if (distToPlayer < 2) {
       this.speed = 3;
       this.direction = -this.player.direction;
     } else this.speed = 0.7;
@@ -58,51 +58,51 @@ export class Person {
   walk(distance, direction) {
     const dx = Math.cos(direction) * distance;
     const dy = Math.sin(direction) * distance;
-    const in_the_x_way = this.map.get(this.x + dx, this.y);
-    const in_the_y_way = this.map.get(this.x, this.y + dy);
+    const inDirectionX = this.map.get(this.x + dx, this.y);
+    const inDirectionY = this.map.get(this.x, this.y + dy);
 
     if (
-      in_the_x_way == 2 ||
-      in_the_y_way == 2 ||
-      in_the_x_way == 1 ||
-      in_the_y_way == 1
+      inDirectionX === 2 ||
+      inDirectionY === 2 ||
+      inDirectionX === 1 ||
+      inDirectionY === 1
     ) {
       this.direction = direction + this.CIRCLE / 6;
     }
-    if (in_the_x_way <= 0) this.x += dx;
-    if (in_the_y_way <= 0) this.y += dy;
+    if (inDirectionX <= 0) this.x += dx;
+    if (inDirectionY <= 0) this.y += dy;
     this.move('img/npc/npc');
   }
 
   move(url) {
     if (this.count % 10 === 0) {
       if (this.count % 20 === 0) {
-        this.texture = new Bitmap(`${url}2-${this.pic_num}.png`, 114, 300);
-      } else this.texture = new Bitmap(`${url}-${this.pic_num}.png`, 114, 300);
+        this.texture = new Bitmap(`${url}2-${this.picNum}.png`, 114, 300);
+      } else this.texture = new Bitmap(`${url}-${this.picNum}.png`, 114, 300);
     }
   }
 
   searchForPaper() {
     let dx;
     let dy;
-    let dist_to_paper;
+    let distToPaper;
     let paper;
     this.map.objects.some((item) => {
       if (item instanceof Paper) {
         paper = item;
         dx = this.x - paper.x;
         dy = this.y - paper.y;
-        dist_to_paper = this.distTo(paper);
-        this.isNearPaper(dist_to_paper, paper, dx, dy);
+        distToPaper = this.distTo(paper);
+        this.isNearPaper(distToPaper, paper, dx, dy);
       }
     });
   }
 
-  isNearPaper(dist_to_paper, paper, dx, dy) {
-    if (dist_to_paper < 5 && this.distTo(this.player) > 3) {
+  isNearPaper(distToPaper, paper, dx, dy) {
+    if (distToPaper < 5 && this.distTo(this.player) > 3) {
       this.paper = paper;
       this.found_paper = true;
-      if (dist_to_paper < 0.3) {
+      if (distToPaper < 0.3) {
         this.takingPaper();
       } else {
         this.approachPaper(dx, dy);
@@ -117,8 +117,8 @@ export class Person {
   }
 
   takePaper() {
-    this.paper_near_person++;
-    if (this.paper_near_person === 70) {
+    this.paperNearPerson++;
+    if (this.paperNearPerson === 70) {
       const idx = this.map.objects.indexOf(this.paper);
       if (idx !== -1) {
         this.map.objects.splice(idx, 1);
@@ -127,7 +127,7 @@ export class Person {
         if (item instanceof Person) {
           item.found_paper = false;
           item.taking_paper = false;
-          item.paper_near_person = 0;
+          item.paperNearPerson = 0;
         }
       });
       this.showTakenMessage();
@@ -135,10 +135,9 @@ export class Person {
   }
 
   approachPaper(dx, dy) {
-    let dist_to_walk;
-    dist_to_walk = 0.007 * this.speed;
-    dx >= 0 ? (this.x -= dist_to_walk) : (this.x += dist_to_walk);
-    dy >= 0 ? (this.y -= dist_to_walk) : (this.y += dist_to_walk);
+    const distToWalk = 0.007 * this.speed;
+    dx >= 0 ? (this.x -= distToWalk) : (this.x += distToWalk);
+    dy >= 0 ? (this.y -= distToWalk) : (this.y += distToWalk);
     this.count += 0.5;
     this.move('img/npc/npc');
   }
@@ -182,7 +181,7 @@ export class Person {
   die() {
     this.texture = new Bitmap('img/npc/npc_die.gif', 114, 300);
     setTimeout(() => {
-      this.texture = new Bitmap(`img/npc/npc3-${this.pic_num}.png`, 300, 56);
+      this.texture = new Bitmap(`img/npc/npc3-${this.picNum}.png`, 300, 56);
       this.height = 0.2;
       this.width = 0.7;
     }, 7000);
@@ -201,3 +200,5 @@ export class Person {
     }, 3000);
   }
 }
+
+export default Person;

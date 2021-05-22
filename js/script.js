@@ -6,26 +6,41 @@ const snowHandler = () => {
   else snowBlock.style.display = 'block';
 };
 
-const set_slides = (side, dir) => {
-  const slideTitle = document.querySelector(`.slider-${side} .slider-title`);
-  const slideData = document.querySelector(`.slider-${side} .slider-data`);
+const SLIDE_MAP = {
+  LEFT: 'left',
+  RIGHT: 'right',
+};
 
-  let val = '50px';
-  if (!dir) {
-    dir = 'out';
-    val = 'calc(-40vw - 70px)';
-  } else dir = 'over';
+const SLIDE_CONFIG = {
+  [SLIDE_MAP.LEFT]: {
+    title: document.querySelector(`.slider-${SLIDE_MAP.LEFT} .slider-title`),
+    data: document.querySelector(`.slider-${SLIDE_MAP.LEFT} .slider-data`),
+  },
+  [SLIDE_MAP.RIGHT]: {
+    title: document.querySelector(`.slider-${SLIDE_MAP.RIGHT} .slider-title`),
+    data: document.querySelector(`.slider-${SLIDE_MAP.RIGHT} .slider-data`),
+  },
+};
 
-  const mouseMoveHandler = () => (slideData.style[side] = val);
+const setSlides = (side, isHovered) => {
+  const value = isHovered ? '50px' : 'calc(-40vw - 70px)';
+  const direction = isHovered ? 'over' : 'out';
 
-  slideTitle.addEventListener(`mouse${dir}`, mouseMoveHandler);
+  const mouseMoveHandler = () => {
+    SLIDE_CONFIG[side].data.style[side] = value;
+  };
+
+  SLIDE_CONFIG[side].title.addEventListener(
+    `mouse${direction}`,
+    mouseMoveHandler,
+  );
 };
 
 const initSlides = () => {
-  set_slides('right', true);
-  set_slides('right', false);
-  set_slides('left', true);
-  set_slides('left', false);
+  setSlides(SLIDE_MAP.LEFT, true);
+  setSlides(SLIDE_MAP.LEFT, false);
+  setSlides(SLIDE_MAP.RIGHT, true);
+  setSlides(SLIDE_MAP.RIGHT, false);
 };
 
 checkbox.addEventListener('change', snowHandler);

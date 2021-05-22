@@ -1,4 +1,4 @@
-export class Controls {
+class Controls {
   constructor(player) {
     this.player = player;
     this.codes = {
@@ -80,3 +80,5 @@ export class Controls {
     if (x < 0) this.player.rotate(-Math.PI / 50);
   }
 }
+
+export default Controls;

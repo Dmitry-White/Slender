@@ -1,4 +1,4 @@
-export class GameLoop {
+class GameLoop {
   constructor(game, endGame) {
     this.game = game;
     this.endGame = endGame;
@@ -23,3 +23,5 @@ export class GameLoop {
     requestAnimationFrame(this.frame);
   }
 }
+
+export default GameLoop;

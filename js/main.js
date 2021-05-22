@@ -1,4 +1,6 @@
-import Game from './components/Game.js';
+import { soundManager } from 'soundmanager2';
+
+import Game from './components/Game';
 
 const snowBlock = document.querySelector('.snow');
 const checkbox = document.querySelector('#checkbox');
@@ -14,7 +16,7 @@ const hideMainBlock = () => {
 const init = () => {
   const game = new Game();
 
-  game.loadSounds();
+  Game.loadSounds();
   game.enableMenuSounds();
   game.setToVanilla();
 

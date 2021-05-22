@@ -1,4 +1,4 @@
-export class Bitmap {
+class Bitmap {
   constructor(src, width, height) {
     this.image = new Image();
     this.image.src = src;
@@ -6,3 +6,5 @@ export class Bitmap {
     this.height = height;
   }
 }
+
+export default Bitmap;

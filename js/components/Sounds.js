@@ -1,3 +1,5 @@
+import { soundManager } from 'soundmanager2';
+
 import { precreateSounds, SM_URL, playSM } from '../utils/sound';
 import SOUNDS from '../json/sounds.json';
 
@@ -11,20 +13,23 @@ class Sounds {
     };
     soundManager.setup({
       url: SM_URL,
+      debugMode: false,
+      preferFlash: false,
+      useHighPerformance: true,
       onready: () => precreateSounds(),
     });
   }
 
-  loopSound(sound_id) {
-    playSM(sound_id, {
+  loopSound(soundId) {
+    playSM(soundId, {
       multiShotEvents: true,
-      onfinish: () => this.loopSound(sound_id),
+      onfinish: () => this.loopSound(soundId),
     });
   }
 
-  makeSound(sound_id) {
+  makeSound(soundId) {
     this.sound_end = false;
-    playSM(sound_id, {
+    playSM(soundId, {
       multiShotEvents: true,
       onfinish: () => {
         this.obj_sound_end = true;
@@ -33,11 +38,11 @@ class Sounds {
     });
   }
 
-  playEnding(ending_num) {
-    playSM(this.ending[ending_num], {
-      onfinish: () => location.reload(),
+  playEnding(endingNum) {
+    playSM(this.ending[endingNum], {
+      onfinish: () => window.location.reload(),
     });
   }
 }
 
-export { Sounds };
+export default Sounds;

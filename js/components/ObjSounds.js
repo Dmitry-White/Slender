@@ -1,7 +1,7 @@
-import { Sounds } from './Sounds.js';
-
 import { playSM } from '../utils/sound';
 import { END } from '../json/sounds.json';
+
+import Sounds from './Sounds';
 
 class ObjSounds extends Sounds {
   constructor(game, map, mode) {
@@ -12,9 +12,9 @@ class ObjSounds extends Sounds {
     this.obj_sound_end = true;
   }
 
-  makeSound(sound_id) {
+  makeSound(soundId) {
     this.obj_sound_end = false;
-    super.makeSound(sound_id);
+    super.makeSound(soundId);
   }
 
   playScream() {
@@ -22,9 +22,11 @@ class ObjSounds extends Sounds {
 
     this.obj_sound_end = false;
     playSM(GHOST.id, {
-      onfinish: () => (this.game.game_ending = true),
+      onfinish: () => {
+        this.game.game_ending = true;
+      },
     });
   }
 }
 
-export { ObjSounds };
+export default ObjSounds;
