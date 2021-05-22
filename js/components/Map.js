@@ -1,6 +1,6 @@
-import { Bitmap } from "./Bitmap.js";
-import { Objects } from "./Objects.js";
-import { Person } from "./Person.js";
+import { Bitmap } from './Bitmap.js';
+import { Objects } from './Objects.js';
+import { Person } from './Person.js';
 
 import { getRandomInt } from '../utils/calc';
 
@@ -25,49 +25,67 @@ export class Map {
     this.show_die = 0;
     this.show_taken = 0;
     this.show_all_dead = 0;
-  };
+  }
 
   get(x, y) {
     x = Math.floor(x);
     y = Math.floor(y);
     if (x < 0 || x > this.size - 1 || y < 0 || y > this.size - 1) return -1;
     return this.wallGrid[y * this.size + x];
-  };
+  }
 
   addTrees(trees, col, row) {
     if (this.get(col, row) == 0) {
       const num = getRandomInt(0, 4);
-      this.addObject(new Objects({
-        texture: new Bitmap(trees[num].texture, trees[num].width, trees[num].height),
-        x: col,
-        y: row
-      }));
-    };
-  };
+      this.addObject(
+        new Objects({
+          texture: new Bitmap(
+            trees[num].texture,
+            trees[num].width,
+            trees[num].height,
+          ),
+          x: col,
+          y: row,
+        }),
+      );
+    }
+  }
 
   addBushes(bushes, col, row) {
     if (this.get(col, row) == 0) {
       const num = getRandomInt(0, 5);
-      this.addObject(new Objects({
-        texture: new Bitmap(bushes[num].texture, bushes[num].width, bushes[num].height),
-        height: 0.5,
-        x: col,
-        y: row
-      }));
-    };
-  };
+      this.addObject(
+        new Objects({
+          texture: new Bitmap(
+            bushes[num].texture,
+            bushes[num].width,
+            bushes[num].height,
+          ),
+          height: 0.5,
+          x: col,
+          y: row,
+        }),
+      );
+    }
+  }
 
   buildMap(trees, bushes) {
-    let row, col;
+    let row;
+    let col;
     this.wallGrid.fill(0);
     for (let i = 0; i < this.size * this.size; i++) {
       row = Math.floor(i / this.size);
       col = i - this.size * row;
       // Generate the labirinth
-      if ((row !== 1) && (row !== this.size - 2)
-        && (col !== 1) && (col !== this.size - 2)) {
+      if (
+        row !== 1 &&
+        row !== this.size - 2 &&
+        col !== 1 &&
+        col !== this.size - 2
+      ) {
         if (Math.random() > 0.2) {
-          Math.random() > 0.5 ? this.addBushes(bushes, col + 1.5, row + 1.5)
+          Math.random() > 0.5
+            ? this.addBushes(bushes, col + 1.5, row + 1.5)
             : this.addTrees(trees, col + 1.5, row + 1.5);
         }
         if (Math.random() > 0.7) {
@@ -75,13 +93,17 @@ export class Map {
         }
       }
       // Generate the fence
-      if ((row === 0) || (row === this.size - 1)
-        || (col === 0) || (col === this.size - 1)) {
+      if (
+        row === 0 ||
+        row === this.size - 1 ||
+        col === 0 ||
+        col === this.size - 1
+      ) {
         this.wallGrid[i] = 2;
       }
-    };
+    }
     this.wallGrid[1] = 3;
-  };
+  }
 
   cast(point, angle, range) {
     const self = this;
@@ -93,13 +115,16 @@ export class Map {
       x: point.x,
       y: point.y,
       height: 0,
-      distance: 0
+      distance: 0,
     });
 
     function ray(origin) {
       const stepX = step(sin, cos, origin.x, origin.y);
       const stepY = step(cos, sin, origin.y, origin.x, true);
-      const nextStep = stepX.length2 < stepY.length2 ? inspect(stepX, 1, 0, origin.distance, stepX.y) : inspect(stepY, 0, 1, origin.distance, stepY.x);
+      const nextStep =
+        stepX.length2 < stepY.length2
+          ? inspect(stepX, 1, 0, origin.distance, stepX.y)
+          : inspect(stepY, 0, 1, origin.distance, stepY.x);
 
       if (nextStep.distance > range) return [origin];
       return [origin].concat(ray(nextStep));
@@ -112,7 +137,7 @@ export class Map {
       return {
         x: inverted ? y + dy : x + dx,
         y: inverted ? x + dx : y + dy,
-        length2: dx * dx + dy * dy
+        length2: dx * dx + dy * dy,
       };
     }
 
@@ -127,18 +152,20 @@ export class Map {
       step.offset = offset - Math.floor(offset);
       return step;
     }
-  };
+  }
 
   lightning(seconds) {
     if (this.light > 0) this.light = Math.max(this.light - 10 * seconds, 0);
     else if (Math.random() * 5 < seconds) this.light = 2;
-  };
+  }
 
   update() {
     this.objects.forEach((item) => {
-      if (item instanceof Person) { item.logic() }
+      if (item instanceof Person) {
+        item.logic();
+      }
     });
-  };
+  }
 
   addObject(object) {
     this.objects.push(object);

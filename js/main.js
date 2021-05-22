@@ -1,4 +1,4 @@
-import Game from "./components/Game.js";
+import Game from './components/Game.js';
 
 const snowBlock = document.querySelector('.snow');
 const checkbox = document.querySelector('#checkbox');
@@ -22,7 +22,7 @@ const init = () => {
     if (checkbox.checked) {
       snowBlock.classList.add('block');
 
-      game.sounds.makeSound("ho_ho_ho");
+      game.sounds.makeSound('ho_ho_ho');
       game.setToWinter();
     } else {
       snowBlock.classList.remove('block');
@@ -48,4 +48,4 @@ const init = () => {
   playButton.addEventListener('click', initializeGame);
 };
 
-document.addEventListener("DOMContentLoaded", init);
+document.addEventListener('DOMContentLoaded', init);

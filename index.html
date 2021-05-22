@@ -1,177 +1,204 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Slender &copy; DW Creation</title>
-        <meta charset="utf-8">
-        <link rel="shortcut icon" href="favicon.ico">
-        <meta name="author" content="Dmitry White, Elkinny">
-        <meta name="description" content="Pseudo 3d Sleder Game">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <script async src="./js/font-awesome.js"></script>
-        <script src="./js/soundmanager2/soundmanager2-nodebug-jsmin.js"></script>
-        <link rel="stylesheet" href="./css/style.css">
-        <link rel="stylesheet" href="./css/font-awesome.min.css">
-    </head>
-    <body>
-        <div class="menu animated">
-            <header>
-                <div class="logo" id="logo">
-                    <h1 data-text="help me">Slender</h1>
-                    <div class="snow">
-                      <div class="flake1"></div>
-                      <div class="flake2"></div>
-                      <div class="flake3"></div>
-                      <div class="flake4"></div>
-                      <div class="flake5"></div>
-                      <div class="flake6"></div>
-                      <div class="flake7"></div>
-                      <div class="flake8"></div>
-                    </div>
-                </div>
-                <div class="header-buttons">
-                    <div id="play" class="button">
-                        <span class="play_link">Play game</span>
-                        <div class="mask"></div>
-                    </div>
-                    <div class="custom-checkbox">
-                        <span>Snow mode</span>
-                        <label class="switch" for="checkbox">
-                            <input type="checkbox" id="checkbox" />
-                            <div class="slider round"></div>
-                        </label>
-                    </div>
-                </div>
-            </header>
-            <main>
-                <div class="slider-left">
-                    <div id="about_us" class="button slider-title">
-                        <span><span class="shift">‹</span> About us</span>
-                        <div class="mask"></div>
-                    </div>
-                    <section class="slider-data">
-                        <article>
-                            <h3>Dmitry</h3>
-                            <p>
-                                Lorem ipsum dolor sit amet and some other text which no one reeeeeads...
-                                Alright, alright, I'm just joking :)
-                                Student of BSUIR, faculty of Radioelectronics and Engineering.
-                                A driven Arduino and RasperryPi hobbyist with some experience in web development in the past.
-                                And now, creating projects like this, I'm on the way to become a well-rounded professional,
-                                who always gets things done with beauty and style.
-                            </p>
-                        </article>
-                        <article>
-                            <h3>Victoria</h3>
-                            <p>
-                                Student of BSUIR, faculty of Engineering and Economics.
-                                But don't let the faculty name fool you - I'm more of a programmer than an economist.
-                                Probably, not an economist at all. Worked as SMM professional, web designer and PR specialist.
-                                Today I'm a HTML designer at a small company. I entered BSUIR with a clear goal in my mind -
-                                to become a web developer. And here I'm, slowly making my dreams come true.
-                            </p>
-                        </article>
-                    </section>
-                </div>
-                <div class="slider-right">
-                    <div id="about_game" class="button slider-title">
-                        <span>About game <span class="shift">›</span></span>
-                        <div class="mask"></div>
-                    </div>
-                    <section class="slider-data">
-                        <article>
-                            <h3>Story</h3>
-                            <p>
-                                In vanilla Slender game all you have to do, as human, is to collect eight pieces of paper scattered among trees and bushes.
-                                The more you pick up, the harder it gets to avoid the strange slender figure,
-                                creeping you out with static radio noises from a distance. When he comes in contact with you,
-                                it turns you around and ends the game. But have you ever wondered how it looks like from Slender's perspective?
-                                Place mysterious papers on the ground to lure humans and kill them as they pause to look at the paper.
-                            </p>
-                        </article>
-                        <article>
-                            <h3>Development</h3>
-                            <p>
-                                This game is a product of teamwork and collaborative programming.
-                                There's no clear distinction between who wrote what.
-                                When new functionality was added by one developer,
-                                the other one dived head first into the piece of code and improved it
-                                with his fresh look and perspective. This approach eliminated bias in the game
-                                and made it feel like a truly unique and balanced experience.
-                            </p>
-                        </article>
-                    </section>
-                </div>
-                <section class="how_to_play">
-                    <h3>HOW TO PLAY</h3>
-                    <article class="center">
-                        <article>
-                            <p>
-                                <button class="btn striped-shadow white"><span>W</span></button>
-                                <button class="btn striped-shadow white"><span>S</span></button>
-                                to move forward or backward.
-                            </p>
-                            <p>
-                                <button class="btn striped-shadow white"><span>A</span></button>
-                                <button class="btn striped-shadow white"><span>D</span></button>
-                                to dodge.
-                            </p>
-                        </article>
-
-                        <article>
-                            <p>
-                                <button class="btn striped-shadow white"><span>Shift</button>
-                                to start running.
-                            </p>
-                            <p>
-                                <button class="btn striped-shadow white"><span>E</button>
-                                to attack.
-                            </p>
-                        </article>
-                        <article>
-                            <p>
-                                <button class="btn striped-shadow white"><span>Space</button>
-                                to attract NPC with paper.
-                            </p>
-                            <p>
-                                <button class="btn striped-shadow white"><span><i class="fa fa-arrow-left" aria-hidden="true"></i></span></button>
-                                <button class="btn striped-shadow white"><span><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
-                                to look around.
-                            </p>
-                            <p><small> For better experience use mouse.</small></p>
-                        </article>
-                    </article>
-                        <figure>
-                            <div class="scrins bordered">
-                                <span class='line-1'></span>
-                                <span class='line-2'></span>
-                                <span class='line-3'></span>
-                                <span class='line-4'></span>
-                            </div>
-                            <div class="scrins bordered">
-                                <span class='line-1'></span>
-                                <span class='line-2'></span>
-                                <span class='line-3'></span>
-                                <span class='line-4'></span>
-                            </div>
-                            <div class="scrins bordered">
-                                <span class='line-1'></span>
-                                <span class='line-2'></span>
-                                <span class='line-3'></span>
-                                <span class='line-4'></span>
-                            </div>
-                        </figure>
-
-                </section>
-            </main>
+  <head>
+    <title>Slender &copy; DW Creation</title>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <meta name="author" content="Dmitry White, Elkinny" />
+    <meta name="description" content="Pseudo 3d Sleder Game" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <script async src="./js/font-awesome.js"></script>
+    <script src="./js/soundmanager2/soundmanager2-nodebug-jsmin.js"></script>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/font-awesome.min.css" />
+  </head>
+  <body>
+    <div class="menu animated">
+      <header>
+        <div class="logo" id="logo">
+          <h1 data-text="help me">Slender</h1>
+          <div class="snow">
+            <div class="flake1"></div>
+            <div class="flake2"></div>
+            <div class="flake3"></div>
+            <div class="flake4"></div>
+            <div class="flake5"></div>
+            <div class="flake6"></div>
+            <div class="flake7"></div>
+            <div class="flake8"></div>
+          </div>
         </div>
-        <video class="intro" preload="auto">
-           <source src="img/intro.mp4"></source>
-       </video>
-        <div class="text">
-            <h1 data-text="Or you'll die">Kill them all</h1>
+        <div class="header-buttons">
+          <div id="play" class="button">
+            <span class="play_link">Play game</span>
+            <div class="mask"></div>
+          </div>
+          <div class="custom-checkbox">
+            <span>Snow mode</span>
+            <label class="switch" for="checkbox">
+              <input type="checkbox" id="checkbox" />
+              <div class="slider round"></div>
+            </label>
+          </div>
         </div>
-        <canvas id='display' width='1' height='1' style='width: 100%; height: 100%;' />
-        <script src="./js/script.js"></script>
-        <script src="./build/main.bundle.js"></script>
-    </body>
+      </header>
+      <main>
+        <div class="slider-left">
+          <div id="about_us" class="button slider-title">
+            <span><span class="shift">‹</span> About us</span>
+            <div class="mask"></div>
+          </div>
+          <section class="slider-data">
+            <article>
+              <h3>Dmitry</h3>
+              <p>
+                Lorem ipsum dolor sit amet and some other text which no one
+                reeeeeads... Alright, alright, I'm just joking :) Student of
+                BSUIR, faculty of Radioelectronics and Engineering. A driven
+                Arduino and RasperryPi hobbyist with some experience in web
+                development in the past. And now, creating projects like this,
+                I'm on the way to become a well-rounded professional, who always
+                gets things done with beauty and style.
+              </p>
+            </article>
+            <article>
+              <h3>Victoria</h3>
+              <p>
+                Student of BSUIR, faculty of Engineering and Economics. But
+                don't let the faculty name fool you - I'm more of a programmer
+                than an economist. Probably, not an economist at all. Worked as
+                SMM professional, web designer and PR specialist. Today I'm a
+                HTML designer at a small company. I entered BSUIR with a clear
+                goal in my mind - to become a web developer. And here I'm,
+                slowly making my dreams come true.
+              </p>
+            </article>
+          </section>
+        </div>
+        <div class="slider-right">
+          <div id="about_game" class="button slider-title">
+            <span>About game <span class="shift">›</span></span>
+            <div class="mask"></div>
+          </div>
+          <section class="slider-data">
+            <article>
+              <h3>Story</h3>
+              <p>
+                In vanilla Slender game all you have to do, as human, is to
+                collect eight pieces of paper scattered among trees and bushes.
+                The more you pick up, the harder it gets to avoid the strange
+                slender figure, creeping you out with static radio noises from a
+                distance. When he comes in contact with you, it turns you around
+                and ends the game. But have you ever wondered how it looks like
+                from Slender's perspective? Place mysterious papers on the
+                ground to lure humans and kill them as they pause to look at the
+                paper.
+              </p>
+            </article>
+            <article>
+              <h3>Development</h3>
+              <p>
+                This game is a product of teamwork and collaborative
+                programming. There's no clear distinction between who wrote
+                what. When new functionality was added by one developer, the
+                other one dived head first into the piece of code and improved
+                it with his fresh look and perspective. This approach eliminated
+                bias in the game and made it feel like a truly unique and
+                balanced experience.
+              </p>
+            </article>
+          </section>
+        </div>
+        <section class="how_to_play">
+          <h3>HOW TO PLAY</h3>
+          <article class="center">
+            <article>
+              <p>
+                <button class="btn striped-shadow white"><span>W</span></button>
+                <button class="btn striped-shadow white"><span>S</span></button>
+                to move forward or backward.
+              </p>
+              <p>
+                <button class="btn striped-shadow white"><span>A</span></button>
+                <button class="btn striped-shadow white"><span>D</span></button>
+                to dodge.
+              </p>
+            </article>
+
+            <article>
+              <p>
+                <button class="btn striped-shadow white">
+                  <span>Shift</span>
+                </button>
+                to start running.
+              </p>
+              <p>
+                <button class="btn striped-shadow white"><span>E</span></button>
+                to attack.
+              </p>
+            </article>
+            <article>
+              <p>
+                <button class="btn striped-shadow white">
+                  <span>Space</span>
+                </button>
+                to attract NPC with paper.
+              </p>
+              <p>
+                <button class="btn striped-shadow white">
+                  <span
+                    ><i class="fa fa-arrow-left" aria-hidden="true"></i
+                  ></span>
+                </button>
+                <button class="btn striped-shadow white">
+                  <span
+                    ><i class="fa fa-arrow-right" aria-hidden="true"></i
+                  ></span>
+                </button>
+                to look around.
+              </p>
+              <p><small> For better experience use mouse.</small></p>
+            </article>
+          </article>
+          <figure>
+            <div class="scrins bordered">
+              <span class="line-1"></span>
+              <span class="line-2"></span>
+              <span class="line-3"></span>
+              <span class="line-4"></span>
+            </div>
+            <div class="scrins bordered">
+              <span class="line-1"></span>
+              <span class="line-2"></span>
+              <span class="line-3"></span>
+              <span class="line-4"></span>
+            </div>
+            <div class="scrins bordered">
+              <span class="line-1"></span>
+              <span class="line-2"></span>
+              <span class="line-3"></span>
+              <span class="line-4"></span>
+            </div>
+          </figure>
+        </section>
+      </main>
+    </div>
+    <video class="intro" preload="auto">
+      <source src="img/intro.mp4" />
+    </video>
+    <div class="text">
+      <h1 data-text="Or you'll die">Kill them all</h1>
+    </div>
+    <canvas
+      id="display"
+      width="1"
+      height="1"
+      style="width: 100%; height: 100%"
+    />
+    <script src="./js/script.js"></script>
+    <script src="./build/main.bundle.js"></script>
+  </body>
 </html>

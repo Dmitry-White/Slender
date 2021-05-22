@@ -1,7 +1,7 @@
-import { Sounds } from "./Sounds.js";
+import { Sounds } from './Sounds.js';
 
 import { playSM } from '../utils/sound';
-import { END } from '../json/sounds.json'
+import { END } from '../json/sounds.json';
 
 class ObjSounds extends Sounds {
   constructor(game, map, mode) {
@@ -10,21 +10,21 @@ class ObjSounds extends Sounds {
     this.map = map;
     this.mode = mode;
     this.obj_sound_end = true;
-  };
+  }
 
   makeSound(sound_id) {
-    this.obj_sound_end = false
+    this.obj_sound_end = false;
     super.makeSound(sound_id);
-  };
+  }
 
   playScream() {
     const { GHOST } = END;
 
     this.obj_sound_end = false;
     playSM(GHOST.id, {
-      onfinish: () => this.game.game_ending = true
+      onfinish: () => (this.game.game_ending = true),
     });
-  };
-};
+  }
+}
 
 export { ObjSounds };

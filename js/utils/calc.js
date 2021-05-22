@@ -6,9 +6,6 @@ const getRandomInt = (min, max) => {
 
 const getRandomFloat = (min, max) => {
   return min + Math.random() * (max + 1 - min);
-}
+};
 
-export {
-  getRandomInt,
-  getRandomFloat,
-}
+export { getRandomInt, getRandomFloat };

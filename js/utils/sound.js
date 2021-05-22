@@ -2,7 +2,8 @@ import SOUNDS from '../json/sounds.json';
 
 const SM_URL = './soundmanager2/';
 
-const prepareFunc = (func, group) => Object.entries(group).forEach(([_, val]) => func(val));
+const prepareFunc = (func, group) =>
+  Object.entries(group).forEach(([_, val]) => func(val));
 
 const precreateGroup = (group) => prepareFunc(soundManager.createSound, group);
 const preloadGroup = (group) => prepareFunc(soundManager.load, group);
@@ -20,4 +21,4 @@ export {
   playSM,
   SM_URL,
   SOUNDS,
-}
+};
