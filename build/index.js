@@ -26,111 +26,111 @@ __webpack_require__.r(__webpack_exports__);
 /* eslint-disable global-require */
 const ASSETS = {
   trees: [{
-    texture: __webpack_require__(/*! ../img/trees/tree_0.png */ "./img/trees/tree_0.png"),
+    texture: __webpack_require__(/*! ../img/trees/tree_0.png */ "./img/trees/tree_0.png").default,
     width: 200,
     height: 200
   }, {
-    texture: __webpack_require__(/*! ../img/trees/tree_1.png */ "./img/trees/tree_1.png"),
+    texture: __webpack_require__(/*! ../img/trees/tree_1.png */ "./img/trees/tree_1.png").default,
     width: 200,
     height: 200
   }, {
-    texture: __webpack_require__(/*! ../img/trees/tree_2.png */ "./img/trees/tree_2.png"),
+    texture: __webpack_require__(/*! ../img/trees/tree_2.png */ "./img/trees/tree_2.png").default,
     width: 200,
     height: 200
   }, {
-    texture: __webpack_require__(/*! ../img/trees/tree_3.png */ "./img/trees/tree_3.png"),
+    texture: __webpack_require__(/*! ../img/trees/tree_3.png */ "./img/trees/tree_3.png").default,
     width: 200,
     height: 200
   }],
   rain_trees: [{
-    texture: __webpack_require__(/*! ../img/trees/rain_tree_0.png */ "./img/trees/rain_tree_0.png"),
+    texture: __webpack_require__(/*! ../img/trees/rain_tree_0.png */ "./img/trees/rain_tree_0.png").default,
     width: 200,
     height: 200
   }, {
-    texture: __webpack_require__(/*! ../img/trees/rain_tree_1.png */ "./img/trees/rain_tree_1.png"),
+    texture: __webpack_require__(/*! ../img/trees/rain_tree_1.png */ "./img/trees/rain_tree_1.png").default,
     width: 200,
     height: 200
   }, {
-    texture: __webpack_require__(/*! ../img/trees/rain_tree_2.png */ "./img/trees/rain_tree_2.png"),
+    texture: __webpack_require__(/*! ../img/trees/rain_tree_2.png */ "./img/trees/rain_tree_2.png").default,
     width: 200,
     height: 200
   }, {
-    texture: __webpack_require__(/*! ../img/trees/rain_tree_3.png */ "./img/trees/rain_tree_3.png"),
+    texture: __webpack_require__(/*! ../img/trees/rain_tree_3.png */ "./img/trees/rain_tree_3.png").default,
     width: 200,
     height: 200
   }],
   bushes: [{
-    texture: __webpack_require__(/*! ../img/bushes/bush_0.png */ "./img/bushes/bush_0.png"),
+    texture: __webpack_require__(/*! ../img/bushes/bush_0.png */ "./img/bushes/bush_0.png").default,
     width: 200,
     height: 109
   }, {
-    texture: __webpack_require__(/*! ../img/bushes/bush_1.png */ "./img/bushes/bush_1.png"),
+    texture: __webpack_require__(/*! ../img/bushes/bush_1.png */ "./img/bushes/bush_1.png").default,
     width: 200,
     height: 105
   }, {
-    texture: __webpack_require__(/*! ../img/bushes/bush_2.png */ "./img/bushes/bush_2.png"),
+    texture: __webpack_require__(/*! ../img/bushes/bush_2.png */ "./img/bushes/bush_2.png").default,
     width: 200,
     height: 311
   }, {
-    texture: __webpack_require__(/*! ../img/bushes/bush_3.png */ "./img/bushes/bush_3.png"),
+    texture: __webpack_require__(/*! ../img/bushes/bush_3.png */ "./img/bushes/bush_3.png").default,
     width: 200,
     height: 168
   }, {
-    texture: __webpack_require__(/*! ../img/bushes/bush_4.png */ "./img/bushes/bush_4.png"),
+    texture: __webpack_require__(/*! ../img/bushes/bush_4.png */ "./img/bushes/bush_4.png").default,
     width: 200,
     height: 278
   }],
   rain_bushes: [{
-    texture: __webpack_require__(/*! ../img/bushes/rain_bush_0.png */ "./img/bushes/rain_bush_0.png"),
+    texture: __webpack_require__(/*! ../img/bushes/rain_bush_0.png */ "./img/bushes/rain_bush_0.png").default,
     width: 200,
     height: 152
   }, {
-    texture: __webpack_require__(/*! ../img/bushes/rain_bush_1.png */ "./img/bushes/rain_bush_1.png"),
+    texture: __webpack_require__(/*! ../img/bushes/rain_bush_1.png */ "./img/bushes/rain_bush_1.png").default,
     width: 200,
     height: 138
   }, {
-    texture: __webpack_require__(/*! ../img/bushes/rain_bush_2.png */ "./img/bushes/rain_bush_2.png"),
+    texture: __webpack_require__(/*! ../img/bushes/rain_bush_2.png */ "./img/bushes/rain_bush_2.png").default,
     width: 217,
     height: 200
   }, {
-    texture: __webpack_require__(/*! ../img/bushes/rain_bush_3.png */ "./img/bushes/rain_bush_3.png"),
+    texture: __webpack_require__(/*! ../img/bushes/rain_bush_3.png */ "./img/bushes/rain_bush_3.png").default,
     width: 201,
     height: 200
   }, {
-    texture: __webpack_require__(/*! ../img/bushes/rain_bush_4.png */ "./img/bushes/rain_bush_4.png"),
+    texture: __webpack_require__(/*! ../img/bushes/rain_bush_4.png */ "./img/bushes/rain_bush_4.png").default,
     width: 200,
     height: 200
   }],
   papers: [{
-    texture: __webpack_require__(/*! ../img/papers/paper_0.png */ "./img/papers/paper_0.png"),
+    texture: __webpack_require__(/*! ../img/papers/paper_0.png */ "./img/papers/paper_0.png").default,
     width: 118,
     height: 100
   }, {
-    texture: __webpack_require__(/*! ../img/papers/paper_1.png */ "./img/papers/paper_1.png"),
+    texture: __webpack_require__(/*! ../img/papers/paper_1.png */ "./img/papers/paper_1.png").default,
     width: 145,
     height: 100
   }, {
-    texture: __webpack_require__(/*! ../img/papers/paper_2.png */ "./img/papers/paper_2.png"),
+    texture: __webpack_require__(/*! ../img/papers/paper_2.png */ "./img/papers/paper_2.png").default,
     width: 100,
     height: 100
   }, {
-    texture: __webpack_require__(/*! ../img/papers/paper_3.png */ "./img/papers/paper_3.png"),
+    texture: __webpack_require__(/*! ../img/papers/paper_3.png */ "./img/papers/paper_3.png").default,
     width: 207,
     height: 100
   }, {
-    texture: __webpack_require__(/*! ../img/papers/paper_4.png */ "./img/papers/paper_4.png"),
+    texture: __webpack_require__(/*! ../img/papers/paper_4.png */ "./img/papers/paper_4.png").default,
     width: 133,
     height: 100
   }, {
-    texture: __webpack_require__(/*! ../img/papers/paper_5.png */ "./img/papers/paper_5.png"),
+    texture: __webpack_require__(/*! ../img/papers/paper_5.png */ "./img/papers/paper_5.png").default,
     width: 195,
     height: 100
   }, {
-    texture: __webpack_require__(/*! ../img/papers/paper_6.png */ "./img/papers/paper_6.png"),
+    texture: __webpack_require__(/*! ../img/papers/paper_6.png */ "./img/papers/paper_6.png").default,
     width: 310,
     height: 100
   }, {
-    texture: __webpack_require__(/*! ../img/papers/paper_7.png */ "./img/papers/paper_7.png"),
+    texture: __webpack_require__(/*! ../img/papers/paper_7.png */ "./img/papers/paper_7.png").default,
     width: 164,
     height: 100
   }]
@@ -331,7 +331,7 @@ __webpack_require__.r(__webpack_exports__);
 class Bitmap {
   constructor(src, width, height) {
     this.image = new Image();
-    this.image.src = src;
+    this.image.src = `../${src}`;
     this.width = width;
     this.height = height;
   }
@@ -907,6 +907,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+console.log('ASSETS', _data_assets__WEBPACK_IMPORTED_MODULE_12__.default);
 console.log('SOUNDS', _data_sounds__WEBPACK_IMPORTED_MODULE_13__.default);
 const videoBlock = document.querySelector('.intro');
 const messageBlock = document.querySelector('.text');
@@ -2303,7 +2304,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/006273718a4c1325c8181fdcd757d2b4.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/bush_0.png");
 
 /***/ }),
 
@@ -2318,7 +2319,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/c88d01f484bade21f61a74cde445bae1.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/bush_1.png");
 
 /***/ }),
 
@@ -2333,7 +2334,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/6e5282ced75a8dc1126d014127a106ea.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/bush_2.png");
 
 /***/ }),
 
@@ -2348,7 +2349,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/30664f295e09d5f8badb0de93ff1ed02.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/bush_3.png");
 
 /***/ }),
 
@@ -2363,7 +2364,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/499647fd85ad4aa0224d6ffcd0055a30.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/bush_4.png");
 
 /***/ }),
 
@@ -2378,7 +2379,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/ae2c65d995618eb8b636210719efb9bf.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/rain_bush_0.png");
 
 /***/ }),
 
@@ -2393,7 +2394,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/93e9ca12178a02044f098f79612bfdf2.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/rain_bush_1.png");
 
 /***/ }),
 
@@ -2408,7 +2409,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/3c6f7eb6fd663e46f3c95a9aaad918fb.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/rain_bush_2.png");
 
 /***/ }),
 
@@ -2423,7 +2424,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/537c7da46189b487fbbba09121297048.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/rain_bush_3.png");
 
 /***/ }),
 
@@ -2438,7 +2439,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/9aa2d43d5c3bb5aabe84de5ecd6e4474.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/rain_bush_4.png");
 
 /***/ }),
 
@@ -2453,7 +2454,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/ba5de7d998d0af9cdf1be9a260b056c2.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/paper_0.png");
 
 /***/ }),
 
@@ -2468,7 +2469,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/f815e6f05af19ce2098cb25a07a46b63.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/paper_1.png");
 
 /***/ }),
 
@@ -2483,7 +2484,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/3be519d7494a9036e2dc61a28cd886b0.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/paper_2.png");
 
 /***/ }),
 
@@ -2498,7 +2499,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/e910833e8a86fe2017b7a3f343f250a1.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/paper_3.png");
 
 /***/ }),
 
@@ -2513,7 +2514,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/5b47df98224fc8b5438fccf5d16d69d8.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/paper_4.png");
 
 /***/ }),
 
@@ -2528,7 +2529,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/570e838f9a59ad4b11db6ad8499efb40.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/paper_5.png");
 
 /***/ }),
 
@@ -2543,7 +2544,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/0e4542b3c3c7ab0560e5b009cdf08dbf.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/paper_6.png");
 
 /***/ }),
 
@@ -2558,7 +2559,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/088e1dde429e42ca1ec64957b1d3d3f3.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/paper_7.png");
 
 /***/ }),
 
@@ -2573,7 +2574,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/e3f91df5a85dd2623a5ce01a0e7c4420.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/rain_tree_0.png");
 
 /***/ }),
 
@@ -2588,7 +2589,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/0065d571813e243a52a1c01e1549b973.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/rain_tree_1.png");
 
 /***/ }),
 
@@ -2603,7 +2604,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/75e8d640f6c33671ac0a41f881092f79.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/rain_tree_2.png");
 
 /***/ }),
 
@@ -2618,7 +2619,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/56ecb1487ba8c7a8270b52e6fece4f74.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/rain_tree_3.png");
 
 /***/ }),
 
@@ -2633,7 +2634,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/b48efb08a4cda49fb6f692032c0f4116.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/tree_0.png");
 
 /***/ }),
 
@@ -2648,7 +2649,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/55c34b53e69dae7c6d085483e9dde41a.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/tree_1.png");
 
 /***/ }),
 
@@ -2663,7 +2664,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/b85de47d3b9e003b6437a200471da0d1.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/tree_2.png");
 
 /***/ }),
 
@@ -2678,7 +2679,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/e7e513408cb252d03547d0f2f2bde80e.png");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/tree_3.png");
 
 /***/ }),
 
@@ -2693,7 +2694,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/387d5e5c7c5b5b774a7e986bde2338cb.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/ghost_in_the_house.mp3");
 
 /***/ }),
 
@@ -2708,7 +2709,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/76cbd9b6aab30f76bc39eb0e47666a36.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/just_horror_ambient.mp3");
 
 /***/ }),
 
@@ -2723,7 +2724,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/7a925af02365ac595273c1c4637152f1.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/piano_menu_ambient.mp3");
 
 /***/ }),
 
@@ -2738,7 +2739,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/84047939a3602eb3a7c60cce19a66851.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/rain_ambient.mp3");
 
 /***/ }),
 
@@ -2753,7 +2754,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/24f52d612aaf1b1946a97318e2c5fe2f.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/scary_piano.mp3");
 
 /***/ }),
 
@@ -2768,7 +2769,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/a92383c8a7ed1bad4275af938a2eb2d7.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/static_menu_ambient.mp3");
 
 /***/ }),
 
@@ -2783,7 +2784,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/88281dc055deee95c3f2ab17b38bd75f.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/weird_noises.mp3");
 
 /***/ }),
 
@@ -2798,7 +2799,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/4acad740295f938aa42c6a4bd872bdfa.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/wind_ambient.mp3");
 
 /***/ }),
 
@@ -2813,7 +2814,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/f0d7cdfbf30080083356ed00cef32b47.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/come_out.mp3");
 
 /***/ }),
 
@@ -2828,7 +2829,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/54898940076c7e83e69714b11f939c8a.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/ghost_scream.mp3");
 
 /***/ }),
 
@@ -2843,7 +2844,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/572cd2c2edd2deb375369019153c7dd5.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/lululala.mp3");
 
 /***/ }),
 
@@ -2858,7 +2859,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/8fba44e9d9beabeac6c583a641dbc5fd.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/about_game.mp3");
 
 /***/ }),
 
@@ -2873,7 +2874,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/a33613057c0b959bbfd34460f1c9e6af.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/about_us.mp3");
 
 /***/ }),
 
@@ -2888,7 +2889,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/e4d06a2259f1201de791962d0bc1698a.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/ho_ho_ho.mp3");
 
 /***/ }),
 
@@ -2903,7 +2904,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/abf972525a030014cc5aa0c82b12e381.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/play_button_hover.mp3");
 
 /***/ }),
 
@@ -2918,7 +2919,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/980623e9d45256b382b565b120b6ed5c.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/slender_logo_hover.mp3");
 
 /***/ }),
 
@@ -2933,7 +2934,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/c1e41041fd9bbcf2b158657a52a7964f.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/entering_area.mp3");
 
 /***/ }),
 
@@ -2948,7 +2949,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/4e7d9495ff8d293d692db4bf221a4451.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/hitting_the_fence.mp3");
 
 /***/ }),
 
@@ -2963,7 +2964,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/5bd41aa0b3276fee9926724d6947cdd7.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/hitting_the_rain_fence.mp3");
 
 /***/ }),
 
@@ -2978,7 +2979,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/15a1a25e33b0644dbe5502daa1cfb2c6.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/hitting_the_wall.mp3");
 
 /***/ }),
 
@@ -2993,7 +2994,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/46d8b580ba34076222a4d05ec6249e19.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/killing.mp3");
 
 /***/ }),
 
@@ -3008,7 +3009,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/07b50886544d42fd23eba608ba9478e2.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/placing_bomb.mp3");
 
 /***/ }),
 
@@ -3023,7 +3024,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/86d05cef08e7375259d19d7382f6d629.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/placing_loo_paper.mp3");
 
 /***/ }),
 
@@ -3038,7 +3039,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/7e26921e048bb7766a5bff24f34e30c2.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/placing_paper.mp3");
 
 /***/ }),
 
@@ -3053,7 +3054,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/fcd930be5b1539739724289e6f5c54e4.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/slashing.mp3");
 
 /***/ }),
 
@@ -3068,7 +3069,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/cfcd8093a6e57b3670f9a67cfbe00500.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/backward_step.mp3");
 
 /***/ }),
 
@@ -3083,7 +3084,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/033c8d89604163ca86b8a471a85cd0c5.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/dodge_step_0.mp3");
 
 /***/ }),
 
@@ -3098,7 +3099,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/1e8b19d8ee029b3cd33559312c199067.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/dodge_step_1.mp3");
 
 /***/ }),
 
@@ -3113,7 +3114,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/785e469d06f9bf2bc60512ad9ed6ef3a.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/forward_step.mp3");
 
 /***/ }),
 
@@ -3128,7 +3129,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/62c92fc87cb6aba398bc69db69d5d2de.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/rain_backward_step.mp3");
 
 /***/ }),
 
@@ -3143,7 +3144,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/7be4c8fcef6e21d83682f1e52eef0f1c.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/rain_dodge_step_0.mp3");
 
 /***/ }),
 
@@ -3158,7 +3159,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/fd56ba49e4c1e45180c1130d804f179e.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/rain_dodge_step_1.mp3");
 
 /***/ }),
 
@@ -3173,7 +3174,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/5cdf34c042741a74d7b3b8da67e6f6d8.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/rain_forward_step.mp3");
 
 /***/ }),
 
@@ -3188,7 +3189,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/b3c4eef2fe0c309edbf30785fefbdcf9.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/rain_running.mp3");
 
 /***/ }),
 
@@ -3203,7 +3204,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/2b1f349dc9e9a7abdf5b61106582b336.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/rain_step.mp3");
 
 /***/ }),
 
@@ -3218,7 +3219,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/df931ce13ae5d4e1dcead5a1425a372b.mp3");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/music/running.mp3");
+
+/***/ }),
+
+/***/ "./img/intro.mp4":
+/*!***********************!*\
+  !*** ./img/intro.mp4 ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/video/intro.mp4");
 
 /***/ }),
 
@@ -9625,8 +9641,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! soundmanager2 */ "./node_modules/soundmanager2/script/soundmanager2.js");
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_Game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Game */ "./js/components/Game.js");
-/* harmony import */ var _script__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./script */ "./js/script.js");
-/* harmony import */ var _script__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_script__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _img_intro_mp4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../img/intro.mp4 */ "./img/intro.mp4");
+/* harmony import */ var _script__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./script */ "./js/script.js");
+/* harmony import */ var _script__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_script__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 

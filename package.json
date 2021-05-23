@@ -1,6 +1,7 @@
 {
   "name": "slender",
   "main": "js/main.js",
+  "author": "Dmitry White, elkin",
   "devDependencies": {
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.2",
@@ -13,7 +14,6 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-prettier": "^3.1.3",
     "file-loader": "^6.2.0",
-    "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.1",
     "mini-css-extract-plugin": "^1.6.0",
     "prettier": "^2.0.5",

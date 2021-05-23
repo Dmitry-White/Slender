@@ -16,7 +16,8 @@ import { playSM, preloadSounds } from '../utils/sound';
 import ASSETS from '../../data/assets';
 import SOUNDS from '../../data/sounds';
 
-console.log('SOUNDS', SOUNDS)
+console.log('ASSETS', ASSETS);
+console.log('SOUNDS', SOUNDS);
 
 const videoBlock = document.querySelector('.intro');
 const messageBlock = document.querySelector('.text');

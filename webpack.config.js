@@ -9,6 +9,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './build'),
     publicPath: '/build/',
+    assetModuleFilename: '[name][ext]',
     filename: 'index.js',
   },
   module: {
@@ -25,12 +26,12 @@ module.exports = {
         },
       },
       {
-        test: /\.(jpe?g|gif|png)$/,
+        test: /\.(jpe?g|gif|png|ico)$/,
         use: [
           {
             loader: 'file-loader',
             options: {
-              outputPath: 'assets/images',
+              name: 'assets/images/[name].[ext]',
             },
           },
         ],
@@ -41,18 +42,29 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              outputPath: 'assets/fonts',
+              name: 'assets/fonts/[name].[ext]',
             },
           },
         ],
       },
       {
-        test: /\.(mp3|mp4)$/,
+        test: /\.mp3$/,
         use: [
           {
             loader: 'file-loader',
             options: {
-              outputPath: 'assets/music',
+              name: 'assets/music/[name].[ext]',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.mp4$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'assets/video/[name].[ext]',
             },
           },
         ],
@@ -61,7 +73,9 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'index.html',
+      filename: 'index.html',
+      template: 'index.html.ejs',
+      favicon: 'favicon.ico',
     }),
     new MiniCssExtractPlugin({
       filename: 'css/style.css',

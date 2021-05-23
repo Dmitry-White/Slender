@@ -1,7 +1,8 @@
 import { soundManager } from 'soundmanager2';
 
 import Game from './components/Game';
-import * as _ from './script';
+import video from '../img/intro.mp4';
+import script from './script';
 
 const snowBlock = document.querySelector('.snow');
 const checkbox = document.querySelector('#checkbox');
