@@ -13,8 +13,10 @@ import ObjSounds from './ObjSounds';
 import { getRandomInt } from '../utils/calc';
 import { playSM, preloadSounds } from '../utils/sound';
 
-import { assets } from '../json/assets.json';
-import { GENERAL, WINTER, VANILLA, MENU } from '../json/sounds.json';
+import ASSETS from '../../data/assets';
+import SOUNDS from '../../data/sounds';
+
+console.log('SOUNDS', SOUNDS)
 
 const videoBlock = document.querySelector('.intro');
 const messageBlock = document.querySelector('.text');
@@ -35,9 +37,9 @@ class Game {
     this.RESOLUTION = 640;
     this.mode = {};
     this.game_ending = false;
-    this.papers = assets.papers;
-    this.trees = assets.rain_trees;
-    this.bushes = assets.rain_bushes;
+    this.papers = ASSETS.papers;
+    this.trees = ASSETS.rain_trees;
+    this.bushes = ASSETS.rain_bushes;
     this.sounds = new Sounds(this);
   }
 
@@ -67,7 +69,7 @@ class Game {
     // videoBlock.play();
 
     // setTimeout(() => {
-    //   const { ENTERING } = GENERAL;
+    //   const { ENTERING } = SOUNDS.GENERAL;
 
     //   Game.exitFS(videoBlock);
     //   videoBlock.pause();
@@ -141,13 +143,13 @@ class Game {
 
   setMode() {
     const { winter } = this.mode;
-    const { WIND } = WINTER;
-    const { RAIN } = VANILLA;
+    const { WIND } = SOUNDS.WINTER;
+    const { RAIN } = SOUNDS.VANILLA;
 
     if (winter) {
       this.sounds.loopSound(WIND.id);
-      this.trees = assets.trees;
-      this.bushes = assets.bushes;
+      this.trees = ASSETS.trees;
+      this.bushes = ASSETS.bushes;
     } else this.sounds.loopSound(RAIN.id);
   }
 
@@ -252,7 +254,7 @@ class Game {
       PLAY_BUTTON,
       ABOUT_US,
       ABOUT_GAME,
-    } = MENU;
+    } = SOUNDS.MENU;
 
     this.sounds.loopSound(PIANO_MENU.id);
     this.sounds.loopSound(STATIC_MENU.id);

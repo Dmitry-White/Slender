@@ -1,5 +1,5 @@
 import { playSM } from '../utils/sound';
-import { END } from '../json/sounds.json';
+import SOUNDS from '../../data/sounds.json';
 
 import Sounds from './Sounds';
 
@@ -18,7 +18,7 @@ class ObjSounds extends Sounds {
   }
 
   playScream() {
-    const { GHOST } = END;
+    const { GHOST } = SOUNDS.END;
 
     this.obj_sound_end = false;
     playSM(GHOST.id, {

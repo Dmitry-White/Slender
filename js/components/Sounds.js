@@ -1,7 +1,7 @@
 import { soundManager } from 'soundmanager2';
 
 import { precreateSounds, SM_URL, playSM } from '../utils/sound';
-import SOUNDS from '../json/sounds.json';
+import SOUNDS from '../../data/sounds';
 
 class Sounds {
   constructor(game) {

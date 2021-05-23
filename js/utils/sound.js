@@ -1,6 +1,6 @@
 import { soundManager } from 'soundmanager2';
 
-import SOUNDS from '../json/sounds.json';
+import SOUNDS from '../../data/sounds';
 
 const SM_URL = 'node_modules/soundmanager2/swf';
 

@@ -1,5 +1,5 @@
 import { playSM } from '../utils/sound';
-import SOUNDS from '../json/sounds.json';
+import SOUNDS from '../../data/sounds.json';
 
 class Noises {
   constructor() {
