@@ -1,8 +1,8 @@
+import { getRandomInt } from '../utils/calc';
+
 import Bitmap from './Bitmap';
 import Objects from './Objects';
 import Person from './Person';
-
-import { getRandomInt } from '../utils/calc';
 
 class Map {
   constructor(size, mode) {
@@ -11,7 +11,7 @@ class Map {
     this.wallGrid = new Uint8Array(size * size);
     this.skybox = new Bitmap(mode.sky_texture, 2000, 750);
     this.fenceTexture = new Bitmap(mode.fence_texture, 512, 512);
-    this.fenceDoorTexture = new Bitmap('img/fence_door_0.jpg', 512, 256);
+    this.fenceDoorTexture = new Bitmap(mode.fence_door, 512, 256);
     this.wallTexture = new Bitmap(mode.wall_texture, 512, 512);
     this.light = this.mode.light;
     this.objects = [];

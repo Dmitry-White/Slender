@@ -8,15 +8,21 @@ module.exports = {
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, './build'),
-    publicPath: '/build/',
-    assetModuleFilename: '[name][ext]',
     filename: 'index.js',
   },
   module: {
     rules: [
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../',
+            },
+          },
+          'css-loader',
+        ],
       },
       {
         test: /\.js$/,
@@ -32,6 +38,8 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: 'assets/images/[name].[ext]',
+              // publicPath: '../build/',
+              // useRelativePaths: true,
             },
           },
         ],
@@ -43,6 +51,7 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: 'assets/fonts/[name].[ext]',
+              publicPath: '../',
             },
           },
         ],

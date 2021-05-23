@@ -1,8 +1,10 @@
+import ASSETS from '../../data/assets';
+
+import { getRandomInt } from '../utils/calc';
+
 import Paper from './Paper';
 import Bitmap from './Bitmap';
 import Person from './Person';
-
-import { getRandomInt } from '../utils/calc';
 
 class Player {
   constructor(origin) {
@@ -17,8 +19,16 @@ class Player {
     this.obj_sounds = origin.game.obj_sounds;
     this.mode = origin.game.mode;
     this.game = origin.game;
-    this.right_hand = new Bitmap('img/slender/right_hand.png', 200, 200);
-    this.left_hand = new Bitmap('img/slender/left_hand.png', 200, 200);
+    this.right_hand = new Bitmap(
+      ASSETS.slender[0].texture,
+      ASSETS.slender[0].width,
+      ASSETS.slender[0].height,
+    );
+    this.left_hand = new Bitmap(
+      ASSETS.slender[1].texture,
+      ASSETS.slender[1].width,
+      ASSETS.slender[1].height,
+    );
     this.paces = 0;
     this.prev_paper_place = [0, 0];
     this.speed = 1;

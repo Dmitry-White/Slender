@@ -12,7 +12,7 @@ class Person {
     this.y = y;
     this.picNum = picNum;
     this.color = '#cf3c8c';
-    this.texture = new Bitmap(`img/npc/npc-${picNum}.png`, 114, 300);
+    this.texture = new Bitmap(`assets/images/npc-${picNum}.png`, 114, 300);
     this.height = 0.6;
     this.width = 0.225;
     this.floorOffset = 0;
@@ -71,7 +71,7 @@ class Person {
     }
     if (inDirectionX <= 0) this.x += dx;
     if (inDirectionY <= 0) this.y += dy;
-    this.move('img/npc/npc');
+    this.move('assets/images/npc');
   }
 
   move(url) {
@@ -139,7 +139,7 @@ class Person {
     dx >= 0 ? (this.x -= distToWalk) : (this.x += distToWalk);
     dy >= 0 ? (this.y -= distToWalk) : (this.y += distToWalk);
     this.count += 0.5;
-    this.move('img/npc/npc');
+    this.move('assets/images/npc');
   }
 
   /*
@@ -179,9 +179,13 @@ class Person {
   }; */
 
   die() {
-    this.texture = new Bitmap('img/npc/npc_die.gif', 114, 300);
+    this.texture = new Bitmap('assets/images/npc_die.gif', 114, 300);
     setTimeout(() => {
-      this.texture = new Bitmap(`img/npc/npc3-${this.picNum}.png`, 300, 56);
+      this.texture = new Bitmap(
+        `assets/images/npc3-${this.picNum}.png`,
+        300,
+        56,
+      );
       this.height = 0.2;
       this.width = 0.7;
     }, 7000);

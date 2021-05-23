@@ -16,9 +16,6 @@ import { playSM, preloadSounds } from '../utils/sound';
 import ASSETS from '../../data/assets';
 import SOUNDS from '../../data/sounds';
 
-console.log('ASSETS', ASSETS);
-console.log('SOUNDS', SOUNDS);
-
 const videoBlock = document.querySelector('.intro');
 const messageBlock = document.querySelector('.text');
 const canvasBlock = document.querySelector('#display');
@@ -217,9 +214,10 @@ class Game {
       param: 0.5,
       particlesWidth: 6,
       particlesHeight: 6,
-      fence_texture: 'img/snow/fence_snow.png',
-      sky_texture: 'img/snow/sky_panorama_snow.jpg',
-      wall_texture: 'img/snow/wall_texture_snow.jpg',
+      fence_door: ASSETS.mode.fenceDoor,
+      fence_texture: ASSETS.mode.snow.fence,
+      sky_texture: ASSETS.mode.snow.sky,
+      wall_texture: ASSETS.mode.snow.wall,
     };
   }
 
@@ -237,9 +235,10 @@ class Game {
       param: 0.1,
       particlesWidth: 2,
       particlesHeight: 20,
-      sky_texture: 'img/rain/rain_sky_panorama.jpg',
-      fence_texture: 'img/rain/rain_fence.jpg',
-      wall_texture: 'img/rain/rain_wall_texture.jpg',
+      fence_door: ASSETS.mode.fenceDoor,
+      fence_texture: ASSETS.mode.rain.fence,
+      sky_texture: ASSETS.mode.rain.sky,
+      wall_texture: ASSETS.mode.rain.wall,
     };
   }
 

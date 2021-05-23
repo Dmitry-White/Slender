@@ -428,13 +428,13 @@ p {
   background-repeat: no-repeat;
 }
 .how_to_play .scrins:nth-child(1) {
-  background-image: url(../img/screens/img1.jpg);
+  background-image: url('../img/screens/img1.jpg');
 }
 .how_to_play .scrins:nth-child(2) {
-  background-image: url(../img/screens/img2.jpg);
+  background-image: url('../img/screens/img2.jpg');
 }
 .how_to_play .scrins:nth-child(3) {
-  background-image: url(../img/screens/img3.jpg);
+  background-image: url('../img/screens/img3.jpg');
 }
 .bordered {
   position: relative;

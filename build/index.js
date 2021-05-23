@@ -133,7 +133,30 @@ const ASSETS = {
     texture: __webpack_require__(/*! ../img/papers/paper_7.png */ "./img/papers/paper_7.png").default,
     width: 164,
     height: 100
-  }]
+  }],
+  slender: [{
+    texture: __webpack_require__(/*! ../img/slender/right_hand.png */ "./img/slender/right_hand.png").default,
+    width: 200,
+    height: 200
+  }, {
+    texture: __webpack_require__(/*! ../img/slender/left_hand.png */ "./img/slender/left_hand.png").default,
+    width: 200,
+    height: 200
+  }],
+  npc: [__webpack_require__(/*! ../img/npc/npc_die.gif */ "./img/npc/npc_die.gif").default, __webpack_require__(/*! ../img/npc/npc-1.png */ "./img/npc/npc-1.png").default, __webpack_require__(/*! ../img/npc/npc-2.png */ "./img/npc/npc-2.png").default, __webpack_require__(/*! ../img/npc/npc-3.png */ "./img/npc/npc-3.png").default, __webpack_require__(/*! ../img/npc/npc-4.png */ "./img/npc/npc-4.png").default, __webpack_require__(/*! ../img/npc/npc2-1.png */ "./img/npc/npc2-1.png").default, __webpack_require__(/*! ../img/npc/npc2-2.png */ "./img/npc/npc2-2.png").default, __webpack_require__(/*! ../img/npc/npc2-3.png */ "./img/npc/npc2-3.png").default, __webpack_require__(/*! ../img/npc/npc2-4.png */ "./img/npc/npc2-4.png").default, __webpack_require__(/*! ../img/npc/npc3-1.png */ "./img/npc/npc3-1.png").default, __webpack_require__(/*! ../img/npc/npc3-2.png */ "./img/npc/npc3-2.png").default, __webpack_require__(/*! ../img/npc/npc3-3.png */ "./img/npc/npc3-3.png").default, __webpack_require__(/*! ../img/npc/npc3-4.png */ "./img/npc/npc3-4.png").default],
+  mode: {
+    fenceDoor: __webpack_require__(/*! ../img/fence_door_0.jpg */ "./img/fence_door_0.jpg").default,
+    snow: {
+      fence: __webpack_require__(/*! ../img/snow/fence_snow.png */ "./img/snow/fence_snow.png").default,
+      sky: __webpack_require__(/*! ../img/snow/sky_panorama_snow.jpg */ "./img/snow/sky_panorama_snow.jpg").default,
+      wall: __webpack_require__(/*! ../img/snow/wall_texture_snow.jpg */ "./img/snow/wall_texture_snow.jpg").default
+    },
+    rain: {
+      fence: __webpack_require__(/*! ../img/rain/rain_fence.jpg */ "./img/rain/rain_fence.jpg").default,
+      sky: __webpack_require__(/*! ../img/rain/rain_sky_panorama.jpg */ "./img/rain/rain_sky_panorama.jpg").default,
+      wall: __webpack_require__(/*! ../img/rain/rain_wall_texture.jpg */ "./img/rain/rain_wall_texture.jpg").default
+    }
+  }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ASSETS);
 
@@ -331,7 +354,7 @@ __webpack_require__.r(__webpack_exports__);
 class Bitmap {
   constructor(src, width, height) {
     this.image = new Image();
-    this.image.src = `../${src}`;
+    this.image.src = src;
     this.width = width;
     this.height = height;
   }
@@ -907,8 +930,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-console.log('ASSETS', _data_assets__WEBPACK_IMPORTED_MODULE_12__.default);
-console.log('SOUNDS', _data_sounds__WEBPACK_IMPORTED_MODULE_13__.default);
 const videoBlock = document.querySelector('.intro');
 const messageBlock = document.querySelector('.text');
 const canvasBlock = document.querySelector('#display');
@@ -1100,9 +1121,10 @@ class Game {
       param: 0.5,
       particlesWidth: 6,
       particlesHeight: 6,
-      fence_texture: 'img/snow/fence_snow.png',
-      sky_texture: 'img/snow/sky_panorama_snow.jpg',
-      wall_texture: 'img/snow/wall_texture_snow.jpg'
+      fence_door: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.fenceDoor,
+      fence_texture: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.snow.fence,
+      sky_texture: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.snow.sky,
+      wall_texture: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.snow.wall
     };
   }
 
@@ -1120,9 +1142,10 @@ class Game {
       param: 0.1,
       particlesWidth: 2,
       particlesHeight: 20,
-      sky_texture: 'img/rain/rain_sky_panorama.jpg',
-      fence_texture: 'img/rain/rain_fence.jpg',
-      wall_texture: 'img/rain/rain_wall_texture.jpg'
+      fence_door: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.fenceDoor,
+      fence_texture: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.rain.fence,
+      sky_texture: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.rain.sky,
+      wall_texture: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.rain.wall
     };
   }
 
@@ -1240,10 +1263,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Bitmap */ "./js/components/Bitmap.js");
-/* harmony import */ var _Objects__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Objects */ "./js/components/Objects.js");
-/* harmony import */ var _Person__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Person */ "./js/components/Person.js");
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/calc */ "./js/utils/calc.js");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/calc */ "./js/utils/calc.js");
+/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bitmap */ "./js/components/Bitmap.js");
+/* harmony import */ var _Objects__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Objects */ "./js/components/Objects.js");
+/* harmony import */ var _Person__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Person */ "./js/components/Person.js");
 
 
 
@@ -1254,10 +1277,10 @@ class Map {
     this.mode = mode;
     this.size = size;
     this.wallGrid = new Uint8Array(size * size);
-    this.skybox = new _Bitmap__WEBPACK_IMPORTED_MODULE_0__.default(mode.sky_texture, 2000, 750);
-    this.fenceTexture = new _Bitmap__WEBPACK_IMPORTED_MODULE_0__.default(mode.fence_texture, 512, 512);
-    this.fenceDoorTexture = new _Bitmap__WEBPACK_IMPORTED_MODULE_0__.default('img/fence_door_0.jpg', 512, 256);
-    this.wallTexture = new _Bitmap__WEBPACK_IMPORTED_MODULE_0__.default(mode.wall_texture, 512, 512);
+    this.skybox = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(mode.sky_texture, 2000, 750);
+    this.fenceTexture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(mode.fence_texture, 512, 512);
+    this.fenceDoorTexture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(mode.fence_door, 512, 256);
+    this.wallTexture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(mode.wall_texture, 512, 512);
     this.light = this.mode.light;
     this.objects = [];
     this.people = 0;
@@ -1281,9 +1304,9 @@ class Map {
 
   addTrees(trees, col, row) {
     if (this.get(col, row) === 0) {
-      const num = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_3__.getRandomInt)(0, 4);
-      this.addObject(new _Objects__WEBPACK_IMPORTED_MODULE_1__.default({
-        texture: new _Bitmap__WEBPACK_IMPORTED_MODULE_0__.default(trees[num].texture, trees[num].width, trees[num].height),
+      const num = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_0__.getRandomInt)(0, 4);
+      this.addObject(new _Objects__WEBPACK_IMPORTED_MODULE_2__.default({
+        texture: new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(trees[num].texture, trees[num].width, trees[num].height),
         x: col,
         y: row
       }));
@@ -1292,9 +1315,9 @@ class Map {
 
   addBushes(bushes, col, row) {
     if (this.get(col, row) === 0) {
-      const num = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_3__.getRandomInt)(0, 5);
-      this.addObject(new _Objects__WEBPACK_IMPORTED_MODULE_1__.default({
-        texture: new _Bitmap__WEBPACK_IMPORTED_MODULE_0__.default(bushes[num].texture, bushes[num].width, bushes[num].height),
+      const num = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_0__.getRandomInt)(0, 5);
+      this.addObject(new _Objects__WEBPACK_IMPORTED_MODULE_2__.default({
+        texture: new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(bushes[num].texture, bushes[num].width, bushes[num].height),
         height: 0.5,
         x: col,
         y: row
@@ -1381,7 +1404,7 @@ class Map {
 
   update() {
     this.objects.forEach(item => {
-      if (item instanceof _Person__WEBPACK_IMPORTED_MODULE_2__.default) {
+      if (item instanceof _Person__WEBPACK_IMPORTED_MODULE_3__.default) {
         item.logic();
       }
     });
@@ -1507,12 +1530,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Bitmap */ "./js/components/Bitmap.js");
+/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
+/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bitmap */ "./js/components/Bitmap.js");
+
 
 
 class Objects {
   constructor(object) {
-    this.texture = object.texture || new _Bitmap__WEBPACK_IMPORTED_MODULE_0__.default('img/trees/tree_1.png', 639, 1500);
+    this.texture = object.texture || new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.trees[1].texture, 639, 1500);
     this.height = object.height || 1;
     this.width = 0.5;
     this.x = object.x;
@@ -1579,7 +1604,7 @@ class Person {
     this.y = y;
     this.picNum = picNum;
     this.color = '#cf3c8c';
-    this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`img/npc/npc-${picNum}.png`, 114, 300);
+    this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`assets/images/npc-${picNum}.png`, 114, 300);
     this.height = 0.6;
     this.width = 0.225;
     this.floorOffset = 0;
@@ -1636,7 +1661,7 @@ class Person {
 
     if (inDirectionX <= 0) this.x += dx;
     if (inDirectionY <= 0) this.y += dy;
-    this.move('img/npc/npc');
+    this.move('assets/images/npc');
   }
 
   move(url) {
@@ -1708,7 +1733,7 @@ class Person {
     dx >= 0 ? this.x -= distToWalk : this.x += distToWalk;
     dy >= 0 ? this.y -= distToWalk : this.y += distToWalk;
     this.count += 0.5;
-    this.move('img/npc/npc');
+    this.move('assets/images/npc');
   }
   /*
   lookForDead() {
@@ -1745,9 +1770,9 @@ class Person {
 
 
   die() {
-    this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default('img/npc/npc_die.gif', 114, 300);
+    this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default('assets/images/npc_die.gif', 114, 300);
     setTimeout(() => {
-      this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`img/npc/npc3-${this.picNum}.png`, 300, 56);
+      this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`assets/images/npc3-${this.picNum}.png`, 300, 56);
       this.height = 0.2;
       this.width = 0.7;
     }, 7000);
@@ -1783,10 +1808,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Paper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Paper */ "./js/components/Paper.js");
-/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bitmap */ "./js/components/Bitmap.js");
-/* harmony import */ var _Person__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Person */ "./js/components/Person.js");
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/calc */ "./js/utils/calc.js");
+/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/calc */ "./js/utils/calc.js");
+/* harmony import */ var _Paper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Paper */ "./js/components/Paper.js");
+/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Bitmap */ "./js/components/Bitmap.js");
+/* harmony import */ var _Person__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Person */ "./js/components/Person.js");
+
 
 
 
@@ -1805,8 +1832,8 @@ class Player {
     this.obj_sounds = origin.game.obj_sounds;
     this.mode = origin.game.mode;
     this.game = origin.game;
-    this.right_hand = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default('img/slender/right_hand.png', 200, 200);
-    this.left_hand = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default('img/slender/left_hand.png', 200, 200);
+    this.right_hand = new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].texture, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].width, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].height);
+    this.left_hand = new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].texture, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].width, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].height);
     this.paces = 0;
     this.prev_paper_place = [0, 0];
     this.speed = 1;
@@ -1990,7 +2017,7 @@ class Player {
     let victim;
     let nearVictim = false;
     this.map.objects.some(item => {
-      if (item instanceof _Person__WEBPACK_IMPORTED_MODULE_2__.default && item.alive) {
+      if (item instanceof _Person__WEBPACK_IMPORTED_MODULE_4__.default && item.alive) {
         victim = item;
         x = this.x - victim.x;
         y = this.y - victim.y;
@@ -2024,8 +2051,8 @@ class Player {
       const samePlace = this.prev_paper_place[0] === this.x && this.prev_paper_place[1] === this.y;
 
       if (!this.running && !this.walking && this.sounds.sound_end && !samePlace) {
-        const paperType = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_3__.getRandomInt)(0, 8);
-        this.map.addObject(new _Paper__WEBPACK_IMPORTED_MODULE_0__.default(this.x, this.y, new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(this.papers[paperType].texture, this.papers[paperType].width, this.papers[paperType].height)));
+        const paperType = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_1__.getRandomInt)(0, 8);
+        this.map.addObject(new _Paper__WEBPACK_IMPORTED_MODULE_2__.default(this.x, this.y, new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(this.papers[paperType].texture, this.papers[paperType].width, this.papers[paperType].height)));
 
         if (paperType === 0) {
           this.obj_sounds.makeSound('placing_loo_paper');
@@ -2443,6 +2470,216 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./img/fence_door_0.jpg":
+/*!******************************!*\
+  !*** ./img/fence_door_0.jpg ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/fence_door_0.jpg");
+
+/***/ }),
+
+/***/ "./img/npc/npc-1.png":
+/*!***************************!*\
+  !*** ./img/npc/npc-1.png ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/npc-1.png");
+
+/***/ }),
+
+/***/ "./img/npc/npc-2.png":
+/*!***************************!*\
+  !*** ./img/npc/npc-2.png ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/npc-2.png");
+
+/***/ }),
+
+/***/ "./img/npc/npc-3.png":
+/*!***************************!*\
+  !*** ./img/npc/npc-3.png ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/npc-3.png");
+
+/***/ }),
+
+/***/ "./img/npc/npc-4.png":
+/*!***************************!*\
+  !*** ./img/npc/npc-4.png ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/npc-4.png");
+
+/***/ }),
+
+/***/ "./img/npc/npc2-1.png":
+/*!****************************!*\
+  !*** ./img/npc/npc2-1.png ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/npc2-1.png");
+
+/***/ }),
+
+/***/ "./img/npc/npc2-2.png":
+/*!****************************!*\
+  !*** ./img/npc/npc2-2.png ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/npc2-2.png");
+
+/***/ }),
+
+/***/ "./img/npc/npc2-3.png":
+/*!****************************!*\
+  !*** ./img/npc/npc2-3.png ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/npc2-3.png");
+
+/***/ }),
+
+/***/ "./img/npc/npc2-4.png":
+/*!****************************!*\
+  !*** ./img/npc/npc2-4.png ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/npc2-4.png");
+
+/***/ }),
+
+/***/ "./img/npc/npc3-1.png":
+/*!****************************!*\
+  !*** ./img/npc/npc3-1.png ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/npc3-1.png");
+
+/***/ }),
+
+/***/ "./img/npc/npc3-2.png":
+/*!****************************!*\
+  !*** ./img/npc/npc3-2.png ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/npc3-2.png");
+
+/***/ }),
+
+/***/ "./img/npc/npc3-3.png":
+/*!****************************!*\
+  !*** ./img/npc/npc3-3.png ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/npc3-3.png");
+
+/***/ }),
+
+/***/ "./img/npc/npc3-4.png":
+/*!****************************!*\
+  !*** ./img/npc/npc3-4.png ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/npc3-4.png");
+
+/***/ }),
+
+/***/ "./img/npc/npc_die.gif":
+/*!*****************************!*\
+  !*** ./img/npc/npc_die.gif ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/npc_die.gif");
+
+/***/ }),
+
 /***/ "./img/papers/paper_0.png":
 /*!********************************!*\
   !*** ./img/papers/paper_0.png ***!
@@ -2560,6 +2797,126 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/paper_7.png");
+
+/***/ }),
+
+/***/ "./img/rain/rain_fence.jpg":
+/*!*********************************!*\
+  !*** ./img/rain/rain_fence.jpg ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/rain_fence.jpg");
+
+/***/ }),
+
+/***/ "./img/rain/rain_sky_panorama.jpg":
+/*!****************************************!*\
+  !*** ./img/rain/rain_sky_panorama.jpg ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/rain_sky_panorama.jpg");
+
+/***/ }),
+
+/***/ "./img/rain/rain_wall_texture.jpg":
+/*!****************************************!*\
+  !*** ./img/rain/rain_wall_texture.jpg ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/rain_wall_texture.jpg");
+
+/***/ }),
+
+/***/ "./img/slender/left_hand.png":
+/*!***********************************!*\
+  !*** ./img/slender/left_hand.png ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/left_hand.png");
+
+/***/ }),
+
+/***/ "./img/slender/right_hand.png":
+/*!************************************!*\
+  !*** ./img/slender/right_hand.png ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/right_hand.png");
+
+/***/ }),
+
+/***/ "./img/snow/fence_snow.png":
+/*!*********************************!*\
+  !*** ./img/snow/fence_snow.png ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/fence_snow.png");
+
+/***/ }),
+
+/***/ "./img/snow/sky_panorama_snow.jpg":
+/*!****************************************!*\
+  !*** ./img/snow/sky_panorama_snow.jpg ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/sky_panorama_snow.jpg");
+
+/***/ }),
+
+/***/ "./img/snow/wall_texture_snow.jpg":
+/*!****************************************!*\
+  !*** ./img/snow/wall_texture_snow.jpg ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__webpack_require__.p + "assets/images/wall_texture_snow.jpg");
 
 /***/ }),
 
@@ -9598,6 +9955,18 @@ window.soundManager = soundManager;
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -9625,7 +9994,22 @@ window.soundManager = soundManager;
 /******/ 	
 /******/ 	/* webpack/runtime/publicPath */
 /******/ 	(() => {
-/******/ 		__webpack_require__.p = "/build/";
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
 /******/ 	})();
 /******/ 	
 /************************************************************************/

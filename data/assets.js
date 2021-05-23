@@ -141,6 +141,46 @@ const ASSETS = {
       height: 100,
     },
   ],
+  slender: [
+    {
+      texture: require('../img/slender/right_hand.png').default,
+      width: 200,
+      height: 200,
+    },
+    {
+      texture: require('../img/slender/left_hand.png').default,
+      width: 200,
+      height: 200,
+    },
+  ],
+  npc: [
+    require('../img/npc/npc_die.gif').default,
+    require('../img/npc/npc-1.png').default,
+    require('../img/npc/npc-2.png').default,
+    require('../img/npc/npc-3.png').default,
+    require('../img/npc/npc-4.png').default,
+    require('../img/npc/npc2-1.png').default,
+    require('../img/npc/npc2-2.png').default,
+    require('../img/npc/npc2-3.png').default,
+    require('../img/npc/npc2-4.png').default,
+    require('../img/npc/npc3-1.png').default,
+    require('../img/npc/npc3-2.png').default,
+    require('../img/npc/npc3-3.png').default,
+    require('../img/npc/npc3-4.png').default,
+  ],
+  mode: {
+    fenceDoor: require('../img/fence_door_0.jpg').default,
+    snow: {
+      fence: require('../img/snow/fence_snow.png').default,
+      sky: require('../img/snow/sky_panorama_snow.jpg').default,
+      wall: require('../img/snow/wall_texture_snow.jpg').default,
+    },
+    rain: {
+      fence: require('../img/rain/rain_fence.jpg').default,
+      sky: require('../img/rain/rain_sky_panorama.jpg').default,
+      wall: require('../img/rain/rain_wall_texture.jpg').default,
+    },
+  },
 };
 
 export default ASSETS;
