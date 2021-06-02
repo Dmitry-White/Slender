@@ -1,7 +1,5 @@
 import { getRandomInt } from '../utils/calc';
 
-import Objects from './Objects';
-
 class Camera {
   constructor(canvas, resolution, fov, mode, CIRCLE, map, PAPER_NUM) {
     this.CIRCLE = CIRCLE;

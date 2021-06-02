@@ -1,21 +1,30 @@
+const canvasBlock = document.querySelector('#display');
+const lockHandler =
+  document.body.requestPointerLock ||
+  document.body.mozRequestPointerLock ||
+  document.body.webkitRequestPointerLock;
+
+const KEY_MAP = {
+  37: 'left',
+  39: 'right',
+  38: 'forward',
+  40: 'backward',
+  65: 'sideLeft',
+  68: 'sideRight',
+  87: 'forward',
+  83: 'backward',
+  13: 'enter',
+  16: 'shift',
+  32: 'space',
+  27: 'escape',
+  69: 'attack',
+};
+
+const MOUSE_SENSITIVITY = 100;
+
 class Controls {
   constructor(player) {
     this.player = player;
-    this.codes = {
-      37: 'left',
-      39: 'right',
-      38: 'forward',
-      40: 'backward',
-      65: 'sideLeft',
-      68: 'sideRight',
-      87: 'forward',
-      83: 'backward',
-      13: 'enter',
-      16: 'shift',
-      32: 'space',
-      27: 'escape',
-      69: 'attack',
-    };
     this.states = {
       left: false,
       right: false,
@@ -25,8 +34,8 @@ class Controls {
       sideLeft: false,
       sideRight: false,
     };
-    document.addEventListener('keydown', this.onKey.bind(this, true), false);
-    document.addEventListener('keyup', this.onKey.bind(this, false), false);
+    document.addEventListener('keydown', this.onKeyDown.bind(this), false);
+    document.addEventListener('keyup', this.onKeyUp.bind(this), false);
     document.addEventListener('touchstart', this.onTouch.bind(this), false);
     document.addEventListener('touchmove', this.onTouch.bind(this), false);
     document.addEventListener('touchend', this.onTouchEnd.bind(this), false);
@@ -35,10 +44,7 @@ class Controls {
       this.onMouseMovement.bind(this),
       false,
     );
-    document.querySelector('canvas').onclick =
-      document.body.requestPointerLock ||
-      document.body.mozRequestPointerLock ||
-      document.body.webkitRequestPointerLock;
+    canvasBlock.addEventListener('click', lockHandler);
   }
 
   onTouch(e) {
@@ -65,19 +71,35 @@ class Controls {
     e.stopPropagation();
   }
 
-  onKey(val, e) {
-    const state = this.codes[e.keyCode];
-    if (typeof state === 'undefined') return;
-    if (typeof this.states[state] !== 'undefined') this.states[state] = val;
-    else if (val === true) this.player.dosmth(state);
-    e.preventDefault && e.preventDefault();
-    e.stopPropagation && e.stopPropagation();
+  onKeyDown(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const action = KEY_MAP[e.keyCode];
+
+    if (!action) return;
+
+    this.states[action] = true;
+
+    this.player.dosmth(action);
+  }
+
+  onKeyUp(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const action = KEY_MAP[e.keyCode];
+
+    if (!action) return;
+
+    this.states[action] = false;
   }
 
   onMouseMovement(e) {
     const x = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
-    if (x > 0) this.player.rotate(Math.PI / 50);
-    if (x < 0) this.player.rotate(-Math.PI / 50);
+    const angle = Math.PI / MOUSE_SENSITIVITY;
+    if (x > 0) this.player.rotate(angle);
+    if (x < 0) this.player.rotate(-angle);
   }
 }
 
