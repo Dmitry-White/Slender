@@ -105,17 +105,6 @@ class Game {
     Game.showEndingScreen();
   }
 
-  makeEndmode() {
-    this.map.light = 2;
-    this.mode.param = 20;
-    this.mode.drops = '#f00';
-    this.mode.ground = '#f00';
-    this.mode.lightning = false;
-    this.mode.drops_opacity = 1;
-    this.mode.particlesWidth = 10;
-    this.mode.particlesHeight = 10;
-  }
-
   checkEnding() {
     if (this.map.people === 0 && this.obj_sounds.obj_sound_end) {
       this.map.show_all_dead = 1;
@@ -130,25 +119,6 @@ class Game {
       this.makeEndmode();
       this.obj_sounds.playScream();
     }
-  }
-
-  static showEndingScreen() {
-    messageBlock.classList.add('flex');
-    messageChildBlock.innerHTML = 'Do you want to play more?';
-    messageChildBlock.setAttribute('data-text', 'Do you want to kiLL more?');
-    canvasBlock.classList.remove('block');
-  }
-
-  setMode() {
-    const { winter } = this.mode;
-    const { WIND } = SOUNDS.WINTER;
-    const { RAIN } = SOUNDS.VANILLA;
-
-    if (winter) {
-      this.sounds.loopSound(WIND.id);
-      this.trees = ASSETS.trees;
-      this.bushes = ASSETS.bushes;
-    } else this.sounds.loopSound(RAIN.id);
   }
 
   addPeople() {
@@ -200,6 +170,25 @@ class Game {
     }
   }
 
+  static showEndingScreen() {
+    messageBlock.classList.add('flex');
+    messageChildBlock.innerHTML = 'Do you want to play more?';
+    messageChildBlock.setAttribute('data-text', 'Do you want to kiLL more?');
+    canvasBlock.classList.remove('block');
+  }
+
+  setMode() {
+    const { winter } = this.mode;
+    const { WIND } = SOUNDS.WINTER;
+    const { RAIN } = SOUNDS.VANILLA;
+
+    if (winter) {
+      this.sounds.loopSound(WIND.id);
+      this.trees = ASSETS.trees;
+      this.bushes = ASSETS.bushes;
+    } else this.sounds.loopSound(RAIN.id);
+  }
+
   setToWinter() {
     this.mode = {
       winter: true,
@@ -242,8 +231,15 @@ class Game {
     };
   }
 
-  static loadSounds() {
-    preloadSounds();
+  makeEndmode() {
+    this.map.light = 2;
+    this.mode.param = 20;
+    this.mode.drops = '#f00';
+    this.mode.ground = '#f00';
+    this.mode.lightning = false;
+    this.mode.drops_opacity = 1;
+    this.mode.particlesWidth = 10;
+    this.mode.particlesHeight = 10;
   }
 
   enableMenuSounds() {
@@ -293,6 +289,10 @@ class Game {
 
     aboutGameBlock.addEventListener('mouseover', startAboutGameHandler);
     aboutGameBlock.addEventListener('mouseout', stopAboutGameHandler);
+  }
+
+  disableMenuSounds() {
+    this.sounds.sound_end = true;
   }
 }
 
