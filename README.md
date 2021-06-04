@@ -12,7 +12,7 @@
 ![forthebadge](http://forthebadge.com/images/badges/powered-by-responsibility.svg)
 
 <div align="center">
-  <a href="https://dmitry-white.github.io/Slender/"><img src="img/play.png" /></a>
+  <a href="https://dmitry-white.github.io/Slender/build"><img src="img/play.png" /></a>
 </div>
 
 ## Description

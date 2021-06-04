@@ -13,6 +13,10 @@
     "ecmaVersion": 2018
   },
   "rules": {
-    "no-plusplus": 1
+    "no-plusplus": 1,
+    "no-unused-expressions": [
+      "error",
+      { "allowShortCircuit": true, "allowTernary": true }
+    ]
   }
 }

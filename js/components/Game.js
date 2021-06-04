@@ -8,7 +8,7 @@ import Player from './Player';
 import Camera from './Camera';
 import Controls from './Controls';
 import GameLoop from './GameLoop';
-import ObjSounds from './ObjSounds';
+import ObjectSounds from './ObjectSounds';
 
 import { getRandomInt } from '../utils/calc';
 import { playSM, preloadSounds } from '../utils/sound';
@@ -54,7 +54,7 @@ class Game {
     );
     this.loop = new GameLoop(this, this.endGame);
     this.noises = new Noises();
-    this.obj_sounds = new ObjSounds(this, this.map, this.mode);
+    this.obj_sounds = new ObjectSounds(this, this.map, this.mode);
     this.player = new Player({ x: 1.5, y: 1.5, direction: 1.57, game: this });
     this.controls = new Controls(this.player);
 
@@ -255,13 +255,18 @@ class Game {
     this.sounds.loopSound(PIANO_MENU.id);
     this.sounds.loopSound(STATIC_MENU.id);
 
-    const startHandler = (name, mute) => {
-      this.sounds.loopSound(name);
-      mute && soundManager.mute(mute);
+    const startHandler = (nextSound, currentSound) => {
+      if (currentSound) {
+        Sounds.muteSound(currentSound);
+      }
+      this.sounds.loopSound(nextSound);
     };
-    const stopHandler = (name, unmute) => {
-      soundManager.stop(name);
-      unmute && soundManager.unmute(unmute);
+
+    const stopHandler = (currentSound, nextSound) => {
+      if (nextSound) {
+        Sounds.unmuteSound(nextSound);
+      }
+      Sounds.stopSound(currentSound);
     };
 
     const startPlayHandler = () => startHandler(PLAY_BUTTON.id);

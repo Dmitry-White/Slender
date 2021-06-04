@@ -14,6 +14,7 @@ const precreateSounds = () => prepareFunc(precreateGroup, SOUNDS);
 const preloadSounds = () => prepareFunc(preloadGroup, SOUNDS);
 
 const playSM = (id, config) => soundManager.play(id, config);
+const stopSM = (id) => soundManager.stop(id);
 
 export {
   precreateGroup,
@@ -21,6 +22,7 @@ export {
   preloadGroup,
   preloadSounds,
   playSM,
+  stopSM,
   SM_URL,
   SOUNDS,
 };

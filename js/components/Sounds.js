@@ -1,6 +1,6 @@
 import { soundManager } from 'soundmanager2';
 
-import { precreateSounds, SM_URL, playSM } from '../utils/sound';
+import { precreateSounds, SM_URL, playSM, stopSM } from '../utils/sound';
 import SOUNDS from '../../data/sounds';
 
 class Sounds {
@@ -27,6 +27,18 @@ class Sounds {
     });
   }
 
+  static stopSound(soundId) {
+    stopSM(soundId);
+  }
+
+  static muteSound(soundId) {
+    soundManager.mute(soundId);
+  }
+
+  static unmuteSound(soundId) {
+    soundManager.unmute(soundId);
+  }
+
   makeSound(soundId) {
     this.sound_end = false;
     playSM(soundId, {
@@ -35,6 +47,13 @@ class Sounds {
         this.obj_sound_end = true;
         this.sound_end = true;
       },
+    });
+  }
+
+  static makeSoundV2(soundId, finishHandler) {
+    playSM(soundId, {
+      multiShotEvents: true,
+      onfinish: finishHandler,
     });
   }
 

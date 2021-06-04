@@ -3,7 +3,7 @@ import SOUNDS from '../../data/sounds.json';
 
 import Sounds from './Sounds';
 
-class ObjSounds extends Sounds {
+class ObjectSounds extends Sounds {
   constructor(game, map, mode) {
     super();
     this.game = game;
@@ -29,4 +29,4 @@ class ObjSounds extends Sounds {
   }
 }
 
-export default ObjSounds;
+export default ObjectSounds;

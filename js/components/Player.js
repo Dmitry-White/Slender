@@ -5,6 +5,7 @@ import { getRandomInt } from '../utils/calc';
 import Paper from './Paper';
 import Bitmap from './Bitmap';
 import Person from './Person';
+import PlayerSounds from './PlayerSounds';
 
 class Player {
   constructor(origin) {
@@ -29,15 +30,15 @@ class Player {
       ASSETS.slender[1].width,
       ASSETS.slender[1].height,
     );
+    this.playerSounds = new PlayerSounds(origin.game.mode, this);
     this.paces = 0;
     this.prev_paper_place = [0, 0];
     this.speed = 1;
-    this.hitting_the_fence = false;
-    this.hitting_the_wall = false;
     this.grabDist = 0;
     this.grab_state = false;
     this.put_dist = 0;
     this.put_state = false;
+    this.running = null;
   }
 
   rotate(angle) {
@@ -50,15 +51,8 @@ class Player {
     const inDirectionX = map.get(this.x + dx, this.y);
     const inDirectionY = map.get(this.x, this.y + dy);
 
-    if (inDirectionX === 2 || inDirectionY === 2) {
-      this.hitting_the_fence = true;
-      this.hitObject();
-      this.hitting_the_fence = false;
-    } else if (inDirectionX === 1 || inDirectionY === 1) {
-      this.hitting_the_wall = true;
-      this.hitObject();
-      this.hitting_the_wall = false;
-    }
+    if (inDirectionX === 2 || inDirectionY === 2) this.playerSounds.hitFence();
+    if (inDirectionX === 1 || inDirectionY === 1) this.playerSounds.hitWall();
 
     if (inDirectionX <= 0) this.x += dx;
     if (inDirectionY <= 0) this.y += dy;
@@ -75,19 +69,19 @@ class Player {
     if (controls.left) this.rotate(-Math.PI * seconds);
     if (controls.right) this.rotate(Math.PI * seconds);
     if (controls.forward) {
-      this.walkSound();
+      this.playerSounds.walk();
       this.walk(this.speed * seconds, map, this.direction);
     }
     if (controls.backward) {
-      this.walkSound();
+      this.playerSounds.walk();
       this.walk(-this.speed * seconds, map, this.direction);
     }
     if (controls.sideLeft) {
-      this.dodgeSound();
+      this.playerSounds.dodge();
       this.walk((this.speed / 2) * seconds, map, this.direction - Math.PI / 2);
     }
     if (controls.sideRight) {
-      this.dodgeSound();
+      this.playerSounds.dodge();
       this.walk(-(this.speed / 2) * seconds, map, this.direction - Math.PI / 2);
     }
     this.grab();
@@ -116,84 +110,6 @@ class Player {
         this.put_dist -= 15;
       }
     }
-  }
-
-  snowWalkSound() {
-    if (this.sounds.sound_end) {
-      if (this.running) {
-        this.sounds.makeSound('running');
-      } else {
-        Math.random() > 0.5
-          ? this.sounds.makeSound('forward_step')
-          : this.sounds.makeSound('backward_step');
-      }
-    }
-  }
-
-  snowDodgeSound() {
-    if (this.sounds.sound_end) {
-      Math.random() > 0.5
-        ? this.sounds.makeSound('dodge_step_0')
-        : this.sounds.makeSound('dodge_step_1');
-    }
-  }
-
-  rainWalkSound() {
-    if (this.sounds.sound_end) {
-      if (this.running) {
-        this.sounds.makeSound('rain_running');
-      } else if (Math.random() > 0.2) {
-        if (Math.random() > 0.5) {
-          this.sounds.makeSound('rain_forward_step');
-        } else {
-          this.sounds.makeSound('rain_backward_step');
-        }
-      } else {
-        this.sounds.makeSound('rain_step');
-      }
-    }
-  }
-
-  rainDodgeSound() {
-    if (this.sounds.sound_end) {
-      Math.random() > 0.5
-        ? this.sounds.makeSound('rain_dodge_step_0')
-        : this.sounds.makeSound('rain_dodge_step_1');
-    }
-  }
-
-  hitObject() {
-    this.mode.winter ? this.snowHit() : this.rainHit();
-  }
-
-  snowHit() {
-    if (this.obj_sounds.obj_sound_end) {
-      if (this.hitting_the_fence) {
-        this.obj_sounds.makeSound('hitting_the_fence');
-      } else if (this.hitting_the_wall) {
-        this.obj_sounds.makeSound('hitting_the_wall');
-      }
-    }
-  }
-
-  rainHit() {
-    if (this.obj_sounds.obj_sound_end) {
-      if (this.hitting_the_fence) {
-        this.obj_sounds.makeSound('hitting_the_rain_fence');
-        this.hitting_the_fence = false;
-      } else if (this.hitting_the_wall) {
-        this.obj_sounds.makeSound('hitting_the_wall');
-        this.hitting_the_wall = false;
-      }
-    }
-  }
-
-  walkSound() {
-    this.mode.winter ? this.snowWalkSound() : this.rainWalkSound();
-  }
-
-  dodgeSound() {
-    this.mode.winter ? this.snowDodgeSound() : this.rainDodgeSound();
   }
 
   dosmth(action) {
@@ -226,12 +142,12 @@ class Player {
     if (nearVictim) {
       this.eat(victim);
     } else if (this.obj_sounds.obj_sound_end) {
-      this.obj_sounds.makeSound('slashing');
+      this.playerSounds.attack();
     }
   }
 
   eat(victim) {
-    this.obj_sounds.makeSound('killing');
+    this.playerSounds.kill();
     victim.alive = false;
     victim.color = undefined;
     victim.die();
