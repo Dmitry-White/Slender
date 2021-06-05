@@ -5,7 +5,7 @@ import { getRandomInt } from '../utils/calc';
 import Paper from './Paper';
 import Bitmap from './Bitmap';
 import NPC from './NPC';
-import { PlayerSounds } from './Sounds';
+import { PlayerSounds } from './Audio';
 
 class Player {
   constructor(origin) {

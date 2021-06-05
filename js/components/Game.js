@@ -7,7 +7,7 @@ import { getRandomInt } from '../utils/calc';
 import { playSM, preloadSounds } from '../utils/sound';
 
 import Map from './Map';
-import { Sounds, ObjectSounds, NoiseSounds } from './Sounds';
+import { Sounds, ObjectSounds, NoiseSounds } from './Audio';
 import NPC from './NPC';
 import Player from './Player';
 import Camera from './Camera';
