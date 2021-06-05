@@ -63,6 +63,12 @@ class Sounds {
       onfinish: () => window.location.reload(),
     });
   }
+
+  allSoundsEnded() {
+    const soundStates = Object.values(this.state.sounds);
+    const soundsEnded = soundStates.every((sound) => !!sound);
+    return soundsEnded;
+  }
 }
 
 export default Sounds;

@@ -654,6 +654,12 @@ class Sounds {
     });
   }
 
+  allSoundsEnded() {
+    const soundStates = Object.values(this.state.sounds);
+    const soundsEnded = soundStates.every(sound => !!sound);
+    return soundsEnded;
+  }
+
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sounds);
@@ -2097,7 +2103,6 @@ class Player {
     this.PAPER_NUM = origin.game.PAPER_NUM;
     this.papers = origin.game.papers;
     this.map = origin.game.map;
-    this.sounds = origin.game.sounds;
     this.obj_sounds = origin.game.obj_sounds;
     this.mode = origin.game.mode;
     this.game = origin.game;
@@ -2233,12 +2238,15 @@ class Player {
   }
 
   placePaper() {
-    if (this.map.papers >= this.PAPER_NUM) {
+    const noPapersToPlace = this.map.papers >= this.PAPER_NUM;
+
+    if (noPapersToPlace) {
       this.showNoPaperMessage();
     } else {
       const samePlace = this.prev_paper_place[0] === this.x && this.prev_paper_place[1] === this.y;
+      const readyToPlaceHere = !this.running && !this.walking && this.playerSounds.allSoundsEnded() && !samePlace;
 
-      if (!this.running && !this.walking && this.sounds.sound_end && !samePlace) {
+      if (readyToPlaceHere) {
         const paperType = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_1__.getRandomInt)(0, 8);
         this.map.addObject(new _Paper__WEBPACK_IMPORTED_MODULE_2__.default(this.x, this.y, new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(this.papers[paperType].texture, this.papers[paperType].width, this.papers[paperType].height)));
 

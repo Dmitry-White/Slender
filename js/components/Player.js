@@ -16,7 +16,6 @@ class Player {
     this.PAPER_NUM = origin.game.PAPER_NUM;
     this.papers = origin.game.papers;
     this.map = origin.game.map;
-    this.sounds = origin.game.sounds;
     this.obj_sounds = origin.game.obj_sounds;
     this.mode = origin.game.mode;
     this.game = origin.game;
@@ -156,18 +155,22 @@ class Player {
   }
 
   placePaper() {
-    if (this.map.papers >= this.PAPER_NUM) {
+    const noPapersToPlace = this.map.papers >= this.PAPER_NUM;
+
+    if (noPapersToPlace) {
       this.showNoPaperMessage();
     } else {
       const samePlace =
         this.prev_paper_place[0] === this.x &&
         this.prev_paper_place[1] === this.y;
-      if (
+
+      const readyToPlaceHere =
         !this.running &&
         !this.walking &&
-        this.sounds.sound_end &&
-        !samePlace
-      ) {
+        this.playerSounds.allSoundsEnded() &&
+        !samePlace;
+
+      if (readyToPlaceHere) {
         const paperType = getRandomInt(0, 8);
         this.map.addObject(
           new Paper(
@@ -180,6 +183,7 @@ class Player {
             ),
           ),
         );
+
         if (paperType === 0) {
           this.obj_sounds.makeSound('placing_loo_paper');
           this.showLooMessage();
@@ -190,6 +194,7 @@ class Player {
           this.obj_sounds.makeSound('placing_paper');
           this.showPaperMessage();
         }
+
         this.prev_paper_place = [this.x, this.y];
         this.map.papers++;
       } else {
