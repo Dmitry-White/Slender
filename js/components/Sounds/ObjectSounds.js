@@ -1,5 +1,6 @@
-import { playSM } from '../utils/sound';
-import SOUNDS from '../../data/sounds.json';
+import SOUNDS from '../../../data/sounds.json';
+
+import { playSM } from '../../utils/sound';
 
 import Sounds from './Sounds';
 

@@ -915,21 +915,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! soundmanager2 */ "./node_modules/soundmanager2/script/soundmanager2.js");
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Map__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Map */ "./js/components/Map.js");
-/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sounds */ "./js/components/Sounds.js");
-/* harmony import */ var _Noises__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Noises */ "./js/components/Noises.js");
-/* harmony import */ var _Person__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Person */ "./js/components/Person.js");
-/* harmony import */ var _Player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Player */ "./js/components/Player.js");
-/* harmony import */ var _Camera__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Camera */ "./js/components/Camera.js");
-/* harmony import */ var _Controls__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Controls */ "./js/components/Controls.js");
-/* harmony import */ var _GameLoop__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./GameLoop */ "./js/components/GameLoop.js");
-/* harmony import */ var _ObjectSounds__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ObjectSounds */ "./js/components/ObjectSounds.js");
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utils/calc */ "./js/utils/calc.js");
-/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../utils/sound */ "./js/utils/sound.js");
-/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
-/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../data/sounds */ "./data/sounds.js");
-
-
+/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
+/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../data/sounds */ "./data/sounds.js");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/calc */ "./js/utils/calc.js");
+/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/sound */ "./js/utils/sound.js");
+/* harmony import */ var _Map__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Map */ "./js/components/Map.js");
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Sounds */ "./js/components/Sounds/index.js");
+/* harmony import */ var _NPC__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./NPC */ "./js/components/NPC.js");
+/* harmony import */ var _Player__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Player */ "./js/components/Player.js");
+/* harmony import */ var _Camera__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Camera */ "./js/components/Camera.js");
+/* harmony import */ var _Controls__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Controls */ "./js/components/Controls.js");
+/* harmony import */ var _GameLoop__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./GameLoop */ "./js/components/GameLoop.js");
 
 
 
@@ -961,25 +957,25 @@ class Game {
     this.RESOLUTION = 640;
     this.mode = {};
     this.game_ending = false;
-    this.papers = _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.papers;
-    this.trees = _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.rain_trees;
-    this.bushes = _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.rain_bushes;
-    this.sounds = new _Sounds__WEBPACK_IMPORTED_MODULE_2__.default(this);
+    this.papers = _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.papers;
+    this.trees = _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.rain_trees;
+    this.bushes = _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.rain_bushes;
+    this.sounds = new _Sounds__WEBPACK_IMPORTED_MODULE_6__.Sounds(this);
   }
 
   loadGame() {
-    this.map = new _Map__WEBPACK_IMPORTED_MODULE_1__.default(this.MAP_SIZE, this.mode);
-    this.camera = new _Camera__WEBPACK_IMPORTED_MODULE_6__.default(canvasBlock, this.RESOLUTION, 0.8, this.mode, this.CIRCLE, this.map, this.PAPER_NUM);
-    this.loop = new _GameLoop__WEBPACK_IMPORTED_MODULE_8__.default(this, this.endGame);
-    this.noises = new _Noises__WEBPACK_IMPORTED_MODULE_3__.default();
-    this.obj_sounds = new _ObjectSounds__WEBPACK_IMPORTED_MODULE_9__.default(this, this.map, this.mode);
-    this.player = new _Player__WEBPACK_IMPORTED_MODULE_5__.default({
+    this.map = new _Map__WEBPACK_IMPORTED_MODULE_5__.default(this.MAP_SIZE, this.mode);
+    this.camera = new _Camera__WEBPACK_IMPORTED_MODULE_9__.default(canvasBlock, this.RESOLUTION, 0.8, this.mode, this.CIRCLE, this.map, this.PAPER_NUM);
+    this.loop = new _GameLoop__WEBPACK_IMPORTED_MODULE_11__.default(this, this.endGame);
+    this.noises = new _Sounds__WEBPACK_IMPORTED_MODULE_6__.NoiseSounds();
+    this.obj_sounds = new _Sounds__WEBPACK_IMPORTED_MODULE_6__.ObjectSounds(this, this.map, this.mode);
+    this.player = new _Player__WEBPACK_IMPORTED_MODULE_8__.default({
       x: 1.5,
       y: 1.5,
       direction: 1.57,
       game: this
     });
-    this.controls = new _Controls__WEBPACK_IMPORTED_MODULE_7__.default(this.player);
+    this.controls = new _Controls__WEBPACK_IMPORTED_MODULE_10__.default(this.player);
     this.setMode();
     this.addPeople();
     this.map.buildMap(this.trees, this.bushes); // videoBlock.classList.add('block');
@@ -1015,7 +1011,7 @@ class Game {
   }
 
   endGame() {
-    const endSong = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_10__.getRandomInt)(0, 2);
+    const endSong = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_3__.getRandomInt)(0, 2);
     soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.stopAll();
     this.game.sounds.playEnding(endSong);
     Game.showEndingScreen();
@@ -1038,17 +1034,17 @@ class Game {
 
   addPeople() {
     for (let i = 0; i < this.PPL_NUM; i++) {
-      const x = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_10__.getRandomInt)(2, this.PPL_XY);
-      const y = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_10__.getRandomInt)(2, this.PPL_XY);
-      const picNum = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_10__.getRandomInt)(1, 5);
-      this.map.addObject(new _Person__WEBPACK_IMPORTED_MODULE_4__.default(this.player, this.map, x, y, picNum, this.CIRCLE));
+      const x = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_3__.getRandomInt)(2, this.PPL_XY);
+      const y = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_3__.getRandomInt)(2, this.PPL_XY);
+      const picNum = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_3__.getRandomInt)(1, 5);
+      this.map.addObject(new _NPC__WEBPACK_IMPORTED_MODULE_7__.default(this.player, this.map, x, y, picNum, this.CIRCLE));
       this.map.people++;
     }
   }
 
   changeAmbient() {
     if (this.noises.noisesEnd) {
-      const next = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_10__.getRandomInt)(0, 4);
+      const next = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_3__.getRandomInt)(0, 4);
       this.noises.playNoises(next);
     }
   }
@@ -1096,15 +1092,15 @@ class Game {
     } = this.mode;
     const {
       WIND
-    } = _data_sounds__WEBPACK_IMPORTED_MODULE_13__.default.WINTER;
+    } = _data_sounds__WEBPACK_IMPORTED_MODULE_2__.default.WINTER;
     const {
       RAIN
-    } = _data_sounds__WEBPACK_IMPORTED_MODULE_13__.default.VANILLA;
+    } = _data_sounds__WEBPACK_IMPORTED_MODULE_2__.default.VANILLA;
 
     if (winter) {
       this.sounds.loopSound(WIND.id);
-      this.trees = _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.trees;
-      this.bushes = _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.bushes;
+      this.trees = _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.trees;
+      this.bushes = _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.bushes;
     } else this.sounds.loopSound(RAIN.id);
   }
 
@@ -1122,10 +1118,10 @@ class Game {
       param: 0.5,
       particlesWidth: 6,
       particlesHeight: 6,
-      fence_door: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.fenceDoor,
-      fence_texture: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.snow.fence,
-      sky_texture: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.snow.sky,
-      wall_texture: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.snow.wall
+      fence_door: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.fenceDoor,
+      fence_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.snow.fence,
+      sky_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.snow.sky,
+      wall_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.snow.wall
     };
   }
 
@@ -1143,10 +1139,10 @@ class Game {
       param: 0.1,
       particlesWidth: 2,
       particlesHeight: 20,
-      fence_door: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.fenceDoor,
-      fence_texture: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.rain.fence,
-      sky_texture: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.rain.sky,
-      wall_texture: _data_assets__WEBPACK_IMPORTED_MODULE_12__.default.mode.rain.wall
+      fence_door: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.fenceDoor,
+      fence_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.rain.fence,
+      sky_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.rain.sky,
+      wall_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.rain.wall
     };
   }
 
@@ -1169,13 +1165,13 @@ class Game {
       PLAY_BUTTON,
       ABOUT_US,
       ABOUT_GAME
-    } = _data_sounds__WEBPACK_IMPORTED_MODULE_13__.default.MENU;
+    } = _data_sounds__WEBPACK_IMPORTED_MODULE_2__.default.MENU;
     this.sounds.loopSound(PIANO_MENU.id);
     this.sounds.loopSound(STATIC_MENU.id);
 
     const startHandler = (nextSound, currentSound) => {
       if (currentSound) {
-        _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.muteSound(currentSound);
+        _Sounds__WEBPACK_IMPORTED_MODULE_6__.Sounds.muteSound(currentSound);
       }
 
       this.sounds.loopSound(nextSound);
@@ -1183,10 +1179,10 @@ class Game {
 
     const stopHandler = (currentSound, nextSound) => {
       if (nextSound) {
-        _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.unmuteSound(nextSound);
+        _Sounds__WEBPACK_IMPORTED_MODULE_6__.Sounds.unmuteSound(nextSound);
       }
 
-      _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.stopSound(currentSound);
+      _Sounds__WEBPACK_IMPORTED_MODULE_6__.Sounds.stopSound(currentSound);
     };
 
     const startPlayHandler = () => startHandler(PLAY_BUTTON.id);
@@ -1284,7 +1280,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/calc */ "./js/utils/calc.js");
 /* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bitmap */ "./js/components/Bitmap.js");
 /* harmony import */ var _Objects__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Objects */ "./js/components/Objects.js");
-/* harmony import */ var _Person__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Person */ "./js/components/Person.js");
+/* harmony import */ var _NPC__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./NPC */ "./js/components/NPC.js");
 
 
 
@@ -1422,7 +1418,7 @@ class Map {
 
   update() {
     this.objects.forEach(item => {
-      if (item instanceof _Person__WEBPACK_IMPORTED_MODULE_3__.default) {
+      if (item instanceof _NPC__WEBPACK_IMPORTED_MODULE_3__.default) {
         item.logic();
       }
     });
@@ -1444,10 +1440,10 @@ class Map {
 
 /***/ }),
 
-/***/ "./js/components/Noises.js":
-/*!*********************************!*\
-  !*** ./js/components/Noises.js ***!
-  \*********************************/
+/***/ "./js/components/NPC.js":
+/*!******************************!*\
+  !*** ./js/components/NPC.js ***!
+  \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1455,85 +1451,212 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/sound */ "./js/utils/sound.js");
-/* harmony import */ var _data_sounds_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../data/sounds.json */ "./data/sounds.json");
-
-
-
-class Noises {
-  constructor() {
-    this.noisesEnd = true;
-    this.noises = {
-      0: _data_sounds_json__WEBPACK_IMPORTED_MODULE_1__.RANDOM.GHOST,
-      1: _data_sounds_json__WEBPACK_IMPORTED_MODULE_1__.RANDOM.JUST_HORROR,
-      2: _data_sounds_json__WEBPACK_IMPORTED_MODULE_1__.RANDOM.WEIRD_NOISES,
-      3: _data_sounds_json__WEBPACK_IMPORTED_MODULE_1__.RANDOM.SCARY_PIANO
-    };
-  }
-
-  playNoises(noiseNum) {
-    this.noisesEnd = false;
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_0__.playSM)(this.noises[noiseNum], {
-      multiShotEvents: true,
-      onfinish: () => {
-        this.noisesEnd = true;
-      }
-    });
-  }
-
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Noises);
-
-/***/ }),
-
-/***/ "./js/components/ObjectSounds.js":
-/*!***************************************!*\
-  !*** ./js/components/ObjectSounds.js ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/sound */ "./js/utils/sound.js");
-/* harmony import */ var _data_sounds_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../data/sounds.json */ "./data/sounds.json");
-/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sounds */ "./js/components/Sounds.js");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/calc */ "./js/utils/calc.js");
+/* harmony import */ var _Paper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Paper */ "./js/components/Paper.js");
+/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Bitmap */ "./js/components/Bitmap.js");
 
 
 
 
-class ObjectSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_2__.default {
-  constructor(game, map, mode) {
-    super();
-    this.game = game;
+class NPC {
+  constructor(player, map, x, y, picNum, CIRCLE) {
+    this.CIRCLE = CIRCLE;
+    this.player = player;
     this.map = map;
-    this.mode = mode;
-    this.obj_sound_end = true;
+    this.x = x;
+    this.y = y;
+    this.picNum = picNum;
+    this.color = '#cf3c8c';
+    this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_2__.default(`assets/images/npc-${picNum}.png`, 114, 300);
+    this.height = 0.6;
+    this.width = 0.225;
+    this.floorOffset = 0;
+    this.count = 0;
+    this.direction = 1;
+    this.speed = 0.7;
+    this.alive = true; // this.found_dead = false;
+
+    this.found_paper = false;
+    this.taking_paper = false;
+    this.paperNearPerson = 0;
   }
 
-  makeSound(soundId) {
-    this.obj_sound_end = false;
-    super.makeSound(soundId);
+  logic() {
+    if (this.alive) {
+      if (this.count > 270) {
+        this.direction += (0,_utils_calc__WEBPACK_IMPORTED_MODULE_0__.getRandomFloat)(-(this.CIRCLE / 6), this.CIRCLE / 6);
+        this.count = 0;
+      } // this.lookForDead()
+
+
+      this.searchForPaper();
+
+      if (!this.found_paper && !this.taking_paper) {
+        this.wonderAround();
+      }
+    }
   }
 
-  playScream() {
-    const {
-      GHOST
-    } = _data_sounds_json__WEBPACK_IMPORTED_MODULE_1__.END;
-    this.obj_sound_end = false;
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_0__.playSM)(GHOST.id, {
-      onfinish: () => {
-        this.game.game_ending = true;
+  wonderAround() {
+    this.count += 1;
+    this.run();
+    this.walk(0.05 * this.speed, this.direction);
+  }
+
+  run() {
+    const distToPlayer = this.distTo(this.player);
+
+    if (distToPlayer < 2) {
+      this.speed = 3;
+      this.direction = -this.player.direction;
+    } else this.speed = 0.7;
+  }
+
+  walk(distance, direction) {
+    const dx = Math.cos(direction) * distance;
+    const dy = Math.sin(direction) * distance;
+    const inDirectionX = this.map.get(this.x + dx, this.y);
+    const inDirectionY = this.map.get(this.x, this.y + dy);
+
+    if (inDirectionX === 2 || inDirectionY === 2 || inDirectionX === 1 || inDirectionY === 1) {
+      this.direction = direction + this.CIRCLE / 6;
+    }
+
+    if (inDirectionX <= 0) this.x += dx;
+    if (inDirectionY <= 0) this.y += dy;
+    this.move('assets/images/npc');
+  }
+
+  move(url) {
+    if (this.count % 10 === 0) {
+      if (this.count % 20 === 0) {
+        this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_2__.default(`${url}2-${this.picNum}.png`, 114, 300);
+      } else this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_2__.default(`${url}-${this.picNum}.png`, 114, 300);
+    }
+  }
+
+  searchForPaper() {
+    let dx;
+    let dy;
+    let distToPaper;
+    let paper;
+    this.map.objects.some(item => {
+      if (item instanceof _Paper__WEBPACK_IMPORTED_MODULE_1__.default) {
+        paper = item;
+        dx = this.x - paper.x;
+        dy = this.y - paper.y;
+        distToPaper = this.distTo(paper);
+        this.isNearPaper(distToPaper, paper, dx, dy);
       }
     });
   }
 
+  isNearPaper(distToPaper, paper, dx, dy) {
+    if (distToPaper < 5 && this.distTo(this.player) > 3) {
+      this.paper = paper;
+      this.found_paper = true;
+
+      if (distToPaper < 0.3) {
+        this.takingPaper();
+      } else {
+        this.approachPaper(dx, dy);
+      }
+    } else this.found_paper = false;
+  }
+
+  takingPaper() {
+    this.speed = 0;
+    this.taking_paper = true;
+    this.takePaper();
+  }
+
+  takePaper() {
+    this.paperNearPerson++;
+
+    if (this.paperNearPerson === 70) {
+      const idx = this.map.objects.indexOf(this.paper);
+
+      if (idx !== -1) {
+        this.map.objects.splice(idx, 1);
+      }
+
+      this.map.objects.forEach(item => {
+        if (item instanceof NPC) {
+          item.found_paper = false;
+          item.taking_paper = false;
+          item.paperNearPerson = 0;
+        }
+      });
+      this.showTakenMessage();
+    }
+  }
+
+  approachPaper(dx, dy) {
+    const distToWalk = 0.007 * this.speed;
+    dx >= 0 ? this.x -= distToWalk : this.x += distToWalk;
+    dy >= 0 ? this.y -= distToWalk : this.y += distToWalk;
+    this.count += 0.5;
+    this.move('assets/images/npc');
+  }
+  /*
+  lookForDead() {
+      let dead, dx_dead, dy_dead, dist_to_dead;
+      this.map.objects.some((item)=>{
+          if(item instanceof NPC && !item.alive) {
+              dead = item;
+              dist_to_dead = this.distTo(dead);
+              this.isNearDead(dist_to_dead, dead);
+          }
+      });
+  };
+   isNearDead(dist_to_dead, dead) {
+      if (dist_to_dead < 3) {
+          console.log("OMG BODY!")
+          this.dead = dead;
+          this.found_dead = true;
+          this.runFromDead();
+      } else {
+          this.stayCalm();
+      }
+  }
+   /*
+  runFromDead() {
+      this.found_paper = false;
+      this.taking_paper = false;
+      this.speed = 3;
+      this.direction = getRandomFloat(1,4);
+  };
+   stayCalm() {
+      this.speed = .7;
+      this.found_dead = false;
+  }; */
+
+
+  die() {
+    this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_2__.default('assets/images/npc_die.gif', 114, 300);
+    setTimeout(() => {
+      this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_2__.default(`assets/images/npc3-${this.picNum}.png`, 300, 56);
+      this.height = 0.2;
+      this.width = 0.7;
+    }, 7000);
+  }
+
+  distTo(thing) {
+    const x = thing.x - this.x;
+    const y = thing.y - this.y;
+    return Math.sqrt(x * x + y * y);
+  }
+
+  showTakenMessage() {
+    this.map.show_taken = 1;
+    setTimeout(() => {
+      this.map.show_taken = 0;
+    }, 3000);
+  }
+
 }
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ObjectSounds);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NPC);
 
 /***/ }),
 
@@ -1595,226 +1718,6 @@ class Paper {
 
 /***/ }),
 
-/***/ "./js/components/Person.js":
-/*!*********************************!*\
-  !*** ./js/components/Person.js ***!
-  \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Paper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Paper */ "./js/components/Paper.js");
-/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bitmap */ "./js/components/Bitmap.js");
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/calc */ "./js/utils/calc.js");
-
-
-
-
-class Person {
-  constructor(player, map, x, y, picNum, CIRCLE) {
-    this.CIRCLE = CIRCLE;
-    this.player = player;
-    this.map = map;
-    this.x = x;
-    this.y = y;
-    this.picNum = picNum;
-    this.color = '#cf3c8c';
-    this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`assets/images/npc-${picNum}.png`, 114, 300);
-    this.height = 0.6;
-    this.width = 0.225;
-    this.floorOffset = 0;
-    this.count = 0;
-    this.direction = 1;
-    this.speed = 0.7;
-    this.alive = true; // this.found_dead = false;
-
-    this.found_paper = false;
-    this.taking_paper = false;
-    this.paperNearPerson = 0;
-  }
-
-  logic() {
-    if (this.alive) {
-      if (this.count > 270) {
-        this.direction += (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomFloat)(-(this.CIRCLE / 6), this.CIRCLE / 6);
-        this.count = 0;
-      } // this.lookForDead()
-
-
-      this.searchForPaper();
-
-      if (!this.found_paper && !this.taking_paper) {
-        this.wonderAround();
-      }
-    }
-  }
-
-  wonderAround() {
-    this.count += 1;
-    this.run();
-    this.walk(0.05 * this.speed, this.direction);
-  }
-
-  run() {
-    const distToPlayer = this.distTo(this.player);
-
-    if (distToPlayer < 2) {
-      this.speed = 3;
-      this.direction = -this.player.direction;
-    } else this.speed = 0.7;
-  }
-
-  walk(distance, direction) {
-    const dx = Math.cos(direction) * distance;
-    const dy = Math.sin(direction) * distance;
-    const inDirectionX = this.map.get(this.x + dx, this.y);
-    const inDirectionY = this.map.get(this.x, this.y + dy);
-
-    if (inDirectionX === 2 || inDirectionY === 2 || inDirectionX === 1 || inDirectionY === 1) {
-      this.direction = direction + this.CIRCLE / 6;
-    }
-
-    if (inDirectionX <= 0) this.x += dx;
-    if (inDirectionY <= 0) this.y += dy;
-    this.move('assets/images/npc');
-  }
-
-  move(url) {
-    if (this.count % 10 === 0) {
-      if (this.count % 20 === 0) {
-        this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`${url}2-${this.picNum}.png`, 114, 300);
-      } else this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`${url}-${this.picNum}.png`, 114, 300);
-    }
-  }
-
-  searchForPaper() {
-    let dx;
-    let dy;
-    let distToPaper;
-    let paper;
-    this.map.objects.some(item => {
-      if (item instanceof _Paper__WEBPACK_IMPORTED_MODULE_0__.default) {
-        paper = item;
-        dx = this.x - paper.x;
-        dy = this.y - paper.y;
-        distToPaper = this.distTo(paper);
-        this.isNearPaper(distToPaper, paper, dx, dy);
-      }
-    });
-  }
-
-  isNearPaper(distToPaper, paper, dx, dy) {
-    if (distToPaper < 5 && this.distTo(this.player) > 3) {
-      this.paper = paper;
-      this.found_paper = true;
-
-      if (distToPaper < 0.3) {
-        this.takingPaper();
-      } else {
-        this.approachPaper(dx, dy);
-      }
-    } else this.found_paper = false;
-  }
-
-  takingPaper() {
-    this.speed = 0;
-    this.taking_paper = true;
-    this.takePaper();
-  }
-
-  takePaper() {
-    this.paperNearPerson++;
-
-    if (this.paperNearPerson === 70) {
-      const idx = this.map.objects.indexOf(this.paper);
-
-      if (idx !== -1) {
-        this.map.objects.splice(idx, 1);
-      }
-
-      this.map.objects.forEach(item => {
-        if (item instanceof Person) {
-          item.found_paper = false;
-          item.taking_paper = false;
-          item.paperNearPerson = 0;
-        }
-      });
-      this.showTakenMessage();
-    }
-  }
-
-  approachPaper(dx, dy) {
-    const distToWalk = 0.007 * this.speed;
-    dx >= 0 ? this.x -= distToWalk : this.x += distToWalk;
-    dy >= 0 ? this.y -= distToWalk : this.y += distToWalk;
-    this.count += 0.5;
-    this.move('assets/images/npc');
-  }
-  /*
-  lookForDead() {
-      let dead, dx_dead, dy_dead, dist_to_dead;
-      this.map.objects.some((item)=>{
-          if(item instanceof Person && !item.alive) {
-              dead = item;
-              dist_to_dead = this.distTo(dead);
-              this.isNearDead(dist_to_dead, dead);
-          }
-      });
-  };
-   isNearDead(dist_to_dead, dead) {
-      if (dist_to_dead < 3) {
-          console.log("OMG BODY!")
-          this.dead = dead;
-          this.found_dead = true;
-          this.runFromDead();
-      } else {
-          this.stayCalm();
-      }
-  }
-   /*
-  runFromDead() {
-      this.found_paper = false;
-      this.taking_paper = false;
-      this.speed = 3;
-      this.direction = getRandomFloat(1,4);
-  };
-   stayCalm() {
-      this.speed = .7;
-      this.found_dead = false;
-  }; */
-
-
-  die() {
-    this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default('assets/images/npc_die.gif', 114, 300);
-    setTimeout(() => {
-      this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`assets/images/npc3-${this.picNum}.png`, 300, 56);
-      this.height = 0.2;
-      this.width = 0.7;
-    }, 7000);
-  }
-
-  distTo(thing) {
-    const x = thing.x - this.x;
-    const y = thing.y - this.y;
-    return Math.sqrt(x * x + y * y);
-  }
-
-  showTakenMessage() {
-    this.map.show_taken = 1;
-    setTimeout(() => {
-      this.map.show_taken = 0;
-    }, 3000);
-  }
-
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Person);
-
-/***/ }),
-
 /***/ "./js/components/Player.js":
 /*!*********************************!*\
   !*** ./js/components/Player.js ***!
@@ -1830,8 +1733,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/calc */ "./js/utils/calc.js");
 /* harmony import */ var _Paper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Paper */ "./js/components/Paper.js");
 /* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Bitmap */ "./js/components/Bitmap.js");
-/* harmony import */ var _Person__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Person */ "./js/components/Person.js");
-/* harmony import */ var _PlayerSounds__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PlayerSounds */ "./js/components/PlayerSounds.js");
+/* harmony import */ var _NPC__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./NPC */ "./js/components/NPC.js");
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Sounds */ "./js/components/Sounds/index.js");
 
 
 
@@ -1854,7 +1757,7 @@ class Player {
     this.game = origin.game;
     this.right_hand = new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].texture, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].width, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].height);
     this.left_hand = new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].texture, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].width, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].height);
-    this.playerSounds = new _PlayerSounds__WEBPACK_IMPORTED_MODULE_5__.default(origin.game.mode, this);
+    this.playerSounds = new _Sounds__WEBPACK_IMPORTED_MODULE_5__.PlayerSounds(origin.game.mode, this);
     this.paces = 0;
     this.prev_paper_place = [0, 0];
     this.speed = 1;
@@ -1956,7 +1859,7 @@ class Player {
     let victim;
     let nearVictim = false;
     this.map.objects.some(item => {
-      if (item instanceof _Person__WEBPACK_IMPORTED_MODULE_4__.default && item.alive) {
+      if (item instanceof _NPC__WEBPACK_IMPORTED_MODULE_4__.default && item.alive) {
         victim = item;
         x = this.x - victim.x;
         y = this.y - victim.y;
@@ -2076,10 +1979,10 @@ class Player {
 
 /***/ }),
 
-/***/ "./js/components/PlayerSounds.js":
-/*!***************************************!*\
-  !*** ./js/components/PlayerSounds.js ***!
-  \***************************************/
+/***/ "./js/components/Sounds/NoiseSounds.js":
+/*!*********************************************!*\
+  !*** ./js/components/Sounds/NoiseSounds.js ***!
+  \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2087,7 +1990,100 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Sounds */ "./js/components/Sounds.js");
+/* harmony import */ var _data_sounds_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/sounds.json */ "./data/sounds.json");
+/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/sound */ "./js/utils/sound.js");
+
+
+
+class NoiseSounds {
+  constructor() {
+    this.noisesEnd = true;
+    this.noises = {
+      0: _data_sounds_json__WEBPACK_IMPORTED_MODULE_0__.RANDOM.GHOST,
+      1: _data_sounds_json__WEBPACK_IMPORTED_MODULE_0__.RANDOM.JUST_HORROR,
+      2: _data_sounds_json__WEBPACK_IMPORTED_MODULE_0__.RANDOM.WEIRD_NOISES,
+      3: _data_sounds_json__WEBPACK_IMPORTED_MODULE_0__.RANDOM.SCARY_PIANO
+    };
+  }
+
+  playNoises(noiseNum) {
+    this.noisesEnd = false;
+    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.playSM)(this.noises[noiseNum], {
+      multiShotEvents: true,
+      onfinish: () => {
+        this.noisesEnd = true;
+      }
+    });
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NoiseSounds);
+
+/***/ }),
+
+/***/ "./js/components/Sounds/ObjectSounds.js":
+/*!**********************************************!*\
+  !*** ./js/components/Sounds/ObjectSounds.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _data_sounds_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/sounds.json */ "./data/sounds.json");
+/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/sound */ "./js/utils/sound.js");
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sounds */ "./js/components/Sounds/Sounds.js");
+
+
+
+
+class ObjectSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_2__.default {
+  constructor(game, map, mode) {
+    super();
+    this.game = game;
+    this.map = map;
+    this.mode = mode;
+    this.obj_sound_end = true;
+  }
+
+  makeSound(soundId) {
+    this.obj_sound_end = false;
+    super.makeSound(soundId);
+  }
+
+  playScream() {
+    const {
+      GHOST
+    } = _data_sounds_json__WEBPACK_IMPORTED_MODULE_0__.END;
+    this.obj_sound_end = false;
+    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.playSM)(GHOST.id, {
+      onfinish: () => {
+        this.game.game_ending = true;
+      }
+    });
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ObjectSounds);
+
+/***/ }),
+
+/***/ "./js/components/Sounds/PlayerSounds.js":
+/*!**********************************************!*\
+  !*** ./js/components/Sounds/PlayerSounds.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Sounds */ "./js/components/Sounds/Sounds.js");
 
 const SOUND_MAP = {
   BACKWARD_STEP: 'backward_step',
@@ -2218,10 +2214,10 @@ class PlayerSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_0__.default {
 
 /***/ }),
 
-/***/ "./js/components/Sounds.js":
-/*!*********************************!*\
-  !*** ./js/components/Sounds.js ***!
-  \*********************************/
+/***/ "./js/components/Sounds/Sounds.js":
+/*!****************************************!*\
+  !*** ./js/components/Sounds/Sounds.js ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2231,8 +2227,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! soundmanager2 */ "./node_modules/soundmanager2/script/soundmanager2.js");
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/sound */ "./js/utils/sound.js");
-/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../data/sounds */ "./data/sounds.js");
+/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../data/sounds */ "./data/sounds.js");
+/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/sound */ "./js/utils/sound.js");
 
 
 
@@ -2242,27 +2238,27 @@ class Sounds {
     this.game = game;
     this.sound_end = true;
     this.ending = {
-      0: _data_sounds__WEBPACK_IMPORTED_MODULE_2__.default.END.COME_OUT.id,
-      1: _data_sounds__WEBPACK_IMPORTED_MODULE_2__.default.END.LULU.id
+      0: _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.END.COME_OUT.id,
+      1: _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.END.LULU.id
     };
     soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.setup({
-      url: _utils_sound__WEBPACK_IMPORTED_MODULE_1__.SM_URL,
+      url: _utils_sound__WEBPACK_IMPORTED_MODULE_2__.SM_URL,
       debugMode: false,
       preferFlash: false,
       useHighPerformance: true,
-      onready: () => (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.precreateSounds)()
+      onready: () => (0,_utils_sound__WEBPACK_IMPORTED_MODULE_2__.precreateSounds)()
     });
   }
 
   loopSound(soundId) {
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.playSM)(soundId, {
+    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_2__.playSM)(soundId, {
       multiShotEvents: true,
       onfinish: () => this.loopSound(soundId)
     });
   }
 
   static stopSound(soundId) {
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.stopSM)(soundId);
+    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_2__.stopSM)(soundId);
   }
 
   static muteSound(soundId) {
@@ -2275,7 +2271,7 @@ class Sounds {
 
   makeSound(soundId) {
     this.sound_end = false;
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.playSM)(soundId, {
+    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_2__.playSM)(soundId, {
       multiShotEvents: true,
       onfinish: () => {
         this.obj_sound_end = true;
@@ -2285,14 +2281,14 @@ class Sounds {
   }
 
   static makeSoundV2(soundId, finishHandler) {
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.playSM)(soundId, {
+    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_2__.playSM)(soundId, {
       multiShotEvents: true,
       onfinish: finishHandler
     });
   }
 
   playEnding(endingNum) {
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.playSM)(this.ending[endingNum], {
+    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_2__.playSM)(this.ending[endingNum], {
       onfinish: () => window.location.reload()
     });
   }
@@ -2300,6 +2296,32 @@ class Sounds {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sounds);
+
+/***/ }),
+
+/***/ "./js/components/Sounds/index.js":
+/*!***************************************!*\
+  !*** ./js/components/Sounds/index.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Sounds": () => (/* reexport safe */ _Sounds__WEBPACK_IMPORTED_MODULE_0__.default),
+/* harmony export */   "ObjectSounds": () => (/* reexport safe */ _ObjectSounds__WEBPACK_IMPORTED_MODULE_1__.default),
+/* harmony export */   "PlayerSounds": () => (/* reexport safe */ _PlayerSounds__WEBPACK_IMPORTED_MODULE_2__.default),
+/* harmony export */   "NoiseSounds": () => (/* reexport safe */ _NoiseSounds__WEBPACK_IMPORTED_MODULE_3__.default)
+/* harmony export */ });
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Sounds */ "./js/components/Sounds/Sounds.js");
+/* harmony import */ var _ObjectSounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ObjectSounds */ "./js/components/Sounds/ObjectSounds.js");
+/* harmony import */ var _PlayerSounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PlayerSounds */ "./js/components/Sounds/PlayerSounds.js");
+/* harmony import */ var _NoiseSounds__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./NoiseSounds */ "./js/components/Sounds/NoiseSounds.js");
+
+
+
+
+
 
 /***/ }),
 

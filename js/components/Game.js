@@ -1,20 +1,18 @@
 import { soundManager } from 'soundmanager2';
 
-import Map from './Map';
-import Sounds from './Sounds';
-import Noises from './Noises';
-import Person from './Person';
-import Player from './Player';
-import Camera from './Camera';
-import Controls from './Controls';
-import GameLoop from './GameLoop';
-import ObjectSounds from './ObjectSounds';
+import ASSETS from '../../data/assets';
+import SOUNDS from '../../data/sounds';
 
 import { getRandomInt } from '../utils/calc';
 import { playSM, preloadSounds } from '../utils/sound';
 
-import ASSETS from '../../data/assets';
-import SOUNDS from '../../data/sounds';
+import Map from './Map';
+import { Sounds, ObjectSounds, NoiseSounds } from './Sounds';
+import NPC from './NPC';
+import Player from './Player';
+import Camera from './Camera';
+import Controls from './Controls';
+import GameLoop from './GameLoop';
 
 const videoBlock = document.querySelector('.intro');
 const messageBlock = document.querySelector('.text');
@@ -53,7 +51,7 @@ class Game {
       this.PAPER_NUM,
     );
     this.loop = new GameLoop(this, this.endGame);
-    this.noises = new Noises();
+    this.noises = new NoiseSounds();
     this.obj_sounds = new ObjectSounds(this, this.map, this.mode);
     this.player = new Player({ x: 1.5, y: 1.5, direction: 1.57, game: this });
     this.controls = new Controls(this.player);
@@ -127,7 +125,7 @@ class Game {
       const y = getRandomInt(2, this.PPL_XY);
       const picNum = getRandomInt(1, 5);
       this.map.addObject(
-        new Person(this.player, this.map, x, y, picNum, this.CIRCLE),
+        new NPC(this.player, this.map, x, y, picNum, this.CIRCLE),
       );
       this.map.people++;
     }

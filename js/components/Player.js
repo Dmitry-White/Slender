@@ -4,8 +4,8 @@ import { getRandomInt } from '../utils/calc';
 
 import Paper from './Paper';
 import Bitmap from './Bitmap';
-import Person from './Person';
-import PlayerSounds from './PlayerSounds';
+import NPC from './NPC';
+import { PlayerSounds } from './Sounds';
 
 class Player {
   constructor(origin) {
@@ -130,7 +130,7 @@ class Player {
     let victim;
     let nearVictim = false;
     this.map.objects.some((item) => {
-      if (item instanceof Person && item.alive) {
+      if (item instanceof NPC && item.alive) {
         victim = item;
         x = this.x - victim.x;
         y = this.y - victim.y;

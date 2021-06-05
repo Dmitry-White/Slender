@@ -1,9 +1,10 @@
+import { getRandomFloat } from '../utils/calc';
+
 import Paper from './Paper';
 import Bitmap from './Bitmap';
 
-import { getRandomFloat } from '../utils/calc';
 
-class Person {
+class NPC {
   constructor(player, map, x, y, picNum, CIRCLE) {
     this.CIRCLE = CIRCLE;
     this.player = player;
@@ -124,7 +125,7 @@ class Person {
         this.map.objects.splice(idx, 1);
       }
       this.map.objects.forEach((item) => {
-        if (item instanceof Person) {
+        if (item instanceof NPC) {
           item.found_paper = false;
           item.taking_paper = false;
           item.paperNearPerson = 0;
@@ -146,7 +147,7 @@ class Person {
   lookForDead() {
       let dead, dx_dead, dy_dead, dist_to_dead;
       this.map.objects.some((item)=>{
-          if(item instanceof Person && !item.alive) {
+          if(item instanceof NPC && !item.alive) {
               dead = item;
               dist_to_dead = this.distTo(dead);
               this.isNearDead(dist_to_dead, dead);
@@ -205,4 +206,4 @@ class Person {
   }
 }
 
-export default Person;
+export default NPC;

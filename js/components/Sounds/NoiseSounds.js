@@ -1,7 +1,8 @@
-import { playSM } from '../utils/sound';
-import SOUNDS from '../../data/sounds.json';
+import SOUNDS from '../../../data/sounds.json';
 
-class Noises {
+import { playSM } from '../../utils/sound';
+
+class NoiseSounds {
   constructor() {
     this.noisesEnd = true;
     this.noises = {
@@ -23,4 +24,4 @@ class Noises {
   }
 }
 
-export default Noises;
+export default NoiseSounds;

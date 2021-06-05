@@ -2,7 +2,7 @@ import { getRandomInt } from '../utils/calc';
 
 import Bitmap from './Bitmap';
 import Objects from './Objects';
-import Person from './Person';
+import NPC from './NPC';
 
 class Map {
   constructor(size, mode) {
@@ -161,7 +161,7 @@ class Map {
 
   update() {
     this.objects.forEach((item) => {
-      if (item instanceof Person) {
+      if (item instanceof NPC) {
         item.logic();
       }
     });
