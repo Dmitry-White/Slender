@@ -5,7 +5,7 @@ import { getRandomInt } from '../utils/calc';
 import Paper from './Paper';
 import Bitmap from './Bitmap';
 import NPC from './NPC';
-import { PlayerSounds } from './Audio';
+import { PlayerSounds, PaperSounds } from './Audio';
 
 class Player {
   constructor(origin) {
@@ -16,7 +16,6 @@ class Player {
     this.PAPER_NUM = origin.game.PAPER_NUM;
     this.papers = origin.game.papers;
     this.map = origin.game.map;
-    this.obj_sounds = origin.game.obj_sounds;
     this.mode = origin.game.mode;
     this.game = origin.game;
     this.right_hand = new Bitmap(
@@ -30,6 +29,7 @@ class Player {
       ASSETS.slender[1].height,
     );
     this.playerSounds = new PlayerSounds(origin.game.mode, this);
+    this.paperSounds = new PaperSounds(this);
     this.paces = 0;
     this.prev_paper_place = [0, 0];
     this.speed = 1;
@@ -38,6 +38,7 @@ class Player {
     this.put_dist = 0;
     this.put_state = false;
     this.running = null;
+    this.paperType = null;
   }
 
   rotate(angle) {
@@ -139,14 +140,14 @@ class Player {
       }
     });
     if (nearVictim) {
+      this.playerSounds.kill();
       this.eat(victim);
-    } else if (this.obj_sounds.obj_sound_end) {
+    } else {
       this.playerSounds.attack();
     }
   }
 
   eat(victim) {
-    this.playerSounds.kill();
     victim.alive = false;
     victim.color = undefined;
     victim.die();
@@ -160,46 +161,48 @@ class Player {
     if (noPapersToPlace) {
       this.showNoPaperMessage();
     } else {
-      const samePlace =
+      const isSamePlace =
         this.prev_paper_place[0] === this.x &&
         this.prev_paper_place[1] === this.y;
 
       const readyToPlaceHere =
+        !isSamePlace &&
         !this.running &&
         !this.walking &&
-        this.playerSounds.allSoundsEnded() &&
-        !samePlace;
+        this.playerSounds.allSoundsEnded();
 
       if (readyToPlaceHere) {
-        const paperType = getRandomInt(0, 8);
-        this.map.addObject(
-          new Paper(
-            this.x,
-            this.y,
-            new Bitmap(
-              this.papers[paperType].texture,
-              this.papers[paperType].width,
-              this.papers[paperType].height,
-            ),
-          ),
+        this.paperType = getRandomInt(0, 8);
+
+        const paperBitmap = new Bitmap(
+          this.papers[this.paperType].texture,
+          this.papers[this.paperType].width,
+          this.papers[this.paperType].height,
         );
 
-        if (paperType === 0) {
-          this.obj_sounds.makeSound('placing_loo_paper');
-          this.showLooMessage();
-        } else if (paperType === 7) {
-          this.obj_sounds.makeSound('placing_bomb');
-          this.showBombMessage();
-        } else {
-          this.obj_sounds.makeSound('placing_paper');
-          this.showPaperMessage();
-        }
+        const paper = new Paper(this.x, this.y, paperBitmap);
+
+        this.map.addObject(paper);
+
+        this.paperSounds.place();
+
+        this.showPlacementMessage();
 
         this.prev_paper_place = [this.x, this.y];
         this.map.papers++;
       } else {
         this.showWarningMessage();
       }
+    }
+  }
+
+  showPlacementMessage() {
+    if (this.paperType === 0) {
+      this.showLooMessage();
+    } else if (this.paperType === 7) {
+      this.showBombMessage();
+    } else {
+      this.showPaperMessage();
     }
   }
 

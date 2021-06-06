@@ -433,6 +433,87 @@ class ObjectSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_2__.default {
 
 /***/ }),
 
+/***/ "./js/components/Audio/PaperSounds.js":
+/*!********************************************!*\
+  !*** ./js/components/Audio/PaperSounds.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Sounds */ "./js/components/Audio/Sounds.js");
+
+const SOUND_MAP = {
+  PLACING_LOO_PAPER: 'placing_loo_paper',
+  PLACING_BOMB: 'placing_bomb',
+  PLACING_PAPER: 'placing_paper'
+};
+
+class PlayerSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_0__.default {
+  constructor(player) {
+    super();
+    this.player = player;
+    this.state = {
+      sounds: {
+        [SOUND_MAP.PLACING_LOO_PAPER]: true,
+        [SOUND_MAP.PLACING_BOMB]: true,
+        [SOUND_MAP.PLACING_PAPER]: true
+      }
+    };
+  }
+
+  makeSound(soundId) {
+    if (this.state.sounds[soundId]) {
+      this.startHandler(soundId);
+      _Sounds__WEBPACK_IMPORTED_MODULE_0__.default.makeSoundV2(soundId, () => this.finishHandler(soundId));
+    }
+  }
+
+  startHandler(soundId) {
+    this.state.sounds[soundId] = false;
+  }
+
+  finishHandler(soundId) {
+    this.state.sounds[soundId] = true;
+  }
+
+  place() {
+    switch (this.player.paperType) {
+      case 0:
+        this.placeLoo();
+        break;
+
+      case 7:
+        this.placeBomb();
+        break;
+
+      default:
+        this.placeNormal();
+        break;
+    }
+  }
+
+  placeLoo() {
+    this.makeSound(SOUND_MAP.PLACING_LOO_PAPER);
+  }
+
+  placeBomb() {
+    this.makeSound(SOUND_MAP.PLACING_BOMB);
+  }
+
+  placeNormal() {
+    this.makeSound(SOUND_MAP.PLACING_PAPER);
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PlayerSounds);
+
+/***/ }),
+
 /***/ "./js/components/Audio/PlayerSounds.js":
 /*!*********************************************!*\
   !*** ./js/components/Audio/PlayerSounds.js ***!
@@ -675,15 +756,18 @@ class Sounds {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Sounds": () => (/* reexport safe */ _Sounds__WEBPACK_IMPORTED_MODULE_0__.default),
+/* harmony export */   "NoiseSounds": () => (/* reexport safe */ _NoiseSounds__WEBPACK_IMPORTED_MODULE_0__.default),
 /* harmony export */   "ObjectSounds": () => (/* reexport safe */ _ObjectSounds__WEBPACK_IMPORTED_MODULE_1__.default),
-/* harmony export */   "PlayerSounds": () => (/* reexport safe */ _PlayerSounds__WEBPACK_IMPORTED_MODULE_2__.default),
-/* harmony export */   "NoiseSounds": () => (/* reexport safe */ _NoiseSounds__WEBPACK_IMPORTED_MODULE_3__.default)
+/* harmony export */   "PaperSounds": () => (/* reexport safe */ _PaperSounds__WEBPACK_IMPORTED_MODULE_2__.default),
+/* harmony export */   "PlayerSounds": () => (/* reexport safe */ _PlayerSounds__WEBPACK_IMPORTED_MODULE_3__.default),
+/* harmony export */   "Sounds": () => (/* reexport safe */ _Sounds__WEBPACK_IMPORTED_MODULE_4__.default)
 /* harmony export */ });
-/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Sounds */ "./js/components/Audio/Sounds.js");
+/* harmony import */ var _NoiseSounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NoiseSounds */ "./js/components/Audio/NoiseSounds.js");
 /* harmony import */ var _ObjectSounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ObjectSounds */ "./js/components/Audio/ObjectSounds.js");
-/* harmony import */ var _PlayerSounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PlayerSounds */ "./js/components/Audio/PlayerSounds.js");
-/* harmony import */ var _NoiseSounds__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./NoiseSounds */ "./js/components/Audio/NoiseSounds.js");
+/* harmony import */ var _PaperSounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PaperSounds */ "./js/components/Audio/PaperSounds.js");
+/* harmony import */ var _PlayerSounds__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PlayerSounds */ "./js/components/Audio/PlayerSounds.js");
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Sounds */ "./js/components/Audio/Sounds.js");
+
 
 
 
@@ -2103,12 +2187,12 @@ class Player {
     this.PAPER_NUM = origin.game.PAPER_NUM;
     this.papers = origin.game.papers;
     this.map = origin.game.map;
-    this.obj_sounds = origin.game.obj_sounds;
     this.mode = origin.game.mode;
     this.game = origin.game;
     this.right_hand = new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].texture, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].width, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].height);
     this.left_hand = new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].texture, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].width, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].height);
     this.playerSounds = new _Audio__WEBPACK_IMPORTED_MODULE_5__.PlayerSounds(origin.game.mode, this);
+    this.paperSounds = new _Audio__WEBPACK_IMPORTED_MODULE_5__.PaperSounds(this);
     this.paces = 0;
     this.prev_paper_place = [0, 0];
     this.speed = 1;
@@ -2117,6 +2201,7 @@ class Player {
     this.put_dist = 0;
     this.put_state = false;
     this.running = null;
+    this.paperType = null;
   }
 
   rotate(angle) {
@@ -2222,14 +2307,14 @@ class Player {
     });
 
     if (nearVictim) {
+      this.playerSounds.kill();
       this.eat(victim);
-    } else if (this.obj_sounds.obj_sound_end) {
+    } else {
       this.playerSounds.attack();
     }
   }
 
   eat(victim) {
-    this.playerSounds.kill();
     victim.alive = false;
     victim.color = undefined;
     victim.die();
@@ -2243,29 +2328,31 @@ class Player {
     if (noPapersToPlace) {
       this.showNoPaperMessage();
     } else {
-      const samePlace = this.prev_paper_place[0] === this.x && this.prev_paper_place[1] === this.y;
-      const readyToPlaceHere = !this.running && !this.walking && this.playerSounds.allSoundsEnded() && !samePlace;
+      const isSamePlace = this.prev_paper_place[0] === this.x && this.prev_paper_place[1] === this.y;
+      const readyToPlaceHere = !isSamePlace && !this.running && !this.walking && this.playerSounds.allSoundsEnded();
 
       if (readyToPlaceHere) {
-        const paperType = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_1__.getRandomInt)(0, 8);
-        this.map.addObject(new _Paper__WEBPACK_IMPORTED_MODULE_2__.default(this.x, this.y, new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(this.papers[paperType].texture, this.papers[paperType].width, this.papers[paperType].height)));
-
-        if (paperType === 0) {
-          this.obj_sounds.makeSound('placing_loo_paper');
-          this.showLooMessage();
-        } else if (paperType === 7) {
-          this.obj_sounds.makeSound('placing_bomb');
-          this.showBombMessage();
-        } else {
-          this.obj_sounds.makeSound('placing_paper');
-          this.showPaperMessage();
-        }
-
+        this.paperType = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_1__.getRandomInt)(0, 8);
+        const paperBitmap = new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(this.papers[this.paperType].texture, this.papers[this.paperType].width, this.papers[this.paperType].height);
+        const paper = new _Paper__WEBPACK_IMPORTED_MODULE_2__.default(this.x, this.y, paperBitmap);
+        this.map.addObject(paper);
+        this.paperSounds.place();
+        this.showPlacementMessage();
         this.prev_paper_place = [this.x, this.y];
         this.map.papers++;
       } else {
         this.showWarningMessage();
       }
+    }
+  }
+
+  showPlacementMessage() {
+    if (this.paperType === 0) {
+      this.showLooMessage();
+    } else if (this.paperType === 7) {
+      this.showBombMessage();
+    } else {
+      this.showPaperMessage();
     }
   }
 
