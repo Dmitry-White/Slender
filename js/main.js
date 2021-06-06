@@ -1,8 +1,7 @@
-import { soundManager } from 'soundmanager2';
-
 import Game from './components/Game';
 import { preloadSounds } from './utils/sound';
 import video from '../img/intro.mp4';
+import { MenuSounds } from './components/Audio';
 
 const SLIDE_MAP = {
   LEFT: 'left',
@@ -50,22 +49,17 @@ const setSlides = (side, isHovered) => {
   );
 };
 
-const changeGameMode = (game) => {
+const changeGameMode = (game, menuSounds) => {
   if (checkbox.checked) {
     snowBlock.classList.add('block');
 
-    game.sounds.makeSound('ho_ho_ho');
+    menuSounds.winterModeSound();
     game.setToWinter();
   } else {
     snowBlock.classList.remove('block');
 
     game.setToVanilla();
   }
-};
-
-const stopMenuSounds = (game) => {
-  soundManager.stopAll();
-  game.disableMenuSounds();
 };
 
 const initializeSlides = () => {
@@ -77,15 +71,16 @@ const initializeSlides = () => {
 
 const init = () => {
   const game = new Game();
+  const menuSounds = new MenuSounds();
 
   const checkboxHandler = () => {
     snowHandler();
-    changeGameMode(game);
+    changeGameMode(game, menuSounds);
   };
 
   const gameHandler = () => {
     hideMainBlock();
-    stopMenuSounds(game);
+    MenuSounds.disableMenuSounds();
 
     game.loadGame();
   };
@@ -96,7 +91,7 @@ const init = () => {
   initializeSlides();
   preloadSounds();
 
-  game.enableMenuSounds();
+  menuSounds.enableMenuSounds();
   game.setToVanilla();
 };
 

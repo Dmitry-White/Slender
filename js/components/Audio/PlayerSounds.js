@@ -128,6 +128,11 @@ class PlayerSounds extends Sounds {
   rainFenceHit() {
     this.makeSound(SOUND_MAP.HITTING_THE_RAIN_FENCE);
   }
+
+  isKillingEnded() {
+    const killingEnded = this.state.sounds[SOUND_MAP.KILLING];
+    return killingEnded;
+  }
 }
 
 export default PlayerSounds;
