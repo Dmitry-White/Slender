@@ -1,6 +1,6 @@
 const GAME_OPTIONS = {
   PAPER_NUM: 8,
-  PPL_NUM: 1,
+  PPL_NUM: 8,
   PPL_XY: 30,
   MAP_SIZE: 32,
   RESOLUTION: 640,
