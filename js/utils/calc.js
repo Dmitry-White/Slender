@@ -1,3 +1,5 @@
+const CIRCLE = Math.PI * 2;
+
 const getRandomInt = (min, max) => {
   const minInt = Math.ceil(min);
   const maxInt = Math.floor(max);
@@ -8,4 +10,4 @@ const getRandomFloat = (min, max) => {
   return min + Math.random() * (max + 1 - min);
 };
 
-export { getRandomInt, getRandomFloat };
+export { CIRCLE, getRandomInt, getRandomFloat };

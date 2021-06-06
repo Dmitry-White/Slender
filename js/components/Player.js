@@ -1,6 +1,7 @@
 import ASSETS from '../../data/assets';
 
-import { getRandomInt } from '../utils/calc';
+import GAME_OPTIONS from '../core/config';
+import { CIRCLE, getRandomInt } from '../utils/calc';
 
 import Paper from './Paper';
 import Bitmap from './Bitmap';
@@ -8,41 +9,41 @@ import NPC from './NPC';
 import { PlayerSounds, PaperSounds } from './Audio';
 
 class Player {
-  constructor(origin) {
-    this.x = origin.x;
-    this.y = origin.y;
-    this.direction = origin.direction;
-    this.CIRCLE = origin.game.CIRCLE;
-    this.PAPER_NUM = origin.game.PAPER_NUM;
-    this.papers = origin.game.papers;
-    this.map = origin.game.map;
-    this.mode = origin.game.mode;
-    this.game = origin.game;
-    this.right_hand = new Bitmap(
+  constructor(game) {
+    this.game = game;
+    this.map = game.map;
+    this.mode = game.mode;
+
+    this.rightHand = new Bitmap(
       ASSETS.slender[0].texture,
       ASSETS.slender[0].width,
       ASSETS.slender[0].height,
     );
-    this.left_hand = new Bitmap(
+    this.leftHand = new Bitmap(
       ASSETS.slender[1].texture,
       ASSETS.slender[1].width,
       ASSETS.slender[1].height,
     );
-    this.playerSounds = new PlayerSounds(origin.game.mode, this);
+    this.playerSounds = new PlayerSounds(this.mode, this);
     this.paperSounds = new PaperSounds(this);
+
+    this.papers = ASSETS.papers;
+    this.x = 1.5;
+    this.y = 1.5;
+    this.direction = 1.57;
     this.paces = 0;
-    this.prev_paper_place = [0, 0];
+    this.previosPaperPlace = { x: null, y: null };
     this.speed = 1;
-    this.grabDist = 0;
-    this.grab_state = false;
-    this.put_dist = 0;
-    this.put_state = false;
+    this.grabDistance = 0;
+    this.grabState = false;
+    this.putDistance = 0;
+    this.putState = false;
     this.running = null;
     this.paperType = null;
   }
 
   rotate(angle) {
-    this.direction = (this.direction + angle + this.CIRCLE) % this.CIRCLE;
+    this.direction = (this.direction + angle + CIRCLE) % CIRCLE;
   }
 
   walk(distance, map, direction) {
@@ -57,6 +58,28 @@ class Player {
     if (inDirectionX <= 0) this.x += dx;
     if (inDirectionY <= 0) this.y += dy;
     this.paces += distance;
+  }
+
+  grab() {
+    if (this.grabState === true && this.grabDistance < 300) {
+      this.grabDistance += 50;
+    } else {
+      this.grabState = false;
+      if (this.grabDistance !== 0) {
+        this.grabDistance -= 25;
+      }
+    }
+  }
+
+  put() {
+    if (this.putState === true && this.putDistance < 400) {
+      this.putDistance += 30;
+    } else {
+      this.putState = false;
+      if (this.putDistance !== 0) {
+        this.putDistance -= 15;
+      }
+    }
   }
 
   update(controls, map, seconds) {
@@ -90,45 +113,23 @@ class Player {
     controls.shift ? (this.speed = 3) : (this.speed = 1);
   }
 
-  grab() {
-    if (this.grab_state === true && this.grabDist < 300) {
-      this.grabDist += 50;
-    } else {
-      this.grab_state = false;
-      if (this.grabDist !== 0) {
-        this.grabDist -= 25;
-      }
-    }
-  }
-
-  put() {
-    if (this.put_state === true && this.put_dist < 400) {
-      this.put_dist += 30;
-    } else {
-      this.put_state = false;
-      if (this.put_dist !== 0) {
-        this.put_dist -= 15;
-      }
-    }
-  }
-
-  dosmth(action) {
-    if (action === 'attack') {
-      this.grab_state = true;
-      this.attack();
-    }
-    if (action === 'space') {
-      this.put_state = true;
-      this.placePaper();
-    }
-    if (action === 'escape') window.location.reload();
+  eat(victim) {
+    victim.alive = false;
+    victim.color = undefined;
+    victim.die();
+    this.map.people--;
+    this.showDieMessage();
   }
 
   attack() {
+    this.grabState = true;
+
     let x;
     let y;
     let victim;
     let nearVictim = false;
+
+    // TODO: Reduce the Objects list to just NPC list
     this.map.objects.some((item) => {
       if (item instanceof NPC && item.alive) {
         victim = item;
@@ -147,23 +148,17 @@ class Player {
     }
   }
 
-  eat(victim) {
-    victim.alive = false;
-    victim.color = undefined;
-    victim.die();
-    this.map.people--;
-    this.showDieMessage();
-  }
-
   placePaper() {
-    const noPapersToPlace = this.map.papers >= this.PAPER_NUM;
+    this.putState = true;
+
+    const noPapersToPlace = this.map.papers >= GAME_OPTIONS.PAPER_NUM;
 
     if (noPapersToPlace) {
       this.showNoPaperMessage();
     } else {
       const isSamePlace =
-        this.prev_paper_place[0] === this.x &&
-        this.prev_paper_place[1] === this.y;
+        this.previosPaperPlace.x === this.x &&
+        this.previosPaperPlace.y === this.y;
 
       const readyToPlaceHere =
         !isSamePlace &&
@@ -188,7 +183,7 @@ class Player {
 
         this.showPlacementMessage();
 
-        this.prev_paper_place = [this.x, this.y];
+        this.previosPaperPlace = { x: this.x, y: this.y };
         this.map.papers++;
       } else {
         this.showWarningMessage();
@@ -262,6 +257,22 @@ class Player {
     setTimeout(() => {
       this.map.show_die = 0;
     }, 3000);
+  }
+
+  do(action) {
+    switch (action) {
+      case 'attack':
+        this.attack();
+        break;
+      case 'space':
+        this.placePaper();
+        break;
+      case 'escape':
+        window.location.reload();
+        break;
+      default:
+        break;
+    }
   }
 }
 

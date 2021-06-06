@@ -1,12 +1,10 @@
-import { getRandomFloat } from '../utils/calc';
+import { CIRCLE, getRandomFloat } from '../utils/calc';
 
 import Paper from './Paper';
 import Bitmap from './Bitmap';
 
-
 class NPC {
-  constructor(player, map, x, y, picNum, CIRCLE) {
-    this.CIRCLE = CIRCLE;
+  constructor(player, map, x, y, picNum) {
     this.player = player;
     this.map = map;
     this.x = x;
@@ -30,19 +28,19 @@ class NPC {
   logic() {
     if (this.alive) {
       if (this.count > 270) {
-        this.direction += getRandomFloat(-(this.CIRCLE / 6), this.CIRCLE / 6);
+        this.direction += getRandomFloat(-(CIRCLE / 6), CIRCLE / 6);
         this.count = 0;
       }
 
       // this.lookForDead()
       this.searchForPaper();
       if (!this.found_paper && !this.taking_paper) {
-        this.wonderAround();
+        this.wanderAround();
       }
     }
   }
 
-  wonderAround() {
+  wanderAround() {
     this.count += 1;
     this.run();
     this.walk(0.05 * this.speed, this.direction);
@@ -68,7 +66,7 @@ class NPC {
       inDirectionX === 1 ||
       inDirectionY === 1
     ) {
-      this.direction = direction + this.CIRCLE / 6;
+      this.direction = direction + CIRCLE / 6;
     }
     if (inDirectionX <= 0) this.x += dx;
     if (inDirectionY <= 0) this.y += dy;

@@ -1,17 +1,16 @@
-import { getRandomInt } from '../utils/calc';
+import GAME_OPTIONS from '../core/config';
+import { CIRCLE, getRandomInt } from '../utils/calc';
 
 class Camera {
-  constructor(canvas, resolution, fov, mode, CIRCLE, map, PAPER_NUM) {
-    this.CIRCLE = CIRCLE;
-    this.PAPER_NUM = PAPER_NUM;
-    this.mode = mode;
+  constructor(canvas, mode, map) {
     this.ctx = canvas.getContext('2d');
-    this.width = canvas.width = window.innerWidth;
-    this.height = canvas.height = window.innerHeight;
-    this.resolution = resolution;
+    this.width = canvas.width;
+    this.height = canvas.height;
+    this.mode = mode;
     this.map = map;
-    this.spacing = this.width / resolution;
-    this.fov = fov;
+    this.resolution = GAME_OPTIONS.RESOLUTION;
+    this.fov = GAME_OPTIONS.FOV;
+    this.spacing = this.width / this.resolution;
     this.range = 14;
     this.scale = (this.width + this.height) / 1200;
   }
@@ -20,11 +19,11 @@ class Camera {
     this.drawSky(player.direction, map.skybox, map.light);
     this.drawColumns(player, map);
     this.drawWeapon(
-      player.left_hand,
-      player.right_hand,
+      player.leftHand,
+      player.rightHand,
       player.paces,
-      player.grabDist,
-      player.put_dist,
+      player.grabDistance,
+      player.putDistance,
     );
     this.drawMiniMap(player, map);
     this.drawNumber();
@@ -41,7 +40,7 @@ class Camera {
 
   drawSky(direction, sky, ambient) {
     const width = sky.width * (this.height / sky.height) * 2;
-    const left = (-width * direction) / this.CIRCLE;
+    const left = (-width * direction) / CIRCLE;
 
     this.ctx.save();
     this.ctx.drawImage(sky.image, left, 0, width, this.height);
@@ -177,8 +176,8 @@ class Camera {
         const numColumns = (width / screenWidth) * resolution;
         let angleRelativeToPlayerView = player.direction - angleToPlayer;
 
-        if (angleRelativeToPlayerView >= this.CIRCLE / 2) {
-          angleRelativeToPlayerView -= this.CIRCLE;
+        if (angleRelativeToPlayerView >= CIRCLE / 2) {
+          angleRelativeToPlayerView -= CIRCLE;
         }
 
         const cameraXOffset =
@@ -271,25 +270,25 @@ class Camera {
     }
   }
 
-  drawWeapon(left_hand, right_hand, paces, grab, put) {
+  drawWeapon(leftHand, rightHand, paces, grab, put) {
     const bobX = Math.cos(paces * 2) * this.scale * 6;
     const bobY = Math.sin(paces * 4) * this.scale * 6;
     const left_r = this.width * 0.6 + bobX;
     const left_l = this.width * 0.15 + bobX;
     const top = this.height * 0.6 + bobY;
     this.ctx.drawImage(
-      left_hand.image,
+      leftHand.image,
       left_l + grab,
       top + put,
-      left_hand.width * this.scale,
-      left_hand.height * this.scale,
+      leftHand.width * this.scale,
+      leftHand.height * this.scale,
     );
     this.ctx.drawImage(
-      right_hand.image,
+      rightHand.image,
       left_r - grab,
       top + put,
-      right_hand.width * this.scale,
-      right_hand.height * this.scale,
+      rightHand.width * this.scale,
+      rightHand.height * this.scale,
     );
   }
 
@@ -382,7 +381,7 @@ class Camera {
     this.mode.winter
       ? (this.ctx.fillStyle = '#000')
       : (this.ctx.fillStyle = '#fff');
-    const text = `Papers: ${this.PAPER_NUM - this.map.papers}`;
+    const text = `Papers: ${GAME_OPTIONS.PAPER_NUM - this.map.papers}`;
     this.ctx.fillText(text, 60, 160);
 
     this.ctx.restore();

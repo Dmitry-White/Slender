@@ -3,12 +3,10 @@ import { soundManager } from 'soundmanager2';
 import ASSETS from '../../data/assets';
 import SOUNDS from '../../data/sounds';
 
-import { getRandomInt } from '../utils/calc';
 import { playSM, preloadSounds } from '../utils/sound';
 
 import Map from './Map';
-import { Sounds, NoiseSounds, GameSounds } from './Audio';
-import NPC from './NPC';
+import { NoiseSounds, GameSounds } from './Audio';
 import Player from './Player';
 import Camera from './Camera';
 import Controls from './Controls';
@@ -21,18 +19,17 @@ const messageChildBlock = document.querySelector('.text h1');
 
 class Game {
   constructor() {
-    this.CIRCLE = Math.PI * 2;
-    this.PAPER_NUM = 8;
-    this.PPL_NUM = 1;
-    this.PPL_XY = 30;
-    this.MAP_SIZE = 32;
-    this.RESOLUTION = 640;
     this.mode = {};
-    this.gameEnded = false;
-    this.papers = ASSETS.papers;
-    this.trees = ASSETS.rain_trees;
-    this.bushes = ASSETS.rain_bushes;
-    this.sounds = new Sounds(this);
+    this.state = {
+      gameFinished: false,
+      trees: null,
+      bushes: null,
+    };
+  }
+
+  static prepareCanvas() {
+    canvasBlock.width = window.innerWidth;
+    canvasBlock.height = window.innerHeight;
   }
 
   static enterFS(intro) {
@@ -73,25 +70,18 @@ class Game {
   }
 
   loadGame() {
-    this.map = new Map(this.MAP_SIZE, this.mode);
-    this.camera = new Camera(
-      canvasBlock,
-      this.RESOLUTION,
-      0.8,
-      this.mode,
-      this.CIRCLE,
-      this.map,
-      this.PAPER_NUM,
-    );
+    Game.prepareCanvas();
+
     this.gameLoop = new GameLoop();
-    this.noiseSounds = new NoiseSounds();
-    this.gameSounds = new GameSounds(this, this.mode);
-    this.player = new Player({ x: 1.5, y: 1.5, direction: 1.57, game: this });
+    this.map = new Map(this);
+    this.player = new Player(this);
     this.controls = new Controls(this.player);
+    this.camera = new Camera(canvasBlock, this.mode, this.map);
+    this.gameSounds = new GameSounds(this);
+    this.noiseSounds = new NoiseSounds();
 
     this.setMode();
-    this.addPeople();
-    this.map.buildMap(this.trees, this.bushes);
+    this.map.buildMap();
 
     // videoBlock.classList.add('block');
     // Game.enterFS(videoBlock);
@@ -121,12 +111,12 @@ class Game {
 
     this.gameLoop.start((seconds) => {
       if (this.mode.lightning) this.map.lightning(seconds);
-      this.map.update();
-      this.changeAmbient();
 
-      this.player.update(this.controls.states, this.map, seconds);
+      this.map.update();
+      this.player.update(this.controls.state, this.map, seconds);
       this.camera.render(this.player, this.map);
 
+      this.updateNoise();
       this.checkEnding();
     });
   }
@@ -143,7 +133,7 @@ class Game {
       this.gameSounds.scream();
     }
 
-    if (this.gameEnded) {
+    if (this.state.gameFinished) {
       this.endGame();
       this.gameLoop.stop();
     }
@@ -155,33 +145,14 @@ class Game {
     Game.showEndingScreen();
   }
 
-  addPeople() {
-    for (let i = 0; i < this.PPL_NUM; i++) {
-      const x = getRandomInt(2, this.PPL_XY);
-      const y = getRandomInt(2, this.PPL_XY);
-      const picNum = getRandomInt(1, 5);
-      this.map.addObject(
-        new NPC(this.player, this.map, x, y, picNum, this.CIRCLE),
-      );
-      this.map.people++;
-    }
-  }
-
-  changeAmbient() {
-    if (this.noiseSounds.noisesEnd) {
-      const next = getRandomInt(0, 4);
-      this.noiseSounds.playNoises(next);
+  updateNoise() {
+    if (this.noiseSounds.allSoundsEnded()) {
+      this.noiseSounds.noise();
     }
   }
 
   setMode() {
-    const { winter } = this.mode;
-
-    if (winter) {
-      this.trees = ASSETS.trees;
-      this.bushes = ASSETS.bushes;
-    }
-
+    this.map.prepareAssets();
     this.gameSounds.ambient();
   }
 

@@ -25,7 +25,7 @@ const MOUSE_SENSITIVITY = 100;
 class Controls {
   constructor(player) {
     this.player = player;
-    this.states = {
+    this.state = {
       left: false,
       right: false,
       forward: false,
@@ -58,7 +58,7 @@ class Controls {
   }
 
   onTouchEnd(e) {
-    this.states = {
+    this.state = {
       left: false,
       right: false,
       forward: false,
@@ -79,9 +79,9 @@ class Controls {
 
     if (!action) return;
 
-    this.states[action] = true;
+    this.state[action] = true;
 
-    this.player.dosmth(action);
+    this.player.do(action);
   }
 
   onKeyUp(e) {
@@ -92,7 +92,7 @@ class Controls {
 
     if (!action) return;
 
-    this.states[action] = false;
+    this.state[action] = false;
   }
 
   onMouseMovement(e) {

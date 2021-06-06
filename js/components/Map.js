@@ -1,18 +1,26 @@
+import ASSETS from '../../data/assets';
+
 import { getRandomInt } from '../utils/calc';
+import GAME_OPTIONS from '../core/config';
 
 import Bitmap from './Bitmap';
 import Objects from './Objects';
 import NPC from './NPC';
 
 class Map {
-  constructor(size, mode) {
-    this.mode = mode;
-    this.size = size;
-    this.wallGrid = new Uint8Array(size * size);
-    this.skybox = new Bitmap(mode.sky_texture, 2000, 750);
-    this.fenceTexture = new Bitmap(mode.fence_texture, 512, 512);
-    this.fenceDoorTexture = new Bitmap(mode.fence_door, 512, 256);
-    this.wallTexture = new Bitmap(mode.wall_texture, 512, 512);
+  constructor(game) {
+    this.game = game;
+    this.mode = game.mode;
+    this.size = GAME_OPTIONS.MAP_SIZE;
+    this.state = {
+      trees: null,
+      bushes: null,
+    };
+    this.wallGrid = new Uint8Array(this.size * this.size);
+    this.skybox = new Bitmap(this.mode.sky_texture, 2000, 750);
+    this.fenceTexture = new Bitmap(this.mode.fence_texture, 512, 512);
+    this.fenceDoorTexture = new Bitmap(this.mode.fence_door, 512, 256);
+    this.wallTexture = new Bitmap(this.mode.wall_texture, 512, 512);
     this.light = this.mode.light;
     this.objects = [];
     this.people = 0;
@@ -34,42 +42,83 @@ class Map {
     return this.wallGrid[y * this.size + x];
   }
 
-  addTrees(trees, col, row) {
+  addObject(object) {
+    this.objects.push(object);
+  }
+
+  getObject(x, y) {
+    x = Math.floor(x);
+    y = Math.floor(y);
+    return this.objects[y * this.size + x];
+  }
+
+  prepareAssets() {
+    switch (this.mode.winter) {
+      case true:
+        this.state.trees = ASSETS.trees;
+        this.state.bushes = ASSETS.bushes;
+        break;
+
+      default:
+        this.state.trees = ASSETS.rain_trees;
+        this.state.bushes = ASSETS.rain_bushes;
+        break;
+    }
+  }
+
+  addTrees(col, row) {
     if (this.get(col, row) === 0) {
       const num = getRandomInt(0, 4);
-      this.addObject(
-        new Objects({
-          texture: new Bitmap(
-            trees[num].texture,
-            trees[num].width,
-            trees[num].height,
-          ),
-          x: col,
-          y: row,
-        }),
+
+      const treeBitmap = new Bitmap(
+        this.state.trees[num].texture,
+        this.state.trees[num].width,
+        this.state.trees[num].height,
       );
+
+      const tree = new Objects({
+        texture: treeBitmap,
+        x: col,
+        y: row,
+      });
+
+      this.addObject(tree);
     }
   }
 
-  addBushes(bushes, col, row) {
+  addBushes(col, row) {
     if (this.get(col, row) === 0) {
       const num = getRandomInt(0, 5);
-      this.addObject(
-        new Objects({
-          texture: new Bitmap(
-            bushes[num].texture,
-            bushes[num].width,
-            bushes[num].height,
-          ),
-          height: 0.5,
-          x: col,
-          y: row,
-        }),
+
+      const bushBitmap = new Bitmap(
+        this.state.bushes[num].texture,
+        this.state.bushes[num].width,
+        this.state.bushes[num].height,
       );
+
+      const bush = new Objects({
+        texture: bushBitmap,
+        height: 0.5,
+        x: col,
+        y: row,
+      });
+
+      this.addObject(bush);
     }
   }
 
-  buildMap(trees, bushes) {
+  addPeople() {
+    for (let i = 0; i < GAME_OPTIONS.PPL_NUM; i++) {
+      const x = getRandomInt(2, GAME_OPTIONS.PPL_XY);
+      const y = getRandomInt(2, GAME_OPTIONS.PPL_XY);
+      const picNum = getRandomInt(1, 5);
+      const npc = new NPC(this.game.player, this, x, y, picNum);
+      this.addObject(npc);
+      this.people++;
+    }
+  }
+
+  buildMap() {
     let row;
     let col;
     this.wallGrid.fill(0);
@@ -85,8 +134,8 @@ class Map {
       ) {
         if (Math.random() > 0.2) {
           Math.random() > 0.5
-            ? this.addBushes(bushes, col + 1.5, row + 1.5)
-            : this.addTrees(trees, col + 1.5, row + 1.5);
+            ? this.addBushes(col + 1.5, row + 1.5)
+            : this.addTrees(col + 1.5, row + 1.5);
         }
         if (Math.random() > 0.7) {
           this.wallGrid[i] = 1;
@@ -103,6 +152,8 @@ class Map {
       }
     }
     this.wallGrid[1] = 3;
+
+    this.addPeople();
   }
 
   cast(point, angle, range) {
@@ -165,16 +216,6 @@ class Map {
         item.logic();
       }
     });
-  }
-
-  addObject(object) {
-    this.objects.push(object);
-  }
-
-  getObject(x, y) {
-    x = Math.floor(x);
-    y = Math.floor(y);
-    return this.objects[y * this.size + x];
   }
 }
 
