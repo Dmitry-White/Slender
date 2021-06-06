@@ -28,7 +28,7 @@ class Game {
     this.MAP_SIZE = 32;
     this.RESOLUTION = 640;
     this.mode = {};
-    this.game_ending = false;
+    this.gameEnded = false;
     this.papers = ASSETS.papers;
     this.trees = ASSETS.rain_trees;
     this.bushes = ASSETS.rain_bushes;
@@ -83,7 +83,7 @@ class Game {
       this.map,
       this.PAPER_NUM,
     );
-    this.loop = new GameLoop(this, this.endGame);
+    this.gameLoop = new GameLoop();
     this.noiseSounds = new NoiseSounds();
     this.gameSounds = new GameSounds(this, this.mode);
     this.player = new Player({ x: 1.5, y: 1.5, direction: 1.57, game: this });
@@ -119,20 +119,16 @@ class Game {
     messageBlock.classList.remove('flex');
     canvasBlock.classList.add('block');
 
-    this.loop.start((seconds) => {
+    this.gameLoop.start((seconds) => {
       if (this.mode.lightning) this.map.lightning(seconds);
       this.map.update();
       this.changeAmbient();
+
       this.player.update(this.controls.states, this.map, seconds);
       this.camera.render(this.player, this.map);
+
       this.checkEnding();
     });
-  }
-
-  endGame() {
-    soundManager.stopAll();
-    this.gameSounds.ending();
-    Game.showEndingScreen();
   }
 
   checkEnding() {
@@ -143,12 +139,20 @@ class Game {
       this.map.show_tip = 0;
       this.map.show_warning = 0;
 
-      setTimeout(() => {
-        this.map.show_all_dead = 0;
-      }, 3000);
       this.makeEndmode();
       this.gameSounds.scream();
     }
+
+    if (this.gameEnded) {
+      this.endGame();
+      this.gameLoop.stop();
+    }
+  }
+
+  endGame() {
+    soundManager.stopAll();
+    this.gameSounds.ending();
+    Game.showEndingScreen();
   }
 
   addPeople() {

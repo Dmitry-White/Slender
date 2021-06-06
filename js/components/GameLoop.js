@@ -1,26 +1,31 @@
 class GameLoop {
-  constructor(game, endGame) {
-    this.game = game;
-    this.endGame = endGame;
-    this.frame = this.frame.bind(this);
-    this.lastTime = 0;
+  constructor() {
     this.callback = () => {};
+    this.previousTime = 0;
+    this.frame = this.frame.bind(this);
+    this.stopped = false;
   }
 
   start(callback) {
     this.callback = callback;
-    requestAnimationFrame(this.frame);
+    this.loopId = requestAnimationFrame(this.frame);
   }
 
-  frame(time) {
-    const seconds = (time - this.lastTime) / 1000;
-    this.lastTime = time;
+  frame(currentTime) {
+    if (this.stopped) return;
+
+    const seconds = (currentTime - this.previousTime) / 1000;
     if (seconds < 0.2) this.callback(seconds);
-    if (this.game.game_ending) {
-      this.endGame();
-      return;
-    }
-    requestAnimationFrame(this.frame);
+
+    this.previousTime = currentTime;
+    this.loopId = requestAnimationFrame(this.frame);
+  }
+
+  stop() {
+    if (this.stopped) return;
+
+    cancelAnimationFrame(this.loopId);
+    this.stopped = true;
   }
 }
 

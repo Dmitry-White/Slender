@@ -24,10 +24,13 @@ class GameSounds extends Sounds {
     };
   }
 
-  makeSound(soundId) {
+  makeSound(soundId, callback) {
     if (this.state.sounds[soundId]) {
       this.startHandler(soundId);
-      Sounds.makeSoundV2(soundId, () => this.finishHandler(soundId));
+      const finishHandler = callback
+        ? () => callback(soundId)
+        : () => this.finishHandler(soundId);
+      Sounds.makeSoundV2(soundId, finishHandler);
     }
   }
 
@@ -36,12 +39,14 @@ class GameSounds extends Sounds {
   }
 
   finishHandler(soundId) {
-    this.game.game_ending = true;
     this.state.sounds[soundId] = true;
   }
 
   scream() {
-    this.makeSound(SOUND_MAP.GHOST_SCREAM);
+    this.makeSound(SOUND_MAP.GHOST_SCREAM, (soundId) => {
+      this.game.gameEnded = true;
+      this.state.sounds[soundId] = true;
+    });
   }
 
   ambient() {
@@ -79,11 +84,11 @@ class GameSounds extends Sounds {
   }
 
   endingComeOut() {
-    this.makeSound(SOUND_MAP.COME_OUT);
+    this.makeSound(SOUND_MAP.COME_OUT, () => window.location.reload());
   }
 
   endingLulu() {
-    this.makeSound(SOUND_MAP.LULULALA);
+    this.makeSound(SOUND_MAP.LULULALA, () => window.location.reload());
   }
 }
 

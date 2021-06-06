@@ -377,10 +377,11 @@ class GameSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_2__.default {
     };
   }
 
-  makeSound(soundId) {
+  makeSound(soundId, callback) {
     if (this.state.sounds[soundId]) {
       this.startHandler(soundId);
-      _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.makeSoundV2(soundId, () => this.finishHandler(soundId));
+      const finishHandler = callback ? () => callback(soundId) : () => this.finishHandler(soundId);
+      _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.makeSoundV2(soundId, finishHandler);
     }
   }
 
@@ -389,12 +390,14 @@ class GameSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_2__.default {
   }
 
   finishHandler(soundId) {
-    this.game.game_ending = true;
     this.state.sounds[soundId] = true;
   }
 
   scream() {
-    this.makeSound(SOUND_MAP.GHOST_SCREAM);
+    this.makeSound(SOUND_MAP.GHOST_SCREAM, soundId => {
+      this.game.gameEnded = true;
+      this.state.sounds[soundId] = true;
+    });
   }
 
   ambient() {
@@ -436,11 +439,11 @@ class GameSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_2__.default {
   }
 
   endingComeOut() {
-    this.makeSound(SOUND_MAP.COME_OUT);
+    this.makeSound(SOUND_MAP.COME_OUT, () => window.location.reload());
   }
 
   endingLulu() {
-    this.makeSound(SOUND_MAP.LULULALA);
+    this.makeSound(SOUND_MAP.LULULALA, () => window.location.reload());
   }
 
 }
@@ -877,9 +880,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! soundmanager2 */ "./node_modules/soundmanager2/script/soundmanager2.js");
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../data/sounds */ "./data/sounds.js");
-/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/sound */ "./js/utils/sound.js");
-
+/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/sound */ "./js/utils/sound.js");
 
 
 
@@ -887,28 +888,24 @@ class Sounds {
   constructor(game) {
     this.game = game;
     this.sound_end = true;
-    this.ending = {
-      0: _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.END.COME_OUT.id,
-      1: _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.END.LULU.id
-    };
     soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.setup({
-      url: _utils_sound__WEBPACK_IMPORTED_MODULE_2__.SM_URL,
+      url: _utils_sound__WEBPACK_IMPORTED_MODULE_1__.SM_URL,
       debugMode: false,
       preferFlash: false,
       useHighPerformance: true,
-      onready: () => (0,_utils_sound__WEBPACK_IMPORTED_MODULE_2__.precreateSounds)()
+      onready: () => (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.precreateSounds)()
     });
   }
 
   loopSound(soundId) {
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_2__.playSM)(soundId, {
+    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.playSM)(soundId, {
       multiShotEvents: true,
       onfinish: () => this.loopSound(soundId)
     });
   }
 
   static stopSound(soundId) {
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_2__.stopSM)(soundId);
+    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.stopSM)(soundId);
   }
 
   static muteSound(soundId) {
@@ -919,27 +916,10 @@ class Sounds {
     soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.unmute(soundId);
   }
 
-  makeSound(soundId) {
-    this.sound_end = false;
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_2__.playSM)(soundId, {
-      multiShotEvents: true,
-      onfinish: () => {
-        this.obj_sound_end = true;
-        this.sound_end = true;
-      }
-    });
-  }
-
   static makeSoundV2(soundId, finishHandler) {
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_2__.playSM)(soundId, {
+    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.playSM)(soundId, {
       multiShotEvents: true,
       onfinish: finishHandler
-    });
-  }
-
-  playEnding(endingNum) {
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_2__.playSM)(this.ending[endingNum], {
-      onfinish: () => window.location.reload()
     });
   }
 
@@ -1599,7 +1579,7 @@ class Game {
     this.MAP_SIZE = 32;
     this.RESOLUTION = 640;
     this.mode = {};
-    this.game_ending = false;
+    this.gameEnded = false;
     this.papers = _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.papers;
     this.trees = _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.rain_trees;
     this.bushes = _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.rain_bushes;
@@ -1646,7 +1626,7 @@ class Game {
   loadGame() {
     this.map = new _Map__WEBPACK_IMPORTED_MODULE_5__.default(this.MAP_SIZE, this.mode);
     this.camera = new _Camera__WEBPACK_IMPORTED_MODULE_9__.default(canvasBlock, this.RESOLUTION, 0.8, this.mode, this.CIRCLE, this.map, this.PAPER_NUM);
-    this.loop = new _GameLoop__WEBPACK_IMPORTED_MODULE_11__.default(this, this.endGame);
+    this.gameLoop = new _GameLoop__WEBPACK_IMPORTED_MODULE_11__.default();
     this.noiseSounds = new _Audio__WEBPACK_IMPORTED_MODULE_6__.NoiseSounds();
     this.gameSounds = new _Audio__WEBPACK_IMPORTED_MODULE_6__.GameSounds(this, this.mode);
     this.player = new _Player__WEBPACK_IMPORTED_MODULE_8__.default({
@@ -1680,7 +1660,7 @@ class Game {
   startGame() {
     messageBlock.classList.remove('flex');
     canvasBlock.classList.add('block');
-    this.loop.start(seconds => {
+    this.gameLoop.start(seconds => {
       if (this.mode.lightning) this.map.lightning(seconds);
       this.map.update();
       this.changeAmbient();
@@ -1690,12 +1670,6 @@ class Game {
     });
   }
 
-  endGame() {
-    soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.stopAll();
-    this.gameSounds.ending();
-    Game.showEndingScreen();
-  }
-
   checkEnding() {
     if (this.map.people === 0 && this.player.playerSounds.isKillingEnded()) {
       this.map.show_all_dead = 1;
@@ -1703,12 +1677,20 @@ class Game {
       this.map.show_bomb = 0;
       this.map.show_tip = 0;
       this.map.show_warning = 0;
-      setTimeout(() => {
-        this.map.show_all_dead = 0;
-      }, 3000);
       this.makeEndmode();
       this.gameSounds.scream();
     }
+
+    if (this.gameEnded) {
+      this.endGame();
+      this.gameLoop.stop();
+    }
+  }
+
+  endGame() {
+    soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.stopAll();
+    this.gameSounds.ending();
+    Game.showEndingScreen();
   }
 
   addPeople() {
@@ -1812,31 +1794,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 class GameLoop {
-  constructor(game, endGame) {
-    this.game = game;
-    this.endGame = endGame;
-    this.frame = this.frame.bind(this);
-    this.lastTime = 0;
-
+  constructor() {
     this.callback = () => {};
+
+    this.previousTime = 0;
+    this.frame = this.frame.bind(this);
+    this.stopped = false;
   }
 
   start(callback) {
     this.callback = callback;
-    requestAnimationFrame(this.frame);
+    this.loopId = requestAnimationFrame(this.frame);
   }
 
-  frame(time) {
-    const seconds = (time - this.lastTime) / 1000;
-    this.lastTime = time;
+  frame(currentTime) {
+    if (this.stopped) return;
+    const seconds = (currentTime - this.previousTime) / 1000;
     if (seconds < 0.2) this.callback(seconds);
+    this.previousTime = currentTime;
+    this.loopId = requestAnimationFrame(this.frame);
+  }
 
-    if (this.game.game_ending) {
-      this.endGame();
-      return;
-    }
-
-    requestAnimationFrame(this.frame);
+  stop() {
+    if (this.stopped) return;
+    cancelAnimationFrame(this.loopId);
+    this.stopped = true;
   }
 
 }
