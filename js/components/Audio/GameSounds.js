@@ -11,10 +11,10 @@ const SOUND_MAP = {
 };
 
 class GameSounds extends Sounds {
-  constructor(game, mode) {
+  constructor(game) {
     super();
     this.game = game;
-    this.mode = mode;
+    this.mode = game.mode;
     this.state = {
       sounds: {
         [SOUND_MAP.COME_OUT]: true,
@@ -44,7 +44,7 @@ class GameSounds extends Sounds {
 
   scream() {
     this.makeSound(SOUND_MAP.GHOST_SCREAM, (soundId) => {
-      this.game.gameEnded = true;
+      this.game.state.gameFinished = true;
       this.state.sounds[soundId] = true;
     });
   }
@@ -78,7 +78,6 @@ class GameSounds extends Sounds {
         this.endingLulu();
         break;
       default:
-        this.endingComeOut();
         break;
     }
   }

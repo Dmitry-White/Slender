@@ -20,10 +20,8 @@ const aboutUsBlock = document.querySelector('#about_us');
 const aboutGameBlock = document.querySelector('#about_game');
 
 class MenuSounds extends Sounds {
-  constructor(player) {
+  constructor() {
     super();
-    this.player = player;
-
     this.state = {
       sounds: {
         [SOUND_MAP.HO_HO_HO]: true,

@@ -3,9 +3,7 @@ import { soundManager } from 'soundmanager2';
 import { precreateSounds, SM_URL, playSM, stopSM } from '../../utils/sound';
 
 class Sounds {
-  constructor(game) {
-    this.game = game;
-    this.sound_end = true;
+  constructor() {
     soundManager.setup({
       url: SM_URL,
       debugMode: false,

@@ -1,7 +1,8 @@
-import Game from './components/Game';
-import { preloadSounds } from './utils/sound';
 import video from '../img/intro.mp4';
+
+import Game from './components/Game';
 import { MenuSounds } from './components/Audio';
+import { preloadSounds } from './utils/sound';
 
 const SLIDE_MAP = {
   LEFT: 'left',
