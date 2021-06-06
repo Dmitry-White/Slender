@@ -7,7 +7,7 @@ import { getRandomInt } from '../utils/calc';
 import { playSM, preloadSounds } from '../utils/sound';
 
 import Map from './Map';
-import { Sounds, ObjectSounds, NoiseSounds } from './Audio';
+import { Sounds, NoiseSounds, GameSounds } from './Audio';
 import NPC from './NPC';
 import Player from './Player';
 import Camera from './Camera';
@@ -18,16 +18,12 @@ const videoBlock = document.querySelector('.intro');
 const messageBlock = document.querySelector('.text');
 const canvasBlock = document.querySelector('#display');
 const messageChildBlock = document.querySelector('.text h1');
-const playButton = document.querySelector('#play');
-const logoBlock = document.querySelector('#logo');
-const aboutUsBlock = document.querySelector('#about_us');
-const aboutGameBlock = document.querySelector('#about_game');
 
 class Game {
   constructor() {
     this.CIRCLE = Math.PI * 2;
     this.PAPER_NUM = 8;
-    this.PPL_NUM = 8;
+    this.PPL_NUM = 1;
     this.PPL_XY = 30;
     this.MAP_SIZE = 32;
     this.RESOLUTION = 640;
@@ -37,6 +33,43 @@ class Game {
     this.trees = ASSETS.rain_trees;
     this.bushes = ASSETS.rain_bushes;
     this.sounds = new Sounds(this);
+  }
+
+  static enterFS(intro) {
+    if (intro.requestFullscreen) {
+      intro.requestFullscreen();
+    } else if (intro.mozRequestFullScreen) {
+      intro.mozRequestFullScreen();
+    } else if (intro.webkitRequestFullscreen) {
+      intro.webkitRequestFullscreen();
+    }
+  }
+
+  static exitFS(intro) {
+    if (intro.exitFullscreen) {
+      intro.exitFullscreen();
+    } else if (intro.mozExitFullScreen) {
+      intro.mozExitFullScreen();
+    } else if (intro.webkitExitFullscreen) {
+      intro.webkitExitFullscreen();
+    }
+  }
+
+  static mouseLock() {
+    if (document.body.requestPointerLock) {
+      document.body.requestPointerLock();
+    } else if (document.body.mozRequestPointerLock) {
+      document.body.mozRequestPointerLock();
+    } else if (document.body.webkitRequestPointerLock) {
+      document.body.webkitRequestPointerLock();
+    }
+  }
+
+  static showEndingScreen() {
+    messageBlock.classList.add('flex');
+    messageChildBlock.innerHTML = 'Do you want to play more?';
+    messageChildBlock.setAttribute('data-text', 'Do you want to kiLL more?');
+    canvasBlock.classList.remove('block');
   }
 
   loadGame() {
@@ -51,8 +84,8 @@ class Game {
       this.PAPER_NUM,
     );
     this.loop = new GameLoop(this, this.endGame);
-    this.noises = new NoiseSounds();
-    this.obj_sounds = new ObjectSounds(this, this.map, this.mode);
+    this.noiseSounds = new NoiseSounds();
+    this.gameSounds = new GameSounds(this, this.mode);
     this.player = new Player({ x: 1.5, y: 1.5, direction: 1.57, game: this });
     this.controls = new Controls(this.player);
 
@@ -97,14 +130,13 @@ class Game {
   }
 
   endGame() {
-    const endSong = getRandomInt(0, 2);
     soundManager.stopAll();
-    this.game.sounds.playEnding(endSong);
+    this.gameSounds.ending();
     Game.showEndingScreen();
   }
 
   checkEnding() {
-    if (this.map.people === 0 && this.obj_sounds.obj_sound_end) {
+    if (this.map.people === 0 && this.player.playerSounds.isKillingEnded()) {
       this.map.show_all_dead = 1;
       this.map.show_loo = 0;
       this.map.show_bomb = 0;
@@ -115,7 +147,7 @@ class Game {
         this.map.show_all_dead = 0;
       }, 3000);
       this.makeEndmode();
-      this.obj_sounds.playScream();
+      this.gameSounds.scream();
     }
   }
 
@@ -132,59 +164,21 @@ class Game {
   }
 
   changeAmbient() {
-    if (this.noises.noisesEnd) {
+    if (this.noiseSounds.noisesEnd) {
       const next = getRandomInt(0, 4);
-      this.noises.playNoises(next);
+      this.noiseSounds.playNoises(next);
     }
-  }
-
-  static enterFS(intro) {
-    if (intro.requestFullscreen) {
-      intro.requestFullscreen();
-    } else if (intro.mozRequestFullScreen) {
-      intro.mozRequestFullScreen();
-    } else if (intro.webkitRequestFullscreen) {
-      intro.webkitRequestFullscreen();
-    }
-  }
-
-  static exitFS(intro) {
-    if (intro.exitFullscreen) {
-      intro.exitFullscreen();
-    } else if (intro.mozExitFullScreen) {
-      intro.mozExitFullScreen();
-    } else if (intro.webkitExitFullscreen) {
-      intro.webkitExitFullscreen();
-    }
-  }
-
-  static mouseLock() {
-    if (document.body.requestPointerLock) {
-      document.body.requestPointerLock();
-    } else if (document.body.mozRequestPointerLock) {
-      document.body.mozRequestPointerLock();
-    } else if (document.body.webkitRequestPointerLock) {
-      document.body.webkitRequestPointerLock();
-    }
-  }
-
-  static showEndingScreen() {
-    messageBlock.classList.add('flex');
-    messageChildBlock.innerHTML = 'Do you want to play more?';
-    messageChildBlock.setAttribute('data-text', 'Do you want to kiLL more?');
-    canvasBlock.classList.remove('block');
   }
 
   setMode() {
     const { winter } = this.mode;
-    const { WIND } = SOUNDS.WINTER;
-    const { RAIN } = SOUNDS.VANILLA;
 
     if (winter) {
-      this.sounds.loopSound(WIND.id);
       this.trees = ASSETS.trees;
       this.bushes = ASSETS.bushes;
-    } else this.sounds.loopSound(RAIN.id);
+    }
+
+    this.gameSounds.ambient();
   }
 
   setToWinter() {
@@ -238,64 +232,6 @@ class Game {
     this.mode.drops_opacity = 1;
     this.mode.particlesWidth = 10;
     this.mode.particlesHeight = 10;
-  }
-
-  enableMenuSounds() {
-    const {
-      PIANO_MENU,
-      STATIC_MENU,
-      SLENDER_LOGO,
-      PLAY_BUTTON,
-      ABOUT_US,
-      ABOUT_GAME,
-    } = SOUNDS.MENU;
-
-    this.sounds.loopSound(PIANO_MENU.id);
-    this.sounds.loopSound(STATIC_MENU.id);
-
-    const startHandler = (nextSound, currentSound) => {
-      if (currentSound) {
-        Sounds.muteSound(currentSound);
-      }
-      this.sounds.loopSound(nextSound);
-    };
-
-    const stopHandler = (currentSound, nextSound) => {
-      if (nextSound) {
-        Sounds.unmuteSound(nextSound);
-      }
-      Sounds.stopSound(currentSound);
-    };
-
-    const startPlayHandler = () => startHandler(PLAY_BUTTON.id);
-    const stopPlayHandler = () => stopHandler(PLAY_BUTTON.id);
-
-    const startLogoHandler = () => startHandler(SLENDER_LOGO.id);
-    const stopLogoHandler = () => stopHandler(SLENDER_LOGO.id);
-
-    const startAboutUsHandler = () => startHandler(ABOUT_US.id, PIANO_MENU.id);
-    const stopAboutUsHandler = () => stopHandler(ABOUT_US.id, PIANO_MENU.id);
-
-    const startAboutGameHandler = () =>
-      startHandler(ABOUT_GAME.id, PIANO_MENU.id);
-    const stopAboutGameHandler = () =>
-      stopHandler(ABOUT_GAME.id, PIANO_MENU.id);
-
-    playButton.addEventListener('mouseover', startPlayHandler);
-    playButton.addEventListener('mouseout', stopPlayHandler);
-
-    logoBlock.addEventListener('mouseover', startLogoHandler);
-    logoBlock.addEventListener('mouseout', stopLogoHandler);
-
-    aboutUsBlock.addEventListener('mouseover', startAboutUsHandler);
-    aboutUsBlock.addEventListener('mouseout', stopAboutUsHandler);
-
-    aboutGameBlock.addEventListener('mouseover', startAboutGameHandler);
-    aboutGameBlock.addEventListener('mouseout', stopAboutGameHandler);
-  }
-
-  disableMenuSounds() {
-    this.sounds.sound_end = true;
   }
 }
 

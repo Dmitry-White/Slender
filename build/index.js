@@ -340,6 +340,259 @@ const SOUNDS = {
 
 /***/ }),
 
+/***/ "./js/components/Audio/GameSounds.js":
+/*!*******************************************!*\
+  !*** ./js/components/Audio/GameSounds.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/sounds */ "./data/sounds.js");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/calc */ "./js/utils/calc.js");
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sounds */ "./js/components/Audio/Sounds.js");
+
+
+
+const SOUND_MAP = {
+  COME_OUT: 'come_out',
+  LULULALA: 'lululala',
+  GHOST_SCREAM: 'ghost_scream'
+};
+
+class GameSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_2__.default {
+  constructor(game, mode) {
+    super();
+    this.game = game;
+    this.mode = mode;
+    this.state = {
+      sounds: {
+        [SOUND_MAP.COME_OUT]: true,
+        [SOUND_MAP.LULULALA]: true,
+        [SOUND_MAP.GHOST_SCREAM]: true
+      }
+    };
+  }
+
+  makeSound(soundId) {
+    if (this.state.sounds[soundId]) {
+      this.startHandler(soundId);
+      _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.makeSoundV2(soundId, () => this.finishHandler(soundId));
+    }
+  }
+
+  startHandler(soundId) {
+    this.state.sounds[soundId] = false;
+  }
+
+  finishHandler(soundId) {
+    this.game.game_ending = true;
+    this.state.sounds[soundId] = true;
+  }
+
+  scream() {
+    this.makeSound(SOUND_MAP.GHOST_SCREAM);
+  }
+
+  ambient() {
+    switch (this.mode.winter) {
+      case true:
+        this.ambientWinter();
+        break;
+
+      default:
+        this.ambientRain();
+        break;
+    }
+  }
+
+  ambientWinter() {
+    this.loopSound(_data_sounds__WEBPACK_IMPORTED_MODULE_0__.default.WINTER.WIND.id);
+  }
+
+  ambientRain() {
+    this.loopSound(_data_sounds__WEBPACK_IMPORTED_MODULE_0__.default.VANILLA.RAIN.id);
+  }
+
+  ending() {
+    const endingSong = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_1__.getRandomInt)(0, 2);
+
+    switch (endingSong) {
+      case 0:
+        this.endingComeOut();
+        break;
+
+      case 1:
+        this.endingLulu();
+        break;
+
+      default:
+        this.endingComeOut();
+        break;
+    }
+  }
+
+  endingComeOut() {
+    this.makeSound(SOUND_MAP.COME_OUT);
+  }
+
+  endingLulu() {
+    this.makeSound(SOUND_MAP.LULULALA);
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GameSounds);
+
+/***/ }),
+
+/***/ "./js/components/Audio/MenuSounds.js":
+/*!*******************************************!*\
+  !*** ./js/components/Audio/MenuSounds.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! soundmanager2 */ "./node_modules/soundmanager2/script/soundmanager2.js");
+/* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../data/sounds */ "./data/sounds.js");
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sounds */ "./js/components/Audio/Sounds.js");
+
+
+
+const SOUND_MAP = {
+  HO_HO_HO: 'ho_ho_ho' // PIANO_MENU: '',
+  // STATIC_MENU: '',
+  // SLENDER_LOGO: '',
+  // PLAY_BUTTON: '',
+  // ABOUT_US: '',
+  // ABOUT_GAME: '',
+
+};
+const playButton = document.querySelector('#play');
+const logoBlock = document.querySelector('#logo');
+const aboutUsBlock = document.querySelector('#about_us');
+const aboutGameBlock = document.querySelector('#about_game');
+
+class MenuSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_2__.default {
+  constructor(player) {
+    super();
+    this.player = player;
+    this.state = {
+      sounds: {
+        [SOUND_MAP.HO_HO_HO]: true // TODO: Rewrite manual logic to state logic
+        // [SOUND_MAP.PIANO_MENU]: true,
+        // [SOUND_MAP.STATIC_MENU]: true,
+        // [SOUND_MAP.SLENDER_LOGO]: true,
+        // [SOUND_MAP.PLAY_BUTTON]: true,
+        // [SOUND_MAP.ABOUT_US]: true,
+        // [SOUND_MAP.ABOUT_GAME]: true,
+
+      }
+    };
+  }
+
+  static disableMenuSounds() {
+    soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.stopAll();
+  }
+
+  makeSound(soundId) {
+    if (this.state.sounds[soundId]) {
+      this.startHandler(soundId);
+      _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.makeSoundV2(soundId, () => this.finishHandler(soundId));
+    }
+  }
+
+  startHandler(soundId) {
+    this.state.sounds[soundId] = false;
+  }
+
+  finishHandler(soundId) {
+    this.state.sounds[soundId] = true;
+  }
+
+  startSoundHandler(nextSound, currentSound) {
+    if (currentSound) {
+      _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.muteSound(currentSound);
+    }
+
+    this.loopSound(nextSound);
+  }
+
+  stopSoundHandler(currentSound, nextSound) {
+    if (nextSound) {
+      _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.unmuteSound(nextSound);
+    }
+
+    _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.stopSound(currentSound);
+  }
+
+  startPlayHandler() {
+    this.startSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PLAY_BUTTON.id);
+  }
+
+  stopPlayHandler() {
+    this.stopSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PLAY_BUTTON.id);
+  }
+
+  startLogoHandler() {
+    this.startSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.SLENDER_LOGO.id);
+  }
+
+  stopLogoHandler() {
+    this.stopSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.SLENDER_LOGO.id);
+  }
+
+  startAboutUsHandler() {
+    this.startSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.ABOUT_US.id, _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PIANO_MENU.id);
+  }
+
+  stopAboutUsHandler() {
+    this.stopSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.ABOUT_US.id, _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PIANO_MENU.id);
+  }
+
+  startAboutGameHandler() {
+    this.startSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.ABOUT_GAME.id, _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PIANO_MENU.id);
+  }
+
+  stopAboutGameHandler() {
+    this.stopSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.ABOUT_GAME.id, _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PIANO_MENU.id);
+  }
+
+  enableMenuSounds() {
+    const {
+      PIANO_MENU,
+      STATIC_MENU
+    } = _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU;
+    this.loopSound(PIANO_MENU.id);
+    this.loopSound(STATIC_MENU.id);
+    playButton.addEventListener('mouseover', this.startPlayHandler.bind(this));
+    playButton.addEventListener('mouseout', this.stopPlayHandler.bind(this));
+    logoBlock.addEventListener('mouseover', this.startLogoHandler.bind(this));
+    logoBlock.addEventListener('mouseout', this.stopLogoHandler.bind(this));
+    aboutUsBlock.addEventListener('mouseover', this.startAboutUsHandler.bind(this));
+    aboutUsBlock.addEventListener('mouseout', this.stopAboutUsHandler.bind(this));
+    aboutGameBlock.addEventListener('mouseover', this.startAboutGameHandler.bind(this));
+    aboutGameBlock.addEventListener('mouseout', this.stopAboutGameHandler.bind(this));
+  }
+
+  winterModeSound() {
+    this.makeSound(SOUND_MAP.HO_HO_HO);
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MenuSounds);
+
+/***/ }),
+
 /***/ "./js/components/Audio/NoiseSounds.js":
 /*!********************************************!*\
   !*** ./js/components/Audio/NoiseSounds.js ***!
@@ -380,56 +633,6 @@ class NoiseSounds {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NoiseSounds);
-
-/***/ }),
-
-/***/ "./js/components/Audio/ObjectSounds.js":
-/*!*********************************************!*\
-  !*** ./js/components/Audio/ObjectSounds.js ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _data_sounds_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/sounds.json */ "./data/sounds.json");
-/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/sound */ "./js/utils/sound.js");
-/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sounds */ "./js/components/Audio/Sounds.js");
-
-
-
-
-class ObjectSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_2__.default {
-  constructor(game, map, mode) {
-    super();
-    this.game = game;
-    this.map = map;
-    this.mode = mode;
-    this.obj_sound_end = true;
-  }
-
-  makeSound(soundId) {
-    this.obj_sound_end = false;
-    super.makeSound(soundId);
-  }
-
-  playScream() {
-    const {
-      GHOST
-    } = _data_sounds_json__WEBPACK_IMPORTED_MODULE_0__.END;
-    this.obj_sound_end = false;
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.playSM)(GHOST.id, {
-      onfinish: () => {
-        this.game.game_ending = true;
-      }
-    });
-  }
-
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ObjectSounds);
 
 /***/ }),
 
@@ -650,6 +853,11 @@ class PlayerSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_0__.default {
     this.makeSound(SOUND_MAP.HITTING_THE_RAIN_FENCE);
   }
 
+  isKillingEnded() {
+    const killingEnded = this.state.sounds[SOUND_MAP.KILLING];
+    return killingEnded;
+  }
+
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PlayerSounds);
@@ -756,17 +964,20 @@ class Sounds {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "NoiseSounds": () => (/* reexport safe */ _NoiseSounds__WEBPACK_IMPORTED_MODULE_0__.default),
-/* harmony export */   "ObjectSounds": () => (/* reexport safe */ _ObjectSounds__WEBPACK_IMPORTED_MODULE_1__.default),
-/* harmony export */   "PaperSounds": () => (/* reexport safe */ _PaperSounds__WEBPACK_IMPORTED_MODULE_2__.default),
-/* harmony export */   "PlayerSounds": () => (/* reexport safe */ _PlayerSounds__WEBPACK_IMPORTED_MODULE_3__.default),
-/* harmony export */   "Sounds": () => (/* reexport safe */ _Sounds__WEBPACK_IMPORTED_MODULE_4__.default)
+/* harmony export */   "GameSounds": () => (/* reexport safe */ _GameSounds__WEBPACK_IMPORTED_MODULE_0__.default),
+/* harmony export */   "MenuSounds": () => (/* reexport safe */ _MenuSounds__WEBPACK_IMPORTED_MODULE_1__.default),
+/* harmony export */   "NoiseSounds": () => (/* reexport safe */ _NoiseSounds__WEBPACK_IMPORTED_MODULE_2__.default),
+/* harmony export */   "PaperSounds": () => (/* reexport safe */ _PaperSounds__WEBPACK_IMPORTED_MODULE_3__.default),
+/* harmony export */   "PlayerSounds": () => (/* reexport safe */ _PlayerSounds__WEBPACK_IMPORTED_MODULE_4__.default),
+/* harmony export */   "Sounds": () => (/* reexport safe */ _Sounds__WEBPACK_IMPORTED_MODULE_5__.default)
 /* harmony export */ });
-/* harmony import */ var _NoiseSounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NoiseSounds */ "./js/components/Audio/NoiseSounds.js");
-/* harmony import */ var _ObjectSounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ObjectSounds */ "./js/components/Audio/ObjectSounds.js");
-/* harmony import */ var _PaperSounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PaperSounds */ "./js/components/Audio/PaperSounds.js");
-/* harmony import */ var _PlayerSounds__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PlayerSounds */ "./js/components/Audio/PlayerSounds.js");
-/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Sounds */ "./js/components/Audio/Sounds.js");
+/* harmony import */ var _GameSounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameSounds */ "./js/components/Audio/GameSounds.js");
+/* harmony import */ var _MenuSounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MenuSounds */ "./js/components/Audio/MenuSounds.js");
+/* harmony import */ var _NoiseSounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NoiseSounds */ "./js/components/Audio/NoiseSounds.js");
+/* harmony import */ var _PaperSounds__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PaperSounds */ "./js/components/Audio/PaperSounds.js");
+/* harmony import */ var _PlayerSounds__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PlayerSounds */ "./js/components/Audio/PlayerSounds.js");
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Sounds */ "./js/components/Audio/Sounds.js");
+
 
 
 
@@ -1378,16 +1589,12 @@ const videoBlock = document.querySelector('.intro');
 const messageBlock = document.querySelector('.text');
 const canvasBlock = document.querySelector('#display');
 const messageChildBlock = document.querySelector('.text h1');
-const playButton = document.querySelector('#play');
-const logoBlock = document.querySelector('#logo');
-const aboutUsBlock = document.querySelector('#about_us');
-const aboutGameBlock = document.querySelector('#about_game');
 
 class Game {
   constructor() {
     this.CIRCLE = Math.PI * 2;
     this.PAPER_NUM = 8;
-    this.PPL_NUM = 8;
+    this.PPL_NUM = 1;
     this.PPL_XY = 30;
     this.MAP_SIZE = 32;
     this.RESOLUTION = 640;
@@ -1399,12 +1606,49 @@ class Game {
     this.sounds = new _Audio__WEBPACK_IMPORTED_MODULE_6__.Sounds(this);
   }
 
+  static enterFS(intro) {
+    if (intro.requestFullscreen) {
+      intro.requestFullscreen();
+    } else if (intro.mozRequestFullScreen) {
+      intro.mozRequestFullScreen();
+    } else if (intro.webkitRequestFullscreen) {
+      intro.webkitRequestFullscreen();
+    }
+  }
+
+  static exitFS(intro) {
+    if (intro.exitFullscreen) {
+      intro.exitFullscreen();
+    } else if (intro.mozExitFullScreen) {
+      intro.mozExitFullScreen();
+    } else if (intro.webkitExitFullscreen) {
+      intro.webkitExitFullscreen();
+    }
+  }
+
+  static mouseLock() {
+    if (document.body.requestPointerLock) {
+      document.body.requestPointerLock();
+    } else if (document.body.mozRequestPointerLock) {
+      document.body.mozRequestPointerLock();
+    } else if (document.body.webkitRequestPointerLock) {
+      document.body.webkitRequestPointerLock();
+    }
+  }
+
+  static showEndingScreen() {
+    messageBlock.classList.add('flex');
+    messageChildBlock.innerHTML = 'Do you want to play more?';
+    messageChildBlock.setAttribute('data-text', 'Do you want to kiLL more?');
+    canvasBlock.classList.remove('block');
+  }
+
   loadGame() {
     this.map = new _Map__WEBPACK_IMPORTED_MODULE_5__.default(this.MAP_SIZE, this.mode);
     this.camera = new _Camera__WEBPACK_IMPORTED_MODULE_9__.default(canvasBlock, this.RESOLUTION, 0.8, this.mode, this.CIRCLE, this.map, this.PAPER_NUM);
     this.loop = new _GameLoop__WEBPACK_IMPORTED_MODULE_11__.default(this, this.endGame);
-    this.noises = new _Audio__WEBPACK_IMPORTED_MODULE_6__.NoiseSounds();
-    this.obj_sounds = new _Audio__WEBPACK_IMPORTED_MODULE_6__.ObjectSounds(this, this.map, this.mode);
+    this.noiseSounds = new _Audio__WEBPACK_IMPORTED_MODULE_6__.NoiseSounds();
+    this.gameSounds = new _Audio__WEBPACK_IMPORTED_MODULE_6__.GameSounds(this, this.mode);
     this.player = new _Player__WEBPACK_IMPORTED_MODULE_8__.default({
       x: 1.5,
       y: 1.5,
@@ -1447,14 +1691,13 @@ class Game {
   }
 
   endGame() {
-    const endSong = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_3__.getRandomInt)(0, 2);
     soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.stopAll();
-    this.game.sounds.playEnding(endSong);
+    this.gameSounds.ending();
     Game.showEndingScreen();
   }
 
   checkEnding() {
-    if (this.map.people === 0 && this.obj_sounds.obj_sound_end) {
+    if (this.map.people === 0 && this.player.playerSounds.isKillingEnded()) {
       this.map.show_all_dead = 1;
       this.map.show_loo = 0;
       this.map.show_bomb = 0;
@@ -1464,7 +1707,7 @@ class Game {
         this.map.show_all_dead = 0;
       }, 3000);
       this.makeEndmode();
-      this.obj_sounds.playScream();
+      this.gameSounds.scream();
     }
   }
 
@@ -1479,65 +1722,23 @@ class Game {
   }
 
   changeAmbient() {
-    if (this.noises.noisesEnd) {
+    if (this.noiseSounds.noisesEnd) {
       const next = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_3__.getRandomInt)(0, 4);
-      this.noises.playNoises(next);
+      this.noiseSounds.playNoises(next);
     }
-  }
-
-  static enterFS(intro) {
-    if (intro.requestFullscreen) {
-      intro.requestFullscreen();
-    } else if (intro.mozRequestFullScreen) {
-      intro.mozRequestFullScreen();
-    } else if (intro.webkitRequestFullscreen) {
-      intro.webkitRequestFullscreen();
-    }
-  }
-
-  static exitFS(intro) {
-    if (intro.exitFullscreen) {
-      intro.exitFullscreen();
-    } else if (intro.mozExitFullScreen) {
-      intro.mozExitFullScreen();
-    } else if (intro.webkitExitFullscreen) {
-      intro.webkitExitFullscreen();
-    }
-  }
-
-  static mouseLock() {
-    if (document.body.requestPointerLock) {
-      document.body.requestPointerLock();
-    } else if (document.body.mozRequestPointerLock) {
-      document.body.mozRequestPointerLock();
-    } else if (document.body.webkitRequestPointerLock) {
-      document.body.webkitRequestPointerLock();
-    }
-  }
-
-  static showEndingScreen() {
-    messageBlock.classList.add('flex');
-    messageChildBlock.innerHTML = 'Do you want to play more?';
-    messageChildBlock.setAttribute('data-text', 'Do you want to kiLL more?');
-    canvasBlock.classList.remove('block');
   }
 
   setMode() {
     const {
       winter
     } = this.mode;
-    const {
-      WIND
-    } = _data_sounds__WEBPACK_IMPORTED_MODULE_2__.default.WINTER;
-    const {
-      RAIN
-    } = _data_sounds__WEBPACK_IMPORTED_MODULE_2__.default.VANILLA;
 
     if (winter) {
-      this.sounds.loopSound(WIND.id);
       this.trees = _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.trees;
       this.bushes = _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.bushes;
-    } else this.sounds.loopSound(RAIN.id);
+    }
+
+    this.gameSounds.ambient();
   }
 
   setToWinter() {
@@ -1591,64 +1792,6 @@ class Game {
     this.mode.drops_opacity = 1;
     this.mode.particlesWidth = 10;
     this.mode.particlesHeight = 10;
-  }
-
-  enableMenuSounds() {
-    const {
-      PIANO_MENU,
-      STATIC_MENU,
-      SLENDER_LOGO,
-      PLAY_BUTTON,
-      ABOUT_US,
-      ABOUT_GAME
-    } = _data_sounds__WEBPACK_IMPORTED_MODULE_2__.default.MENU;
-    this.sounds.loopSound(PIANO_MENU.id);
-    this.sounds.loopSound(STATIC_MENU.id);
-
-    const startHandler = (nextSound, currentSound) => {
-      if (currentSound) {
-        _Audio__WEBPACK_IMPORTED_MODULE_6__.Sounds.muteSound(currentSound);
-      }
-
-      this.sounds.loopSound(nextSound);
-    };
-
-    const stopHandler = (currentSound, nextSound) => {
-      if (nextSound) {
-        _Audio__WEBPACK_IMPORTED_MODULE_6__.Sounds.unmuteSound(nextSound);
-      }
-
-      _Audio__WEBPACK_IMPORTED_MODULE_6__.Sounds.stopSound(currentSound);
-    };
-
-    const startPlayHandler = () => startHandler(PLAY_BUTTON.id);
-
-    const stopPlayHandler = () => stopHandler(PLAY_BUTTON.id);
-
-    const startLogoHandler = () => startHandler(SLENDER_LOGO.id);
-
-    const stopLogoHandler = () => stopHandler(SLENDER_LOGO.id);
-
-    const startAboutUsHandler = () => startHandler(ABOUT_US.id, PIANO_MENU.id);
-
-    const stopAboutUsHandler = () => stopHandler(ABOUT_US.id, PIANO_MENU.id);
-
-    const startAboutGameHandler = () => startHandler(ABOUT_GAME.id, PIANO_MENU.id);
-
-    const stopAboutGameHandler = () => stopHandler(ABOUT_GAME.id, PIANO_MENU.id);
-
-    playButton.addEventListener('mouseover', startPlayHandler);
-    playButton.addEventListener('mouseout', stopPlayHandler);
-    logoBlock.addEventListener('mouseover', startLogoHandler);
-    logoBlock.addEventListener('mouseout', stopLogoHandler);
-    aboutUsBlock.addEventListener('mouseover', startAboutUsHandler);
-    aboutUsBlock.addEventListener('mouseout', stopAboutUsHandler);
-    aboutGameBlock.addEventListener('mouseover', startAboutGameHandler);
-    aboutGameBlock.addEventListener('mouseout', stopAboutGameHandler);
-  }
-
-  disableMenuSounds() {
-    this.sounds.sound_end = true;
   }
 
 }
@@ -10191,11 +10334,10 @@ var __webpack_exports__ = {};
   !*** ./js/main.js ***!
   \********************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! soundmanager2 */ "./node_modules/soundmanager2/script/soundmanager2.js");
-/* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_Game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Game */ "./js/components/Game.js");
-/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/sound */ "./js/utils/sound.js");
-/* harmony import */ var _img_intro_mp4__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../img/intro.mp4 */ "./img/intro.mp4");
+/* harmony import */ var _components_Game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Game */ "./js/components/Game.js");
+/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/sound */ "./js/utils/sound.js");
+/* harmony import */ var _img_intro_mp4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../img/intro.mp4 */ "./img/intro.mp4");
+/* harmony import */ var _components_Audio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Audio */ "./js/components/Audio/index.js");
 
 
 
@@ -10239,20 +10381,15 @@ const setSlides = (side, isHovered) => {
   SLIDE_CONFIG[side].title.addEventListener(`mouse${direction}`, mouseMoveHandler);
 };
 
-const changeGameMode = game => {
+const changeGameMode = (game, menuSounds) => {
   if (checkbox.checked) {
     snowBlock.classList.add('block');
-    game.sounds.makeSound('ho_ho_ho');
+    menuSounds.winterModeSound();
     game.setToWinter();
   } else {
     snowBlock.classList.remove('block');
     game.setToVanilla();
   }
-};
-
-const stopMenuSounds = game => {
-  soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.stopAll();
-  game.disableMenuSounds();
 };
 
 const initializeSlides = () => {
@@ -10263,24 +10400,25 @@ const initializeSlides = () => {
 };
 
 const init = () => {
-  const game = new _components_Game__WEBPACK_IMPORTED_MODULE_1__.default();
+  const game = new _components_Game__WEBPACK_IMPORTED_MODULE_0__.default();
+  const menuSounds = new _components_Audio__WEBPACK_IMPORTED_MODULE_3__.MenuSounds();
 
   const checkboxHandler = () => {
     snowHandler();
-    changeGameMode(game);
+    changeGameMode(game, menuSounds);
   };
 
   const gameHandler = () => {
     hideMainBlock();
-    stopMenuSounds(game);
+    _components_Audio__WEBPACK_IMPORTED_MODULE_3__.MenuSounds.disableMenuSounds();
     game.loadGame();
   };
 
   checkbox.addEventListener('change', checkboxHandler);
   playButton.addEventListener('click', gameHandler);
   initializeSlides();
-  (0,_utils_sound__WEBPACK_IMPORTED_MODULE_2__.preloadSounds)();
-  game.enableMenuSounds();
+  (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.preloadSounds)();
+  menuSounds.enableMenuSounds();
   game.setToVanilla();
 };
 
