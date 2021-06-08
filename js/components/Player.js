@@ -14,6 +14,31 @@ class Player {
     this.map = game.map;
     this.mode = game.mode;
 
+    this.state = {
+      position: {
+        x: 1.5,
+        y: 1.5,
+        direction: 1.57,
+      },
+      movement: {
+        paces: 0,
+        speed: 1,
+        grabDistance: 0,
+        putDistance: 0,
+      },
+      FSM: {
+        walking: false,
+        running: false,
+        putting: false,
+        grabbing: false,
+      },
+      inventory: {
+        papers: ASSETS.papers,
+        paperType: null,
+        previosPaperPlace: { x: null, y: null },
+      },
+    };
+
     this.rightHand = new Bitmap(
       ASSETS.slender[0].texture,
       ASSETS.slender[0].width,
@@ -26,121 +51,128 @@ class Player {
     );
     this.playerSounds = new PlayerSounds(this.mode, this);
     this.paperSounds = new PaperSounds(this);
-
-    this.papers = ASSETS.papers;
-    this.x = 1.5;
-    this.y = 1.5;
-    this.direction = 1.57;
-    this.paces = 0;
-    this.previosPaperPlace = { x: null, y: null };
-    this.speed = 1;
-    this.grabDistance = 0;
-    this.grabState = false;
-    this.putDistance = 0;
-    this.putState = false;
-    this.running = null;
-    this.paperType = null;
   }
 
   rotate(angle) {
-    this.direction = (this.direction + angle + CIRCLE) % CIRCLE;
+    const { direction } = this.state.position;
+    const newDirection = (direction + angle + CIRCLE) % CIRCLE;
+
+    this.state.position.direction = newDirection;
   }
 
   walk(distance, map, direction) {
     const dx = Math.cos(direction) * distance;
     const dy = Math.sin(direction) * distance;
-    const inDirectionX = map.get(this.x + dx, this.y);
-    const inDirectionY = map.get(this.x, this.y + dy);
+    const inDirectionX = map.get(
+      this.state.position.x + dx,
+      this.state.position.y,
+    );
+    const inDirectionY = map.get(
+      this.state.position.x,
+      this.state.position.y + dy,
+    );
 
     if (inDirectionX === 2 || inDirectionY === 2) this.playerSounds.hitFence();
     if (inDirectionX === 1 || inDirectionY === 1) this.playerSounds.hitWall();
 
-    if (inDirectionX <= 0) this.x += dx;
-    if (inDirectionY <= 0) this.y += dy;
-    this.paces += distance;
+    if (inDirectionX <= 0) this.state.position.x += dx;
+    if (inDirectionY <= 0) this.state.position.y += dy;
+    this.state.movement.paces += distance;
   }
 
   grab() {
-    if (this.grabState === true && this.grabDistance < 300) {
-      this.grabDistance += 50;
+    const { grabbing } = this.state.FSM;
+    const { grabDistance } = this.state.movement;
+
+    if (grabbing === true && grabDistance < 300) {
+      this.state.movement.grabDistance += 50;
     } else {
-      this.grabState = false;
-      if (this.grabDistance !== 0) {
-        this.grabDistance -= 25;
+      this.state.FSM.grabbing = false;
+      if (grabDistance !== 0) {
+        this.state.movement.grabDistance -= 25;
       }
     }
   }
 
   put() {
-    if (this.putState === true && this.putDistance < 400) {
-      this.putDistance += 30;
+    const { putting } = this.state.FSM;
+    const { putDistance } = this.state.movement;
+
+    if (putting === true && putDistance < 400) {
+      this.state.movement.putDistance += 30;
     } else {
-      this.putState = false;
-      if (this.putDistance !== 0) {
-        this.putDistance -= 15;
+      this.state.FSM.putting = false;
+      if (putDistance !== 0) {
+        this.state.movement.putDistance -= 15;
       }
     }
   }
 
   update(controls, map, seconds) {
-    this.running = controls.shift;
-    this.walking =
+    const { speed } = this.state.movement;
+    const { direction } = this.state.position;
+
+    const distance = speed * seconds;
+    const halfDistance = distance / 2;
+    const sideDirection = direction - Math.PI / 2;
+
+    this.state.FSM.running = controls.shift;
+    this.state.FSM.walking =
       controls.forward ||
       controls.backward ||
       controls.sideLeft ||
       controls.sideRight;
+
     if (controls.left) this.rotate(-Math.PI * seconds);
     if (controls.right) this.rotate(Math.PI * seconds);
     if (controls.forward) {
       this.playerSounds.walk();
-      this.walk(this.speed * seconds, map, this.direction);
+      this.walk(distance, map, direction);
     }
     if (controls.backward) {
       this.playerSounds.walk();
-      this.walk(-this.speed * seconds, map, this.direction);
+      this.walk(-distance, map, direction);
     }
     if (controls.sideLeft) {
       this.playerSounds.dodge();
-      this.walk((this.speed / 2) * seconds, map, this.direction - Math.PI / 2);
+      this.walk(halfDistance, map, sideDirection);
     }
     if (controls.sideRight) {
       this.playerSounds.dodge();
-      this.walk(-(this.speed / 2) * seconds, map, this.direction - Math.PI / 2);
+      this.walk(-halfDistance, map, sideDirection);
     }
     this.grab();
     this.put();
 
-    controls.shift ? (this.speed = 3) : (this.speed = 1);
+    this.state.movement.speed = this.state.FSM.running ? 3 : 1;
   }
 
   eat(victim) {
-    victim.alive = false;
-    victim.color = undefined;
     victim.die();
     this.map.people--;
     this.showDieMessage();
   }
 
   attack() {
-    this.grabState = true;
-
-    let x;
-    let y;
-    let victim;
-    let nearVictim = false;
+    this.state.FSM.grabbing = true;
 
     // TODO: Reduce the Objects list to just NPC list
-    this.map.objects.some((item) => {
-      if (item instanceof NPC && item.alive) {
-        victim = item;
-        x = this.x - victim.x;
-        y = this.y - victim.y;
-        if (Math.sqrt(x * x + y * y) < 0.5) {
-          return (nearVictim = true);
-        }
+    const victim = this.map.objects.find((item) => {
+      const isValidNPC = item instanceof NPC && item.alive;
+
+      if (!isValidNPC) {
+        return false;
       }
+
+      const dX = this.state.position.x - item.x;
+      const dY = this.state.position.y - item.y;
+      const distanceToNpc = Math.sqrt(dX * dX + dY * dY);
+      const isNearNPC = distanceToNpc < 0.5;
+
+      return isNearNPC;
     });
-    if (nearVictim) {
+
+    if (victim) {
       this.playerSounds.kill();
       this.eat(victim);
     } else {
@@ -149,7 +181,7 @@ class Player {
   }
 
   placePaper() {
-    this.putState = true;
+    this.state.FSM.putting = true;
 
     const noPapersToPlace = this.map.papers >= GAME_OPTIONS.PAPER_NUM;
 
@@ -157,25 +189,29 @@ class Player {
       this.showNoPaperMessage();
     } else {
       const isSamePlace =
-        this.previosPaperPlace.x === this.x &&
-        this.previosPaperPlace.y === this.y;
+        this.state.inventory.previosPaperPlace.x === this.state.position.x &&
+        this.state.inventory.previosPaperPlace.y === this.state.position.y;
 
       const readyToPlaceHere =
         !isSamePlace &&
-        !this.running &&
-        !this.walking &&
+        !this.state.FSM.running &&
+        !this.state.FSM.walking &&
         this.playerSounds.allSoundsEnded();
 
       if (readyToPlaceHere) {
-        this.paperType = getRandomInt(0, 8);
+        this.state.inventory.paperType = getRandomInt(0, 8);
 
         const paperBitmap = new Bitmap(
-          this.papers[this.paperType].texture,
-          this.papers[this.paperType].width,
-          this.papers[this.paperType].height,
+          this.state.inventory.papers[this.state.inventory.paperType].texture,
+          this.state.inventory.papers[this.state.inventory.paperType].width,
+          this.state.inventory.papers[this.state.inventory.paperType].height,
         );
 
-        const paper = new Paper(this.x, this.y, paperBitmap);
+        const paper = new Paper(
+          this.state.position.x,
+          this.state.position.y,
+          paperBitmap,
+        );
 
         this.map.addObject(paper);
 
@@ -183,7 +219,10 @@ class Player {
 
         this.showPlacementMessage();
 
-        this.previosPaperPlace = { x: this.x, y: this.y };
+        this.state.inventory.previosPaperPlace = {
+          x: this.state.position.x,
+          y: this.state.position.y,
+        };
         this.map.papers++;
       } else {
         this.showWarningMessage();
@@ -192,9 +231,9 @@ class Player {
   }
 
   showPlacementMessage() {
-    if (this.paperType === 0) {
+    if (this.state.inventory.paperType === 0) {
       this.showLooMessage();
-    } else if (this.paperType === 7) {
+    } else if (this.state.inventory.paperType === 7) {
       this.showBombMessage();
     } else {
       this.showPaperMessage();

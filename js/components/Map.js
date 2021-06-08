@@ -156,15 +156,15 @@ class Map {
     this.addPeople();
   }
 
-  cast(point, angle, range) {
+  cast(player, angle, range) {
     const self = this;
     const sin = Math.sin(angle);
     const cos = Math.cos(angle);
     const noWall = { length2: Infinity };
 
     return ray({
-      x: point.x,
-      y: point.y,
+      x: player.state.position.x,
+      y: player.state.position.y,
       height: 0,
       distance: 0,
     });

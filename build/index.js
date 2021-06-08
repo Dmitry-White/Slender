@@ -728,7 +728,7 @@ class PlayerSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_0__.default {
   }
 
   place() {
-    switch (this.player.paperType) {
+    switch (this.player.state.inventory.paperType) {
       case 0:
         this.placeLoo();
         break;
@@ -860,7 +860,7 @@ class PlayerSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_0__.default {
   }
 
   snowWalk() {
-    if (this.player.running) {
+    if (this.player.state.FSM.running) {
       this.makeSound(SOUND_MAP.RUNNING);
     } else {
       Math.random() > 0.5 ? this.makeSound(SOUND_MAP.FORWARD_STEP) : this.makeSound(SOUND_MAP.BACKWARD_STEP);
@@ -868,7 +868,7 @@ class PlayerSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_0__.default {
   }
 
   rainWalk() {
-    if (this.player.running) {
+    if (this.player.state.FSM.running) {
       this.makeSound(SOUND_MAP.RAIN_RUNNING);
     } else if (Math.random() > 0.2) {
       if (Math.random() > 0.5) {
@@ -1062,9 +1062,9 @@ class Camera {
   }
 
   render(player, map) {
-    this.drawSky(player.direction, map.skybox, map.light);
+    this.drawSky(player.state.position.direction, map.skybox, map.light);
     this.drawColumns(player, map);
-    this.drawWeapon(player.leftHand, player.rightHand, player.paces, player.grabDistance, player.putDistance);
+    this.drawWeapon(player.leftHand, player.rightHand, player.state.movement.paces, player.state.movement.grabDistance, player.state.movement.putDistance);
     this.drawMiniMap(player, map);
     this.drawNumber();
     this.drawPaper();
@@ -1169,7 +1169,7 @@ class Camera {
 
     for (let column = 0; column < this.resolution; column++) {
       const angle = this.fov * (column / this.resolution - 0.5);
-      const ray = map.cast(player, player.direction + angle, this.range);
+      const ray = map.cast(player, player.state.position.direction + angle, this.range);
       const columnProps = this.drawColumn(column, ray, angle, map);
       allObjects.push(columnProps);
     }
@@ -1188,15 +1188,15 @@ class Camera {
 
     this.setSpriteDistances(map.objects, player);
     const sprites = Array.prototype.slice.call(map.objects).map(sprite => {
-      const distX = sprite.x - player.x;
-      const distY = sprite.y - player.y;
+      const distX = sprite.x - player.state.position.x;
+      const distY = sprite.y - player.state.position.y;
       const width = sprite.width * screenWidth / sprite.distanceFromPlayer;
       const height = sprite.height * screenHeight / sprite.distanceFromPlayer;
       const renderedFloorOffset = sprite.floorOffset / sprite.distanceFromPlayer;
       const angleToPlayer = Math.atan2(distY, distX);
       const top = screenHeight / 2 * (1 + 1 / sprite.distanceFromPlayer) - height;
       const numColumns = width / screenWidth * resolution;
-      let angleRelativeToPlayerView = player.direction - angleToPlayer;
+      let angleRelativeToPlayerView = player.state.position.direction - angleToPlayer;
 
       if (angleRelativeToPlayerView >= _utils_calc__WEBPACK_IMPORTED_MODULE_1__.CIRCLE / 2) {
         angleRelativeToPlayerView -= _utils_calc__WEBPACK_IMPORTED_MODULE_1__.CIRCLE;
@@ -1291,8 +1291,8 @@ class Camera {
     const x = this.width - miniMapSize - 10;
     const y = 10;
     const blockSize = miniMapSize / map.size;
-    const triangleX = x + player.x / map.size * miniMapSize;
-    const triangleY = y + player.y / map.size * miniMapSize;
+    const triangleX = x + player.state.position.x / map.size * miniMapSize;
+    const triangleY = y + player.state.position.y / map.size * miniMapSize;
     ctx.save();
     ctx.globalAlpha = 0.5; // map background
 
@@ -1332,7 +1332,7 @@ class Camera {
     ctx.fillStyle = '#fff';
     ctx.moveTo(triangleX, triangleY);
     ctx.translate(triangleX, triangleY);
-    ctx.rotate(player.direction - Math.PI * 0.5);
+    ctx.rotate(player.state.position.direction - Math.PI * 0.5);
     ctx.beginPath();
     ctx.lineTo(-2, -3); // bottom left of triangle
 
@@ -1987,7 +1987,7 @@ class Map {
     this.addPeople();
   }
 
-  cast(point, angle, range) {
+  cast(player, angle, range) {
     const self = this;
     const sin = Math.sin(angle);
     const cos = Math.cos(angle);
@@ -1995,8 +1995,8 @@ class Map {
       length2: Infinity
     };
     return ray({
-      x: point.x,
-      y: point.y,
+      x: player.state.position.x,
+      y: player.state.position.y,
       height: 0,
       distance: 0
     });
@@ -2117,7 +2117,7 @@ class NPC {
 
     if (distToPlayer < 2) {
       this.speed = 3;
-      this.direction = -this.player.direction;
+      this.direction = -this.player.state.position.direction;
     } else this.speed = 0.7;
   }
 
@@ -2242,6 +2242,8 @@ class NPC {
 
 
   die() {
+    this.alive = false;
+    this.color = undefined;
     this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_2__.default('assets/images/npc_die.gif', 114, 300);
     setTimeout(() => {
       this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_2__.default(`assets/images/npc3-${this.picNum}.png`, 300, 56);
@@ -2251,6 +2253,7 @@ class NPC {
   }
 
   distTo(thing) {
+    // TODO: Doesn't work for player currently
     const x = thing.x - this.x;
     const y = thing.y - this.y;
     return Math.sqrt(x * x + y * y);
@@ -2358,127 +2361,161 @@ class Player {
     this.game = game;
     this.map = game.map;
     this.mode = game.mode;
+    this.state = {
+      position: {
+        x: 1.5,
+        y: 1.5,
+        direction: 1.57
+      },
+      movement: {
+        paces: 0,
+        speed: 1,
+        grabDistance: 0,
+        putDistance: 0
+      },
+      FSM: {
+        walking: false,
+        running: false,
+        putting: false,
+        grabbing: false
+      },
+      inventory: {
+        papers: _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.papers,
+        paperType: null,
+        previosPaperPlace: {
+          x: null,
+          y: null
+        }
+      }
+    };
     this.rightHand = new _Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].texture, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].width, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].height);
     this.leftHand = new _Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].texture, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].width, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].height);
     this.playerSounds = new _Audio__WEBPACK_IMPORTED_MODULE_6__.PlayerSounds(this.mode, this);
     this.paperSounds = new _Audio__WEBPACK_IMPORTED_MODULE_6__.PaperSounds(this);
-    this.papers = _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.papers;
-    this.x = 1.5;
-    this.y = 1.5;
-    this.direction = 1.57;
-    this.paces = 0;
-    this.previosPaperPlace = {
-      x: null,
-      y: null
-    };
-    this.speed = 1;
-    this.grabDistance = 0;
-    this.grabState = false;
-    this.putDistance = 0;
-    this.putState = false;
-    this.running = null;
-    this.paperType = null;
   }
 
   rotate(angle) {
-    this.direction = (this.direction + angle + _utils_calc__WEBPACK_IMPORTED_MODULE_2__.CIRCLE) % _utils_calc__WEBPACK_IMPORTED_MODULE_2__.CIRCLE;
+    const {
+      direction
+    } = this.state.position;
+    const newDirection = (direction + angle + _utils_calc__WEBPACK_IMPORTED_MODULE_2__.CIRCLE) % _utils_calc__WEBPACK_IMPORTED_MODULE_2__.CIRCLE;
+    this.state.position.direction = newDirection;
   }
 
   walk(distance, map, direction) {
     const dx = Math.cos(direction) * distance;
     const dy = Math.sin(direction) * distance;
-    const inDirectionX = map.get(this.x + dx, this.y);
-    const inDirectionY = map.get(this.x, this.y + dy);
+    const inDirectionX = map.get(this.state.position.x + dx, this.state.position.y);
+    const inDirectionY = map.get(this.state.position.x, this.state.position.y + dy);
     if (inDirectionX === 2 || inDirectionY === 2) this.playerSounds.hitFence();
     if (inDirectionX === 1 || inDirectionY === 1) this.playerSounds.hitWall();
-    if (inDirectionX <= 0) this.x += dx;
-    if (inDirectionY <= 0) this.y += dy;
-    this.paces += distance;
+    if (inDirectionX <= 0) this.state.position.x += dx;
+    if (inDirectionY <= 0) this.state.position.y += dy;
+    this.state.movement.paces += distance;
   }
 
   grab() {
-    if (this.grabState === true && this.grabDistance < 300) {
-      this.grabDistance += 50;
-    } else {
-      this.grabState = false;
+    const {
+      grabbing
+    } = this.state.FSM;
+    const {
+      grabDistance
+    } = this.state.movement;
 
-      if (this.grabDistance !== 0) {
-        this.grabDistance -= 25;
+    if (grabbing === true && grabDistance < 300) {
+      this.state.movement.grabDistance += 50;
+    } else {
+      this.state.FSM.grabbing = false;
+
+      if (grabDistance !== 0) {
+        this.state.movement.grabDistance -= 25;
       }
     }
   }
 
   put() {
-    if (this.putState === true && this.putDistance < 400) {
-      this.putDistance += 30;
-    } else {
-      this.putState = false;
+    const {
+      putting
+    } = this.state.FSM;
+    const {
+      putDistance
+    } = this.state.movement;
 
-      if (this.putDistance !== 0) {
-        this.putDistance -= 15;
+    if (putting === true && putDistance < 400) {
+      this.state.movement.putDistance += 30;
+    } else {
+      this.state.FSM.putting = false;
+
+      if (putDistance !== 0) {
+        this.state.movement.putDistance -= 15;
       }
     }
   }
 
   update(controls, map, seconds) {
-    this.running = controls.shift;
-    this.walking = controls.forward || controls.backward || controls.sideLeft || controls.sideRight;
+    const {
+      speed
+    } = this.state.movement;
+    const {
+      direction
+    } = this.state.position;
+    const distance = speed * seconds;
+    const halfDistance = distance / 2;
+    const sideDirection = direction - Math.PI / 2;
+    this.state.FSM.running = controls.shift;
+    this.state.FSM.walking = controls.forward || controls.backward || controls.sideLeft || controls.sideRight;
     if (controls.left) this.rotate(-Math.PI * seconds);
     if (controls.right) this.rotate(Math.PI * seconds);
 
     if (controls.forward) {
       this.playerSounds.walk();
-      this.walk(this.speed * seconds, map, this.direction);
+      this.walk(distance, map, direction);
     }
 
     if (controls.backward) {
       this.playerSounds.walk();
-      this.walk(-this.speed * seconds, map, this.direction);
+      this.walk(-distance, map, direction);
     }
 
     if (controls.sideLeft) {
       this.playerSounds.dodge();
-      this.walk(this.speed / 2 * seconds, map, this.direction - Math.PI / 2);
+      this.walk(halfDistance, map, sideDirection);
     }
 
     if (controls.sideRight) {
       this.playerSounds.dodge();
-      this.walk(-(this.speed / 2) * seconds, map, this.direction - Math.PI / 2);
+      this.walk(-halfDistance, map, sideDirection);
     }
 
     this.grab();
     this.put();
-    controls.shift ? this.speed = 3 : this.speed = 1;
+    this.state.movement.speed = this.state.FSM.running ? 3 : 1;
   }
 
   eat(victim) {
-    victim.alive = false;
-    victim.color = undefined;
     victim.die();
     this.map.people--;
     this.showDieMessage();
   }
 
   attack() {
-    this.grabState = true;
-    let x;
-    let y;
-    let victim;
-    let nearVictim = false; // TODO: Reduce the Objects list to just NPC list
+    this.state.FSM.grabbing = true; // TODO: Reduce the Objects list to just NPC list
 
-    this.map.objects.some(item => {
-      if (item instanceof _NPC__WEBPACK_IMPORTED_MODULE_5__.default && item.alive) {
-        victim = item;
-        x = this.x - victim.x;
-        y = this.y - victim.y;
+    const victim = this.map.objects.find(item => {
+      const isValidNPC = item instanceof _NPC__WEBPACK_IMPORTED_MODULE_5__.default && item.alive;
 
-        if (Math.sqrt(x * x + y * y) < 0.5) {
-          return nearVictim = true;
-        }
+      if (!isValidNPC) {
+        return false;
       }
+
+      const dX = this.state.position.x - item.x;
+      const dY = this.state.position.y - item.y;
+      const distanceToNpc = Math.sqrt(dX * dX + dY * dY);
+      const isNearNPC = distanceToNpc < 0.5;
+      return isNearNPC;
     });
 
-    if (nearVictim) {
+    if (victim) {
       this.playerSounds.kill();
       this.eat(victim);
     } else {
@@ -2487,25 +2524,25 @@ class Player {
   }
 
   placePaper() {
-    this.putState = true;
+    this.state.FSM.putting = true;
     const noPapersToPlace = this.map.papers >= _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PAPER_NUM;
 
     if (noPapersToPlace) {
       this.showNoPaperMessage();
     } else {
-      const isSamePlace = this.previosPaperPlace.x === this.x && this.previosPaperPlace.y === this.y;
-      const readyToPlaceHere = !isSamePlace && !this.running && !this.walking && this.playerSounds.allSoundsEnded();
+      const isSamePlace = this.state.inventory.previosPaperPlace.x === this.state.position.x && this.state.inventory.previosPaperPlace.y === this.state.position.y;
+      const readyToPlaceHere = !isSamePlace && !this.state.FSM.running && !this.state.FSM.walking && this.playerSounds.allSoundsEnded();
 
       if (readyToPlaceHere) {
-        this.paperType = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 8);
-        const paperBitmap = new _Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.papers[this.paperType].texture, this.papers[this.paperType].width, this.papers[this.paperType].height);
-        const paper = new _Paper__WEBPACK_IMPORTED_MODULE_3__.default(this.x, this.y, paperBitmap);
+        this.state.inventory.paperType = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 8);
+        const paperBitmap = new _Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.state.inventory.papers[this.state.inventory.paperType].texture, this.state.inventory.papers[this.state.inventory.paperType].width, this.state.inventory.papers[this.state.inventory.paperType].height);
+        const paper = new _Paper__WEBPACK_IMPORTED_MODULE_3__.default(this.state.position.x, this.state.position.y, paperBitmap);
         this.map.addObject(paper);
         this.paperSounds.place();
         this.showPlacementMessage();
-        this.previosPaperPlace = {
-          x: this.x,
-          y: this.y
+        this.state.inventory.previosPaperPlace = {
+          x: this.state.position.x,
+          y: this.state.position.y
         };
         this.map.papers++;
       } else {
@@ -2515,9 +2552,9 @@ class Player {
   }
 
   showPlacementMessage() {
-    if (this.paperType === 0) {
+    if (this.state.inventory.paperType === 0) {
       this.showLooMessage();
-    } else if (this.paperType === 7) {
+    } else if (this.state.inventory.paperType === 7) {
       this.showBombMessage();
     } else {
       this.showPaperMessage();

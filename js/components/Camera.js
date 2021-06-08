@@ -16,14 +16,14 @@ class Camera {
   }
 
   render(player, map) {
-    this.drawSky(player.direction, map.skybox, map.light);
+    this.drawSky(player.state.position.direction, map.skybox, map.light);
     this.drawColumns(player, map);
     this.drawWeapon(
       player.leftHand,
       player.rightHand,
-      player.paces,
-      player.grabDistance,
-      player.putDistance,
+      player.state.movement.paces,
+      player.state.movement.grabDistance,
+      player.state.movement.putDistance,
     );
     this.drawMiniMap(player, map);
     this.drawNumber();
@@ -142,7 +142,11 @@ class Camera {
     const allObjects = [];
     for (let column = 0; column < this.resolution; column++) {
       const angle = this.fov * (column / this.resolution - 0.5);
-      const ray = map.cast(player, player.direction + angle, this.range);
+      const ray = map.cast(
+        player,
+        player.state.position.direction + angle,
+        this.range,
+      );
       const columnProps = this.drawColumn(column, ray, angle, map);
 
       allObjects.push(columnProps);
@@ -163,8 +167,8 @@ class Camera {
     const sprites = Array.prototype.slice
       .call(map.objects)
       .map((sprite) => {
-        const distX = sprite.x - player.x;
-        const distY = sprite.y - player.y;
+        const distX = sprite.x - player.state.position.x;
+        const distY = sprite.y - player.state.position.y;
         const width = (sprite.width * screenWidth) / sprite.distanceFromPlayer;
         const height =
           (sprite.height * screenHeight) / sprite.distanceFromPlayer;
@@ -174,7 +178,8 @@ class Camera {
         const top =
           (screenHeight / 2) * (1 + 1 / sprite.distanceFromPlayer) - height;
         const numColumns = (width / screenWidth) * resolution;
-        let angleRelativeToPlayerView = player.direction - angleToPlayer;
+        let angleRelativeToPlayerView =
+          player.state.position.direction - angleToPlayer;
 
         if (angleRelativeToPlayerView >= CIRCLE / 2) {
           angleRelativeToPlayerView -= CIRCLE;
@@ -298,8 +303,8 @@ class Camera {
     const x = this.width - miniMapSize - 10;
     const y = 10;
     const blockSize = miniMapSize / map.size;
-    const triangleX = x + (player.x / map.size) * miniMapSize;
-    const triangleY = y + (player.y / map.size) * miniMapSize;
+    const triangleX = x + (player.state.position.x / map.size) * miniMapSize;
+    const triangleY = y + (player.state.position.y / map.size) * miniMapSize;
 
     ctx.save();
 
@@ -349,7 +354,7 @@ class Camera {
     ctx.moveTo(triangleX, triangleY);
     ctx.translate(triangleX, triangleY);
 
-    ctx.rotate(player.direction - Math.PI * 0.5);
+    ctx.rotate(player.state.position.direction - Math.PI * 0.5);
     ctx.beginPath();
     ctx.lineTo(-2, -3); // bottom left of triangle
     ctx.lineTo(0, 2); // tip of triangle

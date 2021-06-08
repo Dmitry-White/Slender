@@ -35,7 +35,7 @@ class PlayerSounds extends Sounds {
   }
 
   place() {
-    switch (this.player.paperType) {
+    switch (this.player.state.inventory.paperType) {
       case 0:
         this.placeLoo();
         break;

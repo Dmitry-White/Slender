@@ -50,7 +50,7 @@ class NPC {
     const distToPlayer = this.distTo(this.player);
     if (distToPlayer < 2) {
       this.speed = 3;
-      this.direction = -this.player.direction;
+      this.direction = -this.player.state.position.direction;
     } else this.speed = 0.7;
   }
 
@@ -178,6 +178,8 @@ class NPC {
   }; */
 
   die() {
+    this.alive = false;
+    this.color = undefined;
     this.texture = new Bitmap('assets/images/npc_die.gif', 114, 300);
     setTimeout(() => {
       this.texture = new Bitmap(
@@ -191,6 +193,7 @@ class NPC {
   }
 
   distTo(thing) {
+    // TODO: Doesn't work for player currently
     const x = thing.x - this.x;
     const y = thing.y - this.y;
     return Math.sqrt(x * x + y * y);

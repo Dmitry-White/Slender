@@ -86,7 +86,7 @@ class PlayerSounds extends Sounds {
   }
 
   snowWalk() {
-    if (this.player.running) {
+    if (this.player.state.FSM.running) {
       this.makeSound(SOUND_MAP.RUNNING);
     } else {
       Math.random() > 0.5
@@ -96,7 +96,7 @@ class PlayerSounds extends Sounds {
   }
 
   rainWalk() {
-    if (this.player.running) {
+    if (this.player.state.FSM.running) {
       this.makeSound(SOUND_MAP.RAIN_RUNNING);
     } else if (Math.random() > 0.2) {
       if (Math.random() > 0.5) {
