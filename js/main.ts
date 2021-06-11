@@ -4,12 +4,9 @@ import Game from './components/Game';
 import { MenuSounds } from './components/Audio';
 import { preloadSounds } from './utils/sound';
 
-const SLIDE_MAP = {
-  LEFT: 'left',
-  RIGHT: 'right',
-};
+import { SLIDE_MAP, SlideConfig } from './main.interface';
 
-const SLIDE_CONFIG = {
+const SLIDE_CONFIG: SlideConfig = {
   [SLIDE_MAP.LEFT]: {
     title: document.querySelector(`.slider-${SLIDE_MAP.LEFT} .slider-title`),
     data: document.querySelector(`.slider-${SLIDE_MAP.LEFT} .slider-data`),
@@ -20,27 +17,27 @@ const SLIDE_CONFIG = {
   },
 };
 
-const snowBlock = document.querySelector('.snow');
-const checkbox = document.querySelector('#checkbox');
-const playButton = document.querySelector('#play');
-const mainBlock = document.querySelector('.menu');
+const snowBlock: HTMLDivElement = document.querySelector('.snow');
+const checkbox: HTMLInputElement = document.querySelector('#checkbox');
+const playButton: HTMLDivElement = document.querySelector('#play');
+const mainBlock: HTMLDivElement = document.querySelector('.menu');
 
-const hideMainBlock = () => {
+const hideMainBlock = (): void => {
   mainBlock.classList.add('fadeOut');
 
-  setTimeout(() => mainBlock.classList.add('none'), 700);
+  setTimeout((): void => mainBlock.classList.add('none'), 700);
 };
 
-const snowHandler = () => {
+const snowHandler = (): void => {
   if (snowBlock.style.display === 'block') snowBlock.style.display = 'none';
   else snowBlock.style.display = 'block';
 };
 
-const setSlides = (side, isHovered) => {
+const setSlides = (side: SLIDE_MAP, isHovered: boolean): void => {
   const value = isHovered ? '50px' : 'calc(-40vw - 70px)';
   const direction = isHovered ? 'over' : 'out';
 
-  const mouseMoveHandler = () => {
+  const mouseMoveHandler = (): void => {
     SLIDE_CONFIG[side].data.style[side] = value;
   };
 
@@ -50,7 +47,7 @@ const setSlides = (side, isHovered) => {
   );
 };
 
-const changeGameMode = (game, menuSounds) => {
+const changeGameMode = (game: any, menuSounds: any): void => {
   if (checkbox.checked) {
     snowBlock.classList.add('block');
 
@@ -63,23 +60,23 @@ const changeGameMode = (game, menuSounds) => {
   }
 };
 
-const initializeSlides = () => {
+const initializeSlides = (): void => {
   setSlides(SLIDE_MAP.LEFT, true);
   setSlides(SLIDE_MAP.LEFT, false);
   setSlides(SLIDE_MAP.RIGHT, true);
   setSlides(SLIDE_MAP.RIGHT, false);
 };
 
-const init = () => {
+const init = (): void => {
   const game = new Game();
   const menuSounds = new MenuSounds();
 
-  const checkboxHandler = () => {
+  const checkboxHandler = (): void => {
     snowHandler();
     changeGameMode(game, menuSounds);
   };
 
-  const gameHandler = () => {
+  const gameHandler = (): void => {
     hideMainBlock();
     MenuSounds.disableMenuSounds();
 

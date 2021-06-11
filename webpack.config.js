@@ -4,11 +4,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: ['./js/main.js', './css/style.css', './css/font-awesome.min.css'],
+  entry: ['./js/main.ts', './css/style.css', './css/font-awesome.min.css'],
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, './build'),
     filename: 'index.js',
+  },
+  resolve: {
+    extensions: ['.ts', '.js'],
   },
   module: {
     rules: [
@@ -24,12 +27,17 @@ module.exports = {
           'css-loader',
         ],
       },
+      // {
+      //   test: /\.js$/,
+      //   exclude: /(node_modules)/,
+      //   use: {
+      //     loader: 'babel-loader',
+      //   },
+      // },
       {
-        test: /\.js$/,
-        exclude: /(node_modules)/,
-        use: {
-          loader: 'babel-loader',
-        },
+        test: /\.ts?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
       {
         test: /\.(jpe?g|gif|png|ico)$/,
