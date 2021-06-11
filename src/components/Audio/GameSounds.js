@@ -1,5 +1,4 @@
 import SOUNDS from '../../../data/sounds';
-
 import { getRandomInt } from '../../utils/calc';
 
 import Sounds from './Sounds';

@@ -1,12 +1,11 @@
 import ASSETS from '../../data/assets';
-
 import GAME_OPTIONS from '../core/config';
 import { CIRCLE, getRandomInt } from '../utils/calc';
 
-import Paper from './Paper';
+import { PlayerSounds, PaperSounds } from './Audio';
 import Bitmap from './Bitmap';
 import NPC from './NPC';
-import { PlayerSounds, PaperSounds } from './Audio';
+import Paper from './Paper';
 
 class Player {
   constructor(game) {

@@ -1,7 +1,7 @@
 import { CIRCLE, getRandomFloat } from '../utils/calc';
 
-import Paper from './Paper';
 import Bitmap from './Bitmap';
+import Paper from './Paper';
 
 class NPC {
   constructor(player, map, x, y, picNum) {

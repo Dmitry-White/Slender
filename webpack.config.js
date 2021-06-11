@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: ['./js/main.ts', './css/style.css', './css/font-awesome.min.css'],
+  entry: ['./src/main.ts', './css/style.css', './css/font-awesome.min.css'],
   devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, './build'),
@@ -27,13 +27,6 @@ module.exports = {
           'css-loader',
         ],
       },
-      // {
-      //   test: /\.js$/,
-      //   exclude: /(node_modules)/,
-      //   use: {
-      //     loader: 'babel-loader',
-      //   },
-      // },
       {
         test: /\.ts?$/,
         use: 'ts-loader',

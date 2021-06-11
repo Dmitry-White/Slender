@@ -2,15 +2,14 @@ import { soundManager } from 'soundmanager2';
 
 import ASSETS from '../../data/assets';
 import SOUNDS from '../../data/sounds';
-
 import { playSM, preloadSounds } from '../utils/sound';
 
-import Map from './Map';
 import { NoiseSounds, GameSounds } from './Audio';
-import Player from './Player';
 import Camera from './Camera';
 import Controls from './Controls';
 import GameLoop from './GameLoop';
+import Map from './Map';
+import Player from './Player';
 
 const videoBlock = document.querySelector('.intro');
 const messageBlock = document.querySelector('.text');

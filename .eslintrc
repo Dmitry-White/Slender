@@ -4,19 +4,27 @@
     "es6": true,
     "browser": true
   },
-  "extends": ["airbnb-base", "plugin:prettier/recommended"],
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
-  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": ["airbnb-typescript/base", "plugin:prettier/recommended"],
   "parserOptions": {
-    "ecmaVersion": 2018
+    "project": "./tsconfig.json"
   },
   "rules": {
     "no-plusplus": 1,
     "no-unused-expressions": [
       "error",
       { "allowShortCircuit": true, "allowTernary": true }
-    ]
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "parent", "sibling", "index"],
+        "newlines-between": "always",
+        "alphabetize": { "order": "asc" }
+      }
+    ],
+    "import/newline-after-import": ["error", { "count": 1 }],
+    "import/group-exports": 1
   }
 }

@@ -1,11 +1,10 @@
 import ASSETS from '../../data/assets';
-
-import { getRandomInt } from '../utils/calc';
 import GAME_OPTIONS from '../core/config';
+import { getRandomInt } from '../utils/calc';
 
 import Bitmap from './Bitmap';
-import Objects from './Objects';
 import NPC from './NPC';
+import Objects from './Objects';
 
 class Map {
   constructor(game) {

@@ -1,4 +1,4 @@
-const enum SLIDE_MAP {
+const enum SlideMap {
   LEFT = 'left',
   RIGHT = 'right',
 }
@@ -12,4 +12,4 @@ type SlideConfig = {
   [key: string]: ISlider;
 };
 
-export { SLIDE_MAP, SlideConfig };
+export { SlideMap, SlideConfig };

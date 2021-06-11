@@ -1,19 +1,18 @@
 import video from '../img/intro.mp4';
 
-import Game from './components/Game';
 import { MenuSounds } from './components/Audio';
+import Game from './components/Game';
+import { SlideMap, SlideConfig } from './main.interface';
 import { preloadSounds } from './utils/sound';
 
-import { SLIDE_MAP, SlideConfig } from './main.interface';
-
 const SLIDE_CONFIG: SlideConfig = {
-  [SLIDE_MAP.LEFT]: {
-    title: document.querySelector(`.slider-${SLIDE_MAP.LEFT} .slider-title`),
-    data: document.querySelector(`.slider-${SLIDE_MAP.LEFT} .slider-data`),
+  [SlideMap.LEFT]: {
+    title: document.querySelector(`.slider-${SlideMap.LEFT} .slider-title`),
+    data: document.querySelector(`.slider-${SlideMap.LEFT} .slider-data`),
   },
-  [SLIDE_MAP.RIGHT]: {
-    title: document.querySelector(`.slider-${SLIDE_MAP.RIGHT} .slider-title`),
-    data: document.querySelector(`.slider-${SLIDE_MAP.RIGHT} .slider-data`),
+  [SlideMap.RIGHT]: {
+    title: document.querySelector(`.slider-${SlideMap.RIGHT} .slider-title`),
+    data: document.querySelector(`.slider-${SlideMap.RIGHT} .slider-data`),
   },
 };
 
@@ -33,7 +32,7 @@ const snowHandler = (): void => {
   else snowBlock.style.display = 'block';
 };
 
-const setSlides = (side: SLIDE_MAP, isHovered: boolean): void => {
+const setSlides = (side: SlideMap, isHovered: boolean): void => {
   const value = isHovered ? '50px' : 'calc(-40vw - 70px)';
   const direction = isHovered ? 'over' : 'out';
 
@@ -61,10 +60,10 @@ const changeGameMode = (game: any, menuSounds: any): void => {
 };
 
 const initializeSlides = (): void => {
-  setSlides(SLIDE_MAP.LEFT, true);
-  setSlides(SLIDE_MAP.LEFT, false);
-  setSlides(SLIDE_MAP.RIGHT, true);
-  setSlides(SLIDE_MAP.RIGHT, false);
+  setSlides(SlideMap.LEFT, true);
+  setSlides(SlideMap.LEFT, false);
+  setSlides(SlideMap.RIGHT, true);
+  setSlides(SlideMap.RIGHT, false);
 };
 
 const init = (): void => {
