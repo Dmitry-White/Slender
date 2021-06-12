@@ -1,5 +1,6 @@
 import SOUNDS from '../../../data/sounds';
 import { getRandomInt } from '../../utils/calc';
+import Game from '../Game';
 
 import Sounds from './Sounds';
 
@@ -10,7 +11,7 @@ const SOUND_MAP = {
 };
 
 class GameSounds extends Sounds {
-  game: any;
+  game: Game;
 
   mode: any;
 

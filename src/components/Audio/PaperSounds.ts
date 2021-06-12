@@ -1,3 +1,5 @@
+import Player from '../Player';
+
 import Sounds from './Sounds';
 
 const SOUND_MAP = {
@@ -7,7 +9,7 @@ const SOUND_MAP = {
 };
 
 class PlayerSounds extends Sounds {
-  player: any;
+  player: Player;
 
   constructor(player: any) {
     super();

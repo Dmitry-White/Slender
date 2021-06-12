@@ -25,6 +25,7 @@
       }
     ],
     "import/newline-after-import": ["error", { "count": 1 }],
-    "import/group-exports": 1
+    "import/group-exports": 1,
+    "import/no-cycle": 1
   }
 }

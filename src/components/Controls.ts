@@ -1,10 +1,13 @@
-const canvasBlock = document.querySelector('#display');
-const lockHandler =
-  document.body.requestPointerLock ||
-  document.body.mozRequestPointerLock ||
-  document.body.webkitRequestPointerLock;
+import Player from './Player';
 
-const KEY_MAP = {
+const canvasBlock = document.querySelector('#display');
+const lockHandler = document.body.requestPointerLock;
+
+type KeyMap = {
+  [key: string]: string;
+};
+
+const KEY_MAP: KeyMap = {
   37: 'left',
   39: 'right',
   38: 'forward',
@@ -23,7 +26,13 @@ const KEY_MAP = {
 const MOUSE_SENSITIVITY = 100;
 
 class Controls {
-  constructor(player) {
+  player: Player;
+
+  state: any;
+
+  onKey: Function;
+
+  constructor(player: Player) {
     this.player = player;
     this.state = {
       left: false,
@@ -47,17 +56,15 @@ class Controls {
     canvasBlock.addEventListener('click', lockHandler);
   }
 
-  onTouch(e) {
+  onTouch(e: TouchEvent) {
     const t = e.touches[0];
     this.onTouchEnd(e);
-    if (t.pageY < window.innerHeight * 0.5) this.onKey(true, { keyCode: 38 });
-    else if (t.pageX < window.innerWidth * 0.5)
-      this.onKey(true, { keyCode: 37 });
-    else if (t.pageY > window.innerWidth * 0.5)
-      this.onKey(true, { keyCode: 39 });
+    if (t.pageY < window.innerHeight * 0.5) this.onKey(true, { code: 38 });
+    else if (t.pageX < window.innerWidth * 0.5) this.onKey(true, { code: 37 });
+    else if (t.pageY > window.innerWidth * 0.5) this.onKey(true, { code: 39 });
   }
 
-  onTouchEnd(e) {
+  onTouchEnd(e: TouchEvent) {
     this.state = {
       left: false,
       right: false,
@@ -71,11 +78,11 @@ class Controls {
     e.stopPropagation();
   }
 
-  onKeyDown(e) {
+  onKeyDown(e: KeyboardEvent) {
     e.preventDefault();
     e.stopPropagation();
 
-    const action = KEY_MAP[e.keyCode];
+    const action = KEY_MAP[e.code];
 
     if (!action) return;
 
@@ -84,19 +91,19 @@ class Controls {
     this.player.do(action);
   }
 
-  onKeyUp(e) {
+  onKeyUp(e: KeyboardEvent) {
     e.preventDefault();
     e.stopPropagation();
 
-    const action = KEY_MAP[e.keyCode];
+    const action = KEY_MAP[e.code];
 
     if (!action) return;
 
     this.state[action] = false;
   }
 
-  onMouseMovement(e) {
-    const x = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
+  onMouseMovement(e: MouseEvent) {
+    const x = e.movementX || 0;
     const angle = Math.PI / MOUSE_SENSITIVITY;
     if (x > 0) this.player.rotate(angle);
     if (x < 0) this.player.rotate(-angle);

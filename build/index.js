@@ -8672,6 +8672,154 @@ var Bitmap = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/components/Controls.ts":
+/*!************************************!*\
+  !*** ./src/components/Controls.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var canvasBlock = document.querySelector('#display');
+var lockHandler = document.body.requestPointerLock;
+var KEY_MAP = {
+    37: 'left',
+    39: 'right',
+    38: 'forward',
+    40: 'backward',
+    65: 'sideLeft',
+    68: 'sideRight',
+    87: 'forward',
+    83: 'backward',
+    13: 'enter',
+    16: 'shift',
+    32: 'space',
+    27: 'escape',
+    69: 'attack',
+};
+var MOUSE_SENSITIVITY = 100;
+var Controls = /** @class */ (function () {
+    function Controls(player) {
+        this.player = player;
+        this.state = {
+            left: false,
+            right: false,
+            forward: false,
+            backward: false,
+            shift: false,
+            sideLeft: false,
+            sideRight: false,
+        };
+        document.addEventListener('keydown', this.onKeyDown.bind(this), false);
+        document.addEventListener('keyup', this.onKeyUp.bind(this), false);
+        document.addEventListener('touchstart', this.onTouch.bind(this), false);
+        document.addEventListener('touchmove', this.onTouch.bind(this), false);
+        document.addEventListener('touchend', this.onTouchEnd.bind(this), false);
+        document.addEventListener('mousemove', this.onMouseMovement.bind(this), false);
+        canvasBlock.addEventListener('click', lockHandler);
+    }
+    Controls.prototype.onTouch = function (e) {
+        var t = e.touches[0];
+        this.onTouchEnd(e);
+        if (t.pageY < window.innerHeight * 0.5)
+            this.onKey(true, { code: 38 });
+        else if (t.pageX < window.innerWidth * 0.5)
+            this.onKey(true, { code: 37 });
+        else if (t.pageY > window.innerWidth * 0.5)
+            this.onKey(true, { code: 39 });
+    };
+    Controls.prototype.onTouchEnd = function (e) {
+        this.state = {
+            left: false,
+            right: false,
+            forward: false,
+            backward: false,
+            sideLeft: false,
+            sideRight: false,
+            shift: false,
+        };
+        e.preventDefault();
+        e.stopPropagation();
+    };
+    Controls.prototype.onKeyDown = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var action = KEY_MAP[e.code];
+        if (!action)
+            return;
+        this.state[action] = true;
+        this.player.do(action);
+    };
+    Controls.prototype.onKeyUp = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var action = KEY_MAP[e.code];
+        if (!action)
+            return;
+        this.state[action] = false;
+    };
+    Controls.prototype.onMouseMovement = function (e) {
+        var x = e.movementX || 0;
+        var angle = Math.PI / MOUSE_SENSITIVITY;
+        if (x > 0)
+            this.player.rotate(angle);
+        if (x < 0)
+            this.player.rotate(-angle);
+    };
+    return Controls;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Controls);
+
+
+/***/ }),
+
+/***/ "./src/components/GameLoop.ts":
+/*!************************************!*\
+  !*** ./src/components/GameLoop.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var GameLoop = /** @class */ (function () {
+    function GameLoop() {
+        this.callback = function () { };
+        this.previousTime = 0;
+        this.stopped = false;
+        this.frame = this.frame.bind(this);
+    }
+    GameLoop.prototype.start = function (callback) {
+        this.callback = callback;
+        this.loopId = requestAnimationFrame(this.frame);
+    };
+    GameLoop.prototype.frame = function (currentTime) {
+        if (this.stopped)
+            return;
+        var seconds = (currentTime - this.previousTime) / 1000;
+        if (seconds < 0.2)
+            this.callback(seconds);
+        this.previousTime = currentTime;
+        this.loopId = requestAnimationFrame(this.frame);
+    };
+    GameLoop.prototype.stop = function () {
+        if (this.stopped)
+            return;
+        cancelAnimationFrame(this.loopId);
+        this.stopped = true;
+    };
+    return GameLoop;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GameLoop);
+
+
+/***/ }),
+
 /***/ "./src/components/Objects.ts":
 /*!***********************************!*\
   !*** ./src/components/Objects.ts ***!
@@ -8726,6 +8874,297 @@ var Paper = /** @class */ (function () {
     return Paper;
 }());
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Paper);
+
+
+/***/ }),
+
+/***/ "./src/components/Player.ts":
+/*!**********************************!*\
+  !*** ./src/components/Player.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
+/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/config */ "./src/core/config.ts");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/calc */ "./src/utils/calc.ts");
+/* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Audio */ "./src/components/Audio/index.ts");
+/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Bitmap */ "./src/components/Bitmap.ts");
+/* harmony import */ var _NPC__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./NPC */ "./src/components/NPC.js");
+/* harmony import */ var _Paper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Paper */ "./src/components/Paper.ts");
+
+
+
+
+
+
+
+var Player = /** @class */ (function () {
+    function Player(game) {
+        this.game = game;
+        this.map = game.map;
+        this.mode = game.mode;
+        this.state = {
+            position: {
+                x: 1.5,
+                y: 1.5,
+                direction: 1.57,
+            },
+            movement: {
+                paces: 0,
+                speed: 1,
+                grabDistance: 0,
+                putDistance: 0,
+            },
+            FSM: {
+                walking: false,
+                running: false,
+                putting: false,
+                grabbing: false,
+            },
+            inventory: {
+                papers: _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.papers,
+                paperType: null,
+                previosPaperPlace: { x: null, y: null },
+            },
+        };
+        this.rightHand = new _Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].texture, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].width, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].height);
+        this.leftHand = new _Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].texture, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].width, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].height);
+        this.playerSounds = new _Audio__WEBPACK_IMPORTED_MODULE_3__.PlayerSounds(this.mode, this);
+        this.paperSounds = new _Audio__WEBPACK_IMPORTED_MODULE_3__.PaperSounds(this);
+    }
+    Player.prototype.rotate = function (angle) {
+        var direction = this.state.position.direction;
+        var newDirection = (direction + angle + _utils_calc__WEBPACK_IMPORTED_MODULE_2__.CIRCLE) % _utils_calc__WEBPACK_IMPORTED_MODULE_2__.CIRCLE;
+        this.state.position.direction = newDirection;
+    };
+    Player.prototype.walk = function (distance, map, direction) {
+        var dx = Math.cos(direction) * distance;
+        var dy = Math.sin(direction) * distance;
+        var inDirectionX = map.get(this.state.position.x + dx, this.state.position.y);
+        var inDirectionY = map.get(this.state.position.x, this.state.position.y + dy);
+        if (inDirectionX === 2 || inDirectionY === 2)
+            this.playerSounds.hitFence();
+        if (inDirectionX === 1 || inDirectionY === 1)
+            this.playerSounds.hitWall();
+        if (inDirectionX <= 0)
+            this.state.position.x += dx;
+        if (inDirectionY <= 0)
+            this.state.position.y += dy;
+        this.state.movement.paces += distance;
+    };
+    Player.prototype.grab = function () {
+        var grabbing = this.state.FSM.grabbing;
+        var grabDistance = this.state.movement.grabDistance;
+        if (grabbing === true && grabDistance < 300) {
+            this.state.movement.grabDistance += 50;
+        }
+        else {
+            this.state.FSM.grabbing = false;
+            if (grabDistance !== 0) {
+                this.state.movement.grabDistance -= 25;
+            }
+        }
+    };
+    Player.prototype.put = function () {
+        var putting = this.state.FSM.putting;
+        var putDistance = this.state.movement.putDistance;
+        if (putting === true && putDistance < 400) {
+            this.state.movement.putDistance += 30;
+        }
+        else {
+            this.state.FSM.putting = false;
+            if (putDistance !== 0) {
+                this.state.movement.putDistance -= 15;
+            }
+        }
+    };
+    Player.prototype.update = function (controls, map, seconds) {
+        var speed = this.state.movement.speed;
+        var direction = this.state.position.direction;
+        var distance = speed * seconds;
+        var halfDistance = distance / 2;
+        var sideDirection = direction - Math.PI / 2;
+        this.state.FSM.running = controls.shift;
+        this.state.FSM.walking =
+            controls.forward ||
+                controls.backward ||
+                controls.sideLeft ||
+                controls.sideRight;
+        if (controls.left)
+            this.rotate(-Math.PI * seconds);
+        if (controls.right)
+            this.rotate(Math.PI * seconds);
+        if (controls.forward) {
+            this.playerSounds.walk();
+            this.walk(distance, map, direction);
+        }
+        if (controls.backward) {
+            this.playerSounds.walk();
+            this.walk(-distance, map, direction);
+        }
+        if (controls.sideLeft) {
+            this.playerSounds.dodge();
+            this.walk(halfDistance, map, sideDirection);
+        }
+        if (controls.sideRight) {
+            this.playerSounds.dodge();
+            this.walk(-halfDistance, map, sideDirection);
+        }
+        this.grab();
+        this.put();
+        this.state.movement.speed = this.state.FSM.running ? 3 : 1;
+    };
+    Player.prototype.eat = function (victim) {
+        victim.die();
+        this.map.people--;
+        this.showDieMessage();
+    };
+    Player.prototype.attack = function () {
+        var _this = this;
+        this.state.FSM.grabbing = true;
+        // TODO: Reduce the Objects list to just NPC list
+        var victim = this.map.objects.find(function (item) {
+            var isValidNPC = item instanceof _NPC__WEBPACK_IMPORTED_MODULE_5__.default && item.alive;
+            if (!isValidNPC) {
+                return false;
+            }
+            var dX = _this.state.position.x - item.x;
+            var dY = _this.state.position.y - item.y;
+            var distanceToNpc = Math.sqrt(dX * dX + dY * dY);
+            var isNearNPC = distanceToNpc < 0.5;
+            return isNearNPC;
+        });
+        if (victim) {
+            this.playerSounds.kill();
+            this.eat(victim);
+        }
+        else {
+            this.playerSounds.attack();
+        }
+    };
+    Player.prototype.placePaper = function () {
+        this.state.FSM.putting = true;
+        var noPapersToPlace = this.map.papers >= _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PAPER_NUM;
+        if (noPapersToPlace) {
+            this.showNoPaperMessage();
+        }
+        else {
+            var isSamePlace = this.state.inventory.previosPaperPlace.x === this.state.position.x &&
+                this.state.inventory.previosPaperPlace.y === this.state.position.y;
+            var readyToPlaceHere = !isSamePlace &&
+                !this.state.FSM.running &&
+                !this.state.FSM.walking &&
+                this.playerSounds.allSoundsEnded();
+            if (readyToPlaceHere) {
+                this.state.inventory.paperType = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 8);
+                var paperBitmap = new _Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.state.inventory.papers[this.state.inventory.paperType].texture, this.state.inventory.papers[this.state.inventory.paperType].width, this.state.inventory.papers[this.state.inventory.paperType].height);
+                var paper = new _Paper__WEBPACK_IMPORTED_MODULE_6__.default(this.state.position.x, this.state.position.y, paperBitmap);
+                this.map.addObject(paper);
+                this.paperSounds.place();
+                this.showPlacementMessage();
+                this.state.inventory.previosPaperPlace = {
+                    x: this.state.position.x,
+                    y: this.state.position.y,
+                };
+                this.map.papers++;
+            }
+            else {
+                this.showWarningMessage();
+            }
+        }
+    };
+    Player.prototype.showPlacementMessage = function () {
+        if (this.state.inventory.paperType === 0) {
+            this.showLooMessage();
+        }
+        else if (this.state.inventory.paperType === 7) {
+            this.showBombMessage();
+        }
+        else {
+            this.showPaperMessage();
+        }
+    };
+    Player.prototype.showNoPaperMessage = function () {
+        var _this = this;
+        this.map.show_no_paper = 1;
+        this.map.show_loo = 0;
+        this.map.show_bomb = 0;
+        this.map.show_tip = 0;
+        this.map.show_warning = 0;
+        setTimeout(function () {
+            _this.map.show_no_paper = 0;
+        }, 3000);
+    };
+    Player.prototype.showLooMessage = function () {
+        var _this = this;
+        this.map.show_loo = 1;
+        this.map.show_bomb = 0;
+        this.map.show_tip = 0;
+        this.map.show_warning = 0;
+        setTimeout(function () {
+            _this.map.show_loo = 0;
+        }, 3000);
+    };
+    Player.prototype.showBombMessage = function () {
+        var _this = this;
+        this.map.show_loo = 0;
+        this.map.show_bomb = 1;
+        this.map.show_tip = 0;
+        this.map.show_warning = 0;
+        setTimeout(function () {
+            _this.map.show_bomb = 0;
+        }, 3000);
+    };
+    Player.prototype.showPaperMessage = function () {
+        var _this = this;
+        this.map.show_loo = 0;
+        this.map.show_bomb = 0;
+        this.map.show_tip = 1;
+        this.map.show_warning = 0;
+        setTimeout(function () {
+            _this.map.show_tip = 0;
+        }, 3000);
+    };
+    Player.prototype.showWarningMessage = function () {
+        var _this = this;
+        this.map.show_loo = 0;
+        this.map.show_bomb = 0;
+        this.map.show_tip = 0;
+        this.map.show_warning = 1;
+        setTimeout(function () {
+            _this.map.show_warning = 0;
+        }, 3000);
+    };
+    Player.prototype.showDieMessage = function () {
+        var _this = this;
+        this.map.show_die = 1;
+        setTimeout(function () {
+            _this.map.show_die = 0;
+        }, 3000);
+    };
+    Player.prototype.do = function (action) {
+        switch (action) {
+            case 'attack':
+                this.attack();
+                break;
+            case 'space':
+                this.placePaper();
+                break;
+            case 'escape':
+                window.location.reload();
+                break;
+            default:
+                break;
+        }
+    };
+    return Player;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Player);
 
 
 /***/ }),
@@ -9362,127 +9801,6 @@ class Camera {
 
 /***/ }),
 
-/***/ "./src/components/Controls.js":
-/*!************************************!*\
-  !*** ./src/components/Controls.js ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-const canvasBlock = document.querySelector('#display');
-const lockHandler =
-  document.body.requestPointerLock ||
-  document.body.mozRequestPointerLock ||
-  document.body.webkitRequestPointerLock;
-
-const KEY_MAP = {
-  37: 'left',
-  39: 'right',
-  38: 'forward',
-  40: 'backward',
-  65: 'sideLeft',
-  68: 'sideRight',
-  87: 'forward',
-  83: 'backward',
-  13: 'enter',
-  16: 'shift',
-  32: 'space',
-  27: 'escape',
-  69: 'attack',
-};
-
-const MOUSE_SENSITIVITY = 100;
-
-class Controls {
-  constructor(player) {
-    this.player = player;
-    this.state = {
-      left: false,
-      right: false,
-      forward: false,
-      backward: false,
-      shift: false,
-      sideLeft: false,
-      sideRight: false,
-    };
-    document.addEventListener('keydown', this.onKeyDown.bind(this), false);
-    document.addEventListener('keyup', this.onKeyUp.bind(this), false);
-    document.addEventListener('touchstart', this.onTouch.bind(this), false);
-    document.addEventListener('touchmove', this.onTouch.bind(this), false);
-    document.addEventListener('touchend', this.onTouchEnd.bind(this), false);
-    document.addEventListener(
-      'mousemove',
-      this.onMouseMovement.bind(this),
-      false,
-    );
-    canvasBlock.addEventListener('click', lockHandler);
-  }
-
-  onTouch(e) {
-    const t = e.touches[0];
-    this.onTouchEnd(e);
-    if (t.pageY < window.innerHeight * 0.5) this.onKey(true, { keyCode: 38 });
-    else if (t.pageX < window.innerWidth * 0.5)
-      this.onKey(true, { keyCode: 37 });
-    else if (t.pageY > window.innerWidth * 0.5)
-      this.onKey(true, { keyCode: 39 });
-  }
-
-  onTouchEnd(e) {
-    this.state = {
-      left: false,
-      right: false,
-      forward: false,
-      backward: false,
-      sideLeft: false,
-      sideRight: false,
-      shift: false,
-    };
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
-  onKeyDown(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const action = KEY_MAP[e.keyCode];
-
-    if (!action) return;
-
-    this.state[action] = true;
-
-    this.player.do(action);
-  }
-
-  onKeyUp(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const action = KEY_MAP[e.keyCode];
-
-    if (!action) return;
-
-    this.state[action] = false;
-  }
-
-  onMouseMovement(e) {
-    const x = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
-    const angle = Math.PI / MOUSE_SENSITIVITY;
-    if (x > 0) this.player.rotate(angle);
-    if (x < 0) this.player.rotate(-angle);
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Controls);
-
-
-/***/ }),
-
 /***/ "./src/components/Game.js":
 /*!********************************!*\
   !*** ./src/components/Game.js ***!
@@ -9501,10 +9819,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/sound */ "./src/utils/sound.ts");
 /* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Audio */ "./src/components/Audio/index.ts");
 /* harmony import */ var _Camera__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Camera */ "./src/components/Camera.js");
-/* harmony import */ var _Controls__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Controls */ "./src/components/Controls.js");
-/* harmony import */ var _GameLoop__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./GameLoop */ "./src/components/GameLoop.js");
+/* harmony import */ var _Controls__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Controls */ "./src/components/Controls.ts");
+/* harmony import */ var _GameLoop__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./GameLoop */ "./src/components/GameLoop.ts");
 /* harmony import */ var _Map__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Map */ "./src/components/Map.js");
-/* harmony import */ var _Player__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Player */ "./src/components/Player.js");
+/* harmony import */ var _Player__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Player */ "./src/components/Player.ts");
 
 
 
@@ -9717,53 +10035,6 @@ class Game {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Game);
-
-
-/***/ }),
-
-/***/ "./src/components/GameLoop.js":
-/*!************************************!*\
-  !*** ./src/components/GameLoop.js ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-class GameLoop {
-  constructor() {
-    this.callback = () => {};
-    this.previousTime = 0;
-    this.frame = this.frame.bind(this);
-    this.stopped = false;
-  }
-
-  start(callback) {
-    this.callback = callback;
-    this.loopId = requestAnimationFrame(this.frame);
-  }
-
-  frame(currentTime) {
-    if (this.stopped) return;
-
-    const seconds = (currentTime - this.previousTime) / 1000;
-    if (seconds < 0.2) this.callback(seconds);
-
-    this.previousTime = currentTime;
-    this.loopId = requestAnimationFrame(this.frame);
-  }
-
-  stop() {
-    if (this.stopped) return;
-
-    cancelAnimationFrame(this.loopId);
-    this.stopped = true;
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GameLoop);
 
 
 /***/ }),
@@ -10234,345 +10505,6 @@ class NPC {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NPC);
-
-
-/***/ }),
-
-/***/ "./src/components/Player.js":
-/*!**********************************!*\
-  !*** ./src/components/Player.js ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
-/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/config */ "./src/core/config.ts");
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/calc */ "./src/utils/calc.ts");
-/* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Audio */ "./src/components/Audio/index.ts");
-/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Bitmap */ "./src/components/Bitmap.ts");
-/* harmony import */ var _NPC__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./NPC */ "./src/components/NPC.js");
-/* harmony import */ var _Paper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Paper */ "./src/components/Paper.ts");
-
-
-
-
-
-
-
-
-
-class Player {
-  constructor(game) {
-    this.game = game;
-    this.map = game.map;
-    this.mode = game.mode;
-
-    this.state = {
-      position: {
-        x: 1.5,
-        y: 1.5,
-        direction: 1.57,
-      },
-      movement: {
-        paces: 0,
-        speed: 1,
-        grabDistance: 0,
-        putDistance: 0,
-      },
-      FSM: {
-        walking: false,
-        running: false,
-        putting: false,
-        grabbing: false,
-      },
-      inventory: {
-        papers: _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.papers,
-        paperType: null,
-        previosPaperPlace: { x: null, y: null },
-      },
-    };
-
-    this.rightHand = new _Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(
-      _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].texture,
-      _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].width,
-      _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].height,
-    );
-    this.leftHand = new _Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(
-      _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].texture,
-      _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].width,
-      _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].height,
-    );
-    this.playerSounds = new _Audio__WEBPACK_IMPORTED_MODULE_3__.PlayerSounds(this.mode, this);
-    this.paperSounds = new _Audio__WEBPACK_IMPORTED_MODULE_3__.PaperSounds(this);
-  }
-
-  rotate(angle) {
-    const { direction } = this.state.position;
-    const newDirection = (direction + angle + _utils_calc__WEBPACK_IMPORTED_MODULE_2__.CIRCLE) % _utils_calc__WEBPACK_IMPORTED_MODULE_2__.CIRCLE;
-
-    this.state.position.direction = newDirection;
-  }
-
-  walk(distance, map, direction) {
-    const dx = Math.cos(direction) * distance;
-    const dy = Math.sin(direction) * distance;
-    const inDirectionX = map.get(
-      this.state.position.x + dx,
-      this.state.position.y,
-    );
-    const inDirectionY = map.get(
-      this.state.position.x,
-      this.state.position.y + dy,
-    );
-
-    if (inDirectionX === 2 || inDirectionY === 2) this.playerSounds.hitFence();
-    if (inDirectionX === 1 || inDirectionY === 1) this.playerSounds.hitWall();
-
-    if (inDirectionX <= 0) this.state.position.x += dx;
-    if (inDirectionY <= 0) this.state.position.y += dy;
-    this.state.movement.paces += distance;
-  }
-
-  grab() {
-    const { grabbing } = this.state.FSM;
-    const { grabDistance } = this.state.movement;
-
-    if (grabbing === true && grabDistance < 300) {
-      this.state.movement.grabDistance += 50;
-    } else {
-      this.state.FSM.grabbing = false;
-      if (grabDistance !== 0) {
-        this.state.movement.grabDistance -= 25;
-      }
-    }
-  }
-
-  put() {
-    const { putting } = this.state.FSM;
-    const { putDistance } = this.state.movement;
-
-    if (putting === true && putDistance < 400) {
-      this.state.movement.putDistance += 30;
-    } else {
-      this.state.FSM.putting = false;
-      if (putDistance !== 0) {
-        this.state.movement.putDistance -= 15;
-      }
-    }
-  }
-
-  update(controls, map, seconds) {
-    const { speed } = this.state.movement;
-    const { direction } = this.state.position;
-
-    const distance = speed * seconds;
-    const halfDistance = distance / 2;
-    const sideDirection = direction - Math.PI / 2;
-
-    this.state.FSM.running = controls.shift;
-    this.state.FSM.walking =
-      controls.forward ||
-      controls.backward ||
-      controls.sideLeft ||
-      controls.sideRight;
-
-    if (controls.left) this.rotate(-Math.PI * seconds);
-    if (controls.right) this.rotate(Math.PI * seconds);
-    if (controls.forward) {
-      this.playerSounds.walk();
-      this.walk(distance, map, direction);
-    }
-    if (controls.backward) {
-      this.playerSounds.walk();
-      this.walk(-distance, map, direction);
-    }
-    if (controls.sideLeft) {
-      this.playerSounds.dodge();
-      this.walk(halfDistance, map, sideDirection);
-    }
-    if (controls.sideRight) {
-      this.playerSounds.dodge();
-      this.walk(-halfDistance, map, sideDirection);
-    }
-    this.grab();
-    this.put();
-
-    this.state.movement.speed = this.state.FSM.running ? 3 : 1;
-  }
-
-  eat(victim) {
-    victim.die();
-    this.map.people--;
-    this.showDieMessage();
-  }
-
-  attack() {
-    this.state.FSM.grabbing = true;
-
-    // TODO: Reduce the Objects list to just NPC list
-    const victim = this.map.objects.find((item) => {
-      const isValidNPC = item instanceof _NPC__WEBPACK_IMPORTED_MODULE_5__.default && item.alive;
-
-      if (!isValidNPC) {
-        return false;
-      }
-
-      const dX = this.state.position.x - item.x;
-      const dY = this.state.position.y - item.y;
-      const distanceToNpc = Math.sqrt(dX * dX + dY * dY);
-      const isNearNPC = distanceToNpc < 0.5;
-
-      return isNearNPC;
-    });
-
-    if (victim) {
-      this.playerSounds.kill();
-      this.eat(victim);
-    } else {
-      this.playerSounds.attack();
-    }
-  }
-
-  placePaper() {
-    this.state.FSM.putting = true;
-
-    const noPapersToPlace = this.map.papers >= _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PAPER_NUM;
-
-    if (noPapersToPlace) {
-      this.showNoPaperMessage();
-    } else {
-      const isSamePlace =
-        this.state.inventory.previosPaperPlace.x === this.state.position.x &&
-        this.state.inventory.previosPaperPlace.y === this.state.position.y;
-
-      const readyToPlaceHere =
-        !isSamePlace &&
-        !this.state.FSM.running &&
-        !this.state.FSM.walking &&
-        this.playerSounds.allSoundsEnded();
-
-      if (readyToPlaceHere) {
-        this.state.inventory.paperType = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 8);
-
-        const paperBitmap = new _Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(
-          this.state.inventory.papers[this.state.inventory.paperType].texture,
-          this.state.inventory.papers[this.state.inventory.paperType].width,
-          this.state.inventory.papers[this.state.inventory.paperType].height,
-        );
-
-        const paper = new _Paper__WEBPACK_IMPORTED_MODULE_6__.default(
-          this.state.position.x,
-          this.state.position.y,
-          paperBitmap,
-        );
-
-        this.map.addObject(paper);
-
-        this.paperSounds.place();
-
-        this.showPlacementMessage();
-
-        this.state.inventory.previosPaperPlace = {
-          x: this.state.position.x,
-          y: this.state.position.y,
-        };
-        this.map.papers++;
-      } else {
-        this.showWarningMessage();
-      }
-    }
-  }
-
-  showPlacementMessage() {
-    if (this.state.inventory.paperType === 0) {
-      this.showLooMessage();
-    } else if (this.state.inventory.paperType === 7) {
-      this.showBombMessage();
-    } else {
-      this.showPaperMessage();
-    }
-  }
-
-  showNoPaperMessage() {
-    this.map.show_no_paper = 1;
-    this.map.show_loo = 0;
-    this.map.show_bomb = 0;
-    this.map.show_tip = 0;
-    this.map.show_warning = 0;
-    setTimeout(() => {
-      this.map.show_no_paper = 0;
-    }, 3000);
-  }
-
-  showLooMessage() {
-    this.map.show_loo = 1;
-    this.map.show_bomb = 0;
-    this.map.show_tip = 0;
-    this.map.show_warning = 0;
-    setTimeout(() => {
-      this.map.show_loo = 0;
-    }, 3000);
-  }
-
-  showBombMessage() {
-    this.map.show_loo = 0;
-    this.map.show_bomb = 1;
-    this.map.show_tip = 0;
-    this.map.show_warning = 0;
-    setTimeout(() => {
-      this.map.show_bomb = 0;
-    }, 3000);
-  }
-
-  showPaperMessage() {
-    this.map.show_loo = 0;
-    this.map.show_bomb = 0;
-    this.map.show_tip = 1;
-    this.map.show_warning = 0;
-    setTimeout(() => {
-      this.map.show_tip = 0;
-    }, 3000);
-  }
-
-  showWarningMessage() {
-    this.map.show_loo = 0;
-    this.map.show_bomb = 0;
-    this.map.show_tip = 0;
-    this.map.show_warning = 1;
-    setTimeout(() => {
-      this.map.show_warning = 0;
-    }, 3000);
-  }
-
-  showDieMessage() {
-    this.map.show_die = 1;
-    setTimeout(() => {
-      this.map.show_die = 0;
-    }, 3000);
-  }
-
-  do(action) {
-    switch (action) {
-      case 'attack':
-        this.attack();
-        break;
-      case 'space':
-        this.placePaper();
-        break;
-      case 'escape':
-        window.location.reload();
-        break;
-      default:
-        break;
-    }
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Player);
 
 
 /***/ })

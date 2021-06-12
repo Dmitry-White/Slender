@@ -1,17 +1,25 @@
 class GameLoop {
+  callback: Function;
+
+  previousTime: number;
+
+  loopId: number;
+
+  stopped: boolean;
+
   constructor() {
     this.callback = () => {};
     this.previousTime = 0;
-    this.frame = this.frame.bind(this);
     this.stopped = false;
+    this.frame = this.frame.bind(this);
   }
 
-  start(callback) {
+  start(callback: Function) {
     this.callback = callback;
     this.loopId = requestAnimationFrame(this.frame);
   }
 
-  frame(currentTime) {
+  frame(currentTime: number) {
     if (this.stopped) return;
 
     const seconds = (currentTime - this.previousTime) / 1000;

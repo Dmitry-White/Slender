@@ -4,11 +4,29 @@ import { CIRCLE, getRandomInt } from '../utils/calc';
 
 import { PlayerSounds, PaperSounds } from './Audio';
 import Bitmap from './Bitmap';
+import Game from './Game';
+import Map from './Map';
 import NPC from './NPC';
 import Paper from './Paper';
 
 class Player {
-  constructor(game) {
+  game: Game;
+
+  mode: any;
+
+  map: Map;
+
+  state: any;
+
+  rightHand: Bitmap;
+
+  leftHand: Bitmap;
+
+  playerSounds: PlayerSounds;
+
+  paperSounds: PaperSounds;
+
+  constructor(game: Game) {
     this.game = game;
     this.map = game.map;
     this.mode = game.mode;
@@ -52,14 +70,14 @@ class Player {
     this.paperSounds = new PaperSounds(this);
   }
 
-  rotate(angle) {
+  rotate(angle: number) {
     const { direction } = this.state.position;
     const newDirection = (direction + angle + CIRCLE) % CIRCLE;
 
     this.state.position.direction = newDirection;
   }
 
-  walk(distance, map, direction) {
+  walk(distance: number, map: any, direction: number) {
     const dx = Math.cos(direction) * distance;
     const dy = Math.sin(direction) * distance;
     const inDirectionX = map.get(
@@ -107,7 +125,7 @@ class Player {
     }
   }
 
-  update(controls, map, seconds) {
+  update(controls: any, map: any, seconds: number) {
     const { speed } = this.state.movement;
     const { direction } = this.state.position;
 
@@ -146,7 +164,7 @@ class Player {
     this.state.movement.speed = this.state.FSM.running ? 3 : 1;
   }
 
-  eat(victim) {
+  eat(victim: NPC) {
     victim.die();
     this.map.people--;
     this.showDieMessage();
@@ -156,7 +174,7 @@ class Player {
     this.state.FSM.grabbing = true;
 
     // TODO: Reduce the Objects list to just NPC list
-    const victim = this.map.objects.find((item) => {
+    const victim = this.map.objects.find((item: any) => {
       const isValidNPC = item instanceof NPC && item.alive;
 
       if (!isValidNPC) {
@@ -297,7 +315,7 @@ class Player {
     }, 3000);
   }
 
-  do(action) {
+  do(action: string) {
     switch (action) {
       case 'attack':
         this.attack();

@@ -11,7 +11,7 @@ class Objects {
 
   width: number;
 
-  texture: any;
+  texture: Bitmap;
 
   constructor(object: any) {
     this.x = object.x;
