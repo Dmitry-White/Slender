@@ -2,12 +2,56 @@ import ASSETS from '../../../data/assets';
 import GAME_OPTIONS from '../../core/config';
 import { getRandomInt } from '../../utils/calc';
 import NPC from '../Actors/NPC';
+import Player from '../Actors/Player';
 import Bitmap from '../Engine/Bitmap';
+import Game from '../Game';
 
 import Objects from './Objects';
 
 class Map {
-  constructor(game) {
+  game: Game;
+
+  mode: any;
+
+  size: any;
+
+  state: any;
+
+  wallGrid: any;
+
+  skybox: any;
+
+  fenceTexture: Bitmap;
+
+  fenceDoorTexture: Bitmap;
+
+  wallTexture: Bitmap;
+
+  light: any;
+
+  objects: any;
+
+  people: number;
+
+  papers: number;
+
+  show_no_paper: number;
+
+  show_loo: number;
+
+  show_bomb: number;
+
+  show_tip: number;
+
+  show_warning: number;
+
+  show_die: number;
+
+  show_taken: number;
+
+  show_all_dead: number;
+
+  constructor(game: Game) {
     this.game = game;
     this.mode = game.mode;
     this.size = GAME_OPTIONS.MAP_SIZE;
@@ -34,18 +78,18 @@ class Map {
     this.show_all_dead = 0;
   }
 
-  get(x, y) {
+  get(x: number, y: number) {
     x = Math.floor(x);
     y = Math.floor(y);
     if (x < 0 || x > this.size - 1 || y < 0 || y > this.size - 1) return -1;
     return this.wallGrid[y * this.size + x];
   }
 
-  addObject(object) {
+  addObject(object: any) {
     this.objects.push(object);
   }
 
-  getObject(x, y) {
+  getObject(x: number, y: number) {
     x = Math.floor(x);
     y = Math.floor(y);
     return this.objects[y * this.size + x];
@@ -65,7 +109,7 @@ class Map {
     }
   }
 
-  addTrees(col, row) {
+  addTrees(col: number, row: number) {
     if (this.get(col, row) === 0) {
       const num = getRandomInt(0, 4);
 
@@ -85,7 +129,7 @@ class Map {
     }
   }
 
-  addBushes(col, row) {
+  addBushes(col: number, row: number) {
     if (this.get(col, row) === 0) {
       const num = getRandomInt(0, 5);
 
@@ -153,22 +197,51 @@ class Map {
     this.wallGrid[1] = 3;
 
     this.addPeople();
+    console.log(this.objects);
   }
 
-  cast(player, angle, range) {
+  cast(player: Player, angle: number, range: number) {
     const self = this;
     const sin = Math.sin(angle);
     const cos = Math.cos(angle);
     const noWall = { length2: Infinity };
 
-    return ray({
-      x: player.state.position.x,
-      y: player.state.position.y,
-      height: 0,
-      distance: 0,
-    });
+    function step(
+      rise: number,
+      run: number,
+      x: number,
+      y: number,
+      inverted?: boolean,
+    ) {
+      if (run === 0) return noWall;
+      const dx = run > 0 ? Math.floor(x + 1) - x : Math.ceil(x - 1) - x;
+      const dy = dx * (rise / run);
+      return {
+        x: inverted ? y + dy : x + dx,
+        y: inverted ? x + dx : y + dy,
+        length2: dx * dx + dy * dy,
+      } as any;
+    }
 
-    function ray(origin) {
+    function inspect(
+      step: any,
+      shiftX: number,
+      shiftY: number,
+      distance: number,
+      offset: number,
+    ) {
+      const dx = cos < 0 ? shiftX : 0;
+      const dy = sin < 0 ? shiftY : 0;
+      step.height = self.get(step.x - dx, step.y - dy);
+      step.distance = distance + Math.sqrt(step.length2);
+      step.object = self.getObject(step.x - dx, step.y - dy);
+      if (shiftX) step.shading = cos < 0 ? 2 : 0;
+      else step.shading = sin < 0 ? 2 : 1;
+      step.offset = offset - Math.floor(offset);
+      return step;
+    }
+
+    function ray(origin: any): any {
       const stepX = step(sin, cos, origin.x, origin.y);
       const stepY = step(cos, sin, origin.y, origin.x, true);
       const nextStep =
@@ -180,37 +253,21 @@ class Map {
       return [origin].concat(ray(nextStep));
     }
 
-    function step(rise, run, x, y, inverted) {
-      if (run === 0) return noWall;
-      const dx = run > 0 ? Math.floor(x + 1) - x : Math.ceil(x - 1) - x;
-      const dy = dx * (rise / run);
-      return {
-        x: inverted ? y + dy : x + dx,
-        y: inverted ? x + dx : y + dy,
-        length2: dx * dx + dy * dy,
-      };
-    }
-
-    function inspect(step, shiftX, shiftY, distance, offset) {
-      const dx = cos < 0 ? shiftX : 0;
-      const dy = sin < 0 ? shiftY : 0;
-      step.height = self.get(step.x - dx, step.y - dy);
-      step.distance = distance + Math.sqrt(step.length2);
-      step.object = self.getObject(step.x - dx, step.y - dy);
-      if (shiftX) step.shading = cos < 0 ? 2 : 0;
-      else step.shading = sin < 0 ? 2 : 1;
-      step.offset = offset - Math.floor(offset);
-      return step;
-    }
+    return ray({
+      x: player.state.position.x,
+      y: player.state.position.y,
+      height: 0,
+      distance: 0,
+    });
   }
 
-  lightning(seconds) {
+  lightning(seconds: number) {
     if (this.light > 0) this.light = Math.max(this.light - 10 * seconds, 0);
     else if (Math.random() * 5 < seconds) this.light = 2;
   }
 
   update() {
-    this.objects.forEach((item) => {
+    this.objects.forEach((item: any) => {
       if (item instanceof NPC) {
         item.logic();
       }

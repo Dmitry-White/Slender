@@ -2,7 +2,7 @@ import video from '../img/intro.mp4';
 
 import { MenuSounds } from './components/Audio';
 import Game from './components/Game';
-import { SlideMap, SlideConfig } from './main.interface';
+import { SlideMap, SlideConfig } from './interface';
 import { preloadSounds } from './utils/sound';
 
 const SLIDE_CONFIG: SlideConfig = {

@@ -6,8 +6,10 @@ import Bitmap from '../Engine/Bitmap';
 import Game from '../Game';
 import Map from '../World/Map';
 import Paper from '../World/Paper';
+import { IEntityPosition } from '../World/interface';
 
 import NPC from './NPC';
+import { IActorState } from './interface';
 
 class Player {
   game: Game;
@@ -16,7 +18,7 @@ class Player {
 
   map: Map;
 
-  state: any;
+  state: IActorState;
 
   rightHand: Bitmap;
 
@@ -175,7 +177,7 @@ class Player {
 
     // TODO: Reduce the Objects list to just NPC list
     const victim = this.map.objects.find((item: any) => {
-      const isValidNPC = item instanceof NPC && item.alive;
+      const isValidNPC = item instanceof NPC && !item.state.FSM.dead;
 
       if (!isValidNPC) {
         return false;
@@ -224,11 +226,11 @@ class Player {
           this.state.inventory.papers[this.state.inventory.paperType].height,
         );
 
-        const paper = new Paper(
-          this.state.position.x,
-          this.state.position.y,
-          paperBitmap,
-        );
+        const paper = new Paper({
+          x: this.state.position.x,
+          y: this.state.position.y,
+          texture: paperBitmap,
+        });
 
         this.map.addObject(paper);
 
@@ -236,10 +238,12 @@ class Player {
 
         this.showPlacementMessage();
 
-        this.state.inventory.previosPaperPlace = {
+        const paperPlace: IEntityPosition = {
           x: this.state.position.x,
           y: this.state.position.y,
         };
+
+        this.state.inventory.previosPaperPlace = paperPlace;
         this.map.papers++;
       } else {
         this.showWarningMessage();

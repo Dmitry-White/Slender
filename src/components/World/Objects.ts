@@ -1,24 +1,24 @@
 import ASSETS from '../../../data/assets';
 import Bitmap from '../Engine/Bitmap';
 
+import { IEntityState, IObjectParams } from './interface';
+
 class Objects {
-  x: number;
+  state: IEntityState;
 
-  y: number;
-
-  height: number;
-
-  width: number;
-
-  texture: Bitmap;
-
-  constructor(object: any) {
-    this.x = object.x;
-    this.y = object.y;
-    this.height = object.height || 1;
-    this.width = 0.5;
-    this.texture =
-      object.texture || new Bitmap(ASSETS.trees[1].texture, 639, 1500);
+  constructor(object: IObjectParams) {
+    this.state = {
+      position: {
+        x: object.x,
+        y: object.y,
+      },
+      appearance: {
+        texture:
+          object.texture || new Bitmap(ASSETS.trees[1].texture, 639, 1500),
+        height: object.height || 1,
+        width: 0.5,
+      },
+    };
   }
 }
 

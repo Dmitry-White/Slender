@@ -1,388 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./data/assets.js":
-/*!************************!*\
-  !*** ./data/assets.js ***!
-  \************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* eslint-disable global-require */
-
-const ASSETS = {
-  trees: [
-    {
-      texture: __webpack_require__(/*! ../img/trees/tree_0.png */ "./img/trees/tree_0.png").default,
-      width: 200,
-      height: 200,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/trees/tree_1.png */ "./img/trees/tree_1.png").default,
-      width: 200,
-      height: 200,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/trees/tree_2.png */ "./img/trees/tree_2.png").default,
-      width: 200,
-      height: 200,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/trees/tree_3.png */ "./img/trees/tree_3.png").default,
-      width: 200,
-      height: 200,
-    },
-  ],
-  rain_trees: [
-    {
-      texture: __webpack_require__(/*! ../img/trees/rain_tree_0.png */ "./img/trees/rain_tree_0.png").default,
-      width: 200,
-      height: 200,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/trees/rain_tree_1.png */ "./img/trees/rain_tree_1.png").default,
-      width: 200,
-      height: 200,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/trees/rain_tree_2.png */ "./img/trees/rain_tree_2.png").default,
-      width: 200,
-      height: 200,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/trees/rain_tree_3.png */ "./img/trees/rain_tree_3.png").default,
-      width: 200,
-      height: 200,
-    },
-  ],
-  bushes: [
-    {
-      texture: __webpack_require__(/*! ../img/bushes/bush_0.png */ "./img/bushes/bush_0.png").default,
-      width: 200,
-      height: 109,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/bushes/bush_1.png */ "./img/bushes/bush_1.png").default,
-      width: 200,
-      height: 105,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/bushes/bush_2.png */ "./img/bushes/bush_2.png").default,
-      width: 200,
-      height: 311,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/bushes/bush_3.png */ "./img/bushes/bush_3.png").default,
-      width: 200,
-      height: 168,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/bushes/bush_4.png */ "./img/bushes/bush_4.png").default,
-      width: 200,
-      height: 278,
-    },
-  ],
-  rain_bushes: [
-    {
-      texture: __webpack_require__(/*! ../img/bushes/rain_bush_0.png */ "./img/bushes/rain_bush_0.png").default,
-      width: 200,
-      height: 152,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/bushes/rain_bush_1.png */ "./img/bushes/rain_bush_1.png").default,
-      width: 200,
-      height: 138,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/bushes/rain_bush_2.png */ "./img/bushes/rain_bush_2.png").default,
-      width: 217,
-      height: 200,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/bushes/rain_bush_3.png */ "./img/bushes/rain_bush_3.png").default,
-      width: 201,
-      height: 200,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/bushes/rain_bush_4.png */ "./img/bushes/rain_bush_4.png").default,
-      width: 200,
-      height: 200,
-    },
-  ],
-  papers: [
-    {
-      texture: __webpack_require__(/*! ../img/papers/paper_0.png */ "./img/papers/paper_0.png").default,
-      width: 118,
-      height: 100,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/papers/paper_1.png */ "./img/papers/paper_1.png").default,
-      width: 145,
-      height: 100,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/papers/paper_2.png */ "./img/papers/paper_2.png").default,
-      width: 100,
-      height: 100,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/papers/paper_3.png */ "./img/papers/paper_3.png").default,
-      width: 207,
-      height: 100,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/papers/paper_4.png */ "./img/papers/paper_4.png").default,
-      width: 133,
-      height: 100,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/papers/paper_5.png */ "./img/papers/paper_5.png").default,
-      width: 195,
-      height: 100,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/papers/paper_6.png */ "./img/papers/paper_6.png").default,
-      width: 310,
-      height: 100,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/papers/paper_7.png */ "./img/papers/paper_7.png").default,
-      width: 164,
-      height: 100,
-    },
-  ],
-  slender: [
-    {
-      texture: __webpack_require__(/*! ../img/slender/right_hand.png */ "./img/slender/right_hand.png").default,
-      width: 200,
-      height: 200,
-    },
-    {
-      texture: __webpack_require__(/*! ../img/slender/left_hand.png */ "./img/slender/left_hand.png").default,
-      width: 200,
-      height: 200,
-    },
-  ],
-  npc: [
-    __webpack_require__(/*! ../img/npc/npc_die.gif */ "./img/npc/npc_die.gif").default,
-    __webpack_require__(/*! ../img/npc/npc-1.png */ "./img/npc/npc-1.png").default,
-    __webpack_require__(/*! ../img/npc/npc-2.png */ "./img/npc/npc-2.png").default,
-    __webpack_require__(/*! ../img/npc/npc-3.png */ "./img/npc/npc-3.png").default,
-    __webpack_require__(/*! ../img/npc/npc-4.png */ "./img/npc/npc-4.png").default,
-    __webpack_require__(/*! ../img/npc/npc2-1.png */ "./img/npc/npc2-1.png").default,
-    __webpack_require__(/*! ../img/npc/npc2-2.png */ "./img/npc/npc2-2.png").default,
-    __webpack_require__(/*! ../img/npc/npc2-3.png */ "./img/npc/npc2-3.png").default,
-    __webpack_require__(/*! ../img/npc/npc2-4.png */ "./img/npc/npc2-4.png").default,
-    __webpack_require__(/*! ../img/npc/npc3-1.png */ "./img/npc/npc3-1.png").default,
-    __webpack_require__(/*! ../img/npc/npc3-2.png */ "./img/npc/npc3-2.png").default,
-    __webpack_require__(/*! ../img/npc/npc3-3.png */ "./img/npc/npc3-3.png").default,
-    __webpack_require__(/*! ../img/npc/npc3-4.png */ "./img/npc/npc3-4.png").default,
-  ],
-  mode: {
-    fenceDoor: __webpack_require__(/*! ../img/fence_door_0.jpg */ "./img/fence_door_0.jpg").default,
-    snow: {
-      fence: __webpack_require__(/*! ../img/snow/fence_snow.png */ "./img/snow/fence_snow.png").default,
-      sky: __webpack_require__(/*! ../img/snow/sky_panorama_snow.jpg */ "./img/snow/sky_panorama_snow.jpg").default,
-      wall: __webpack_require__(/*! ../img/snow/wall_texture_snow.jpg */ "./img/snow/wall_texture_snow.jpg").default,
-    },
-    rain: {
-      fence: __webpack_require__(/*! ../img/rain/rain_fence.jpg */ "./img/rain/rain_fence.jpg").default,
-      sky: __webpack_require__(/*! ../img/rain/rain_sky_panorama.jpg */ "./img/rain/rain_sky_panorama.jpg").default,
-      wall: __webpack_require__(/*! ../img/rain/rain_wall_texture.jpg */ "./img/rain/rain_wall_texture.jpg").default,
-    },
-  },
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ASSETS);
-
-
-/***/ }),
-
-/***/ "./data/sounds.js":
-/*!************************!*\
-  !*** ./data/sounds.js ***!
-  \************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* eslint-disable global-require */
-
-const SOUNDS = {
-  MENU: {
-    PIANO_MENU: {
-      id: 'piano_menu_ambient',
-      url: __webpack_require__(/*! ../sounds/ambient/piano_menu_ambient.mp3 */ "./sounds/ambient/piano_menu_ambient.mp3").default,
-    },
-    STATIC_MENU: {
-      id: 'static_menu_ambient',
-      url: __webpack_require__(/*! ../sounds/ambient/static_menu_ambient.mp3 */ "./sounds/ambient/static_menu_ambient.mp3").default,
-      volume: 50,
-    },
-    SLENDER_LOGO: {
-      id: 'slender_logo_hover',
-      url: __webpack_require__(/*! ../sounds/menu/slender_logo_hover.mp3 */ "./sounds/menu/slender_logo_hover.mp3").default,
-    },
-    PLAY_BUTTON: {
-      id: 'play_button_hover',
-      url: __webpack_require__(/*! ../sounds/menu/play_button_hover.mp3 */ "./sounds/menu/play_button_hover.mp3").default,
-    },
-    HO_HO: {
-      id: 'ho_ho_ho',
-      url: __webpack_require__(/*! ../sounds/menu/ho_ho_ho.mp3 */ "./sounds/menu/ho_ho_ho.mp3").default,
-    },
-    ABOUT_US: {
-      id: 'about_us',
-      url: __webpack_require__(/*! ../sounds/menu/about_us.mp3 */ "./sounds/menu/about_us.mp3").default,
-    },
-    ABOUT_GAME: {
-      id: 'about_game',
-      url: __webpack_require__(/*! ../sounds/menu/about_game.mp3 */ "./sounds/menu/about_game.mp3").default,
-    },
-  },
-  WINTER: {
-    WIND: {
-      id: 'wind_ambient',
-      url: __webpack_require__(/*! ../sounds/ambient/wind_ambient.mp3 */ "./sounds/ambient/wind_ambient.mp3").default,
-    },
-    FORWARD_STEP: {
-      id: 'forward_step',
-      url: __webpack_require__(/*! ../sounds/walking/forward_step.mp3 */ "./sounds/walking/forward_step.mp3").default,
-    },
-    BACKWARD_STEP: {
-      id: 'backward_step',
-      url: __webpack_require__(/*! ../sounds/walking/backward_step.mp3 */ "./sounds/walking/backward_step.mp3").default,
-    },
-    DODGE_STEP_0: {
-      id: 'dodge_step_0',
-      url: __webpack_require__(/*! ../sounds/walking/dodge_step_0.mp3 */ "./sounds/walking/dodge_step_0.mp3").default,
-    },
-    DODGE_STEP_1: {
-      id: 'dodge_step_1',
-      url: __webpack_require__(/*! ../sounds/walking/dodge_step_1.mp3 */ "./sounds/walking/dodge_step_1.mp3").default,
-    },
-    RUNNING: {
-      id: 'running',
-      url: __webpack_require__(/*! ../sounds/walking/running.mp3 */ "./sounds/walking/running.mp3").default,
-    },
-  },
-  VANILLA: {
-    RAIN: {
-      id: 'rain_ambient',
-      url: __webpack_require__(/*! ../sounds/ambient/rain_ambient.mp3 */ "./sounds/ambient/rain_ambient.mp3").default,
-      volume: 80,
-    },
-    RAIN_FORWARD_STEP: {
-      id: 'rain_forward_step',
-      url: __webpack_require__(/*! ../sounds/walking/rain_forward_step.mp3 */ "./sounds/walking/rain_forward_step.mp3").default,
-    },
-    RAIN_BACKWARD_STEP: {
-      id: 'rain_backward_step',
-      url: __webpack_require__(/*! ../sounds/walking/rain_backward_step.mp3 */ "./sounds/walking/rain_backward_step.mp3").default,
-    },
-    RAIN_STEP: {
-      id: 'rain_step',
-      url: __webpack_require__(/*! ../sounds/walking/rain_step.mp3 */ "./sounds/walking/rain_step.mp3").default,
-    },
-    RAIN_DODGE_STEP_0: {
-      id: 'rain_dodge_step_0',
-      url: __webpack_require__(/*! ../sounds/walking/rain_dodge_step_0.mp3 */ "./sounds/walking/rain_dodge_step_0.mp3").default,
-    },
-    RAIN_DODGE_STEP_1: {
-      id: 'rain_dodge_step_1',
-      url: __webpack_require__(/*! ../sounds/walking/rain_dodge_step_1.mp3 */ "./sounds/walking/rain_dodge_step_1.mp3").default,
-    },
-    RAIN_RUNNING: {
-      id: 'rain_running',
-      url: __webpack_require__(/*! ../sounds/walking/rain_running.mp3 */ "./sounds/walking/rain_running.mp3").default,
-    },
-  },
-  END: {
-    GHOST: {
-      id: 'ghost_scream',
-      url: __webpack_require__(/*! ../sounds/ending/ghost_scream.mp3 */ "./sounds/ending/ghost_scream.mp3").default,
-    },
-    COME_OUT: {
-      id: 'come_out',
-      url: __webpack_require__(/*! ../sounds/ending/come_out.mp3 */ "./sounds/ending/come_out.mp3").default,
-    },
-    LULU: {
-      id: 'lululala',
-      url: __webpack_require__(/*! ../sounds/ending/lululala.mp3 */ "./sounds/ending/lululala.mp3").default,
-    },
-  },
-  GENERAL: {
-    ENTERING: {
-      id: 'entering_area',
-      url: __webpack_require__(/*! ../sounds/objects/entering_area.mp3 */ "./sounds/objects/entering_area.mp3").default,
-    },
-    HIT_FENCE: {
-      id: 'hitting_the_fence',
-      url: __webpack_require__(/*! ../sounds/objects/hitting_the_fence.mp3 */ "./sounds/objects/hitting_the_fence.mp3").default,
-    },
-    HIT_RAIN_FENCE: {
-      id: 'hitting_the_rain_fence',
-      url: __webpack_require__(/*! ../sounds/objects/hitting_the_rain_fence.mp3 */ "./sounds/objects/hitting_the_rain_fence.mp3").default,
-      volume: 50,
-    },
-    HIT_WALL: {
-      id: 'hitting_the_wall',
-      url: __webpack_require__(/*! ../sounds/objects/hitting_the_wall.mp3 */ "./sounds/objects/hitting_the_wall.mp3").default,
-    },
-    PLACE_PAPER: {
-      id: 'placing_paper',
-      url: __webpack_require__(/*! ../sounds/objects/placing_paper.mp3 */ "./sounds/objects/placing_paper.mp3").default,
-    },
-    PLACE_LOO_PAPER: {
-      id: 'placing_loo_paper',
-      url: __webpack_require__(/*! ../sounds/objects/placing_loo_paper.mp3 */ "./sounds/objects/placing_loo_paper.mp3").default,
-      volume: 40,
-    },
-    PLACE_BOMB: {
-      id: 'placing_bomb',
-      url: __webpack_require__(/*! ../sounds/objects/placing_bomb.mp3 */ "./sounds/objects/placing_bomb.mp3").default,
-    },
-    SLASHING: {
-      id: 'slashing',
-      url: __webpack_require__(/*! ../sounds/objects/slashing.mp3 */ "./sounds/objects/slashing.mp3").default,
-    },
-    KILLING: {
-      id: 'killing',
-      url: __webpack_require__(/*! ../sounds/objects/killing.mp3 */ "./sounds/objects/killing.mp3").default,
-    },
-  },
-  RANDOM: {
-    GHOST: {
-      id: 'ghost_in_the_house',
-      url: __webpack_require__(/*! ../sounds/ambient/ghost_in_the_house.mp3 */ "./sounds/ambient/ghost_in_the_house.mp3").default,
-    },
-    JUST_HORROR: {
-      id: 'just_horror_ambient',
-      url: __webpack_require__(/*! ../sounds/ambient/just_horror_ambient.mp3 */ "./sounds/ambient/just_horror_ambient.mp3").default,
-    },
-    WEIRD_NOISES: {
-      id: 'weird_noises',
-      url: __webpack_require__(/*! ../sounds/ambient/weird_noises.mp3 */ "./sounds/ambient/weird_noises.mp3").default,
-    },
-    SCARY_PIANO: {
-      id: 'scary_piano',
-      url: __webpack_require__(/*! ../sounds/ambient/scary_piano.mp3 */ "./sounds/ambient/scary_piano.mp3").default,
-    },
-  },
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SOUNDS);
-
-
-/***/ }),
-
 /***/ "./img/bushes/bush_0.png":
 /*!*******************************!*\
   !*** ./img/bushes/bush_0.png ***!
@@ -7949,6 +7567,619 @@ window.soundManager = soundManager;
 
 /***/ }),
 
+/***/ "./data/assets.ts":
+/*!************************!*\
+  !*** ./data/assets.ts ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* eslint-disable global-require */
+var ASSETS = {
+    trees: [
+        {
+            texture: __webpack_require__(/*! ../img/trees/tree_0.png */ "./img/trees/tree_0.png").default,
+            width: 200,
+            height: 200,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/trees/tree_1.png */ "./img/trees/tree_1.png").default,
+            width: 200,
+            height: 200,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/trees/tree_2.png */ "./img/trees/tree_2.png").default,
+            width: 200,
+            height: 200,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/trees/tree_3.png */ "./img/trees/tree_3.png").default,
+            width: 200,
+            height: 200,
+        },
+    ],
+    rain_trees: [
+        {
+            texture: __webpack_require__(/*! ../img/trees/rain_tree_0.png */ "./img/trees/rain_tree_0.png").default,
+            width: 200,
+            height: 200,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/trees/rain_tree_1.png */ "./img/trees/rain_tree_1.png").default,
+            width: 200,
+            height: 200,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/trees/rain_tree_2.png */ "./img/trees/rain_tree_2.png").default,
+            width: 200,
+            height: 200,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/trees/rain_tree_3.png */ "./img/trees/rain_tree_3.png").default,
+            width: 200,
+            height: 200,
+        },
+    ],
+    bushes: [
+        {
+            texture: __webpack_require__(/*! ../img/bushes/bush_0.png */ "./img/bushes/bush_0.png").default,
+            width: 200,
+            height: 109,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/bushes/bush_1.png */ "./img/bushes/bush_1.png").default,
+            width: 200,
+            height: 105,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/bushes/bush_2.png */ "./img/bushes/bush_2.png").default,
+            width: 200,
+            height: 311,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/bushes/bush_3.png */ "./img/bushes/bush_3.png").default,
+            width: 200,
+            height: 168,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/bushes/bush_4.png */ "./img/bushes/bush_4.png").default,
+            width: 200,
+            height: 278,
+        },
+    ],
+    rain_bushes: [
+        {
+            texture: __webpack_require__(/*! ../img/bushes/rain_bush_0.png */ "./img/bushes/rain_bush_0.png").default,
+            width: 200,
+            height: 152,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/bushes/rain_bush_1.png */ "./img/bushes/rain_bush_1.png").default,
+            width: 200,
+            height: 138,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/bushes/rain_bush_2.png */ "./img/bushes/rain_bush_2.png").default,
+            width: 217,
+            height: 200,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/bushes/rain_bush_3.png */ "./img/bushes/rain_bush_3.png").default,
+            width: 201,
+            height: 200,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/bushes/rain_bush_4.png */ "./img/bushes/rain_bush_4.png").default,
+            width: 200,
+            height: 200,
+        },
+    ],
+    papers: [
+        {
+            texture: __webpack_require__(/*! ../img/papers/paper_0.png */ "./img/papers/paper_0.png").default,
+            width: 118,
+            height: 100,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/papers/paper_1.png */ "./img/papers/paper_1.png").default,
+            width: 145,
+            height: 100,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/papers/paper_2.png */ "./img/papers/paper_2.png").default,
+            width: 100,
+            height: 100,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/papers/paper_3.png */ "./img/papers/paper_3.png").default,
+            width: 207,
+            height: 100,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/papers/paper_4.png */ "./img/papers/paper_4.png").default,
+            width: 133,
+            height: 100,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/papers/paper_5.png */ "./img/papers/paper_5.png").default,
+            width: 195,
+            height: 100,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/papers/paper_6.png */ "./img/papers/paper_6.png").default,
+            width: 310,
+            height: 100,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/papers/paper_7.png */ "./img/papers/paper_7.png").default,
+            width: 164,
+            height: 100,
+        },
+    ],
+    slender: [
+        {
+            texture: __webpack_require__(/*! ../img/slender/right_hand.png */ "./img/slender/right_hand.png").default,
+            width: 200,
+            height: 200,
+        },
+        {
+            texture: __webpack_require__(/*! ../img/slender/left_hand.png */ "./img/slender/left_hand.png").default,
+            width: 200,
+            height: 200,
+        },
+    ],
+    npc: [
+        __webpack_require__(/*! ../img/npc/npc_die.gif */ "./img/npc/npc_die.gif").default,
+        __webpack_require__(/*! ../img/npc/npc-1.png */ "./img/npc/npc-1.png").default,
+        __webpack_require__(/*! ../img/npc/npc-2.png */ "./img/npc/npc-2.png").default,
+        __webpack_require__(/*! ../img/npc/npc-3.png */ "./img/npc/npc-3.png").default,
+        __webpack_require__(/*! ../img/npc/npc-4.png */ "./img/npc/npc-4.png").default,
+        __webpack_require__(/*! ../img/npc/npc2-1.png */ "./img/npc/npc2-1.png").default,
+        __webpack_require__(/*! ../img/npc/npc2-2.png */ "./img/npc/npc2-2.png").default,
+        __webpack_require__(/*! ../img/npc/npc2-3.png */ "./img/npc/npc2-3.png").default,
+        __webpack_require__(/*! ../img/npc/npc2-4.png */ "./img/npc/npc2-4.png").default,
+        __webpack_require__(/*! ../img/npc/npc3-1.png */ "./img/npc/npc3-1.png").default,
+        __webpack_require__(/*! ../img/npc/npc3-2.png */ "./img/npc/npc3-2.png").default,
+        __webpack_require__(/*! ../img/npc/npc3-3.png */ "./img/npc/npc3-3.png").default,
+        __webpack_require__(/*! ../img/npc/npc3-4.png */ "./img/npc/npc3-4.png").default,
+    ],
+    mode: {
+        fenceDoor: __webpack_require__(/*! ../img/fence_door_0.jpg */ "./img/fence_door_0.jpg").default,
+        snow: {
+            fence: __webpack_require__(/*! ../img/snow/fence_snow.png */ "./img/snow/fence_snow.png").default,
+            sky: __webpack_require__(/*! ../img/snow/sky_panorama_snow.jpg */ "./img/snow/sky_panorama_snow.jpg").default,
+            wall: __webpack_require__(/*! ../img/snow/wall_texture_snow.jpg */ "./img/snow/wall_texture_snow.jpg").default,
+        },
+        rain: {
+            fence: __webpack_require__(/*! ../img/rain/rain_fence.jpg */ "./img/rain/rain_fence.jpg").default,
+            sky: __webpack_require__(/*! ../img/rain/rain_sky_panorama.jpg */ "./img/rain/rain_sky_panorama.jpg").default,
+            wall: __webpack_require__(/*! ../img/rain/rain_wall_texture.jpg */ "./img/rain/rain_wall_texture.jpg").default,
+        },
+    },
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ASSETS);
+
+
+/***/ }),
+
+/***/ "./data/sounds.ts":
+/*!************************!*\
+  !*** ./data/sounds.ts ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* eslint-disable global-require */
+var SOUNDS = {
+    MENU: {
+        PIANO_MENU: {
+            id: 'piano_menu_ambient',
+            url: __webpack_require__(/*! ../sounds/ambient/piano_menu_ambient.mp3 */ "./sounds/ambient/piano_menu_ambient.mp3").default,
+        },
+        STATIC_MENU: {
+            id: 'static_menu_ambient',
+            url: __webpack_require__(/*! ../sounds/ambient/static_menu_ambient.mp3 */ "./sounds/ambient/static_menu_ambient.mp3").default,
+            volume: 50,
+        },
+        SLENDER_LOGO: {
+            id: 'slender_logo_hover',
+            url: __webpack_require__(/*! ../sounds/menu/slender_logo_hover.mp3 */ "./sounds/menu/slender_logo_hover.mp3").default,
+        },
+        PLAY_BUTTON: {
+            id: 'play_button_hover',
+            url: __webpack_require__(/*! ../sounds/menu/play_button_hover.mp3 */ "./sounds/menu/play_button_hover.mp3").default,
+        },
+        HO_HO: {
+            id: 'ho_ho_ho',
+            url: __webpack_require__(/*! ../sounds/menu/ho_ho_ho.mp3 */ "./sounds/menu/ho_ho_ho.mp3").default,
+        },
+        ABOUT_US: {
+            id: 'about_us',
+            url: __webpack_require__(/*! ../sounds/menu/about_us.mp3 */ "./sounds/menu/about_us.mp3").default,
+        },
+        ABOUT_GAME: {
+            id: 'about_game',
+            url: __webpack_require__(/*! ../sounds/menu/about_game.mp3 */ "./sounds/menu/about_game.mp3").default,
+        },
+    },
+    WINTER: {
+        WIND: {
+            id: 'wind_ambient',
+            url: __webpack_require__(/*! ../sounds/ambient/wind_ambient.mp3 */ "./sounds/ambient/wind_ambient.mp3").default,
+        },
+        FORWARD_STEP: {
+            id: 'forward_step',
+            url: __webpack_require__(/*! ../sounds/walking/forward_step.mp3 */ "./sounds/walking/forward_step.mp3").default,
+        },
+        BACKWARD_STEP: {
+            id: 'backward_step',
+            url: __webpack_require__(/*! ../sounds/walking/backward_step.mp3 */ "./sounds/walking/backward_step.mp3").default,
+        },
+        DODGE_STEP_0: {
+            id: 'dodge_step_0',
+            url: __webpack_require__(/*! ../sounds/walking/dodge_step_0.mp3 */ "./sounds/walking/dodge_step_0.mp3").default,
+        },
+        DODGE_STEP_1: {
+            id: 'dodge_step_1',
+            url: __webpack_require__(/*! ../sounds/walking/dodge_step_1.mp3 */ "./sounds/walking/dodge_step_1.mp3").default,
+        },
+        RUNNING: {
+            id: 'running',
+            url: __webpack_require__(/*! ../sounds/walking/running.mp3 */ "./sounds/walking/running.mp3").default,
+        },
+    },
+    VANILLA: {
+        RAIN: {
+            id: 'rain_ambient',
+            url: __webpack_require__(/*! ../sounds/ambient/rain_ambient.mp3 */ "./sounds/ambient/rain_ambient.mp3").default,
+            volume: 80,
+        },
+        RAIN_FORWARD_STEP: {
+            id: 'rain_forward_step',
+            url: __webpack_require__(/*! ../sounds/walking/rain_forward_step.mp3 */ "./sounds/walking/rain_forward_step.mp3").default,
+        },
+        RAIN_BACKWARD_STEP: {
+            id: 'rain_backward_step',
+            url: __webpack_require__(/*! ../sounds/walking/rain_backward_step.mp3 */ "./sounds/walking/rain_backward_step.mp3").default,
+        },
+        RAIN_STEP: {
+            id: 'rain_step',
+            url: __webpack_require__(/*! ../sounds/walking/rain_step.mp3 */ "./sounds/walking/rain_step.mp3").default,
+        },
+        RAIN_DODGE_STEP_0: {
+            id: 'rain_dodge_step_0',
+            url: __webpack_require__(/*! ../sounds/walking/rain_dodge_step_0.mp3 */ "./sounds/walking/rain_dodge_step_0.mp3").default,
+        },
+        RAIN_DODGE_STEP_1: {
+            id: 'rain_dodge_step_1',
+            url: __webpack_require__(/*! ../sounds/walking/rain_dodge_step_1.mp3 */ "./sounds/walking/rain_dodge_step_1.mp3").default,
+        },
+        RAIN_RUNNING: {
+            id: 'rain_running',
+            url: __webpack_require__(/*! ../sounds/walking/rain_running.mp3 */ "./sounds/walking/rain_running.mp3").default,
+        },
+    },
+    END: {
+        GHOST: {
+            id: 'ghost_scream',
+            url: __webpack_require__(/*! ../sounds/ending/ghost_scream.mp3 */ "./sounds/ending/ghost_scream.mp3").default,
+        },
+        COME_OUT: {
+            id: 'come_out',
+            url: __webpack_require__(/*! ../sounds/ending/come_out.mp3 */ "./sounds/ending/come_out.mp3").default,
+        },
+        LULU: {
+            id: 'lululala',
+            url: __webpack_require__(/*! ../sounds/ending/lululala.mp3 */ "./sounds/ending/lululala.mp3").default,
+        },
+    },
+    GENERAL: {
+        ENTERING: {
+            id: 'entering_area',
+            url: __webpack_require__(/*! ../sounds/objects/entering_area.mp3 */ "./sounds/objects/entering_area.mp3").default,
+        },
+        HIT_FENCE: {
+            id: 'hitting_the_fence',
+            url: __webpack_require__(/*! ../sounds/objects/hitting_the_fence.mp3 */ "./sounds/objects/hitting_the_fence.mp3").default,
+        },
+        HIT_RAIN_FENCE: {
+            id: 'hitting_the_rain_fence',
+            url: __webpack_require__(/*! ../sounds/objects/hitting_the_rain_fence.mp3 */ "./sounds/objects/hitting_the_rain_fence.mp3").default,
+            volume: 50,
+        },
+        HIT_WALL: {
+            id: 'hitting_the_wall',
+            url: __webpack_require__(/*! ../sounds/objects/hitting_the_wall.mp3 */ "./sounds/objects/hitting_the_wall.mp3").default,
+        },
+        PLACE_PAPER: {
+            id: 'placing_paper',
+            url: __webpack_require__(/*! ../sounds/objects/placing_paper.mp3 */ "./sounds/objects/placing_paper.mp3").default,
+        },
+        PLACE_LOO_PAPER: {
+            id: 'placing_loo_paper',
+            url: __webpack_require__(/*! ../sounds/objects/placing_loo_paper.mp3 */ "./sounds/objects/placing_loo_paper.mp3").default,
+            volume: 40,
+        },
+        PLACE_BOMB: {
+            id: 'placing_bomb',
+            url: __webpack_require__(/*! ../sounds/objects/placing_bomb.mp3 */ "./sounds/objects/placing_bomb.mp3").default,
+        },
+        SLASHING: {
+            id: 'slashing',
+            url: __webpack_require__(/*! ../sounds/objects/slashing.mp3 */ "./sounds/objects/slashing.mp3").default,
+        },
+        KILLING: {
+            id: 'killing',
+            url: __webpack_require__(/*! ../sounds/objects/killing.mp3 */ "./sounds/objects/killing.mp3").default,
+        },
+    },
+    RANDOM: {
+        GHOST: {
+            id: 'ghost_in_the_house',
+            url: __webpack_require__(/*! ../sounds/ambient/ghost_in_the_house.mp3 */ "./sounds/ambient/ghost_in_the_house.mp3").default,
+        },
+        JUST_HORROR: {
+            id: 'just_horror_ambient',
+            url: __webpack_require__(/*! ../sounds/ambient/just_horror_ambient.mp3 */ "./sounds/ambient/just_horror_ambient.mp3").default,
+        },
+        WEIRD_NOISES: {
+            id: 'weird_noises',
+            url: __webpack_require__(/*! ../sounds/ambient/weird_noises.mp3 */ "./sounds/ambient/weird_noises.mp3").default,
+        },
+        SCARY_PIANO: {
+            id: 'scary_piano',
+            url: __webpack_require__(/*! ../sounds/ambient/scary_piano.mp3 */ "./sounds/ambient/scary_piano.mp3").default,
+        },
+    },
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SOUNDS);
+
+
+/***/ }),
+
+/***/ "./src/components/Actors/NPC.ts":
+/*!**************************************!*\
+  !*** ./src/components/Actors/NPC.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
+/* harmony import */ var _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Engine/Bitmap */ "./src/components/Engine/Bitmap.ts");
+/* harmony import */ var _World_Paper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../World/Paper */ "./src/components/World/Paper.ts");
+
+
+
+var NPC = /** @class */ (function () {
+    function NPC(player, map, x, y, picNum) {
+        this.player = player;
+        this.map = map;
+        this.paper = null;
+        this.state = {
+            position: {
+                x: x,
+                y: y,
+                direction: 1,
+            },
+            movement: {
+                paces: 0,
+                speed: 0.7,
+                paperNearPerson: 0,
+                count: 0,
+            },
+            FSM: {
+                walking: false,
+                running: false,
+                taking: false,
+                foundPaper: false,
+                dead: false,
+            },
+            appearance: {
+                picNum: picNum,
+                color: '#cf3c8c',
+                texture: new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default("assets/images/npc-" + picNum + ".png", 114, 300),
+                height: 0.6,
+                width: 0.225,
+                floorOffset: 0,
+            },
+        };
+        // this.found_dead = false;
+    }
+    NPC.prototype.logic = function () {
+        if (!this.state.FSM.dead) {
+            if (this.state.movement.count > 270) {
+                this.state.position.direction += (0,_utils_calc__WEBPACK_IMPORTED_MODULE_0__.getRandomFloat)(-(_utils_calc__WEBPACK_IMPORTED_MODULE_0__.CIRCLE / 6), _utils_calc__WEBPACK_IMPORTED_MODULE_0__.CIRCLE / 6);
+                this.state.movement.count = 0;
+            }
+            // this.lookForDead()
+            this.searchForPaper();
+            if (!this.state.FSM.foundPaper && !this.state.FSM.taking) {
+                this.wanderAround();
+            }
+        }
+    };
+    NPC.prototype.wanderAround = function () {
+        this.state.movement.count += 1;
+        this.run();
+        this.walk(0.05 * this.state.movement.speed, this.state.position.direction);
+    };
+    NPC.prototype.run = function () {
+        var distToPlayer = this.distTo(this.player);
+        if (distToPlayer < 2) {
+            this.state.movement.speed = 3;
+            this.state.position.direction = -this.player.state.position.direction;
+        }
+        else
+            this.state.movement.speed = 0.7;
+    };
+    NPC.prototype.walk = function (distance, direction) {
+        var dx = Math.cos(direction) * distance;
+        var dy = Math.sin(direction) * distance;
+        var inDirectionX = this.map.get(this.state.position.x + dx, this.state.position.y);
+        var inDirectionY = this.map.get(this.state.position.x, this.state.position.y + dy);
+        if (inDirectionX === 2 ||
+            inDirectionY === 2 ||
+            inDirectionX === 1 ||
+            inDirectionY === 1) {
+            this.state.position.direction = direction + _utils_calc__WEBPACK_IMPORTED_MODULE_0__.CIRCLE / 6;
+        }
+        if (inDirectionX <= 0)
+            this.state.position.x += dx;
+        if (inDirectionY <= 0)
+            this.state.position.y += dy;
+        this.move('assets/images/npc');
+    };
+    NPC.prototype.move = function (url) {
+        if (this.state.movement.count % 10 === 0) {
+            if (this.state.movement.count % 20 === 0) {
+                this.state.appearance.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(url + "2-" + this.state.appearance.picNum + ".png", 114, 300);
+            }
+            else
+                this.state.appearance.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(url + "-" + this.state.appearance.picNum + ".png", 114, 300);
+        }
+    };
+    NPC.prototype.searchForPaper = function () {
+        var _this = this;
+        var dx;
+        var dy;
+        var distToPaper;
+        var paper;
+        this.map.objects.some(function (item) {
+            if (item instanceof _World_Paper__WEBPACK_IMPORTED_MODULE_2__.default) {
+                paper = item;
+                dx = _this.state.position.x - paper.state.position.x;
+                dy = _this.state.position.y - paper.state.position.y;
+                distToPaper = _this.distTo(paper);
+                _this.isNearPaper(distToPaper, paper, dx, dy);
+            }
+        });
+    };
+    NPC.prototype.isNearPaper = function (distToPaper, paper, dx, dy) {
+        if (distToPaper < 5 && this.distTo(this.player) > 3) {
+            this.paper = paper;
+            this.state.FSM.foundPaper = true;
+            if (distToPaper < 0.3) {
+                this.takingPaper();
+            }
+            else {
+                this.approachPaper(dx, dy);
+            }
+        }
+        else
+            this.state.FSM.foundPaper = false;
+    };
+    NPC.prototype.takingPaper = function () {
+        this.state.movement.speed = 0;
+        this.state.FSM.taking = true;
+        this.takePaper();
+    };
+    NPC.prototype.takePaper = function () {
+        this.state.movement.paperNearPerson++;
+        if (this.state.movement.paperNearPerson === 70) {
+            var idx = this.map.objects.indexOf(this.paper);
+            if (idx !== -1) {
+                this.map.objects.splice(idx, 1);
+            }
+            this.map.objects.forEach(function (item) {
+                if (item instanceof NPC) {
+                    var npc = item;
+                    npc.state.FSM.foundPaper = false;
+                    npc.state.FSM.taking = false;
+                    npc.state.movement.paperNearPerson = 0;
+                }
+            });
+            this.showTakenMessage();
+        }
+    };
+    NPC.prototype.approachPaper = function (dx, dy) {
+        var distToWalk = 0.007 * this.state.movement.speed;
+        dx >= 0
+            ? (this.state.position.x -= distToWalk)
+            : (this.state.position.x += distToWalk);
+        dy >= 0
+            ? (this.state.position.y -= distToWalk)
+            : (this.state.position.y += distToWalk);
+        this.state.movement.count += 0.5;
+        this.move('assets/images/npc');
+    };
+    /*
+    lookForDead() {
+        let dead, dx_dead, dy_dead, dist_to_dead;
+        this.map.objects.some((item)=>{
+            if(item instanceof NPC && item.state.FSM.dead) {
+                dead = item;
+                dist_to_dead = this.distTo(dead);
+                this.isNearDead(dist_to_dead, dead);
+            }
+        });
+    };
+  
+    isNearDead(dist_to_dead, dead) {
+        if (dist_to_dead < 3) {
+            console.log("OMG BODY!")
+            this.dead = dead;
+            this.found_dead = true;
+            this.runFromDead();
+        } else {
+            this.stayCalm();
+        }
+    }
+  
+    /*
+    runFromDead() {
+        this.state.FSM.foundPaper = false;
+        this.state.FSM.taking = false;
+        this.state.movement.speed = 3;
+        this.state.position.direction = getRandomFloat(1,4);
+    };
+  
+    stayCalm() {
+        this.state.movement.speed = .7;
+        this.found_dead = false;
+    }; */
+    NPC.prototype.die = function () {
+        var _this = this;
+        this.state.FSM.dead = true;
+        this.state.appearance.color = undefined;
+        this.state.appearance.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default('assets/images/npc_die.gif', 114, 300);
+        setTimeout(function () {
+            _this.state.appearance.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default("assets/images/npc3-" + _this.state.appearance.picNum + ".png", 300, 56);
+            _this.state.appearance.height = 0.2;
+            _this.state.appearance.width = 0.7;
+        }, 7000);
+    };
+    NPC.prototype.distTo = function (thing) {
+        // TODO: Doesn't work for player currently
+        var x = thing.x - this.state.position.x;
+        var y = thing.y - this.state.position.y;
+        return Math.sqrt(x * x + y * y);
+    };
+    NPC.prototype.showTakenMessage = function () {
+        var _this = this;
+        this.map.show_taken = 1;
+        setTimeout(function () {
+            _this.map.show_taken = 0;
+        }, 3000);
+    };
+    return NPC;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NPC);
+
+
+/***/ }),
+
 /***/ "./src/components/Actors/Player.ts":
 /*!*****************************************!*\
   !*** ./src/components/Actors/Player.ts ***!
@@ -7960,13 +8191,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/assets */ "./data/assets.js");
+/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/assets */ "./data/assets.ts");
 /* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/config */ "./src/core/config.ts");
 /* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
 /* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Audio */ "./src/components/Audio/index.ts");
 /* harmony import */ var _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Engine/Bitmap */ "./src/components/Engine/Bitmap.ts");
 /* harmony import */ var _World_Paper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../World/Paper */ "./src/components/World/Paper.ts");
-/* harmony import */ var _NPC__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./NPC */ "./src/components/Actors/NPC.js");
+/* harmony import */ var _NPC__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./NPC */ "./src/components/Actors/NPC.ts");
 
 
 
@@ -8100,7 +8331,7 @@ var Player = /** @class */ (function () {
         this.state.FSM.grabbing = true;
         // TODO: Reduce the Objects list to just NPC list
         var victim = this.map.objects.find(function (item) {
-            var isValidNPC = item instanceof _NPC__WEBPACK_IMPORTED_MODULE_6__.default && item.alive;
+            var isValidNPC = item instanceof _NPC__WEBPACK_IMPORTED_MODULE_6__.default && !item.state.FSM.dead;
             if (!isValidNPC) {
                 return false;
             }
@@ -8134,14 +8365,19 @@ var Player = /** @class */ (function () {
             if (readyToPlaceHere) {
                 this.state.inventory.paperType = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 8);
                 var paperBitmap = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.state.inventory.papers[this.state.inventory.paperType].texture, this.state.inventory.papers[this.state.inventory.paperType].width, this.state.inventory.papers[this.state.inventory.paperType].height);
-                var paper = new _World_Paper__WEBPACK_IMPORTED_MODULE_5__.default(this.state.position.x, this.state.position.y, paperBitmap);
+                var paper = new _World_Paper__WEBPACK_IMPORTED_MODULE_5__.default({
+                    x: this.state.position.x,
+                    y: this.state.position.y,
+                    texture: paperBitmap,
+                });
                 this.map.addObject(paper);
                 this.paperSounds.place();
                 this.showPlacementMessage();
-                this.state.inventory.previosPaperPlace = {
+                var paperPlace = {
                     x: this.state.position.x,
                     y: this.state.position.y,
                 };
+                this.state.inventory.previosPaperPlace = paperPlace;
                 this.map.papers++;
             }
             else {
@@ -8251,7 +8487,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/sounds */ "./data/sounds.js");
+/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/sounds */ "./data/sounds.ts");
 /* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
 /* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sounds */ "./src/components/Audio/Sounds.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
@@ -8371,7 +8607,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! soundmanager2 */ "./node_modules/soundmanager2/script/soundmanager2.js");
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../data/sounds */ "./data/sounds.js");
+/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../data/sounds */ "./data/sounds.ts");
 /* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sounds */ "./src/components/Audio/Sounds.ts");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -8963,6 +9199,415 @@ var Bitmap = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/components/Engine/Camera.ts":
+/*!*****************************************!*\
+  !*** ./src/components/Engine/Camera.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/config */ "./src/core/config.ts");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
+
+
+var Camera = /** @class */ (function () {
+    function Camera(canvas, mode, map) {
+        this.ctx = canvas.getContext('2d');
+        this.width = canvas.width;
+        this.height = canvas.height;
+        this.mode = mode;
+        this.map = map;
+        this.resolution = _core_config__WEBPACK_IMPORTED_MODULE_0__.default.RESOLUTION;
+        this.fov = _core_config__WEBPACK_IMPORTED_MODULE_0__.default.FOV;
+        this.spacing = this.width / this.resolution;
+        this.range = 14;
+        this.scale = (this.width + this.height) / 1200;
+    }
+    Camera.prototype.render = function (player, map) {
+        this.drawSky(player.state.position.direction, map.skybox, map.light);
+        this.drawColumns(player, map);
+        this.drawWeapon(player.leftHand, player.rightHand, player.state.movement.paces, player.state.movement.grabDistance, player.state.movement.putDistance);
+        this.drawMiniMap(player, map);
+        this.drawNumber();
+        this.drawPaper();
+        this.drawNoPaper();
+        this.drawLoo();
+        this.drawBomb();
+        this.drawTip();
+        this.drawWarning();
+        this.drawDie();
+        this.drawTaken();
+        this.drawAllDead();
+    };
+    Camera.prototype.drawSky = function (direction, sky, ambient) {
+        var width = sky.width * (this.height / sky.height) * 2;
+        var left = (-width * direction) / _utils_calc__WEBPACK_IMPORTED_MODULE_1__.CIRCLE;
+        this.ctx.save();
+        this.ctx.drawImage(sky.image, left, 0, width, this.height);
+        if (left < width - this.width) {
+            this.ctx.drawImage(sky.image, left + width, 0, width, this.height);
+        }
+        if (ambient > 0) {
+            this.ctx.fillStyle = this.mode.ground;
+            this.ctx.globalAlpha = ambient * this.mode.param;
+            this.ctx.fillRect(0, this.height * 0.5, this.width, this.height * 0.5);
+        }
+        this.ctx.restore();
+    };
+    Camera.prototype.drawColumn = function (column, ray, angle, map) {
+        this.lightRange = this.mode.lightRange;
+        var ctx = this.ctx;
+        var left = Math.floor(column * this.spacing);
+        var width = Math.ceil(this.spacing);
+        var wallTexture = map.wallTexture;
+        var hit = -1;
+        var objects = [];
+        var hitDistance;
+        var step;
+        while (++hit < ray.length && ray[hit].height <= 0)
+            ;
+        for (var s = ray.length - 1; s >= 0; s--) {
+            step = ray[s];
+            if (step.height === 3) {
+                wallTexture = map.fenceDoorTexture;
+                step.height = 1;
+            }
+            else if (step.height === 2) {
+                wallTexture = map.fenceTexture;
+                step.height = 1;
+            }
+            else
+                wallTexture = map.wallTexture;
+            var drops_seed = 0;
+            this.mode.winter ? (drops_seed = 3) : (drops_seed = s);
+            var rainDrops = Math.pow(Math.random(), this.mode.drops_amount) * drops_seed;
+            var rain = rainDrops > 0 && this.project(0.1, angle, step.distance);
+            var textureX = void 0;
+            var wall = void 0;
+            if (s === hit) {
+                textureX = Math.floor(wallTexture.width * step.offset);
+                wall = this.project(step.height, angle, step.distance);
+                ctx.globalAlpha = 1;
+                ctx.drawImage(wallTexture.image, textureX, 0, 1, wallTexture.height, left, wall.top, width, wall.height);
+                ctx.fillStyle = this.mode.shadows;
+                this.shading = step.shading;
+                ctx.globalAlpha = Math.max((step.distance + step.shading) / this.lightRange - map.light, 0);
+                ctx.fillRect(left, wall.top, width, wall.height);
+                hitDistance = step.distance;
+            }
+            else if (step.object) {
+                objects.push({
+                    object: step.object,
+                    distance: step.distance,
+                    offset: step.offset,
+                    angle: angle,
+                });
+            }
+            ctx.fillStyle = this.mode.drops;
+            ctx.globalAlpha = this.mode.drops_opacity;
+            while (--rainDrops > 0)
+                ctx.fillRect(left, Math.random() * rain.top, this.mode.particlesWidth, this.mode.particlesHeight);
+        }
+        return {
+            objects: objects,
+            hit: hitDistance,
+        };
+    };
+    Camera.prototype.drawColumns = function (player, map) {
+        this.ctx.save();
+        var allObjects = [];
+        for (var column = 0; column < this.resolution; column++) {
+            var angle = this.fov * (column / this.resolution - 0.5);
+            var ray = map.cast(player, player.state.position.direction + angle, this.range);
+            var columnProps = this.drawColumn(column, ray, angle, map);
+            allObjects.push(columnProps);
+        }
+        this.drawSprites(player, map, allObjects);
+        this.ctx.restore();
+    };
+    Camera.prototype.drawSprites = function (player, map, columnProps) {
+        var _this = this;
+        var screenWidth = this.width;
+        var screenHeight = this.height;
+        var screenRatio = screenWidth / this.fov;
+        var resolution = this.resolution;
+        // calculate each sprite distance to player
+        this.setSpriteDistances(map.objects, player);
+        var sprites = Array.prototype.slice
+            .call(map.objects)
+            .map(function (sprite) {
+            var distX = sprite.state.position.x - player.state.position.x;
+            var distY = sprite.state.position.y - player.state.position.y;
+            var width = (sprite.width * screenWidth) / sprite.distanceFromPlayer;
+            var height = (sprite.height * screenHeight) / sprite.distanceFromPlayer;
+            var renderedFloorOffset = sprite.floorOffset / sprite.distanceFromPlayer;
+            var angleToPlayer = Math.atan2(distY, distX);
+            var top = (screenHeight / 2) * (1 + 1 / sprite.distanceFromPlayer) - height;
+            var numColumns = (width / screenWidth) * resolution;
+            var angleRelativeToPlayerView = player.state.position.direction - angleToPlayer;
+            if (angleRelativeToPlayerView >= _utils_calc__WEBPACK_IMPORTED_MODULE_1__.CIRCLE / 2) {
+                angleRelativeToPlayerView -= _utils_calc__WEBPACK_IMPORTED_MODULE_1__.CIRCLE;
+            }
+            var cameraXOffset = _this.width / 2 - screenRatio * angleRelativeToPlayerView;
+            var firstColumn = Math.floor(((cameraXOffset - width / 2) / screenWidth) * resolution);
+            sprite.distanceFromPlayer = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+            sprite.render = {
+                width: width,
+                height: height,
+                angleToPlayer: angleRelativeToPlayerView,
+                cameraXOffset: cameraXOffset,
+                distanceFromPlayer: sprite.distanceFromPlayer,
+                numColumns: numColumns,
+                firstColumn: firstColumn,
+                top: top,
+            };
+            return sprite;
+        })
+            // sort sprites in distance order
+            .sort(function (a, b) {
+            if (a.distanceFromPlayer < b.distanceFromPlayer)
+                return 1;
+            if (a.distanceFromPlayer > b.distanceFromPlayer)
+                return -1;
+            return 0;
+        });
+        this.ctx.save();
+        for (var column = 0; column < this.resolution; column++) {
+            this.drawSpriteColumn(player, map, column, columnProps[column], sprites);
+        }
+        this.ctx.restore();
+    };
+    Camera.prototype.drawSpriteColumn = function (player, map, column, columnProps, sprites) {
+        var ctx = this.ctx;
+        var left = Math.floor(column * this.spacing);
+        var width = Math.ceil(this.spacing);
+        var columnWidth = this.width / this.resolution;
+        var angle = this.fov * (column / this.resolution - 0.5);
+        var sprite;
+        var props;
+        var obj;
+        var textureX;
+        var height;
+        var projection;
+        var mappedColumnObj;
+        var spriteIsInColumn;
+        var top;
+        sprites = sprites.filter(function (sprite) {
+            return !columnProps.hit || sprite.distanceFromPlayer < columnProps.hit;
+        });
+        for (var i = 0; i < sprites.length; i++) {
+            sprite = sprites[i];
+            spriteIsInColumn =
+                left > sprite.render.cameraXOffset - sprite.render.width / 2 &&
+                    left < sprite.render.cameraXOffset + sprite.render.width / 2;
+            if (spriteIsInColumn) {
+                textureX = Math.floor((sprite.texture.width / sprite.render.numColumns) *
+                    (column - sprite.render.firstColumn));
+                ctx.drawImage(sprite.texture.image, textureX, 0, 1, sprite.texture.height, left, sprite.render.top, width, sprite.render.height);
+                this.ctx.fillStyle = '#000';
+                this.ctx.globalAlpha = 1;
+            }
+        }
+    };
+    Camera.prototype.setSpriteDistances = function (objects, player) {
+        var obj;
+        for (var i = 0; i < objects.length; i++) {
+            obj = objects[i];
+        }
+    };
+    Camera.prototype.drawWeapon = function (leftHand, rightHand, paces, grabDistance, putDistance) {
+        var bobX = Math.cos(paces * 2) * this.scale * 6;
+        var bobY = Math.sin(paces * 4) * this.scale * 6;
+        var left_r = this.width * 0.6 + bobX;
+        var left_l = this.width * 0.15 + bobX;
+        var top = this.height * 0.6 + bobY;
+        this.ctx.drawImage(leftHand.image, left_l + grabDistance, top + putDistance, leftHand.width * this.scale, leftHand.height * this.scale);
+        this.ctx.drawImage(rightHand.image, left_r - grabDistance, top + putDistance, rightHand.width * this.scale, rightHand.height * this.scale);
+    };
+    Camera.prototype.drawMiniMap = function (player, map) {
+        var ctx = this.ctx;
+        var miniMapSize = this.width * 0.2;
+        var x = this.width - miniMapSize - 10;
+        var y = 10;
+        var blockSize = miniMapSize / map.size;
+        var triangleX = x + (player.state.position.x / map.size) * miniMapSize;
+        var triangleY = y + (player.state.position.y / map.size) * miniMapSize;
+        ctx.save();
+        ctx.globalAlpha = 0.5; // map background
+        ctx.fillRect(x, y, miniMapSize, miniMapSize);
+        ctx.globalAlpha = 0.5; // blocks
+        ctx.fillStyle = '#4c8847';
+        for (var i = 0; i < map.size * map.size; i++) {
+            if (map.wallGrid[i]) {
+                if (map.wallGrid[i] === 2) {
+                    ctx.fillStyle = '#35384b';
+                }
+                else
+                    ctx.fillStyle = '#4c8847';
+                var row = Math.floor(i / map.size);
+                var col = i - map.size * row;
+                ctx.fillRect(x + blockSize * col, y + blockSize * row, blockSize, blockSize);
+            }
+        }
+        ctx.save();
+        for (var i = 0; i < map.objects.length; i++) {
+            // sprites
+            if (map.objects[i]) {
+                if (map.objects[i] === 1)
+                    ctx.fillStyle = map.objects[i].color;
+                ctx.globalAlpha = map.objects[i].logic ? 0.8 : 0.3;
+                if (map.objects[i].color === undefined)
+                    ctx.globalAlpha = 0;
+                ctx.fillStyle = map.objects[i].color || 'red';
+                ctx.fillRect(x +
+                    blockSize * (map.objects[i].state.position.x - 0.5) +
+                    blockSize * 0.25, y +
+                    blockSize * (map.objects[i].state.position.y - 0.5) +
+                    blockSize * 0.25, blockSize * 0.5, blockSize * 0.5);
+            }
+        }
+        ctx.restore();
+        ctx.globalAlpha = 1; // player
+        ctx.fillStyle = '#fff';
+        ctx.moveTo(triangleX, triangleY);
+        ctx.translate(triangleX, triangleY);
+        ctx.rotate(player.state.position.direction - Math.PI * 0.5);
+        ctx.beginPath();
+        ctx.lineTo(-2, -3); // bottom left of triangle
+        ctx.lineTo(0, 2); // tip of triangle
+        ctx.lineTo(2, -3); // bottom right of triangle
+        ctx.fill();
+        ctx.restore();
+    };
+    Camera.prototype.drawNumber = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = 1;
+        this.mode.winter
+            ? (this.ctx.fillStyle = '#000')
+            : (this.ctx.fillStyle = '#fff');
+        var text = "Humans: " + this.map.people;
+        this.ctx.fillText(text, 60, 80);
+        this.ctx.restore();
+    };
+    Camera.prototype.drawPaper = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = 1;
+        this.mode.winter
+            ? (this.ctx.fillStyle = '#000')
+            : (this.ctx.fillStyle = '#fff');
+        var text = "Papers: " + (_core_config__WEBPACK_IMPORTED_MODULE_0__.default.PAPER_NUM - this.map.papers);
+        this.ctx.fillText(text, 60, 160);
+        this.ctx.restore();
+    };
+    Camera.prototype.drawNoPaper = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = this.map.show_no_paper;
+        this.mode.winter
+            ? (this.ctx.fillStyle = '#000')
+            : (this.ctx.fillStyle = '#fff');
+        this.ctx.fillText('No papers left. Use your hands!', this.width / 4, 80);
+        this.ctx.restore();
+    };
+    Camera.prototype.drawLoo = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = this.map.show_loo;
+        this.mode.winter
+            ? (this.ctx.fillStyle = '#000')
+            : (this.ctx.fillStyle = '#fff');
+        this.ctx.fillText('Ooops, not this one :)', this.width / 3, 80);
+        this.ctx.restore();
+    };
+    Camera.prototype.drawBomb = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = this.map.show_bomb;
+        this.mode.winter
+            ? (this.ctx.fillStyle = '#000')
+            : (this.ctx.fillStyle = '#fff');
+        this.ctx.fillText('Rush B! Terrorists always win!', this.width / 4, 80);
+        this.ctx.restore();
+    };
+    Camera.prototype.drawTip = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = this.map.show_tip;
+        this.mode.winter
+            ? (this.ctx.fillStyle = '#000')
+            : (this.ctx.fillStyle = '#fff');
+        this.ctx.fillText('Step back, let them approach.', this.width / 4, 80);
+        this.ctx.restore();
+    };
+    Camera.prototype.drawWarning = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = this.map.show_warning;
+        this.mode.winter
+            ? (this.ctx.fillStyle = '#000')
+            : (this.ctx.fillStyle = '#fff');
+        this.ctx.fillText('Stand still to place paper.', this.width / 3, 80);
+        this.ctx.restore();
+    };
+    Camera.prototype.drawDie = function () {
+        this.ctx.save();
+        this.ctx.font = '80px DieDieDie';
+        this.ctx.globalAlpha = this.map.show_die;
+        this.mode.winter
+            ? (this.ctx.fillStyle = '#000')
+            : (this.ctx.fillStyle = '#fff');
+        var w;
+        var h;
+        for (var i = 1; i < 30; i++) {
+            w = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_1__.getRandomInt)(0, 11);
+            h = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_1__.getRandomInt)(0, 9);
+            this.ctx.fillText('Die!', (this.width / 10) * w, (this.height / 8) * h);
+        }
+        this.ctx.restore();
+    };
+    Camera.prototype.drawTaken = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = this.map.show_taken;
+        this.mode.winter
+            ? (this.ctx.fillStyle = '#000')
+            : (this.ctx.fillStyle = '#fff');
+        this.ctx.fillText('They took your paper!', this.width / 3, 80);
+        this.ctx.restore();
+    };
+    Camera.prototype.drawAllDead = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = this.map.show_all_dead;
+        this.mode.winter
+            ? (this.ctx.fillStyle = '#000')
+            : (this.ctx.fillStyle = '#fff');
+        this.ctx.fillText("They're all dead! Live another day...", this.width / 4, 80);
+        this.ctx.restore();
+    };
+    Camera.prototype.project = function (height, angle, distance) {
+        var z = distance * Math.cos(angle);
+        var wallHeight = (this.height * height) / z;
+        var bottom = (this.height / 2) * (1 + 1 / z);
+        return {
+            top: bottom - wallHeight,
+            bottom: bottom,
+            height: wallHeight,
+        };
+    };
+    return Camera;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Camera);
+
+
+/***/ }),
+
 /***/ "./src/components/Engine/Controls.ts":
 /*!*******************************************!*\
   !*** ./src/components/Engine/Controls.ts ***!
@@ -9124,13 +9769,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! soundmanager2 */ "./node_modules/soundmanager2/script/soundmanager2.js");
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
+/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.ts");
 /* harmony import */ var _Actors_Player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Actors/Player */ "./src/components/Actors/Player.ts");
 /* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Audio */ "./src/components/Audio/index.ts");
-/* harmony import */ var _Engine_Camera__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Engine/Camera */ "./src/components/Engine/Camera.js");
+/* harmony import */ var _Engine_Camera__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Engine/Camera */ "./src/components/Engine/Camera.ts");
 /* harmony import */ var _Engine_Controls__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Engine/Controls */ "./src/components/Engine/Controls.ts");
 /* harmony import */ var _Engine_GameLoop__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Engine/GameLoop */ "./src/components/Engine/GameLoop.ts");
-/* harmony import */ var _World_Map__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./World/Map */ "./src/components/World/Map.js");
+/* harmony import */ var _World_Map__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./World/Map */ "./src/components/World/Map.ts");
 
 
 
@@ -9308,6 +9953,217 @@ var Game = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/components/World/Map.ts":
+/*!*************************************!*\
+  !*** ./src/components/World/Map.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/assets */ "./data/assets.ts");
+/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/config */ "./src/core/config.ts");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
+/* harmony import */ var _Actors_NPC__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Actors/NPC */ "./src/components/Actors/NPC.ts");
+/* harmony import */ var _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Engine/Bitmap */ "./src/components/Engine/Bitmap.ts");
+/* harmony import */ var _Objects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Objects */ "./src/components/World/Objects.ts");
+
+
+
+
+
+
+var Map = /** @class */ (function () {
+    function Map(game) {
+        this.game = game;
+        this.mode = game.mode;
+        this.size = _core_config__WEBPACK_IMPORTED_MODULE_1__.default.MAP_SIZE;
+        this.state = {
+            trees: null,
+            bushes: null,
+        };
+        this.wallGrid = new Uint8Array(this.size * this.size);
+        this.skybox = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.mode.sky_texture, 2000, 750);
+        this.fenceTexture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.mode.fence_texture, 512, 512);
+        this.fenceDoorTexture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.mode.fence_door, 512, 256);
+        this.wallTexture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.mode.wall_texture, 512, 512);
+        this.light = this.mode.light;
+        this.objects = [];
+        this.people = 0;
+        this.papers = 0;
+        this.show_no_paper = 0;
+        this.show_loo = 0;
+        this.show_bomb = 0;
+        this.show_tip = 0;
+        this.show_warning = 0;
+        this.show_die = 0;
+        this.show_taken = 0;
+        this.show_all_dead = 0;
+    }
+    Map.prototype.get = function (x, y) {
+        x = Math.floor(x);
+        y = Math.floor(y);
+        if (x < 0 || x > this.size - 1 || y < 0 || y > this.size - 1)
+            return -1;
+        return this.wallGrid[y * this.size + x];
+    };
+    Map.prototype.addObject = function (object) {
+        this.objects.push(object);
+    };
+    Map.prototype.getObject = function (x, y) {
+        x = Math.floor(x);
+        y = Math.floor(y);
+        return this.objects[y * this.size + x];
+    };
+    Map.prototype.prepareAssets = function () {
+        switch (this.mode.winter) {
+            case true:
+                this.state.trees = _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.trees;
+                this.state.bushes = _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.bushes;
+                break;
+            default:
+                this.state.trees = _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.rain_trees;
+                this.state.bushes = _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.rain_bushes;
+                break;
+        }
+    };
+    Map.prototype.addTrees = function (col, row) {
+        if (this.get(col, row) === 0) {
+            var num = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 4);
+            var treeBitmap = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.state.trees[num].texture, this.state.trees[num].width, this.state.trees[num].height);
+            var tree = new _Objects__WEBPACK_IMPORTED_MODULE_5__.default({
+                texture: treeBitmap,
+                x: col,
+                y: row,
+            });
+            this.addObject(tree);
+        }
+    };
+    Map.prototype.addBushes = function (col, row) {
+        if (this.get(col, row) === 0) {
+            var num = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 5);
+            var bushBitmap = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.state.bushes[num].texture, this.state.bushes[num].width, this.state.bushes[num].height);
+            var bush = new _Objects__WEBPACK_IMPORTED_MODULE_5__.default({
+                texture: bushBitmap,
+                height: 0.5,
+                x: col,
+                y: row,
+            });
+            this.addObject(bush);
+        }
+    };
+    Map.prototype.addPeople = function () {
+        for (var i = 0; i < _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PPL_NUM; i++) {
+            var x = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(2, _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PPL_XY);
+            var y = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(2, _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PPL_XY);
+            var picNum = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(1, 5);
+            var npc = new _Actors_NPC__WEBPACK_IMPORTED_MODULE_3__.default(this.game.player, this, x, y, picNum);
+            this.addObject(npc);
+            this.people++;
+        }
+    };
+    Map.prototype.buildMap = function () {
+        var row;
+        var col;
+        this.wallGrid.fill(0);
+        for (var i = 0; i < this.size * this.size; i++) {
+            row = Math.floor(i / this.size);
+            col = i - this.size * row;
+            // Generate the labirinth
+            if (row !== 1 &&
+                row !== this.size - 2 &&
+                col !== 1 &&
+                col !== this.size - 2) {
+                if (Math.random() > 0.2) {
+                    Math.random() > 0.5
+                        ? this.addBushes(col + 1.5, row + 1.5)
+                        : this.addTrees(col + 1.5, row + 1.5);
+                }
+                if (Math.random() > 0.7) {
+                    this.wallGrid[i] = 1;
+                }
+            }
+            // Generate the fence
+            if (row === 0 ||
+                row === this.size - 1 ||
+                col === 0 ||
+                col === this.size - 1) {
+                this.wallGrid[i] = 2;
+            }
+        }
+        this.wallGrid[1] = 3;
+        this.addPeople();
+        console.log(this.objects);
+    };
+    Map.prototype.cast = function (player, angle, range) {
+        var self = this;
+        var sin = Math.sin(angle);
+        var cos = Math.cos(angle);
+        var noWall = { length2: Infinity };
+        function step(rise, run, x, y, inverted) {
+            if (run === 0)
+                return noWall;
+            var dx = run > 0 ? Math.floor(x + 1) - x : Math.ceil(x - 1) - x;
+            var dy = dx * (rise / run);
+            return {
+                x: inverted ? y + dy : x + dx,
+                y: inverted ? x + dx : y + dy,
+                length2: dx * dx + dy * dy,
+            };
+        }
+        function inspect(step, shiftX, shiftY, distance, offset) {
+            var dx = cos < 0 ? shiftX : 0;
+            var dy = sin < 0 ? shiftY : 0;
+            step.height = self.get(step.x - dx, step.y - dy);
+            step.distance = distance + Math.sqrt(step.length2);
+            step.object = self.getObject(step.x - dx, step.y - dy);
+            if (shiftX)
+                step.shading = cos < 0 ? 2 : 0;
+            else
+                step.shading = sin < 0 ? 2 : 1;
+            step.offset = offset - Math.floor(offset);
+            return step;
+        }
+        function ray(origin) {
+            var stepX = step(sin, cos, origin.x, origin.y);
+            var stepY = step(cos, sin, origin.y, origin.x, true);
+            var nextStep = stepX.length2 < stepY.length2
+                ? inspect(stepX, 1, 0, origin.distance, stepX.y)
+                : inspect(stepY, 0, 1, origin.distance, stepY.x);
+            if (nextStep.distance > range)
+                return [origin];
+            return [origin].concat(ray(nextStep));
+        }
+        return ray({
+            x: player.state.position.x,
+            y: player.state.position.y,
+            height: 0,
+            distance: 0,
+        });
+    };
+    Map.prototype.lightning = function (seconds) {
+        if (this.light > 0)
+            this.light = Math.max(this.light - 10 * seconds, 0);
+        else if (Math.random() * 5 < seconds)
+            this.light = 2;
+    };
+    Map.prototype.update = function () {
+        this.objects.forEach(function (item) {
+            if (item instanceof _Actors_NPC__WEBPACK_IMPORTED_MODULE_3__.default) {
+                item.logic();
+            }
+        });
+    };
+    return Map;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Map);
+
+
+/***/ }),
+
 /***/ "./src/components/World/Objects.ts":
 /*!*****************************************!*\
   !*** ./src/components/World/Objects.ts ***!
@@ -9319,18 +10175,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/assets */ "./data/assets.js");
+/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/assets */ "./data/assets.ts");
 /* harmony import */ var _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Engine/Bitmap */ "./src/components/Engine/Bitmap.ts");
 
 
 var Objects = /** @class */ (function () {
     function Objects(object) {
-        this.x = object.x;
-        this.y = object.y;
-        this.height = object.height || 1;
-        this.width = 0.5;
-        this.texture =
-            object.texture || new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.trees[1].texture, 639, 1500);
+        this.state = {
+            position: {
+                x: object.x,
+                y: object.y,
+            },
+            appearance: {
+                texture: object.texture || new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.trees[1].texture, 639, 1500),
+                height: object.height || 1,
+                width: 0.5,
+            },
+        };
     }
     return Objects;
 }());
@@ -9351,13 +10212,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 var Paper = /** @class */ (function () {
-    function Paper(x, y, texture) {
-        this.color = '#fff';
-        this.x = x;
-        this.y = y;
-        this.height = 0.2;
-        this.width = 0.2;
-        this.texture = texture;
+    function Paper(paper) {
+        this.state = {
+            position: {
+                x: paper.x,
+                y: paper.y,
+            },
+            appearance: {
+                color: '#fff',
+                texture: paper.texture,
+                height: 0.2,
+                width: 0.2,
+            },
+        };
     }
     return Paper;
 }());
@@ -9437,7 +10304,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! soundmanager2 */ "./node_modules/soundmanager2/script/soundmanager2.js");
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../data/sounds */ "./data/sounds.js");
+/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../data/sounds */ "./data/sounds.ts");
 
 
 var SM_URL = 'node_modules/soundmanager2/swf';
@@ -9456,1013 +10323,6 @@ var preloadSounds = function () { return prepareFunc(preloadGroup, _data_sounds_
 var playSM = function (id, config) { return soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.play(id, config); };
 var stopSM = function (id) { return soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.stop(id); };
 
-
-
-/***/ }),
-
-/***/ "./src/components/Actors/NPC.js":
-/*!**************************************!*\
-  !*** ./src/components/Actors/NPC.js ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
-/* harmony import */ var _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Engine/Bitmap */ "./src/components/Engine/Bitmap.ts");
-/* harmony import */ var _World_Paper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../World/Paper */ "./src/components/World/Paper.ts");
-
-
-
-
-class NPC {
-  constructor(player, map, x, y, picNum) {
-    this.player = player;
-    this.map = map;
-    this.x = x;
-    this.y = y;
-    this.picNum = picNum;
-    this.color = '#cf3c8c';
-    this.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`assets/images/npc-${picNum}.png`, 114, 300);
-    this.height = 0.6;
-    this.width = 0.225;
-    this.floorOffset = 0;
-    this.count = 0;
-    this.direction = 1;
-    this.speed = 0.7;
-    this.alive = true;
-    // this.found_dead = false;
-    this.found_paper = false;
-    this.taking_paper = false;
-    this.paperNearPerson = 0;
-  }
-
-  logic() {
-    if (this.alive) {
-      if (this.count > 270) {
-        this.direction += (0,_utils_calc__WEBPACK_IMPORTED_MODULE_0__.getRandomFloat)(-(_utils_calc__WEBPACK_IMPORTED_MODULE_0__.CIRCLE / 6), _utils_calc__WEBPACK_IMPORTED_MODULE_0__.CIRCLE / 6);
-        this.count = 0;
-      }
-
-      // this.lookForDead()
-      this.searchForPaper();
-      if (!this.found_paper && !this.taking_paper) {
-        this.wanderAround();
-      }
-    }
-  }
-
-  wanderAround() {
-    this.count += 1;
-    this.run();
-    this.walk(0.05 * this.speed, this.direction);
-  }
-
-  run() {
-    const distToPlayer = this.distTo(this.player);
-    if (distToPlayer < 2) {
-      this.speed = 3;
-      this.direction = -this.player.state.position.direction;
-    } else this.speed = 0.7;
-  }
-
-  walk(distance, direction) {
-    const dx = Math.cos(direction) * distance;
-    const dy = Math.sin(direction) * distance;
-    const inDirectionX = this.map.get(this.x + dx, this.y);
-    const inDirectionY = this.map.get(this.x, this.y + dy);
-
-    if (
-      inDirectionX === 2 ||
-      inDirectionY === 2 ||
-      inDirectionX === 1 ||
-      inDirectionY === 1
-    ) {
-      this.direction = direction + _utils_calc__WEBPACK_IMPORTED_MODULE_0__.CIRCLE / 6;
-    }
-    if (inDirectionX <= 0) this.x += dx;
-    if (inDirectionY <= 0) this.y += dy;
-    this.move('assets/images/npc');
-  }
-
-  move(url) {
-    if (this.count % 10 === 0) {
-      if (this.count % 20 === 0) {
-        this.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`${url}2-${this.picNum}.png`, 114, 300);
-      } else this.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`${url}-${this.picNum}.png`, 114, 300);
-    }
-  }
-
-  searchForPaper() {
-    let dx;
-    let dy;
-    let distToPaper;
-    let paper;
-    this.map.objects.some((item) => {
-      if (item instanceof _World_Paper__WEBPACK_IMPORTED_MODULE_2__.default) {
-        paper = item;
-        dx = this.x - paper.x;
-        dy = this.y - paper.y;
-        distToPaper = this.distTo(paper);
-        this.isNearPaper(distToPaper, paper, dx, dy);
-      }
-    });
-  }
-
-  isNearPaper(distToPaper, paper, dx, dy) {
-    if (distToPaper < 5 && this.distTo(this.player) > 3) {
-      this.paper = paper;
-      this.found_paper = true;
-      if (distToPaper < 0.3) {
-        this.takingPaper();
-      } else {
-        this.approachPaper(dx, dy);
-      }
-    } else this.found_paper = false;
-  }
-
-  takingPaper() {
-    this.speed = 0;
-    this.taking_paper = true;
-    this.takePaper();
-  }
-
-  takePaper() {
-    this.paperNearPerson++;
-    if (this.paperNearPerson === 70) {
-      const idx = this.map.objects.indexOf(this.paper);
-      if (idx !== -1) {
-        this.map.objects.splice(idx, 1);
-      }
-      this.map.objects.forEach((item) => {
-        if (item instanceof NPC) {
-          item.found_paper = false;
-          item.taking_paper = false;
-          item.paperNearPerson = 0;
-        }
-      });
-      this.showTakenMessage();
-    }
-  }
-
-  approachPaper(dx, dy) {
-    const distToWalk = 0.007 * this.speed;
-    dx >= 0 ? (this.x -= distToWalk) : (this.x += distToWalk);
-    dy >= 0 ? (this.y -= distToWalk) : (this.y += distToWalk);
-    this.count += 0.5;
-    this.move('assets/images/npc');
-  }
-
-  /*
-  lookForDead() {
-      let dead, dx_dead, dy_dead, dist_to_dead;
-      this.map.objects.some((item)=>{
-          if(item instanceof NPC && !item.alive) {
-              dead = item;
-              dist_to_dead = this.distTo(dead);
-              this.isNearDead(dist_to_dead, dead);
-          }
-      });
-  };
-
-  isNearDead(dist_to_dead, dead) {
-      if (dist_to_dead < 3) {
-          console.log("OMG BODY!")
-          this.dead = dead;
-          this.found_dead = true;
-          this.runFromDead();
-      } else {
-          this.stayCalm();
-      }
-  }
-
-  /*
-  runFromDead() {
-      this.found_paper = false;
-      this.taking_paper = false;
-      this.speed = 3;
-      this.direction = getRandomFloat(1,4);
-  };
-
-  stayCalm() {
-      this.speed = .7;
-      this.found_dead = false;
-  }; */
-
-  die() {
-    this.alive = false;
-    this.color = undefined;
-    this.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default('assets/images/npc_die.gif', 114, 300);
-    setTimeout(() => {
-      this.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(
-        `assets/images/npc3-${this.picNum}.png`,
-        300,
-        56,
-      );
-      this.height = 0.2;
-      this.width = 0.7;
-    }, 7000);
-  }
-
-  distTo(thing) {
-    // TODO: Doesn't work for player currently
-    const x = thing.x - this.x;
-    const y = thing.y - this.y;
-    return Math.sqrt(x * x + y * y);
-  }
-
-  showTakenMessage() {
-    this.map.show_taken = 1;
-    setTimeout(() => {
-      this.map.show_taken = 0;
-    }, 3000);
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NPC);
-
-
-/***/ }),
-
-/***/ "./src/components/Engine/Camera.js":
-/*!*****************************************!*\
-  !*** ./src/components/Engine/Camera.js ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/config */ "./src/core/config.ts");
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
-
-
-
-class Camera {
-  constructor(canvas, mode, map) {
-    this.ctx = canvas.getContext('2d');
-    this.width = canvas.width;
-    this.height = canvas.height;
-    this.mode = mode;
-    this.map = map;
-    this.resolution = _core_config__WEBPACK_IMPORTED_MODULE_0__.default.RESOLUTION;
-    this.fov = _core_config__WEBPACK_IMPORTED_MODULE_0__.default.FOV;
-    this.spacing = this.width / this.resolution;
-    this.range = 14;
-    this.scale = (this.width + this.height) / 1200;
-  }
-
-  render(player, map) {
-    this.drawSky(player.state.position.direction, map.skybox, map.light);
-    this.drawColumns(player, map);
-    this.drawWeapon(
-      player.leftHand,
-      player.rightHand,
-      player.state.movement.paces,
-      player.state.movement.grabDistance,
-      player.state.movement.putDistance,
-    );
-    this.drawMiniMap(player, map);
-    this.drawNumber();
-    this.drawPaper();
-    this.drawNoPaper();
-    this.drawLoo();
-    this.drawBomb();
-    this.drawTip();
-    this.drawWarning();
-    this.drawDie();
-    this.drawTaken();
-    this.drawAllDead();
-  }
-
-  drawSky(direction, sky, ambient) {
-    const width = sky.width * (this.height / sky.height) * 2;
-    const left = (-width * direction) / _utils_calc__WEBPACK_IMPORTED_MODULE_1__.CIRCLE;
-
-    this.ctx.save();
-    this.ctx.drawImage(sky.image, left, 0, width, this.height);
-    if (left < width - this.width) {
-      this.ctx.drawImage(sky.image, left + width, 0, width, this.height);
-    }
-
-    if (ambient > 0) {
-      this.ctx.fillStyle = this.mode.ground;
-      this.ctx.globalAlpha = ambient * this.mode.param;
-      this.ctx.fillRect(0, this.height * 0.5, this.width, this.height * 0.5);
-    }
-    this.ctx.restore();
-  }
-
-  drawColumn(column, ray, angle, map) {
-    this.lightRange = this.mode.lightRange;
-    const { ctx } = this;
-    const left = Math.floor(column * this.spacing);
-    const width = Math.ceil(this.spacing);
-    let { wallTexture } = map;
-    let hit = -1;
-    const objects = [];
-    let hitDistance;
-    let step;
-
-    while (++hit < ray.length && ray[hit].height <= 0);
-
-    for (let s = ray.length - 1; s >= 0; s--) {
-      step = ray[s];
-      if (step.height === 3) {
-        wallTexture = map.fenceDoorTexture;
-        step.height = 1;
-      } else if (step.height === 2) {
-        wallTexture = map.fenceTexture;
-        step.height = 1;
-      } else wallTexture = map.wallTexture;
-
-      let drops_seed = 0;
-      this.mode.winter ? (drops_seed = 3) : (drops_seed = s);
-
-      let rainDrops =
-        Math.pow(Math.random(), this.mode.drops_amount) * drops_seed;
-      const rain = rainDrops > 0 && this.project(0.1, angle, step.distance);
-      let textureX;
-      let wall;
-
-      if (s === hit) {
-        textureX = Math.floor(wallTexture.width * step.offset);
-        wall = this.project(step.height, angle, step.distance);
-
-        ctx.globalAlpha = 1;
-        ctx.drawImage(
-          wallTexture.image,
-          textureX,
-          0,
-          1,
-          wallTexture.height,
-          left,
-          wall.top,
-          width,
-          wall.height,
-        );
-
-        ctx.fillStyle = this.mode.shadows;
-        this.shading = step.shading;
-        ctx.globalAlpha = Math.max(
-          (step.distance + step.shading) / this.lightRange - map.light,
-          0,
-        );
-        ctx.fillRect(left, wall.top, width, wall.height);
-        hitDistance = step.distance;
-      } else if (step.object) {
-        objects.push({
-          object: step.object,
-          distance: step.distance,
-          offset: step.offset,
-          angle,
-        });
-      }
-      ctx.fillStyle = this.mode.drops;
-      ctx.globalAlpha = this.mode.drops_opacity;
-      while (--rainDrops > 0)
-        ctx.fillRect(
-          left,
-          Math.random() * rain.top,
-          this.mode.particlesWidth,
-          this.mode.particlesHeight,
-        );
-    }
-    return {
-      objects,
-      hit: hitDistance,
-    };
-  }
-
-  drawColumns(player, map) {
-    this.ctx.save();
-    const allObjects = [];
-    for (let column = 0; column < this.resolution; column++) {
-      const angle = this.fov * (column / this.resolution - 0.5);
-      const ray = map.cast(
-        player,
-        player.state.position.direction + angle,
-        this.range,
-      );
-      const columnProps = this.drawColumn(column, ray, angle, map);
-
-      allObjects.push(columnProps);
-    }
-    this.drawSprites(player, map, allObjects);
-    this.ctx.restore();
-  }
-
-  drawSprites(player, map, columnProps) {
-    const screenWidth = this.width;
-    const screenHeight = this.height;
-    const screenRatio = screenWidth / this.fov;
-    const { resolution } = this;
-
-    // calculate each sprite distance to player
-    this.setSpriteDistances(map.objects, player);
-
-    const sprites = Array.prototype.slice
-      .call(map.objects)
-      .map((sprite) => {
-        const distX = sprite.x - player.state.position.x;
-        const distY = sprite.y - player.state.position.y;
-        const width = (sprite.width * screenWidth) / sprite.distanceFromPlayer;
-        const height =
-          (sprite.height * screenHeight) / sprite.distanceFromPlayer;
-        const renderedFloorOffset =
-          sprite.floorOffset / sprite.distanceFromPlayer;
-        const angleToPlayer = Math.atan2(distY, distX);
-        const top =
-          (screenHeight / 2) * (1 + 1 / sprite.distanceFromPlayer) - height;
-        const numColumns = (width / screenWidth) * resolution;
-        let angleRelativeToPlayerView =
-          player.state.position.direction - angleToPlayer;
-
-        if (angleRelativeToPlayerView >= _utils_calc__WEBPACK_IMPORTED_MODULE_1__.CIRCLE / 2) {
-          angleRelativeToPlayerView -= _utils_calc__WEBPACK_IMPORTED_MODULE_1__.CIRCLE;
-        }
-
-        const cameraXOffset =
-          this.width / 2 - screenRatio * angleRelativeToPlayerView;
-        const firstColumn = Math.floor(
-          ((cameraXOffset - width / 2) / screenWidth) * resolution,
-        );
-
-        sprite.distanceFromPlayer = Math.sqrt(
-          Math.pow(distX, 2) + Math.pow(distY, 2),
-        );
-        sprite.render = {
-          width,
-          height,
-          angleToPlayer: angleRelativeToPlayerView,
-          cameraXOffset,
-          distanceFromPlayer: sprite.distanceFromPlayer,
-          numColumns,
-          firstColumn,
-          top,
-        };
-        return sprite;
-      })
-      // sort sprites in distance order
-      .sort((a, b) => {
-        if (a.distanceFromPlayer < b.distanceFromPlayer) return 1;
-        if (a.distanceFromPlayer > b.distanceFromPlayer) return -1;
-        return 0;
-      });
-
-    this.ctx.save();
-    for (let column = 0; column < this.resolution; column++) {
-      this.drawSpriteColumn(player, map, column, columnProps[column], sprites);
-    }
-    this.ctx.restore();
-  }
-
-  drawSpriteColumn(player, map, column, columnProps, sprites) {
-    const { ctx } = this;
-    const left = Math.floor(column * this.spacing);
-    const width = Math.ceil(this.spacing);
-    const columnWidth = this.width / this.resolution;
-    const angle = this.fov * (column / this.resolution - 0.5);
-    let sprite;
-    let props;
-    let obj;
-    let textureX;
-    let height;
-    let projection;
-    let mappedColumnObj;
-    let spriteIsInColumn;
-    let top;
-
-    sprites = sprites.filter((sprite) => {
-      return !columnProps.hit || sprite.distanceFromPlayer < columnProps.hit;
-    });
-
-    for (let i = 0; i < sprites.length; i++) {
-      sprite = sprites[i];
-      spriteIsInColumn =
-        left > sprite.render.cameraXOffset - sprite.render.width / 2 &&
-        left < sprite.render.cameraXOffset + sprite.render.width / 2;
-
-      if (spriteIsInColumn) {
-        textureX = Math.floor(
-          (sprite.texture.width / sprite.render.numColumns) *
-            (column - sprite.render.firstColumn),
-        );
-        ctx.drawImage(
-          sprite.texture.image,
-          textureX,
-          0,
-          1,
-          sprite.texture.height,
-          left,
-          sprite.render.top,
-          width,
-          sprite.render.height,
-        );
-        this.ctx.fillStyle = '#000';
-        this.ctx.globalAlpha = 1;
-      }
-    }
-  }
-
-  setSpriteDistances(objects, player) {
-    let obj;
-    for (let i = 0; i < objects.length; i++) {
-      obj = objects[i];
-    }
-  }
-
-  drawWeapon(leftHand, rightHand, paces, grab, put) {
-    const bobX = Math.cos(paces * 2) * this.scale * 6;
-    const bobY = Math.sin(paces * 4) * this.scale * 6;
-    const left_r = this.width * 0.6 + bobX;
-    const left_l = this.width * 0.15 + bobX;
-    const top = this.height * 0.6 + bobY;
-    this.ctx.drawImage(
-      leftHand.image,
-      left_l + grab,
-      top + put,
-      leftHand.width * this.scale,
-      leftHand.height * this.scale,
-    );
-    this.ctx.drawImage(
-      rightHand.image,
-      left_r - grab,
-      top + put,
-      rightHand.width * this.scale,
-      rightHand.height * this.scale,
-    );
-  }
-
-  drawMiniMap(player, map) {
-    const { ctx } = this;
-    const miniMapSize = this.width * 0.2;
-    const x = this.width - miniMapSize - 10;
-    const y = 10;
-    const blockSize = miniMapSize / map.size;
-    const triangleX = x + (player.state.position.x / map.size) * miniMapSize;
-    const triangleY = y + (player.state.position.y / map.size) * miniMapSize;
-
-    ctx.save();
-
-    ctx.globalAlpha = 0.5; // map background
-    ctx.fillRect(x, y, miniMapSize, miniMapSize);
-
-    ctx.globalAlpha = 0.5; // blocks
-    ctx.fillStyle = '#4c8847';
-
-    for (let i = 0; i < map.size * map.size; i++) {
-      if (map.wallGrid[i]) {
-        if (map.wallGrid[i] === 2) {
-          ctx.fillStyle = '#35384b';
-        } else ctx.fillStyle = '#4c8847';
-        const row = Math.floor(i / map.size);
-        const col = i - map.size * row;
-        ctx.fillRect(
-          x + blockSize * col,
-          y + blockSize * row,
-          blockSize,
-          blockSize,
-        );
-      }
-    }
-    ctx.save();
-
-    for (let i = 0; i < map.objects.length; i++) {
-      // sprites
-      if (map.objects[i]) {
-        if (map.objects[i] === 1) ctx.fillStyle = map.objects[i].color;
-        ctx.globalAlpha = map.objects[i].logic ? 0.8 : 0.3;
-        if (map.objects[i].color === undefined) ctx.globalAlpha = 0;
-        ctx.fillStyle = map.objects[i].color || 'red';
-
-        ctx.fillRect(
-          x + blockSize * (map.objects[i].x - 0.5) + blockSize * 0.25,
-          y + blockSize * (map.objects[i].y - 0.5) + blockSize * 0.25,
-          blockSize * 0.5,
-          blockSize * 0.5,
-        );
-      }
-    }
-    ctx.restore();
-
-    ctx.globalAlpha = 1; // player
-    ctx.fillStyle = '#fff';
-    ctx.moveTo(triangleX, triangleY);
-    ctx.translate(triangleX, triangleY);
-
-    ctx.rotate(player.state.position.direction - Math.PI * 0.5);
-    ctx.beginPath();
-    ctx.lineTo(-2, -3); // bottom left of triangle
-    ctx.lineTo(0, 2); // tip of triangle
-    ctx.lineTo(2, -3); // bottom right of triangle
-    ctx.fill();
-
-    ctx.restore();
-  }
-
-  drawNumber() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = 1;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    const text = `Humans: ${this.map.people}`;
-    this.ctx.fillText(text, 60, 80);
-
-    this.ctx.restore();
-  }
-
-  drawPaper() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = 1;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    const text = `Papers: ${_core_config__WEBPACK_IMPORTED_MODULE_0__.default.PAPER_NUM - this.map.papers}`;
-    this.ctx.fillText(text, 60, 160);
-
-    this.ctx.restore();
-  }
-
-  drawNoPaper() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_no_paper;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    this.ctx.fillText('No papers left. Use your hands!', this.width / 4, 80);
-
-    this.ctx.restore();
-  }
-
-  drawLoo() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_loo;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    this.ctx.fillText('Ooops, not this one :)', this.width / 3, 80);
-
-    this.ctx.restore();
-  }
-
-  drawBomb() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_bomb;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    this.ctx.fillText('Rush B! Terrorists always win!', this.width / 4, 80);
-
-    this.ctx.restore();
-  }
-
-  drawTip() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_tip;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    this.ctx.fillText('Step back, let them approach.', this.width / 4, 80);
-
-    this.ctx.restore();
-  }
-
-  drawWarning() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_warning;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    this.ctx.fillText('Stand still to place paper.', this.width / 3, 80);
-
-    this.ctx.restore();
-  }
-
-  drawDie() {
-    this.ctx.save();
-
-    this.ctx.font = '80px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_die;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    let w;
-    let h;
-    for (let i = 1; i < 30; i++) {
-      w = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_1__.getRandomInt)(0, 11);
-      h = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_1__.getRandomInt)(0, 9);
-      this.ctx.fillText('Die!', (this.width / 10) * w, (this.height / 8) * h);
-    }
-
-    this.ctx.restore();
-  }
-
-  drawTaken() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_taken;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    this.ctx.fillText('They took your paper!', this.width / 3, 80);
-
-    this.ctx.restore();
-  }
-
-  drawAllDead() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_all_dead;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    this.ctx.fillText(
-      "They're all dead! Live another day...",
-      this.width / 4,
-      80,
-    );
-
-    this.ctx.restore();
-  }
-
-  project(height, angle, distance) {
-    const z = distance * Math.cos(angle);
-    const wallHeight = (this.height * height) / z;
-    const bottom = (this.height / 2) * (1 + 1 / z);
-    return {
-      top: bottom - wallHeight,
-      bottom,
-      height: wallHeight,
-    };
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Camera);
-
-
-/***/ }),
-
-/***/ "./src/components/World/Map.js":
-/*!*************************************!*\
-  !*** ./src/components/World/Map.js ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/assets */ "./data/assets.js");
-/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/config */ "./src/core/config.ts");
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
-/* harmony import */ var _Actors_NPC__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Actors/NPC */ "./src/components/Actors/NPC.js");
-/* harmony import */ var _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Engine/Bitmap */ "./src/components/Engine/Bitmap.ts");
-/* harmony import */ var _Objects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Objects */ "./src/components/World/Objects.ts");
-
-
-
-
-
-
-
-
-class Map {
-  constructor(game) {
-    this.game = game;
-    this.mode = game.mode;
-    this.size = _core_config__WEBPACK_IMPORTED_MODULE_1__.default.MAP_SIZE;
-    this.state = {
-      trees: null,
-      bushes: null,
-    };
-    this.wallGrid = new Uint8Array(this.size * this.size);
-    this.skybox = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.mode.sky_texture, 2000, 750);
-    this.fenceTexture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.mode.fence_texture, 512, 512);
-    this.fenceDoorTexture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.mode.fence_door, 512, 256);
-    this.wallTexture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.mode.wall_texture, 512, 512);
-    this.light = this.mode.light;
-    this.objects = [];
-    this.people = 0;
-    this.papers = 0;
-    this.show_no_paper = 0;
-    this.show_loo = 0;
-    this.show_bomb = 0;
-    this.show_tip = 0;
-    this.show_warning = 0;
-    this.show_die = 0;
-    this.show_taken = 0;
-    this.show_all_dead = 0;
-  }
-
-  get(x, y) {
-    x = Math.floor(x);
-    y = Math.floor(y);
-    if (x < 0 || x > this.size - 1 || y < 0 || y > this.size - 1) return -1;
-    return this.wallGrid[y * this.size + x];
-  }
-
-  addObject(object) {
-    this.objects.push(object);
-  }
-
-  getObject(x, y) {
-    x = Math.floor(x);
-    y = Math.floor(y);
-    return this.objects[y * this.size + x];
-  }
-
-  prepareAssets() {
-    switch (this.mode.winter) {
-      case true:
-        this.state.trees = _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.trees;
-        this.state.bushes = _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.bushes;
-        break;
-
-      default:
-        this.state.trees = _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.rain_trees;
-        this.state.bushes = _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.rain_bushes;
-        break;
-    }
-  }
-
-  addTrees(col, row) {
-    if (this.get(col, row) === 0) {
-      const num = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 4);
-
-      const treeBitmap = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(
-        this.state.trees[num].texture,
-        this.state.trees[num].width,
-        this.state.trees[num].height,
-      );
-
-      const tree = new _Objects__WEBPACK_IMPORTED_MODULE_5__.default({
-        texture: treeBitmap,
-        x: col,
-        y: row,
-      });
-
-      this.addObject(tree);
-    }
-  }
-
-  addBushes(col, row) {
-    if (this.get(col, row) === 0) {
-      const num = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 5);
-
-      const bushBitmap = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(
-        this.state.bushes[num].texture,
-        this.state.bushes[num].width,
-        this.state.bushes[num].height,
-      );
-
-      const bush = new _Objects__WEBPACK_IMPORTED_MODULE_5__.default({
-        texture: bushBitmap,
-        height: 0.5,
-        x: col,
-        y: row,
-      });
-
-      this.addObject(bush);
-    }
-  }
-
-  addPeople() {
-    for (let i = 0; i < _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PPL_NUM; i++) {
-      const x = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(2, _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PPL_XY);
-      const y = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(2, _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PPL_XY);
-      const picNum = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(1, 5);
-      const npc = new _Actors_NPC__WEBPACK_IMPORTED_MODULE_3__.default(this.game.player, this, x, y, picNum);
-      this.addObject(npc);
-      this.people++;
-    }
-  }
-
-  buildMap() {
-    let row;
-    let col;
-    this.wallGrid.fill(0);
-    for (let i = 0; i < this.size * this.size; i++) {
-      row = Math.floor(i / this.size);
-      col = i - this.size * row;
-      // Generate the labirinth
-      if (
-        row !== 1 &&
-        row !== this.size - 2 &&
-        col !== 1 &&
-        col !== this.size - 2
-      ) {
-        if (Math.random() > 0.2) {
-          Math.random() > 0.5
-            ? this.addBushes(col + 1.5, row + 1.5)
-            : this.addTrees(col + 1.5, row + 1.5);
-        }
-        if (Math.random() > 0.7) {
-          this.wallGrid[i] = 1;
-        }
-      }
-      // Generate the fence
-      if (
-        row === 0 ||
-        row === this.size - 1 ||
-        col === 0 ||
-        col === this.size - 1
-      ) {
-        this.wallGrid[i] = 2;
-      }
-    }
-    this.wallGrid[1] = 3;
-
-    this.addPeople();
-  }
-
-  cast(player, angle, range) {
-    const self = this;
-    const sin = Math.sin(angle);
-    const cos = Math.cos(angle);
-    const noWall = { length2: Infinity };
-
-    return ray({
-      x: player.state.position.x,
-      y: player.state.position.y,
-      height: 0,
-      distance: 0,
-    });
-
-    function ray(origin) {
-      const stepX = step(sin, cos, origin.x, origin.y);
-      const stepY = step(cos, sin, origin.y, origin.x, true);
-      const nextStep =
-        stepX.length2 < stepY.length2
-          ? inspect(stepX, 1, 0, origin.distance, stepX.y)
-          : inspect(stepY, 0, 1, origin.distance, stepY.x);
-
-      if (nextStep.distance > range) return [origin];
-      return [origin].concat(ray(nextStep));
-    }
-
-    function step(rise, run, x, y, inverted) {
-      if (run === 0) return noWall;
-      const dx = run > 0 ? Math.floor(x + 1) - x : Math.ceil(x - 1) - x;
-      const dy = dx * (rise / run);
-      return {
-        x: inverted ? y + dy : x + dx,
-        y: inverted ? x + dx : y + dy,
-        length2: dx * dx + dy * dy,
-      };
-    }
-
-    function inspect(step, shiftX, shiftY, distance, offset) {
-      const dx = cos < 0 ? shiftX : 0;
-      const dy = sin < 0 ? shiftY : 0;
-      step.height = self.get(step.x - dx, step.y - dy);
-      step.distance = distance + Math.sqrt(step.length2);
-      step.object = self.getObject(step.x - dx, step.y - dy);
-      if (shiftX) step.shading = cos < 0 ? 2 : 0;
-      else step.shading = sin < 0 ? 2 : 1;
-      step.offset = offset - Math.floor(offset);
-      return step;
-    }
-  }
-
-  lightning(seconds) {
-    if (this.light > 0) this.light = Math.max(this.light - 10 * seconds, 0);
-    else if (Math.random() * 5 < seconds) this.light = 2;
-  }
-
-  update() {
-    this.objects.forEach((item) => {
-      if (item instanceof _Actors_NPC__WEBPACK_IMPORTED_MODULE_3__.default) {
-        item.logic();
-      }
-    });
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Map);
 
 
 /***/ })

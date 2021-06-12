@@ -1,8 +1,36 @@
 import GAME_OPTIONS from '../../core/config';
 import { CIRCLE, getRandomInt } from '../../utils/calc';
+import Player from '../Actors/Player';
+import Map from '../World/Map';
+
+import Bitmap from './Bitmap';
 
 class Camera {
-  constructor(canvas, mode, map) {
+  ctx: CanvasRenderingContext2D;
+
+  width: any;
+
+  height: any;
+
+  mode: any;
+
+  map: Map;
+
+  resolution: number;
+
+  fov: number;
+
+  spacing: number;
+
+  range: number;
+
+  scale: number;
+
+  shading: number;
+
+  lightRange: number;
+
+  constructor(canvas: HTMLCanvasElement, mode: any, map: Map) {
     this.ctx = canvas.getContext('2d');
     this.width = canvas.width;
     this.height = canvas.height;
@@ -15,7 +43,7 @@ class Camera {
     this.scale = (this.width + this.height) / 1200;
   }
 
-  render(player, map) {
+  render(player: Player, map: Map) {
     this.drawSky(player.state.position.direction, map.skybox, map.light);
     this.drawColumns(player, map);
     this.drawWeapon(
@@ -38,7 +66,7 @@ class Camera {
     this.drawAllDead();
   }
 
-  drawSky(direction, sky, ambient) {
+  drawSky(direction: number, sky: any, ambient: number) {
     const width = sky.width * (this.height / sky.height) * 2;
     const left = (-width * direction) / CIRCLE;
 
@@ -56,7 +84,7 @@ class Camera {
     this.ctx.restore();
   }
 
-  drawColumn(column, ray, angle, map) {
+  drawColumn(column: number, ray: any, angle: number, map: Map) {
     this.lightRange = this.mode.lightRange;
     const { ctx } = this;
     const left = Math.floor(column * this.spacing);
@@ -137,7 +165,7 @@ class Camera {
     };
   }
 
-  drawColumns(player, map) {
+  drawColumns(player: Player, map: Map) {
     this.ctx.save();
     const allObjects = [];
     for (let column = 0; column < this.resolution; column++) {
@@ -155,7 +183,7 @@ class Camera {
     this.ctx.restore();
   }
 
-  drawSprites(player, map, columnProps) {
+  drawSprites(player: Player, map: Map, columnProps: any) {
     const screenWidth = this.width;
     const screenHeight = this.height;
     const screenRatio = screenWidth / this.fov;
@@ -167,8 +195,8 @@ class Camera {
     const sprites = Array.prototype.slice
       .call(map.objects)
       .map((sprite) => {
-        const distX = sprite.x - player.state.position.x;
-        const distY = sprite.y - player.state.position.y;
+        const distX = sprite.state.position.x - player.state.position.x;
+        const distY = sprite.state.position.y - player.state.position.y;
         const width = (sprite.width * screenWidth) / sprite.distanceFromPlayer;
         const height =
           (sprite.height * screenHeight) / sprite.distanceFromPlayer;
@@ -220,7 +248,13 @@ class Camera {
     this.ctx.restore();
   }
 
-  drawSpriteColumn(player, map, column, columnProps, sprites) {
+  drawSpriteColumn(
+    player: Player,
+    map: Map,
+    column: number,
+    columnProps: any,
+    sprites: any,
+  ) {
     const { ctx } = this;
     const left = Math.floor(column * this.spacing);
     const width = Math.ceil(this.spacing);
@@ -236,7 +270,7 @@ class Camera {
     let spriteIsInColumn;
     let top;
 
-    sprites = sprites.filter((sprite) => {
+    sprites = sprites.filter((sprite: any) => {
       return !columnProps.hit || sprite.distanceFromPlayer < columnProps.hit;
     });
 
@@ -268,14 +302,20 @@ class Camera {
     }
   }
 
-  setSpriteDistances(objects, player) {
+  setSpriteDistances(objects: any, player: Player) {
     let obj;
     for (let i = 0; i < objects.length; i++) {
       obj = objects[i];
     }
   }
 
-  drawWeapon(leftHand, rightHand, paces, grab, put) {
+  drawWeapon(
+    leftHand: Bitmap,
+    rightHand: Bitmap,
+    paces: number,
+    grabDistance: number,
+    putDistance: number,
+  ) {
     const bobX = Math.cos(paces * 2) * this.scale * 6;
     const bobY = Math.sin(paces * 4) * this.scale * 6;
     const left_r = this.width * 0.6 + bobX;
@@ -283,21 +323,21 @@ class Camera {
     const top = this.height * 0.6 + bobY;
     this.ctx.drawImage(
       leftHand.image,
-      left_l + grab,
-      top + put,
+      left_l + grabDistance,
+      top + putDistance,
       leftHand.width * this.scale,
       leftHand.height * this.scale,
     );
     this.ctx.drawImage(
       rightHand.image,
-      left_r - grab,
-      top + put,
+      left_r - grabDistance,
+      top + putDistance,
       rightHand.width * this.scale,
       rightHand.height * this.scale,
     );
   }
 
-  drawMiniMap(player, map) {
+  drawMiniMap(player: Player, map: Map) {
     const { ctx } = this;
     const miniMapSize = this.width * 0.2;
     const x = this.width - miniMapSize - 10;
@@ -340,8 +380,12 @@ class Camera {
         ctx.fillStyle = map.objects[i].color || 'red';
 
         ctx.fillRect(
-          x + blockSize * (map.objects[i].x - 0.5) + blockSize * 0.25,
-          y + blockSize * (map.objects[i].y - 0.5) + blockSize * 0.25,
+          x +
+            blockSize * (map.objects[i].state.position.x - 0.5) +
+            blockSize * 0.25,
+          y +
+            blockSize * (map.objects[i].state.position.y - 0.5) +
+            blockSize * 0.25,
           blockSize * 0.5,
           blockSize * 0.5,
         );
@@ -506,7 +550,7 @@ class Camera {
     this.ctx.restore();
   }
 
-  project(height, angle, distance) {
+  project(height: number, angle: number, distance: number) {
     const z = distance * Math.cos(angle);
     const wallHeight = (this.height * height) / z;
     const bottom = (this.height / 2) * (1 + 1 / z);
