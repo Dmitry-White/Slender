@@ -1,4 +1,4 @@
-import Player from './Player';
+import Player from '../Actors/Player';
 
 const canvasBlock = document.querySelector('#display');
 const lockHandler = document.body.requestPointerLock;
@@ -59,9 +59,11 @@ class Controls {
   onTouch(e: TouchEvent) {
     const t = e.touches[0];
     this.onTouchEnd(e);
-    if (t.pageY < window.innerHeight * 0.5) this.onKey(true, { code: 38 });
-    else if (t.pageX < window.innerWidth * 0.5) this.onKey(true, { code: 37 });
-    else if (t.pageY > window.innerWidth * 0.5) this.onKey(true, { code: 39 });
+    if (t.pageY < window.innerHeight * 0.5) this.onKey(true, { keyCode: 38 });
+    else if (t.pageX < window.innerWidth * 0.5)
+      this.onKey(true, { keyCode: 37 });
+    else if (t.pageY > window.innerWidth * 0.5)
+      this.onKey(true, { keyCode: 39 });
   }
 
   onTouchEnd(e: TouchEvent) {
@@ -82,7 +84,7 @@ class Controls {
     e.preventDefault();
     e.stopPropagation();
 
-    const action = KEY_MAP[e.code];
+    const action = KEY_MAP[e.keyCode];
 
     if (!action) return;
 
@@ -95,7 +97,7 @@ class Controls {
     e.preventDefault();
     e.stopPropagation();
 
-    const action = KEY_MAP[e.code];
+    const action = KEY_MAP[e.keyCode];
 
     if (!action) return;
 

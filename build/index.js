@@ -7949,6 +7949,297 @@ window.soundManager = soundManager;
 
 /***/ }),
 
+/***/ "./src/components/Actors/Player.ts":
+/*!*****************************************!*\
+  !*** ./src/components/Actors/Player.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/assets */ "./data/assets.js");
+/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/config */ "./src/core/config.ts");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
+/* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Audio */ "./src/components/Audio/index.ts");
+/* harmony import */ var _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Engine/Bitmap */ "./src/components/Engine/Bitmap.ts");
+/* harmony import */ var _World_Paper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../World/Paper */ "./src/components/World/Paper.ts");
+/* harmony import */ var _NPC__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./NPC */ "./src/components/Actors/NPC.js");
+
+
+
+
+
+
+
+var Player = /** @class */ (function () {
+    function Player(game) {
+        this.game = game;
+        this.map = game.map;
+        this.mode = game.mode;
+        this.state = {
+            position: {
+                x: 1.5,
+                y: 1.5,
+                direction: 1.57,
+            },
+            movement: {
+                paces: 0,
+                speed: 1,
+                grabDistance: 0,
+                putDistance: 0,
+            },
+            FSM: {
+                walking: false,
+                running: false,
+                putting: false,
+                grabbing: false,
+            },
+            inventory: {
+                papers: _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.papers,
+                paperType: null,
+                previosPaperPlace: { x: null, y: null },
+            },
+        };
+        this.rightHand = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].texture, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].width, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].height);
+        this.leftHand = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].texture, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].width, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].height);
+        this.playerSounds = new _Audio__WEBPACK_IMPORTED_MODULE_3__.PlayerSounds(this.mode, this);
+        this.paperSounds = new _Audio__WEBPACK_IMPORTED_MODULE_3__.PaperSounds(this);
+    }
+    Player.prototype.rotate = function (angle) {
+        var direction = this.state.position.direction;
+        var newDirection = (direction + angle + _utils_calc__WEBPACK_IMPORTED_MODULE_2__.CIRCLE) % _utils_calc__WEBPACK_IMPORTED_MODULE_2__.CIRCLE;
+        this.state.position.direction = newDirection;
+    };
+    Player.prototype.walk = function (distance, map, direction) {
+        var dx = Math.cos(direction) * distance;
+        var dy = Math.sin(direction) * distance;
+        var inDirectionX = map.get(this.state.position.x + dx, this.state.position.y);
+        var inDirectionY = map.get(this.state.position.x, this.state.position.y + dy);
+        if (inDirectionX === 2 || inDirectionY === 2)
+            this.playerSounds.hitFence();
+        if (inDirectionX === 1 || inDirectionY === 1)
+            this.playerSounds.hitWall();
+        if (inDirectionX <= 0)
+            this.state.position.x += dx;
+        if (inDirectionY <= 0)
+            this.state.position.y += dy;
+        this.state.movement.paces += distance;
+    };
+    Player.prototype.grab = function () {
+        var grabbing = this.state.FSM.grabbing;
+        var grabDistance = this.state.movement.grabDistance;
+        if (grabbing === true && grabDistance < 300) {
+            this.state.movement.grabDistance += 50;
+        }
+        else {
+            this.state.FSM.grabbing = false;
+            if (grabDistance !== 0) {
+                this.state.movement.grabDistance -= 25;
+            }
+        }
+    };
+    Player.prototype.put = function () {
+        var putting = this.state.FSM.putting;
+        var putDistance = this.state.movement.putDistance;
+        if (putting === true && putDistance < 400) {
+            this.state.movement.putDistance += 30;
+        }
+        else {
+            this.state.FSM.putting = false;
+            if (putDistance !== 0) {
+                this.state.movement.putDistance -= 15;
+            }
+        }
+    };
+    Player.prototype.update = function (controls, map, seconds) {
+        var speed = this.state.movement.speed;
+        var direction = this.state.position.direction;
+        var distance = speed * seconds;
+        var halfDistance = distance / 2;
+        var sideDirection = direction - Math.PI / 2;
+        this.state.FSM.running = controls.shift;
+        this.state.FSM.walking =
+            controls.forward ||
+                controls.backward ||
+                controls.sideLeft ||
+                controls.sideRight;
+        if (controls.left)
+            this.rotate(-Math.PI * seconds);
+        if (controls.right)
+            this.rotate(Math.PI * seconds);
+        if (controls.forward) {
+            this.playerSounds.walk();
+            this.walk(distance, map, direction);
+        }
+        if (controls.backward) {
+            this.playerSounds.walk();
+            this.walk(-distance, map, direction);
+        }
+        if (controls.sideLeft) {
+            this.playerSounds.dodge();
+            this.walk(halfDistance, map, sideDirection);
+        }
+        if (controls.sideRight) {
+            this.playerSounds.dodge();
+            this.walk(-halfDistance, map, sideDirection);
+        }
+        this.grab();
+        this.put();
+        this.state.movement.speed = this.state.FSM.running ? 3 : 1;
+    };
+    Player.prototype.eat = function (victim) {
+        victim.die();
+        this.map.people--;
+        this.showDieMessage();
+    };
+    Player.prototype.attack = function () {
+        var _this = this;
+        this.state.FSM.grabbing = true;
+        // TODO: Reduce the Objects list to just NPC list
+        var victim = this.map.objects.find(function (item) {
+            var isValidNPC = item instanceof _NPC__WEBPACK_IMPORTED_MODULE_6__.default && item.alive;
+            if (!isValidNPC) {
+                return false;
+            }
+            var dX = _this.state.position.x - item.x;
+            var dY = _this.state.position.y - item.y;
+            var distanceToNpc = Math.sqrt(dX * dX + dY * dY);
+            var isNearNPC = distanceToNpc < 0.5;
+            return isNearNPC;
+        });
+        if (victim) {
+            this.playerSounds.kill();
+            this.eat(victim);
+        }
+        else {
+            this.playerSounds.attack();
+        }
+    };
+    Player.prototype.placePaper = function () {
+        this.state.FSM.putting = true;
+        var noPapersToPlace = this.map.papers >= _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PAPER_NUM;
+        if (noPapersToPlace) {
+            this.showNoPaperMessage();
+        }
+        else {
+            var isSamePlace = this.state.inventory.previosPaperPlace.x === this.state.position.x &&
+                this.state.inventory.previosPaperPlace.y === this.state.position.y;
+            var readyToPlaceHere = !isSamePlace &&
+                !this.state.FSM.running &&
+                !this.state.FSM.walking &&
+                this.playerSounds.allSoundsEnded();
+            if (readyToPlaceHere) {
+                this.state.inventory.paperType = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 8);
+                var paperBitmap = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.state.inventory.papers[this.state.inventory.paperType].texture, this.state.inventory.papers[this.state.inventory.paperType].width, this.state.inventory.papers[this.state.inventory.paperType].height);
+                var paper = new _World_Paper__WEBPACK_IMPORTED_MODULE_5__.default(this.state.position.x, this.state.position.y, paperBitmap);
+                this.map.addObject(paper);
+                this.paperSounds.place();
+                this.showPlacementMessage();
+                this.state.inventory.previosPaperPlace = {
+                    x: this.state.position.x,
+                    y: this.state.position.y,
+                };
+                this.map.papers++;
+            }
+            else {
+                this.showWarningMessage();
+            }
+        }
+    };
+    Player.prototype.showPlacementMessage = function () {
+        if (this.state.inventory.paperType === 0) {
+            this.showLooMessage();
+        }
+        else if (this.state.inventory.paperType === 7) {
+            this.showBombMessage();
+        }
+        else {
+            this.showPaperMessage();
+        }
+    };
+    Player.prototype.showNoPaperMessage = function () {
+        var _this = this;
+        this.map.show_no_paper = 1;
+        this.map.show_loo = 0;
+        this.map.show_bomb = 0;
+        this.map.show_tip = 0;
+        this.map.show_warning = 0;
+        setTimeout(function () {
+            _this.map.show_no_paper = 0;
+        }, 3000);
+    };
+    Player.prototype.showLooMessage = function () {
+        var _this = this;
+        this.map.show_loo = 1;
+        this.map.show_bomb = 0;
+        this.map.show_tip = 0;
+        this.map.show_warning = 0;
+        setTimeout(function () {
+            _this.map.show_loo = 0;
+        }, 3000);
+    };
+    Player.prototype.showBombMessage = function () {
+        var _this = this;
+        this.map.show_loo = 0;
+        this.map.show_bomb = 1;
+        this.map.show_tip = 0;
+        this.map.show_warning = 0;
+        setTimeout(function () {
+            _this.map.show_bomb = 0;
+        }, 3000);
+    };
+    Player.prototype.showPaperMessage = function () {
+        var _this = this;
+        this.map.show_loo = 0;
+        this.map.show_bomb = 0;
+        this.map.show_tip = 1;
+        this.map.show_warning = 0;
+        setTimeout(function () {
+            _this.map.show_tip = 0;
+        }, 3000);
+    };
+    Player.prototype.showWarningMessage = function () {
+        var _this = this;
+        this.map.show_loo = 0;
+        this.map.show_bomb = 0;
+        this.map.show_tip = 0;
+        this.map.show_warning = 1;
+        setTimeout(function () {
+            _this.map.show_warning = 0;
+        }, 3000);
+    };
+    Player.prototype.showDieMessage = function () {
+        var _this = this;
+        this.map.show_die = 1;
+        setTimeout(function () {
+            _this.map.show_die = 0;
+        }, 3000);
+    };
+    Player.prototype.do = function (action) {
+        switch (action) {
+            case 'attack':
+                this.attack();
+                break;
+            case 'space':
+                this.placePaper();
+                break;
+            case 'escape':
+                window.location.reload();
+                break;
+            default:
+                break;
+        }
+    };
+    return Player;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Player);
+
+
+/***/ }),
+
 /***/ "./src/components/Audio/GameSounds.ts":
 /*!********************************************!*\
   !*** ./src/components/Audio/GameSounds.ts ***!
@@ -8647,10 +8938,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/components/Bitmap.ts":
-/*!**********************************!*\
-  !*** ./src/components/Bitmap.ts ***!
-  \**********************************/
+/***/ "./src/components/Engine/Bitmap.ts":
+/*!*****************************************!*\
+  !*** ./src/components/Engine/Bitmap.ts ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -8672,10 +8963,10 @@ var Bitmap = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/components/Controls.ts":
-/*!************************************!*\
-  !*** ./src/components/Controls.ts ***!
-  \************************************/
+/***/ "./src/components/Engine/Controls.ts":
+/*!*******************************************!*\
+  !*** ./src/components/Engine/Controls.ts ***!
+  \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -8725,11 +9016,11 @@ var Controls = /** @class */ (function () {
         var t = e.touches[0];
         this.onTouchEnd(e);
         if (t.pageY < window.innerHeight * 0.5)
-            this.onKey(true, { code: 38 });
+            this.onKey(true, { keyCode: 38 });
         else if (t.pageX < window.innerWidth * 0.5)
-            this.onKey(true, { code: 37 });
+            this.onKey(true, { keyCode: 37 });
         else if (t.pageY > window.innerWidth * 0.5)
-            this.onKey(true, { code: 39 });
+            this.onKey(true, { keyCode: 39 });
     };
     Controls.prototype.onTouchEnd = function (e) {
         this.state = {
@@ -8747,7 +9038,7 @@ var Controls = /** @class */ (function () {
     Controls.prototype.onKeyDown = function (e) {
         e.preventDefault();
         e.stopPropagation();
-        var action = KEY_MAP[e.code];
+        var action = KEY_MAP[e.keyCode];
         if (!action)
             return;
         this.state[action] = true;
@@ -8756,7 +9047,7 @@ var Controls = /** @class */ (function () {
     Controls.prototype.onKeyUp = function (e) {
         e.preventDefault();
         e.stopPropagation();
-        var action = KEY_MAP[e.code];
+        var action = KEY_MAP[e.keyCode];
         if (!action)
             return;
         this.state[action] = false;
@@ -8776,10 +9067,10 @@ var Controls = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/components/GameLoop.ts":
-/*!************************************!*\
-  !*** ./src/components/GameLoop.ts ***!
-  \************************************/
+/***/ "./src/components/Engine/GameLoop.ts":
+/*!*******************************************!*\
+  !*** ./src/components/Engine/GameLoop.ts ***!
+  \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -8820,10 +9111,10 @@ var GameLoop = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/components/Objects.ts":
-/*!***********************************!*\
-  !*** ./src/components/Objects.ts ***!
-  \***********************************/
+/***/ "./src/components/World/Objects.ts":
+/*!*****************************************!*\
+  !*** ./src/components/World/Objects.ts ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -8831,8 +9122,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
-/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bitmap */ "./src/components/Bitmap.ts");
+/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/assets */ "./data/assets.js");
+/* harmony import */ var _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Engine/Bitmap */ "./src/components/Engine/Bitmap.ts");
 
 
 var Objects = /** @class */ (function () {
@@ -8842,7 +9133,7 @@ var Objects = /** @class */ (function () {
         this.height = object.height || 1;
         this.width = 0.5;
         this.texture =
-            object.texture || new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.trees[1].texture, 639, 1500);
+            object.texture || new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.trees[1].texture, 639, 1500);
     }
     return Objects;
 }());
@@ -8851,10 +9142,10 @@ var Objects = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/components/Paper.ts":
-/*!*********************************!*\
-  !*** ./src/components/Paper.ts ***!
-  \*********************************/
+/***/ "./src/components/World/Paper.ts":
+/*!***************************************!*\
+  !*** ./src/components/World/Paper.ts ***!
+  \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -8874,297 +9165,6 @@ var Paper = /** @class */ (function () {
     return Paper;
 }());
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Paper);
-
-
-/***/ }),
-
-/***/ "./src/components/Player.ts":
-/*!**********************************!*\
-  !*** ./src/components/Player.ts ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
-/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/config */ "./src/core/config.ts");
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/calc */ "./src/utils/calc.ts");
-/* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Audio */ "./src/components/Audio/index.ts");
-/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Bitmap */ "./src/components/Bitmap.ts");
-/* harmony import */ var _NPC__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./NPC */ "./src/components/NPC.js");
-/* harmony import */ var _Paper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Paper */ "./src/components/Paper.ts");
-
-
-
-
-
-
-
-var Player = /** @class */ (function () {
-    function Player(game) {
-        this.game = game;
-        this.map = game.map;
-        this.mode = game.mode;
-        this.state = {
-            position: {
-                x: 1.5,
-                y: 1.5,
-                direction: 1.57,
-            },
-            movement: {
-                paces: 0,
-                speed: 1,
-                grabDistance: 0,
-                putDistance: 0,
-            },
-            FSM: {
-                walking: false,
-                running: false,
-                putting: false,
-                grabbing: false,
-            },
-            inventory: {
-                papers: _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.papers,
-                paperType: null,
-                previosPaperPlace: { x: null, y: null },
-            },
-        };
-        this.rightHand = new _Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].texture, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].width, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[0].height);
-        this.leftHand = new _Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].texture, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].width, _data_assets__WEBPACK_IMPORTED_MODULE_0__.default.slender[1].height);
-        this.playerSounds = new _Audio__WEBPACK_IMPORTED_MODULE_3__.PlayerSounds(this.mode, this);
-        this.paperSounds = new _Audio__WEBPACK_IMPORTED_MODULE_3__.PaperSounds(this);
-    }
-    Player.prototype.rotate = function (angle) {
-        var direction = this.state.position.direction;
-        var newDirection = (direction + angle + _utils_calc__WEBPACK_IMPORTED_MODULE_2__.CIRCLE) % _utils_calc__WEBPACK_IMPORTED_MODULE_2__.CIRCLE;
-        this.state.position.direction = newDirection;
-    };
-    Player.prototype.walk = function (distance, map, direction) {
-        var dx = Math.cos(direction) * distance;
-        var dy = Math.sin(direction) * distance;
-        var inDirectionX = map.get(this.state.position.x + dx, this.state.position.y);
-        var inDirectionY = map.get(this.state.position.x, this.state.position.y + dy);
-        if (inDirectionX === 2 || inDirectionY === 2)
-            this.playerSounds.hitFence();
-        if (inDirectionX === 1 || inDirectionY === 1)
-            this.playerSounds.hitWall();
-        if (inDirectionX <= 0)
-            this.state.position.x += dx;
-        if (inDirectionY <= 0)
-            this.state.position.y += dy;
-        this.state.movement.paces += distance;
-    };
-    Player.prototype.grab = function () {
-        var grabbing = this.state.FSM.grabbing;
-        var grabDistance = this.state.movement.grabDistance;
-        if (grabbing === true && grabDistance < 300) {
-            this.state.movement.grabDistance += 50;
-        }
-        else {
-            this.state.FSM.grabbing = false;
-            if (grabDistance !== 0) {
-                this.state.movement.grabDistance -= 25;
-            }
-        }
-    };
-    Player.prototype.put = function () {
-        var putting = this.state.FSM.putting;
-        var putDistance = this.state.movement.putDistance;
-        if (putting === true && putDistance < 400) {
-            this.state.movement.putDistance += 30;
-        }
-        else {
-            this.state.FSM.putting = false;
-            if (putDistance !== 0) {
-                this.state.movement.putDistance -= 15;
-            }
-        }
-    };
-    Player.prototype.update = function (controls, map, seconds) {
-        var speed = this.state.movement.speed;
-        var direction = this.state.position.direction;
-        var distance = speed * seconds;
-        var halfDistance = distance / 2;
-        var sideDirection = direction - Math.PI / 2;
-        this.state.FSM.running = controls.shift;
-        this.state.FSM.walking =
-            controls.forward ||
-                controls.backward ||
-                controls.sideLeft ||
-                controls.sideRight;
-        if (controls.left)
-            this.rotate(-Math.PI * seconds);
-        if (controls.right)
-            this.rotate(Math.PI * seconds);
-        if (controls.forward) {
-            this.playerSounds.walk();
-            this.walk(distance, map, direction);
-        }
-        if (controls.backward) {
-            this.playerSounds.walk();
-            this.walk(-distance, map, direction);
-        }
-        if (controls.sideLeft) {
-            this.playerSounds.dodge();
-            this.walk(halfDistance, map, sideDirection);
-        }
-        if (controls.sideRight) {
-            this.playerSounds.dodge();
-            this.walk(-halfDistance, map, sideDirection);
-        }
-        this.grab();
-        this.put();
-        this.state.movement.speed = this.state.FSM.running ? 3 : 1;
-    };
-    Player.prototype.eat = function (victim) {
-        victim.die();
-        this.map.people--;
-        this.showDieMessage();
-    };
-    Player.prototype.attack = function () {
-        var _this = this;
-        this.state.FSM.grabbing = true;
-        // TODO: Reduce the Objects list to just NPC list
-        var victim = this.map.objects.find(function (item) {
-            var isValidNPC = item instanceof _NPC__WEBPACK_IMPORTED_MODULE_5__.default && item.alive;
-            if (!isValidNPC) {
-                return false;
-            }
-            var dX = _this.state.position.x - item.x;
-            var dY = _this.state.position.y - item.y;
-            var distanceToNpc = Math.sqrt(dX * dX + dY * dY);
-            var isNearNPC = distanceToNpc < 0.5;
-            return isNearNPC;
-        });
-        if (victim) {
-            this.playerSounds.kill();
-            this.eat(victim);
-        }
-        else {
-            this.playerSounds.attack();
-        }
-    };
-    Player.prototype.placePaper = function () {
-        this.state.FSM.putting = true;
-        var noPapersToPlace = this.map.papers >= _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PAPER_NUM;
-        if (noPapersToPlace) {
-            this.showNoPaperMessage();
-        }
-        else {
-            var isSamePlace = this.state.inventory.previosPaperPlace.x === this.state.position.x &&
-                this.state.inventory.previosPaperPlace.y === this.state.position.y;
-            var readyToPlaceHere = !isSamePlace &&
-                !this.state.FSM.running &&
-                !this.state.FSM.walking &&
-                this.playerSounds.allSoundsEnded();
-            if (readyToPlaceHere) {
-                this.state.inventory.paperType = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 8);
-                var paperBitmap = new _Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.state.inventory.papers[this.state.inventory.paperType].texture, this.state.inventory.papers[this.state.inventory.paperType].width, this.state.inventory.papers[this.state.inventory.paperType].height);
-                var paper = new _Paper__WEBPACK_IMPORTED_MODULE_6__.default(this.state.position.x, this.state.position.y, paperBitmap);
-                this.map.addObject(paper);
-                this.paperSounds.place();
-                this.showPlacementMessage();
-                this.state.inventory.previosPaperPlace = {
-                    x: this.state.position.x,
-                    y: this.state.position.y,
-                };
-                this.map.papers++;
-            }
-            else {
-                this.showWarningMessage();
-            }
-        }
-    };
-    Player.prototype.showPlacementMessage = function () {
-        if (this.state.inventory.paperType === 0) {
-            this.showLooMessage();
-        }
-        else if (this.state.inventory.paperType === 7) {
-            this.showBombMessage();
-        }
-        else {
-            this.showPaperMessage();
-        }
-    };
-    Player.prototype.showNoPaperMessage = function () {
-        var _this = this;
-        this.map.show_no_paper = 1;
-        this.map.show_loo = 0;
-        this.map.show_bomb = 0;
-        this.map.show_tip = 0;
-        this.map.show_warning = 0;
-        setTimeout(function () {
-            _this.map.show_no_paper = 0;
-        }, 3000);
-    };
-    Player.prototype.showLooMessage = function () {
-        var _this = this;
-        this.map.show_loo = 1;
-        this.map.show_bomb = 0;
-        this.map.show_tip = 0;
-        this.map.show_warning = 0;
-        setTimeout(function () {
-            _this.map.show_loo = 0;
-        }, 3000);
-    };
-    Player.prototype.showBombMessage = function () {
-        var _this = this;
-        this.map.show_loo = 0;
-        this.map.show_bomb = 1;
-        this.map.show_tip = 0;
-        this.map.show_warning = 0;
-        setTimeout(function () {
-            _this.map.show_bomb = 0;
-        }, 3000);
-    };
-    Player.prototype.showPaperMessage = function () {
-        var _this = this;
-        this.map.show_loo = 0;
-        this.map.show_bomb = 0;
-        this.map.show_tip = 1;
-        this.map.show_warning = 0;
-        setTimeout(function () {
-            _this.map.show_tip = 0;
-        }, 3000);
-    };
-    Player.prototype.showWarningMessage = function () {
-        var _this = this;
-        this.map.show_loo = 0;
-        this.map.show_bomb = 0;
-        this.map.show_tip = 0;
-        this.map.show_warning = 1;
-        setTimeout(function () {
-            _this.map.show_warning = 0;
-        }, 3000);
-    };
-    Player.prototype.showDieMessage = function () {
-        var _this = this;
-        this.map.show_die = 1;
-        setTimeout(function () {
-            _this.map.show_die = 0;
-        }, 3000);
-    };
-    Player.prototype.do = function (action) {
-        switch (action) {
-            case 'attack':
-                this.attack();
-                break;
-            case 'space':
-                this.placePaper();
-                break;
-            case 'escape':
-                window.location.reload();
-                break;
-            default:
-                break;
-        }
-    };
-    return Player;
-}());
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Player);
 
 
 /***/ }),
@@ -9263,10 +9263,10 @@ var stopSM = function (id) { return soundmanager2__WEBPACK_IMPORTED_MODULE_0__.s
 
 /***/ }),
 
-/***/ "./src/components/Camera.js":
-/*!**********************************!*\
-  !*** ./src/components/Camera.js ***!
-  \**********************************/
+/***/ "./src/components/Actors/NPC.js":
+/*!**************************************!*\
+  !*** ./src/components/Actors/NPC.js ***!
+  \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -9274,8 +9274,235 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/config */ "./src/core/config.ts");
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/calc */ "./src/utils/calc.ts");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
+/* harmony import */ var _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Engine/Bitmap */ "./src/components/Engine/Bitmap.ts");
+/* harmony import */ var _World_Paper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../World/Paper */ "./src/components/World/Paper.ts");
+
+
+
+
+class NPC {
+  constructor(player, map, x, y, picNum) {
+    this.player = player;
+    this.map = map;
+    this.x = x;
+    this.y = y;
+    this.picNum = picNum;
+    this.color = '#cf3c8c';
+    this.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`assets/images/npc-${picNum}.png`, 114, 300);
+    this.height = 0.6;
+    this.width = 0.225;
+    this.floorOffset = 0;
+    this.count = 0;
+    this.direction = 1;
+    this.speed = 0.7;
+    this.alive = true;
+    // this.found_dead = false;
+    this.found_paper = false;
+    this.taking_paper = false;
+    this.paperNearPerson = 0;
+  }
+
+  logic() {
+    if (this.alive) {
+      if (this.count > 270) {
+        this.direction += (0,_utils_calc__WEBPACK_IMPORTED_MODULE_0__.getRandomFloat)(-(_utils_calc__WEBPACK_IMPORTED_MODULE_0__.CIRCLE / 6), _utils_calc__WEBPACK_IMPORTED_MODULE_0__.CIRCLE / 6);
+        this.count = 0;
+      }
+
+      // this.lookForDead()
+      this.searchForPaper();
+      if (!this.found_paper && !this.taking_paper) {
+        this.wanderAround();
+      }
+    }
+  }
+
+  wanderAround() {
+    this.count += 1;
+    this.run();
+    this.walk(0.05 * this.speed, this.direction);
+  }
+
+  run() {
+    const distToPlayer = this.distTo(this.player);
+    if (distToPlayer < 2) {
+      this.speed = 3;
+      this.direction = -this.player.state.position.direction;
+    } else this.speed = 0.7;
+  }
+
+  walk(distance, direction) {
+    const dx = Math.cos(direction) * distance;
+    const dy = Math.sin(direction) * distance;
+    const inDirectionX = this.map.get(this.x + dx, this.y);
+    const inDirectionY = this.map.get(this.x, this.y + dy);
+
+    if (
+      inDirectionX === 2 ||
+      inDirectionY === 2 ||
+      inDirectionX === 1 ||
+      inDirectionY === 1
+    ) {
+      this.direction = direction + _utils_calc__WEBPACK_IMPORTED_MODULE_0__.CIRCLE / 6;
+    }
+    if (inDirectionX <= 0) this.x += dx;
+    if (inDirectionY <= 0) this.y += dy;
+    this.move('assets/images/npc');
+  }
+
+  move(url) {
+    if (this.count % 10 === 0) {
+      if (this.count % 20 === 0) {
+        this.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`${url}2-${this.picNum}.png`, 114, 300);
+      } else this.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`${url}-${this.picNum}.png`, 114, 300);
+    }
+  }
+
+  searchForPaper() {
+    let dx;
+    let dy;
+    let distToPaper;
+    let paper;
+    this.map.objects.some((item) => {
+      if (item instanceof _World_Paper__WEBPACK_IMPORTED_MODULE_2__.default) {
+        paper = item;
+        dx = this.x - paper.x;
+        dy = this.y - paper.y;
+        distToPaper = this.distTo(paper);
+        this.isNearPaper(distToPaper, paper, dx, dy);
+      }
+    });
+  }
+
+  isNearPaper(distToPaper, paper, dx, dy) {
+    if (distToPaper < 5 && this.distTo(this.player) > 3) {
+      this.paper = paper;
+      this.found_paper = true;
+      if (distToPaper < 0.3) {
+        this.takingPaper();
+      } else {
+        this.approachPaper(dx, dy);
+      }
+    } else this.found_paper = false;
+  }
+
+  takingPaper() {
+    this.speed = 0;
+    this.taking_paper = true;
+    this.takePaper();
+  }
+
+  takePaper() {
+    this.paperNearPerson++;
+    if (this.paperNearPerson === 70) {
+      const idx = this.map.objects.indexOf(this.paper);
+      if (idx !== -1) {
+        this.map.objects.splice(idx, 1);
+      }
+      this.map.objects.forEach((item) => {
+        if (item instanceof NPC) {
+          item.found_paper = false;
+          item.taking_paper = false;
+          item.paperNearPerson = 0;
+        }
+      });
+      this.showTakenMessage();
+    }
+  }
+
+  approachPaper(dx, dy) {
+    const distToWalk = 0.007 * this.speed;
+    dx >= 0 ? (this.x -= distToWalk) : (this.x += distToWalk);
+    dy >= 0 ? (this.y -= distToWalk) : (this.y += distToWalk);
+    this.count += 0.5;
+    this.move('assets/images/npc');
+  }
+
+  /*
+  lookForDead() {
+      let dead, dx_dead, dy_dead, dist_to_dead;
+      this.map.objects.some((item)=>{
+          if(item instanceof NPC && !item.alive) {
+              dead = item;
+              dist_to_dead = this.distTo(dead);
+              this.isNearDead(dist_to_dead, dead);
+          }
+      });
+  };
+
+  isNearDead(dist_to_dead, dead) {
+      if (dist_to_dead < 3) {
+          console.log("OMG BODY!")
+          this.dead = dead;
+          this.found_dead = true;
+          this.runFromDead();
+      } else {
+          this.stayCalm();
+      }
+  }
+
+  /*
+  runFromDead() {
+      this.found_paper = false;
+      this.taking_paper = false;
+      this.speed = 3;
+      this.direction = getRandomFloat(1,4);
+  };
+
+  stayCalm() {
+      this.speed = .7;
+      this.found_dead = false;
+  }; */
+
+  die() {
+    this.alive = false;
+    this.color = undefined;
+    this.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default('assets/images/npc_die.gif', 114, 300);
+    setTimeout(() => {
+      this.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(
+        `assets/images/npc3-${this.picNum}.png`,
+        300,
+        56,
+      );
+      this.height = 0.2;
+      this.width = 0.7;
+    }, 7000);
+  }
+
+  distTo(thing) {
+    // TODO: Doesn't work for player currently
+    const x = thing.x - this.x;
+    const y = thing.y - this.y;
+    return Math.sqrt(x * x + y * y);
+  }
+
+  showTakenMessage() {
+    this.map.show_taken = 1;
+    setTimeout(() => {
+      this.map.show_taken = 0;
+    }, 3000);
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NPC);
+
+
+/***/ }),
+
+/***/ "./src/components/Engine/Camera.js":
+/*!*****************************************!*\
+  !*** ./src/components/Engine/Camera.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/config */ "./src/core/config.ts");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
 
 
 
@@ -9817,12 +10044,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
 /* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../data/sounds */ "./data/sounds.js");
 /* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/sound */ "./src/utils/sound.ts");
-/* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Audio */ "./src/components/Audio/index.ts");
-/* harmony import */ var _Camera__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Camera */ "./src/components/Camera.js");
-/* harmony import */ var _Controls__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Controls */ "./src/components/Controls.ts");
-/* harmony import */ var _GameLoop__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./GameLoop */ "./src/components/GameLoop.ts");
-/* harmony import */ var _Map__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Map */ "./src/components/Map.js");
-/* harmony import */ var _Player__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Player */ "./src/components/Player.ts");
+/* harmony import */ var _Actors_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Actors/Player */ "./src/components/Actors/Player.ts");
+/* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Audio */ "./src/components/Audio/index.ts");
+/* harmony import */ var _Engine_Camera__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Engine/Camera */ "./src/components/Engine/Camera.js");
+/* harmony import */ var _Engine_Controls__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Engine/Controls */ "./src/components/Engine/Controls.ts");
+/* harmony import */ var _Engine_GameLoop__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Engine/GameLoop */ "./src/components/Engine/GameLoop.ts");
+/* harmony import */ var _World_Map__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./World/Map */ "./src/components/World/Map.js");
 
 
 
@@ -9896,13 +10123,13 @@ class Game {
   loadGame() {
     Game.prepareCanvas();
 
-    this.gameLoop = new _GameLoop__WEBPACK_IMPORTED_MODULE_7__.default();
-    this.map = new _Map__WEBPACK_IMPORTED_MODULE_8__.default(this);
-    this.player = new _Player__WEBPACK_IMPORTED_MODULE_9__.default(this);
-    this.controls = new _Controls__WEBPACK_IMPORTED_MODULE_6__.default(this.player);
-    this.camera = new _Camera__WEBPACK_IMPORTED_MODULE_5__.default(canvasBlock, this.mode, this.map);
-    this.gameSounds = new _Audio__WEBPACK_IMPORTED_MODULE_4__.GameSounds(this);
-    this.noiseSounds = new _Audio__WEBPACK_IMPORTED_MODULE_4__.NoiseSounds();
+    this.gameLoop = new _Engine_GameLoop__WEBPACK_IMPORTED_MODULE_8__.default();
+    this.map = new _World_Map__WEBPACK_IMPORTED_MODULE_9__.default(this);
+    this.player = new _Actors_Player__WEBPACK_IMPORTED_MODULE_4__.default(this);
+    this.controls = new _Engine_Controls__WEBPACK_IMPORTED_MODULE_7__.default(this.player);
+    this.camera = new _Engine_Camera__WEBPACK_IMPORTED_MODULE_6__.default(canvasBlock, this.mode, this.map);
+    this.gameSounds = new _Audio__WEBPACK_IMPORTED_MODULE_5__.GameSounds(this);
+    this.noiseSounds = new _Audio__WEBPACK_IMPORTED_MODULE_5__.NoiseSounds();
 
     this.setMode();
     this.map.buildMap();
@@ -10039,10 +10266,10 @@ class Game {
 
 /***/ }),
 
-/***/ "./src/components/Map.js":
-/*!*******************************!*\
-  !*** ./src/components/Map.js ***!
-  \*******************************/
+/***/ "./src/components/World/Map.js":
+/*!*************************************!*\
+  !*** ./src/components/World/Map.js ***!
+  \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -10050,12 +10277,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
-/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/config */ "./src/core/config.ts");
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/calc */ "./src/utils/calc.ts");
-/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Bitmap */ "./src/components/Bitmap.ts");
-/* harmony import */ var _NPC__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./NPC */ "./src/components/NPC.js");
-/* harmony import */ var _Objects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Objects */ "./src/components/Objects.ts");
+/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/assets */ "./data/assets.js");
+/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/config */ "./src/core/config.ts");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
+/* harmony import */ var _Actors_NPC__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Actors/NPC */ "./src/components/Actors/NPC.js");
+/* harmony import */ var _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Engine/Bitmap */ "./src/components/Engine/Bitmap.ts");
+/* harmony import */ var _Objects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Objects */ "./src/components/World/Objects.ts");
 
 
 
@@ -10074,10 +10301,10 @@ class Map {
       bushes: null,
     };
     this.wallGrid = new Uint8Array(this.size * this.size);
-    this.skybox = new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(this.mode.sky_texture, 2000, 750);
-    this.fenceTexture = new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(this.mode.fence_texture, 512, 512);
-    this.fenceDoorTexture = new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(this.mode.fence_door, 512, 256);
-    this.wallTexture = new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(this.mode.wall_texture, 512, 512);
+    this.skybox = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.mode.sky_texture, 2000, 750);
+    this.fenceTexture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.mode.fence_texture, 512, 512);
+    this.fenceDoorTexture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.mode.fence_door, 512, 256);
+    this.wallTexture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.mode.wall_texture, 512, 512);
     this.light = this.mode.light;
     this.objects = [];
     this.people = 0;
@@ -10127,7 +10354,7 @@ class Map {
     if (this.get(col, row) === 0) {
       const num = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 4);
 
-      const treeBitmap = new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(
+      const treeBitmap = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(
         this.state.trees[num].texture,
         this.state.trees[num].width,
         this.state.trees[num].height,
@@ -10147,7 +10374,7 @@ class Map {
     if (this.get(col, row) === 0) {
       const num = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 5);
 
-      const bushBitmap = new _Bitmap__WEBPACK_IMPORTED_MODULE_3__.default(
+      const bushBitmap = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(
         this.state.bushes[num].texture,
         this.state.bushes[num].width,
         this.state.bushes[num].height,
@@ -10169,7 +10396,7 @@ class Map {
       const x = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(2, _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PPL_XY);
       const y = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(2, _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PPL_XY);
       const picNum = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(1, 5);
-      const npc = new _NPC__WEBPACK_IMPORTED_MODULE_4__.default(this.game.player, this, x, y, picNum);
+      const npc = new _Actors_NPC__WEBPACK_IMPORTED_MODULE_3__.default(this.game.player, this, x, y, picNum);
       this.addObject(npc);
       this.people++;
     }
@@ -10269,7 +10496,7 @@ class Map {
 
   update() {
     this.objects.forEach((item) => {
-      if (item instanceof _NPC__WEBPACK_IMPORTED_MODULE_4__.default) {
+      if (item instanceof _Actors_NPC__WEBPACK_IMPORTED_MODULE_3__.default) {
         item.logic();
       }
     });
@@ -10277,234 +10504,6 @@ class Map {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Map);
-
-
-/***/ }),
-
-/***/ "./src/components/NPC.js":
-/*!*******************************!*\
-  !*** ./src/components/NPC.js ***!
-  \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/calc */ "./src/utils/calc.ts");
-/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bitmap */ "./src/components/Bitmap.ts");
-/* harmony import */ var _Paper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Paper */ "./src/components/Paper.ts");
-
-
-
-
-
-class NPC {
-  constructor(player, map, x, y, picNum) {
-    this.player = player;
-    this.map = map;
-    this.x = x;
-    this.y = y;
-    this.picNum = picNum;
-    this.color = '#cf3c8c';
-    this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`assets/images/npc-${picNum}.png`, 114, 300);
-    this.height = 0.6;
-    this.width = 0.225;
-    this.floorOffset = 0;
-    this.count = 0;
-    this.direction = 1;
-    this.speed = 0.7;
-    this.alive = true;
-    // this.found_dead = false;
-    this.found_paper = false;
-    this.taking_paper = false;
-    this.paperNearPerson = 0;
-  }
-
-  logic() {
-    if (this.alive) {
-      if (this.count > 270) {
-        this.direction += (0,_utils_calc__WEBPACK_IMPORTED_MODULE_0__.getRandomFloat)(-(_utils_calc__WEBPACK_IMPORTED_MODULE_0__.CIRCLE / 6), _utils_calc__WEBPACK_IMPORTED_MODULE_0__.CIRCLE / 6);
-        this.count = 0;
-      }
-
-      // this.lookForDead()
-      this.searchForPaper();
-      if (!this.found_paper && !this.taking_paper) {
-        this.wanderAround();
-      }
-    }
-  }
-
-  wanderAround() {
-    this.count += 1;
-    this.run();
-    this.walk(0.05 * this.speed, this.direction);
-  }
-
-  run() {
-    const distToPlayer = this.distTo(this.player);
-    if (distToPlayer < 2) {
-      this.speed = 3;
-      this.direction = -this.player.state.position.direction;
-    } else this.speed = 0.7;
-  }
-
-  walk(distance, direction) {
-    const dx = Math.cos(direction) * distance;
-    const dy = Math.sin(direction) * distance;
-    const inDirectionX = this.map.get(this.x + dx, this.y);
-    const inDirectionY = this.map.get(this.x, this.y + dy);
-
-    if (
-      inDirectionX === 2 ||
-      inDirectionY === 2 ||
-      inDirectionX === 1 ||
-      inDirectionY === 1
-    ) {
-      this.direction = direction + _utils_calc__WEBPACK_IMPORTED_MODULE_0__.CIRCLE / 6;
-    }
-    if (inDirectionX <= 0) this.x += dx;
-    if (inDirectionY <= 0) this.y += dy;
-    this.move('assets/images/npc');
-  }
-
-  move(url) {
-    if (this.count % 10 === 0) {
-      if (this.count % 20 === 0) {
-        this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`${url}2-${this.picNum}.png`, 114, 300);
-      } else this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(`${url}-${this.picNum}.png`, 114, 300);
-    }
-  }
-
-  searchForPaper() {
-    let dx;
-    let dy;
-    let distToPaper;
-    let paper;
-    this.map.objects.some((item) => {
-      if (item instanceof _Paper__WEBPACK_IMPORTED_MODULE_2__.default) {
-        paper = item;
-        dx = this.x - paper.x;
-        dy = this.y - paper.y;
-        distToPaper = this.distTo(paper);
-        this.isNearPaper(distToPaper, paper, dx, dy);
-      }
-    });
-  }
-
-  isNearPaper(distToPaper, paper, dx, dy) {
-    if (distToPaper < 5 && this.distTo(this.player) > 3) {
-      this.paper = paper;
-      this.found_paper = true;
-      if (distToPaper < 0.3) {
-        this.takingPaper();
-      } else {
-        this.approachPaper(dx, dy);
-      }
-    } else this.found_paper = false;
-  }
-
-  takingPaper() {
-    this.speed = 0;
-    this.taking_paper = true;
-    this.takePaper();
-  }
-
-  takePaper() {
-    this.paperNearPerson++;
-    if (this.paperNearPerson === 70) {
-      const idx = this.map.objects.indexOf(this.paper);
-      if (idx !== -1) {
-        this.map.objects.splice(idx, 1);
-      }
-      this.map.objects.forEach((item) => {
-        if (item instanceof NPC) {
-          item.found_paper = false;
-          item.taking_paper = false;
-          item.paperNearPerson = 0;
-        }
-      });
-      this.showTakenMessage();
-    }
-  }
-
-  approachPaper(dx, dy) {
-    const distToWalk = 0.007 * this.speed;
-    dx >= 0 ? (this.x -= distToWalk) : (this.x += distToWalk);
-    dy >= 0 ? (this.y -= distToWalk) : (this.y += distToWalk);
-    this.count += 0.5;
-    this.move('assets/images/npc');
-  }
-
-  /*
-  lookForDead() {
-      let dead, dx_dead, dy_dead, dist_to_dead;
-      this.map.objects.some((item)=>{
-          if(item instanceof NPC && !item.alive) {
-              dead = item;
-              dist_to_dead = this.distTo(dead);
-              this.isNearDead(dist_to_dead, dead);
-          }
-      });
-  };
-
-  isNearDead(dist_to_dead, dead) {
-      if (dist_to_dead < 3) {
-          console.log("OMG BODY!")
-          this.dead = dead;
-          this.found_dead = true;
-          this.runFromDead();
-      } else {
-          this.stayCalm();
-      }
-  }
-
-  /*
-  runFromDead() {
-      this.found_paper = false;
-      this.taking_paper = false;
-      this.speed = 3;
-      this.direction = getRandomFloat(1,4);
-  };
-
-  stayCalm() {
-      this.speed = .7;
-      this.found_dead = false;
-  }; */
-
-  die() {
-    this.alive = false;
-    this.color = undefined;
-    this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default('assets/images/npc_die.gif', 114, 300);
-    setTimeout(() => {
-      this.texture = new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(
-        `assets/images/npc3-${this.picNum}.png`,
-        300,
-        56,
-      );
-      this.height = 0.2;
-      this.width = 0.7;
-    }, 7000);
-  }
-
-  distTo(thing) {
-    // TODO: Doesn't work for player currently
-    const x = thing.x - this.x;
-    const y = thing.y - this.y;
-    return Math.sqrt(x * x + y * y);
-  }
-
-  showTakenMessage() {
-    this.map.show_taken = 1;
-    setTimeout(() => {
-      this.map.show_taken = 0;
-    }, 3000);
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NPC);
 
 
 /***/ })

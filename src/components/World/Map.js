@@ -1,9 +1,9 @@
-import ASSETS from '../../data/assets';
-import GAME_OPTIONS from '../core/config';
-import { getRandomInt } from '../utils/calc';
+import ASSETS from '../../../data/assets';
+import GAME_OPTIONS from '../../core/config';
+import { getRandomInt } from '../../utils/calc';
+import NPC from '../Actors/NPC';
+import Bitmap from '../Engine/Bitmap';
 
-import Bitmap from './Bitmap';
-import NPC from './NPC';
 import Objects from './Objects';
 
 class Map {

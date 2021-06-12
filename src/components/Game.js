@@ -4,12 +4,12 @@ import ASSETS from '../../data/assets';
 import SOUNDS from '../../data/sounds';
 import { playSM, preloadSounds } from '../utils/sound';
 
+import Player from './Actors/Player';
 import { NoiseSounds, GameSounds } from './Audio';
-import Camera from './Camera';
-import Controls from './Controls';
-import GameLoop from './GameLoop';
-import Map from './Map';
-import Player from './Player';
+import Camera from './Engine/Camera';
+import Controls from './Engine/Controls';
+import GameLoop from './Engine/GameLoop';
+import Map from './World/Map';
 
 const videoBlock = document.querySelector('.intro');
 const messageBlock = document.querySelector('.text');

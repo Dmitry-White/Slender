@@ -1,13 +1,13 @@
-import ASSETS from '../../data/assets';
-import GAME_OPTIONS from '../core/config';
-import { CIRCLE, getRandomInt } from '../utils/calc';
+import ASSETS from '../../../data/assets';
+import GAME_OPTIONS from '../../core/config';
+import { CIRCLE, getRandomInt } from '../../utils/calc';
+import { PlayerSounds, PaperSounds } from '../Audio';
+import Bitmap from '../Engine/Bitmap';
+import Game from '../Game';
+import Map from '../World/Map';
+import Paper from '../World/Paper';
 
-import { PlayerSounds, PaperSounds } from './Audio';
-import Bitmap from './Bitmap';
-import Game from './Game';
-import Map from './Map';
 import NPC from './NPC';
-import Paper from './Paper';
 
 class Player {
   game: Game;

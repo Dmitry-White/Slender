@@ -1,6 +1,5 @@
-import ASSETS from '../../data/assets';
-
-import Bitmap from './Bitmap';
+import ASSETS from '../../../data/assets';
+import Bitmap from '../Engine/Bitmap';
 
 class Objects {
   x: number;

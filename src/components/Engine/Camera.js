@@ -1,5 +1,5 @@
-import GAME_OPTIONS from '../core/config';
-import { CIRCLE, getRandomInt } from '../utils/calc';
+import GAME_OPTIONS from '../../core/config';
+import { CIRCLE, getRandomInt } from '../../utils/calc';
 
 class Camera {
   constructor(canvas, mode, map) {

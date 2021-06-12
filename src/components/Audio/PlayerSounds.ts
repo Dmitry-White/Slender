@@ -1,4 +1,4 @@
-import Player from '../Player';
+import Player from '../Actors/Player';
 
 import Sounds from './Sounds';
 
