@@ -7,19 +7,20 @@ import Bitmap from '../Engine/Bitmap';
 import Game from '../Game';
 
 import Objects from './Objects';
+import { MapObject } from './interface';
 
 class Map {
   game: Game;
 
   mode: any;
 
-  size: any;
+  size: number;
 
   state: any;
 
-  wallGrid: any;
+  wallGrid: Uint8Array;
 
-  skybox: any;
+  skybox: Bitmap;
 
   fenceTexture: Bitmap;
 
@@ -29,7 +30,7 @@ class Map {
 
   light: any;
 
-  objects: any;
+  objects: MapObject[];
 
   people: number;
 

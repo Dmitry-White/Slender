@@ -1,9 +1,14 @@
+import NPC from '../Actors/NPC';
 import Bitmap from '../Engine/Bitmap';
+
+import Objects from './Objects';
+import Paper from './Paper';
 
 interface IEntityPosition {
   x: number;
   y: number;
   direction?: number;
+  distanceFromPlayer?: number;
 }
 
 interface IEntityAppearance {
@@ -27,4 +32,12 @@ interface IObjectParams {
   height?: number;
 }
 
-export { IEntityAppearance, IEntityPosition, IEntityState, IObjectParams };
+type MapObject = Objects | Paper | NPC;
+
+export {
+  IEntityAppearance,
+  IEntityPosition,
+  IEntityState,
+  IObjectParams,
+  MapObject,
+};

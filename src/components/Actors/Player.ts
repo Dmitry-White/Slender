@@ -189,7 +189,7 @@ class Player {
       const isNearNPC = distanceToNpc < 0.5;
 
       return isNearNPC;
-    });
+    }) as NPC;
 
     if (victim) {
       this.playerSounds.kill();

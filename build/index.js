@@ -8039,15 +8039,16 @@ var NPC = /** @class */ (function () {
             this.state.position.x += dx;
         if (inDirectionY <= 0)
             this.state.position.y += dy;
-        this.move('assets/images/npc');
+        this.move();
     };
-    NPC.prototype.move = function (url) {
+    NPC.prototype.move = function () {
+        var NPC_URL = 'assets/images/npc';
         if (this.state.movement.count % 10 === 0) {
             if (this.state.movement.count % 20 === 0) {
-                this.state.appearance.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(url + "2-" + this.state.appearance.picNum + ".png", 114, 300);
+                this.state.appearance.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(NPC_URL + "2-" + this.state.appearance.picNum + ".png", 114, 300);
             }
             else
-                this.state.appearance.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(url + "-" + this.state.appearance.picNum + ".png", 114, 300);
+                this.state.appearance.texture = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(NPC_URL + "-" + this.state.appearance.picNum + ".png", 114, 300);
         }
     };
     NPC.prototype.searchForPaper = function () {
@@ -8112,7 +8113,7 @@ var NPC = /** @class */ (function () {
             ? (this.state.position.y -= distToWalk)
             : (this.state.position.y += distToWalk);
         this.state.movement.count += 0.5;
-        this.move('assets/images/npc');
+        this.move();
     };
     /*
     lookForDead() {
@@ -9212,6 +9213,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/config */ "./src/core/config.ts");
 /* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
+/* harmony import */ var _Actors_NPC__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Actors/NPC */ "./src/components/Actors/NPC.ts");
+
 
 
 var Camera = /** @class */ (function () {
@@ -9342,11 +9345,16 @@ var Camera = /** @class */ (function () {
             .map(function (sprite) {
             var distX = sprite.state.position.x - player.state.position.x;
             var distY = sprite.state.position.y - player.state.position.y;
-            var width = (sprite.width * screenWidth) / sprite.distanceFromPlayer;
-            var height = (sprite.height * screenHeight) / sprite.distanceFromPlayer;
-            var renderedFloorOffset = sprite.floorOffset / sprite.distanceFromPlayer;
+            var width = (sprite.state.appearance.width * screenWidth) /
+                sprite.state.position.distanceFromPlayer;
+            var height = (sprite.state.appearance.height * screenHeight) /
+                sprite.state.position.distanceFromPlayer;
+            var renderedFloorOffset = sprite.state.appearance.floorOffset /
+                sprite.state.position.distanceFromPlayer;
             var angleToPlayer = Math.atan2(distY, distX);
-            var top = (screenHeight / 2) * (1 + 1 / sprite.distanceFromPlayer) - height;
+            var top = (screenHeight / 2) *
+                (1 + 1 / sprite.state.position.distanceFromPlayer) -
+                height;
             var numColumns = (width / screenWidth) * resolution;
             var angleRelativeToPlayerView = player.state.position.direction - angleToPlayer;
             if (angleRelativeToPlayerView >= _utils_calc__WEBPACK_IMPORTED_MODULE_1__.CIRCLE / 2) {
@@ -9354,13 +9362,13 @@ var Camera = /** @class */ (function () {
             }
             var cameraXOffset = _this.width / 2 - screenRatio * angleRelativeToPlayerView;
             var firstColumn = Math.floor(((cameraXOffset - width / 2) / screenWidth) * resolution);
-            sprite.distanceFromPlayer = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+            sprite.state.position.distanceFromPlayer = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
             sprite.render = {
                 width: width,
                 height: height,
                 angleToPlayer: angleRelativeToPlayerView,
                 cameraXOffset: cameraXOffset,
-                distanceFromPlayer: sprite.distanceFromPlayer,
+                distanceFromPlayer: sprite.state.position.distanceFromPlayer,
                 numColumns: numColumns,
                 firstColumn: firstColumn,
                 top: top,
@@ -9369,9 +9377,11 @@ var Camera = /** @class */ (function () {
         })
             // sort sprites in distance order
             .sort(function (a, b) {
-            if (a.distanceFromPlayer < b.distanceFromPlayer)
+            if (a.state.position.distanceFromPlayer <
+                b.state.position.distanceFromPlayer)
                 return 1;
-            if (a.distanceFromPlayer > b.distanceFromPlayer)
+            if (a.state.position.distanceFromPlayer >
+                b.state.position.distanceFromPlayer)
                 return -1;
             return 0;
         });
@@ -9397,7 +9407,8 @@ var Camera = /** @class */ (function () {
         var spriteIsInColumn;
         var top;
         sprites = sprites.filter(function (sprite) {
-            return !columnProps.hit || sprite.distanceFromPlayer < columnProps.hit;
+            return (!columnProps.hit ||
+                sprite.state.position.distanceFromPlayer < columnProps.hit);
         });
         for (var i = 0; i < sprites.length; i++) {
             sprite = sprites[i];
@@ -9405,9 +9416,9 @@ var Camera = /** @class */ (function () {
                 left > sprite.render.cameraXOffset - sprite.render.width / 2 &&
                     left < sprite.render.cameraXOffset + sprite.render.width / 2;
             if (spriteIsInColumn) {
-                textureX = Math.floor((sprite.texture.width / sprite.render.numColumns) *
+                textureX = Math.floor((sprite.state.appearance.texture.width / sprite.render.numColumns) *
                     (column - sprite.render.firstColumn));
-                ctx.drawImage(sprite.texture.image, textureX, 0, 1, sprite.texture.height, left, sprite.render.top, width, sprite.render.height);
+                ctx.drawImage(sprite.state.appearance.texture.image, textureX, 0, 1, sprite.state.appearance.texture.height, left, sprite.render.top, width, sprite.render.height);
                 this.ctx.fillStyle = '#000';
                 this.ctx.globalAlpha = 1;
             }
@@ -9456,18 +9467,13 @@ var Camera = /** @class */ (function () {
         ctx.save();
         for (var i = 0; i < map.objects.length; i++) {
             // sprites
-            if (map.objects[i]) {
-                if (map.objects[i] === 1)
-                    ctx.fillStyle = map.objects[i].color;
-                ctx.globalAlpha = map.objects[i].logic ? 0.8 : 0.3;
-                if (map.objects[i].color === undefined)
+            var item = map.objects[i];
+            if (item) {
+                ctx.globalAlpha = item instanceof _Actors_NPC__WEBPACK_IMPORTED_MODULE_2__.default ? 0.8 : 0.3;
+                if (!item.state.appearance.color)
                     ctx.globalAlpha = 0;
-                ctx.fillStyle = map.objects[i].color || 'red';
-                ctx.fillRect(x +
-                    blockSize * (map.objects[i].state.position.x - 0.5) +
-                    blockSize * 0.25, y +
-                    blockSize * (map.objects[i].state.position.y - 0.5) +
-                    blockSize * 0.25, blockSize * 0.5, blockSize * 0.5);
+                ctx.fillStyle = item.state.appearance.color || 'red';
+                ctx.fillRect(x + blockSize * (item.state.position.x - 0.5) + blockSize * 0.25, y + blockSize * (item.state.position.y - 0.5) + blockSize * 0.25, blockSize * 0.5, blockSize * 0.5);
             }
         }
         ctx.restore();

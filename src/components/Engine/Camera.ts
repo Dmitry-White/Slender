@@ -1,9 +1,12 @@
 import GAME_OPTIONS from '../../core/config';
 import { CIRCLE, getRandomInt } from '../../utils/calc';
+import NPC from '../Actors/NPC';
 import Player from '../Actors/Player';
 import Map from '../World/Map';
+import { MapObject } from '../World/interface';
 
 import Bitmap from './Bitmap';
+import { Sprite } from './interface';
 
 class Camera {
   ctx: CanvasRenderingContext2D;
@@ -194,17 +197,23 @@ class Camera {
 
     const sprites = Array.prototype.slice
       .call(map.objects)
-      .map((sprite) => {
+      .map((sprite: Sprite) => {
         const distX = sprite.state.position.x - player.state.position.x;
         const distY = sprite.state.position.y - player.state.position.y;
-        const width = (sprite.width * screenWidth) / sprite.distanceFromPlayer;
+        const width =
+          (sprite.state.appearance.width * screenWidth) /
+          sprite.state.position.distanceFromPlayer;
         const height =
-          (sprite.height * screenHeight) / sprite.distanceFromPlayer;
+          (sprite.state.appearance.height * screenHeight) /
+          sprite.state.position.distanceFromPlayer;
         const renderedFloorOffset =
-          sprite.floorOffset / sprite.distanceFromPlayer;
+          sprite.state.appearance.floorOffset /
+          sprite.state.position.distanceFromPlayer;
         const angleToPlayer = Math.atan2(distY, distX);
         const top =
-          (screenHeight / 2) * (1 + 1 / sprite.distanceFromPlayer) - height;
+          (screenHeight / 2) *
+            (1 + 1 / sprite.state.position.distanceFromPlayer) -
+          height;
         const numColumns = (width / screenWidth) * resolution;
         let angleRelativeToPlayerView =
           player.state.position.direction - angleToPlayer;
@@ -219,7 +228,7 @@ class Camera {
           ((cameraXOffset - width / 2) / screenWidth) * resolution,
         );
 
-        sprite.distanceFromPlayer = Math.sqrt(
+        sprite.state.position.distanceFromPlayer = Math.sqrt(
           Math.pow(distX, 2) + Math.pow(distY, 2),
         );
         sprite.render = {
@@ -227,7 +236,7 @@ class Camera {
           height,
           angleToPlayer: angleRelativeToPlayerView,
           cameraXOffset,
-          distanceFromPlayer: sprite.distanceFromPlayer,
+          distanceFromPlayer: sprite.state.position.distanceFromPlayer,
           numColumns,
           firstColumn,
           top,
@@ -236,8 +245,16 @@ class Camera {
       })
       // sort sprites in distance order
       .sort((a, b) => {
-        if (a.distanceFromPlayer < b.distanceFromPlayer) return 1;
-        if (a.distanceFromPlayer > b.distanceFromPlayer) return -1;
+        if (
+          a.state.position.distanceFromPlayer <
+          b.state.position.distanceFromPlayer
+        )
+          return 1;
+        if (
+          a.state.position.distanceFromPlayer >
+          b.state.position.distanceFromPlayer
+        )
+          return -1;
         return 0;
       });
 
@@ -253,7 +270,7 @@ class Camera {
     map: Map,
     column: number,
     columnProps: any,
-    sprites: any,
+    sprites: Sprite[],
   ) {
     const { ctx } = this;
     const left = Math.floor(column * this.spacing);
@@ -271,7 +288,10 @@ class Camera {
     let top;
 
     sprites = sprites.filter((sprite: any) => {
-      return !columnProps.hit || sprite.distanceFromPlayer < columnProps.hit;
+      return (
+        !columnProps.hit ||
+        sprite.state.position.distanceFromPlayer < columnProps.hit
+      );
     });
 
     for (let i = 0; i < sprites.length; i++) {
@@ -282,15 +302,15 @@ class Camera {
 
       if (spriteIsInColumn) {
         textureX = Math.floor(
-          (sprite.texture.width / sprite.render.numColumns) *
+          (sprite.state.appearance.texture.width / sprite.render.numColumns) *
             (column - sprite.render.firstColumn),
         );
         ctx.drawImage(
-          sprite.texture.image,
+          sprite.state.appearance.texture.image,
           textureX,
           0,
           1,
-          sprite.texture.height,
+          sprite.state.appearance.texture.height,
           left,
           sprite.render.top,
           width,
@@ -373,19 +393,16 @@ class Camera {
 
     for (let i = 0; i < map.objects.length; i++) {
       // sprites
-      if (map.objects[i]) {
-        if (map.objects[i] === 1) ctx.fillStyle = map.objects[i].color;
-        ctx.globalAlpha = map.objects[i].logic ? 0.8 : 0.3;
-        if (map.objects[i].color === undefined) ctx.globalAlpha = 0;
-        ctx.fillStyle = map.objects[i].color || 'red';
+      const item = map.objects[i];
+      if (item) {
+        ctx.globalAlpha = item instanceof NPC ? 0.8 : 0.3;
+        if (!item.state.appearance.color) ctx.globalAlpha = 0;
+
+        ctx.fillStyle = item.state.appearance.color || 'red';
 
         ctx.fillRect(
-          x +
-            blockSize * (map.objects[i].state.position.x - 0.5) +
-            blockSize * 0.25,
-          y +
-            blockSize * (map.objects[i].state.position.y - 0.5) +
-            blockSize * 0.25,
+          x + blockSize * (item.state.position.x - 0.5) + blockSize * 0.25,
+          y + blockSize * (item.state.position.y - 0.5) + blockSize * 0.25,
           blockSize * 0.5,
           blockSize * 0.5,
         );

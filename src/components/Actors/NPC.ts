@@ -105,20 +105,21 @@ class NPC {
     }
     if (inDirectionX <= 0) this.state.position.x += dx;
     if (inDirectionY <= 0) this.state.position.y += dy;
-    this.move('assets/images/npc');
+    this.move();
   }
 
-  move(url: string) {
+  move() {
+    const NPC_URL = 'assets/images/npc';
     if (this.state.movement.count % 10 === 0) {
       if (this.state.movement.count % 20 === 0) {
         this.state.appearance.texture = new Bitmap(
-          `${url}2-${this.state.appearance.picNum}.png`,
+          `${NPC_URL}2-${this.state.appearance.picNum}.png`,
           114,
           300,
         );
       } else
         this.state.appearance.texture = new Bitmap(
-          `${url}-${this.state.appearance.picNum}.png`,
+          `${NPC_URL}-${this.state.appearance.picNum}.png`,
           114,
           300,
         );
@@ -187,7 +188,7 @@ class NPC {
       ? (this.state.position.y -= distToWalk)
       : (this.state.position.y += distToWalk);
     this.state.movement.count += 0.5;
-    this.move('assets/images/npc');
+    this.move();
   }
 
   /*
