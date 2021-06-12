@@ -11,12 +11,31 @@ import Controls from './Engine/Controls';
 import GameLoop from './Engine/GameLoop';
 import Map from './World/Map';
 
-const videoBlock = document.querySelector('.intro');
-const messageBlock = document.querySelector('.text');
-const canvasBlock = document.querySelector('#display');
-const messageChildBlock = document.querySelector('.text h1');
+const videoBlock: HTMLVideoElement = document.querySelector('.intro');
+const messageBlock: HTMLDivElement = document.querySelector('.text');
+const canvasBlock: HTMLCanvasElement = document.querySelector('#display');
+const messageChildBlock: HTMLHeadingElement =
+  document.querySelector('.text h1');
 
 class Game {
+  mode: any;
+
+  state: any;
+
+  gameLoop: GameLoop;
+
+  map: Map;
+
+  player: Player;
+
+  controls: Controls;
+
+  camera: Camera;
+
+  gameSounds: GameSounds;
+
+  noiseSounds: NoiseSounds;
+
   constructor() {
     this.mode = {};
     this.state = {
@@ -31,33 +50,23 @@ class Game {
     canvasBlock.height = window.innerHeight;
   }
 
-  static enterFS(intro) {
-    if (intro.requestFullscreen) {
+  static enterFS(intro: HTMLVideoElement) {
+    if (!document.fullscreenElement && intro.requestFullscreen) {
       intro.requestFullscreen();
-    } else if (intro.mozRequestFullScreen) {
-      intro.mozRequestFullScreen();
-    } else if (intro.webkitRequestFullscreen) {
-      intro.webkitRequestFullscreen();
     }
   }
 
-  static exitFS(intro) {
-    if (intro.exitFullscreen) {
-      intro.exitFullscreen();
-    } else if (intro.mozExitFullScreen) {
-      intro.mozExitFullScreen();
-    } else if (intro.webkitExitFullscreen) {
-      intro.webkitExitFullscreen();
+  static exitFS() {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
     }
   }
 
   static mouseLock() {
-    if (document.body.requestPointerLock) {
+    if (!document.pointerLockElement && document.body.requestPointerLock) {
       document.body.requestPointerLock();
-    } else if (document.body.mozRequestPointerLock) {
-      document.body.mozRequestPointerLock();
-    } else if (document.body.webkitRequestPointerLock) {
-      document.body.webkitRequestPointerLock();
+    } else {
+      document.exitPointerLock();
     }
   }
 
@@ -89,7 +98,7 @@ class Game {
     // setTimeout(() => {
     //   const { ENTERING } = SOUNDS.GENERAL;
 
-    //   Game.exitFS(videoBlock);
+    //   Game.exitFS();
     //   videoBlock.pause();
     //   videoBlock.classList.remove('block');
 
@@ -108,7 +117,7 @@ class Game {
     messageBlock.classList.remove('flex');
     canvasBlock.classList.add('block');
 
-    this.gameLoop.start((seconds) => {
+    this.gameLoop.start((seconds: number) => {
       if (this.mode.lightning) this.map.lightning(seconds);
 
       this.map.update();

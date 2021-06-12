@@ -9111,6 +9111,203 @@ var GameLoop = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/components/Game.ts":
+/*!********************************!*\
+  !*** ./src/components/Game.ts ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! soundmanager2 */ "./node_modules/soundmanager2/script/soundmanager2.js");
+/* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
+/* harmony import */ var _Actors_Player__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Actors/Player */ "./src/components/Actors/Player.ts");
+/* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Audio */ "./src/components/Audio/index.ts");
+/* harmony import */ var _Engine_Camera__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Engine/Camera */ "./src/components/Engine/Camera.js");
+/* harmony import */ var _Engine_Controls__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Engine/Controls */ "./src/components/Engine/Controls.ts");
+/* harmony import */ var _Engine_GameLoop__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Engine/GameLoop */ "./src/components/Engine/GameLoop.ts");
+/* harmony import */ var _World_Map__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./World/Map */ "./src/components/World/Map.js");
+
+
+
+
+
+
+
+
+var videoBlock = document.querySelector('.intro');
+var messageBlock = document.querySelector('.text');
+var canvasBlock = document.querySelector('#display');
+var messageChildBlock = document.querySelector('.text h1');
+var Game = /** @class */ (function () {
+    function Game() {
+        this.mode = {};
+        this.state = {
+            gameFinished: false,
+            trees: null,
+            bushes: null,
+        };
+    }
+    Game.prepareCanvas = function () {
+        canvasBlock.width = window.innerWidth;
+        canvasBlock.height = window.innerHeight;
+    };
+    Game.enterFS = function (intro) {
+        if (!document.fullscreenElement && intro.requestFullscreen) {
+            intro.requestFullscreen();
+        }
+    };
+    Game.exitFS = function () {
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        }
+    };
+    Game.mouseLock = function () {
+        if (!document.pointerLockElement && document.body.requestPointerLock) {
+            document.body.requestPointerLock();
+        }
+        else {
+            document.exitPointerLock();
+        }
+    };
+    Game.showEndingScreen = function () {
+        messageBlock.classList.add('flex');
+        messageChildBlock.innerHTML = 'Do you want to play more?';
+        messageChildBlock.setAttribute('data-text', 'Do you want to kiLL more?');
+        canvasBlock.classList.remove('block');
+    };
+    Game.prototype.loadGame = function () {
+        Game.prepareCanvas();
+        this.gameLoop = new _Engine_GameLoop__WEBPACK_IMPORTED_MODULE_6__.default();
+        this.map = new _World_Map__WEBPACK_IMPORTED_MODULE_7__.default(this);
+        this.player = new _Actors_Player__WEBPACK_IMPORTED_MODULE_2__.default(this);
+        this.controls = new _Engine_Controls__WEBPACK_IMPORTED_MODULE_5__.default(this.player);
+        this.camera = new _Engine_Camera__WEBPACK_IMPORTED_MODULE_4__.default(canvasBlock, this.mode, this.map);
+        this.gameSounds = new _Audio__WEBPACK_IMPORTED_MODULE_3__.GameSounds(this);
+        this.noiseSounds = new _Audio__WEBPACK_IMPORTED_MODULE_3__.NoiseSounds();
+        this.setMode();
+        this.map.buildMap();
+        // videoBlock.classList.add('block');
+        // Game.enterFS(videoBlock);
+        // videoBlock.play();
+        // setTimeout(() => {
+        //   const { ENTERING } = SOUNDS.GENERAL;
+        //   Game.exitFS();
+        //   videoBlock.pause();
+        //   videoBlock.classList.remove('block');
+        //   messageBlock.classList.add('flex');
+        //   Game.mouseLock();
+        //   playSM(ENTERING.id, {
+        //     multiShotEvents: true,
+        //     onfinish: () => this.startGame(),
+        //   });
+        // }, 28000);
+        this.startGame();
+    };
+    Game.prototype.startGame = function () {
+        var _this = this;
+        messageBlock.classList.remove('flex');
+        canvasBlock.classList.add('block');
+        this.gameLoop.start(function (seconds) {
+            if (_this.mode.lightning)
+                _this.map.lightning(seconds);
+            _this.map.update();
+            _this.player.update(_this.controls.state, _this.map, seconds);
+            _this.camera.render(_this.player, _this.map);
+            _this.updateNoise();
+            _this.checkEnding();
+        });
+    };
+    Game.prototype.checkEnding = function () {
+        if (this.map.people === 0 && this.player.playerSounds.isKillingEnded()) {
+            this.map.show_all_dead = 1;
+            this.map.show_loo = 0;
+            this.map.show_bomb = 0;
+            this.map.show_tip = 0;
+            this.map.show_warning = 0;
+            this.makeEndmode();
+            this.gameSounds.scream();
+        }
+        if (this.state.gameFinished) {
+            this.endGame();
+            this.gameLoop.stop();
+        }
+    };
+    Game.prototype.endGame = function () {
+        soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.stopAll();
+        this.gameSounds.ending();
+        Game.showEndingScreen();
+    };
+    Game.prototype.updateNoise = function () {
+        if (this.noiseSounds.allSoundsEnded()) {
+            this.noiseSounds.noise();
+        }
+    };
+    Game.prototype.setMode = function () {
+        this.map.prepareAssets();
+        this.gameSounds.ambient();
+    };
+    Game.prototype.setToWinter = function () {
+        this.mode = {
+            winter: true,
+            light: 1,
+            lightning: false,
+            lightRange: 5,
+            shadows: '#fff',
+            drops: '#fff',
+            drops_opacity: 1,
+            drops_amount: 100,
+            ground: '#fff',
+            param: 0.5,
+            particlesWidth: 6,
+            particlesHeight: 6,
+            fence_door: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.fenceDoor,
+            fence_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.snow.fence,
+            sky_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.snow.sky,
+            wall_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.snow.wall,
+        };
+    };
+    Game.prototype.setToVanilla = function () {
+        this.mode = {
+            winter: false,
+            light: 2,
+            lightning: true,
+            lightRange: 5,
+            shadows: '#000',
+            drops: '#fff',
+            drops_opacity: 0.15,
+            drops_amount: 30,
+            ground: '#56361f',
+            param: 0.1,
+            particlesWidth: 2,
+            particlesHeight: 20,
+            fence_door: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.fenceDoor,
+            fence_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.rain.fence,
+            sky_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.rain.sky,
+            wall_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.rain.wall,
+        };
+    };
+    Game.prototype.makeEndmode = function () {
+        this.map.light = 2;
+        this.mode.param = 20;
+        this.mode.drops = '#f00';
+        this.mode.ground = '#f00';
+        this.mode.lightning = false;
+        this.mode.drops_opacity = 1;
+        this.mode.particlesWidth = 10;
+        this.mode.particlesHeight = 10;
+    };
+    return Game;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Game);
+
+
+/***/ }),
+
 /***/ "./src/components/World/Objects.ts":
 /*!*****************************************!*\
   !*** ./src/components/World/Objects.ts ***!
@@ -10028,244 +10225,6 @@ class Camera {
 
 /***/ }),
 
-/***/ "./src/components/Game.js":
-/*!********************************!*\
-  !*** ./src/components/Game.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! soundmanager2 */ "./node_modules/soundmanager2/script/soundmanager2.js");
-/* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
-/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../data/sounds */ "./data/sounds.js");
-/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/sound */ "./src/utils/sound.ts");
-/* harmony import */ var _Actors_Player__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Actors/Player */ "./src/components/Actors/Player.ts");
-/* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Audio */ "./src/components/Audio/index.ts");
-/* harmony import */ var _Engine_Camera__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Engine/Camera */ "./src/components/Engine/Camera.js");
-/* harmony import */ var _Engine_Controls__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Engine/Controls */ "./src/components/Engine/Controls.ts");
-/* harmony import */ var _Engine_GameLoop__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Engine/GameLoop */ "./src/components/Engine/GameLoop.ts");
-/* harmony import */ var _World_Map__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./World/Map */ "./src/components/World/Map.js");
-
-
-
-
-
-
-
-
-
-
-
-
-
-const videoBlock = document.querySelector('.intro');
-const messageBlock = document.querySelector('.text');
-const canvasBlock = document.querySelector('#display');
-const messageChildBlock = document.querySelector('.text h1');
-
-class Game {
-  constructor() {
-    this.mode = {};
-    this.state = {
-      gameFinished: false,
-      trees: null,
-      bushes: null,
-    };
-  }
-
-  static prepareCanvas() {
-    canvasBlock.width = window.innerWidth;
-    canvasBlock.height = window.innerHeight;
-  }
-
-  static enterFS(intro) {
-    if (intro.requestFullscreen) {
-      intro.requestFullscreen();
-    } else if (intro.mozRequestFullScreen) {
-      intro.mozRequestFullScreen();
-    } else if (intro.webkitRequestFullscreen) {
-      intro.webkitRequestFullscreen();
-    }
-  }
-
-  static exitFS(intro) {
-    if (intro.exitFullscreen) {
-      intro.exitFullscreen();
-    } else if (intro.mozExitFullScreen) {
-      intro.mozExitFullScreen();
-    } else if (intro.webkitExitFullscreen) {
-      intro.webkitExitFullscreen();
-    }
-  }
-
-  static mouseLock() {
-    if (document.body.requestPointerLock) {
-      document.body.requestPointerLock();
-    } else if (document.body.mozRequestPointerLock) {
-      document.body.mozRequestPointerLock();
-    } else if (document.body.webkitRequestPointerLock) {
-      document.body.webkitRequestPointerLock();
-    }
-  }
-
-  static showEndingScreen() {
-    messageBlock.classList.add('flex');
-    messageChildBlock.innerHTML = 'Do you want to play more?';
-    messageChildBlock.setAttribute('data-text', 'Do you want to kiLL more?');
-    canvasBlock.classList.remove('block');
-  }
-
-  loadGame() {
-    Game.prepareCanvas();
-
-    this.gameLoop = new _Engine_GameLoop__WEBPACK_IMPORTED_MODULE_8__.default();
-    this.map = new _World_Map__WEBPACK_IMPORTED_MODULE_9__.default(this);
-    this.player = new _Actors_Player__WEBPACK_IMPORTED_MODULE_4__.default(this);
-    this.controls = new _Engine_Controls__WEBPACK_IMPORTED_MODULE_7__.default(this.player);
-    this.camera = new _Engine_Camera__WEBPACK_IMPORTED_MODULE_6__.default(canvasBlock, this.mode, this.map);
-    this.gameSounds = new _Audio__WEBPACK_IMPORTED_MODULE_5__.GameSounds(this);
-    this.noiseSounds = new _Audio__WEBPACK_IMPORTED_MODULE_5__.NoiseSounds();
-
-    this.setMode();
-    this.map.buildMap();
-
-    // videoBlock.classList.add('block');
-    // Game.enterFS(videoBlock);
-    // videoBlock.play();
-
-    // setTimeout(() => {
-    //   const { ENTERING } = SOUNDS.GENERAL;
-
-    //   Game.exitFS(videoBlock);
-    //   videoBlock.pause();
-    //   videoBlock.classList.remove('block');
-
-    //   messageBlock.classList.add('flex');
-    //   Game.mouseLock();
-    //   playSM(ENTERING.id, {
-    //     multiShotEvents: true,
-    //     onfinish: () => this.startGame(),
-    //   });
-    // }, 28000);
-
-    this.startGame();
-  }
-
-  startGame() {
-    messageBlock.classList.remove('flex');
-    canvasBlock.classList.add('block');
-
-    this.gameLoop.start((seconds) => {
-      if (this.mode.lightning) this.map.lightning(seconds);
-
-      this.map.update();
-      this.player.update(this.controls.state, this.map, seconds);
-      this.camera.render(this.player, this.map);
-
-      this.updateNoise();
-      this.checkEnding();
-    });
-  }
-
-  checkEnding() {
-    if (this.map.people === 0 && this.player.playerSounds.isKillingEnded()) {
-      this.map.show_all_dead = 1;
-      this.map.show_loo = 0;
-      this.map.show_bomb = 0;
-      this.map.show_tip = 0;
-      this.map.show_warning = 0;
-
-      this.makeEndmode();
-      this.gameSounds.scream();
-    }
-
-    if (this.state.gameFinished) {
-      this.endGame();
-      this.gameLoop.stop();
-    }
-  }
-
-  endGame() {
-    soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.stopAll();
-    this.gameSounds.ending();
-    Game.showEndingScreen();
-  }
-
-  updateNoise() {
-    if (this.noiseSounds.allSoundsEnded()) {
-      this.noiseSounds.noise();
-    }
-  }
-
-  setMode() {
-    this.map.prepareAssets();
-    this.gameSounds.ambient();
-  }
-
-  setToWinter() {
-    this.mode = {
-      winter: true,
-      light: 1,
-      lightning: false,
-      lightRange: 5,
-      shadows: '#fff',
-      drops: '#fff',
-      drops_opacity: 1,
-      drops_amount: 100,
-      ground: '#fff',
-      param: 0.5,
-      particlesWidth: 6,
-      particlesHeight: 6,
-      fence_door: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.fenceDoor,
-      fence_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.snow.fence,
-      sky_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.snow.sky,
-      wall_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.snow.wall,
-    };
-  }
-
-  setToVanilla() {
-    this.mode = {
-      winter: false,
-      light: 2,
-      lightning: true,
-      lightRange: 5,
-      shadows: '#000',
-      drops: '#fff',
-      drops_opacity: 0.15,
-      drops_amount: 30,
-      ground: '#56361f',
-      param: 0.1,
-      particlesWidth: 2,
-      particlesHeight: 20,
-      fence_door: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.fenceDoor,
-      fence_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.rain.fence,
-      sky_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.rain.sky,
-      wall_texture: _data_assets__WEBPACK_IMPORTED_MODULE_1__.default.mode.rain.wall,
-    };
-  }
-
-  makeEndmode() {
-    this.map.light = 2;
-    this.mode.param = 20;
-    this.mode.drops = '#f00';
-    this.mode.ground = '#f00';
-    this.mode.lightning = false;
-    this.mode.drops_opacity = 1;
-    this.mode.particlesWidth = 10;
-    this.mode.particlesHeight = 10;
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Game);
-
-
-/***/ }),
-
 /***/ "./src/components/World/Map.js":
 /*!*************************************!*\
   !*** ./src/components/World/Map.js ***!
@@ -10630,7 +10589,7 @@ var __webpack_exports__ = {};
   \*********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Audio__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Audio */ "./src/components/Audio/index.ts");
-/* harmony import */ var _components_Game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Game */ "./src/components/Game.js");
+/* harmony import */ var _components_Game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Game */ "./src/components/Game.ts");
 /* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/sound */ "./src/utils/sound.ts");
 var _a;
 
