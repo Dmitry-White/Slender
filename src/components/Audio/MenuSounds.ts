@@ -40,29 +40,29 @@ class MenuSounds extends Sounds {
     soundManager.stopAll();
   }
 
-  makeSound(soundId) {
+  makeSound(soundId: string) {
     if (this.state.sounds[soundId]) {
       this.startHandler(soundId);
       Sounds.makeSoundV2(soundId, () => this.finishHandler(soundId));
     }
   }
 
-  startHandler(soundId) {
+  startHandler(soundId: string) {
     this.state.sounds[soundId] = false;
   }
 
-  finishHandler(soundId) {
+  finishHandler(soundId: string) {
     this.state.sounds[soundId] = true;
   }
 
-  startSoundHandler(nextSound, currentSound) {
+  startSoundHandler(nextSound: string, currentSound?: string) {
     if (currentSound) {
       Sounds.muteSound(currentSound);
     }
     this.loopSound(nextSound);
   }
 
-  stopSoundHandler(currentSound, nextSound) {
+  stopSoundHandler(currentSound: string, nextSound?: string) {
     if (nextSound) {
       Sounds.unmuteSound(nextSound);
     }

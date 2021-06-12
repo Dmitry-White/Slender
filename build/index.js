@@ -7949,9 +7949,9 @@ window.soundManager = soundManager;
 
 /***/ }),
 
-/***/ "./src/components/Audio/GameSounds.js":
+/***/ "./src/components/Audio/GameSounds.ts":
 /*!********************************************!*\
-  !*** ./src/components/Audio/GameSounds.js ***!
+  !*** ./src/components/Audio/GameSounds.ts ***!
   \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -7961,108 +7961,115 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../data/sounds */ "./data/sounds.js");
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.js");
-/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sounds */ "./src/components/Audio/Sounds.js");
-
-
-
-
-
-const SOUND_MAP = {
-  COME_OUT: 'come_out',
-  LULULALA: 'lululala',
-  GHOST_SCREAM: 'ghost_scream',
-};
-
-class GameSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_2__.default {
-  constructor(game) {
-    super();
-    this.game = game;
-    this.mode = game.mode;
-    this.state = {
-      sounds: {
-        [SOUND_MAP.COME_OUT]: true,
-        [SOUND_MAP.LULULALA]: true,
-        [SOUND_MAP.GHOST_SCREAM]: true,
-      },
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sounds */ "./src/components/Audio/Sounds.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
     };
-  }
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
-  makeSound(soundId, callback) {
-    if (this.state.sounds[soundId]) {
-      this.startHandler(soundId);
-      const finishHandler = callback
-        ? () => callback(soundId)
-        : () => this.finishHandler(soundId);
-      _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.makeSoundV2(soundId, finishHandler);
+
+
+var SOUND_MAP = {
+    COME_OUT: 'come_out',
+    LULULALA: 'lululala',
+    GHOST_SCREAM: 'ghost_scream',
+};
+var GameSounds = /** @class */ (function (_super) {
+    __extends(GameSounds, _super);
+    function GameSounds(game) {
+        var _a;
+        var _this = _super.call(this) || this;
+        _this.game = game;
+        _this.mode = game.mode;
+        _this.state = {
+            sounds: (_a = {},
+                _a[SOUND_MAP.COME_OUT] = true,
+                _a[SOUND_MAP.LULULALA] = true,
+                _a[SOUND_MAP.GHOST_SCREAM] = true,
+                _a),
+        };
+        return _this;
     }
-  }
-
-  startHandler(soundId) {
-    this.state.sounds[soundId] = false;
-  }
-
-  finishHandler(soundId) {
-    this.state.sounds[soundId] = true;
-  }
-
-  scream() {
-    this.makeSound(SOUND_MAP.GHOST_SCREAM, (soundId) => {
-      this.game.state.gameFinished = true;
-      this.state.sounds[soundId] = true;
-    });
-  }
-
-  ambient() {
-    switch (this.mode.winter) {
-      case true:
-        this.ambientWinter();
-        break;
-      default:
-        this.ambientRain();
-        break;
-    }
-  }
-
-  ambientWinter() {
-    this.loopSound(_data_sounds__WEBPACK_IMPORTED_MODULE_0__.default.WINTER.WIND.id);
-  }
-
-  ambientRain() {
-    this.loopSound(_data_sounds__WEBPACK_IMPORTED_MODULE_0__.default.VANILLA.RAIN.id);
-  }
-
-  ending() {
-    const endingSong = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_1__.getRandomInt)(0, 2);
-    switch (endingSong) {
-      case 0:
-        this.endingComeOut();
-        break;
-      case 1:
-        this.endingLulu();
-        break;
-      default:
-        break;
-    }
-  }
-
-  endingComeOut() {
-    this.makeSound(SOUND_MAP.COME_OUT, () => window.location.reload());
-  }
-
-  endingLulu() {
-    this.makeSound(SOUND_MAP.LULULALA, () => window.location.reload());
-  }
-}
-
+    GameSounds.prototype.makeSound = function (soundId, callback) {
+        var _this = this;
+        if (this.state.sounds[soundId]) {
+            this.startHandler(soundId);
+            var finishHandler = callback
+                ? function () { return callback(soundId); }
+                : function () { return _this.finishHandler(soundId); };
+            _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.makeSoundV2(soundId, finishHandler);
+        }
+    };
+    GameSounds.prototype.startHandler = function (soundId) {
+        this.state.sounds[soundId] = false;
+    };
+    GameSounds.prototype.finishHandler = function (soundId) {
+        this.state.sounds[soundId] = true;
+    };
+    GameSounds.prototype.scream = function () {
+        var _this = this;
+        this.makeSound(SOUND_MAP.GHOST_SCREAM, function (soundId) {
+            _this.game.state.gameFinished = true;
+            _this.state.sounds[soundId] = true;
+        });
+    };
+    GameSounds.prototype.ambient = function () {
+        switch (this.mode.winter) {
+            case true:
+                this.ambientWinter();
+                break;
+            default:
+                this.ambientRain();
+                break;
+        }
+    };
+    GameSounds.prototype.ambientWinter = function () {
+        this.loopSound(_data_sounds__WEBPACK_IMPORTED_MODULE_0__.default.WINTER.WIND.id);
+    };
+    GameSounds.prototype.ambientRain = function () {
+        this.loopSound(_data_sounds__WEBPACK_IMPORTED_MODULE_0__.default.VANILLA.RAIN.id);
+    };
+    GameSounds.prototype.ending = function () {
+        var endingSong = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_1__.getRandomInt)(0, 2);
+        switch (endingSong) {
+            case 0:
+                this.endingComeOut();
+                break;
+            case 1:
+                this.endingLulu();
+                break;
+            default:
+                break;
+        }
+    };
+    GameSounds.prototype.endingComeOut = function () {
+        this.makeSound(SOUND_MAP.COME_OUT, function () { return window.location.reload(); });
+    };
+    GameSounds.prototype.endingLulu = function () {
+        this.makeSound(SOUND_MAP.LULULALA, function () { return window.location.reload(); });
+    };
+    return GameSounds;
+}(_Sounds__WEBPACK_IMPORTED_MODULE_2__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GameSounds);
 
 
 /***/ }),
 
-/***/ "./src/components/Audio/MenuSounds.js":
+/***/ "./src/components/Audio/MenuSounds.ts":
 /*!********************************************!*\
-  !*** ./src/components/Audio/MenuSounds.js ***!
+  !*** ./src/components/Audio/MenuSounds.ts ***!
   \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -8074,157 +8081,128 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! soundmanager2 */ "./node_modules/soundmanager2/script/soundmanager2.js");
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../data/sounds */ "./data/sounds.js");
-/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sounds */ "./src/components/Audio/Sounds.js");
-
-
-
-
-
-
-const SOUND_MAP = {
-  HO_HO_HO: 'ho_ho_ho',
-  // PIANO_MENU: '',
-  // STATIC_MENU: '',
-  // SLENDER_LOGO: '',
-  // PLAY_BUTTON: '',
-  // ABOUT_US: '',
-  // ABOUT_GAME: '',
-};
-
-const playButton = document.querySelector('#play');
-const logoBlock = document.querySelector('#logo');
-const aboutUsBlock = document.querySelector('#about_us');
-const aboutGameBlock = document.querySelector('#about_game');
-
-class MenuSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_2__.default {
-  constructor() {
-    super();
-    this.state = {
-      sounds: {
-        [SOUND_MAP.HO_HO_HO]: true,
-        // TODO: Rewrite manual logic to state logic
-        // [SOUND_MAP.PIANO_MENU]: true,
-        // [SOUND_MAP.STATIC_MENU]: true,
-        // [SOUND_MAP.SLENDER_LOGO]: true,
-        // [SOUND_MAP.PLAY_BUTTON]: true,
-        // [SOUND_MAP.ABOUT_US]: true,
-        // [SOUND_MAP.ABOUT_GAME]: true,
-      },
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Sounds */ "./src/components/Audio/Sounds.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
     };
-  }
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
-  static disableMenuSounds() {
-    soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.stopAll();
-  }
 
-  makeSound(soundId) {
-    if (this.state.sounds[soundId]) {
-      this.startHandler(soundId);
-      _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.makeSoundV2(soundId, () => this.finishHandler(soundId));
+
+var SOUND_MAP = {
+    HO_HO_HO: 'ho_ho_ho',
+    // PIANO_MENU: '',
+    // STATIC_MENU: '',
+    // SLENDER_LOGO: '',
+    // PLAY_BUTTON: '',
+    // ABOUT_US: '',
+    // ABOUT_GAME: '',
+};
+var playButton = document.querySelector('#play');
+var logoBlock = document.querySelector('#logo');
+var aboutUsBlock = document.querySelector('#about_us');
+var aboutGameBlock = document.querySelector('#about_game');
+var MenuSounds = /** @class */ (function (_super) {
+    __extends(MenuSounds, _super);
+    function MenuSounds() {
+        var _a;
+        var _this = _super.call(this) || this;
+        _this.state = {
+            sounds: (_a = {},
+                _a[SOUND_MAP.HO_HO_HO] = true,
+                _a),
+        };
+        return _this;
     }
-  }
-
-  startHandler(soundId) {
-    this.state.sounds[soundId] = false;
-  }
-
-  finishHandler(soundId) {
-    this.state.sounds[soundId] = true;
-  }
-
-  startSoundHandler(nextSound, currentSound) {
-    if (currentSound) {
-      _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.muteSound(currentSound);
-    }
-    this.loopSound(nextSound);
-  }
-
-  stopSoundHandler(currentSound, nextSound) {
-    if (nextSound) {
-      _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.unmuteSound(nextSound);
-    }
-    _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.stopSound(currentSound);
-  }
-
-  startPlayHandler() {
-    this.startSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PLAY_BUTTON.id);
-  }
-
-  stopPlayHandler() {
-    this.stopSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PLAY_BUTTON.id);
-  }
-
-  startLogoHandler() {
-    this.startSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.SLENDER_LOGO.id);
-  }
-
-  stopLogoHandler() {
-    this.stopSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.SLENDER_LOGO.id);
-  }
-
-  startAboutUsHandler() {
-    this.startSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.ABOUT_US.id, _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PIANO_MENU.id);
-  }
-
-  stopAboutUsHandler() {
-    this.stopSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.ABOUT_US.id, _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PIANO_MENU.id);
-  }
-
-  startAboutGameHandler() {
-    this.startSoundHandler(
-      _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.ABOUT_GAME.id,
-      _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PIANO_MENU.id,
-    );
-  }
-
-  stopAboutGameHandler() {
-    this.stopSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.ABOUT_GAME.id, _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PIANO_MENU.id);
-  }
-
-  enableMenuSounds() {
-    const { PIANO_MENU, STATIC_MENU } = _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU;
-
-    this.loopSound(PIANO_MENU.id);
-    this.loopSound(STATIC_MENU.id);
-
-    playButton.addEventListener('mouseover', this.startPlayHandler.bind(this));
-    playButton.addEventListener('mouseout', this.stopPlayHandler.bind(this));
-
-    logoBlock.addEventListener('mouseover', this.startLogoHandler.bind(this));
-    logoBlock.addEventListener('mouseout', this.stopLogoHandler.bind(this));
-
-    aboutUsBlock.addEventListener(
-      'mouseover',
-      this.startAboutUsHandler.bind(this),
-    );
-    aboutUsBlock.addEventListener(
-      'mouseout',
-      this.stopAboutUsHandler.bind(this),
-    );
-
-    aboutGameBlock.addEventListener(
-      'mouseover',
-      this.startAboutGameHandler.bind(this),
-    );
-    aboutGameBlock.addEventListener(
-      'mouseout',
-      this.stopAboutGameHandler.bind(this),
-    );
-  }
-
-  winterModeSound() {
-    this.makeSound(SOUND_MAP.HO_HO_HO);
-  }
-}
-
+    MenuSounds.disableMenuSounds = function () {
+        soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.stopAll();
+    };
+    MenuSounds.prototype.makeSound = function (soundId) {
+        var _this = this;
+        if (this.state.sounds[soundId]) {
+            this.startHandler(soundId);
+            _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.makeSoundV2(soundId, function () { return _this.finishHandler(soundId); });
+        }
+    };
+    MenuSounds.prototype.startHandler = function (soundId) {
+        this.state.sounds[soundId] = false;
+    };
+    MenuSounds.prototype.finishHandler = function (soundId) {
+        this.state.sounds[soundId] = true;
+    };
+    MenuSounds.prototype.startSoundHandler = function (nextSound, currentSound) {
+        if (currentSound) {
+            _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.muteSound(currentSound);
+        }
+        this.loopSound(nextSound);
+    };
+    MenuSounds.prototype.stopSoundHandler = function (currentSound, nextSound) {
+        if (nextSound) {
+            _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.unmuteSound(nextSound);
+        }
+        _Sounds__WEBPACK_IMPORTED_MODULE_2__.default.stopSound(currentSound);
+    };
+    MenuSounds.prototype.startPlayHandler = function () {
+        this.startSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PLAY_BUTTON.id);
+    };
+    MenuSounds.prototype.stopPlayHandler = function () {
+        this.stopSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PLAY_BUTTON.id);
+    };
+    MenuSounds.prototype.startLogoHandler = function () {
+        this.startSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.SLENDER_LOGO.id);
+    };
+    MenuSounds.prototype.stopLogoHandler = function () {
+        this.stopSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.SLENDER_LOGO.id);
+    };
+    MenuSounds.prototype.startAboutUsHandler = function () {
+        this.startSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.ABOUT_US.id, _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PIANO_MENU.id);
+    };
+    MenuSounds.prototype.stopAboutUsHandler = function () {
+        this.stopSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.ABOUT_US.id, _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PIANO_MENU.id);
+    };
+    MenuSounds.prototype.startAboutGameHandler = function () {
+        this.startSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.ABOUT_GAME.id, _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PIANO_MENU.id);
+    };
+    MenuSounds.prototype.stopAboutGameHandler = function () {
+        this.stopSoundHandler(_data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.ABOUT_GAME.id, _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU.PIANO_MENU.id);
+    };
+    MenuSounds.prototype.enableMenuSounds = function () {
+        var _a = _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default.MENU, PIANO_MENU = _a.PIANO_MENU, STATIC_MENU = _a.STATIC_MENU;
+        this.loopSound(PIANO_MENU.id);
+        this.loopSound(STATIC_MENU.id);
+        playButton.addEventListener('mouseover', this.startPlayHandler.bind(this));
+        playButton.addEventListener('mouseout', this.stopPlayHandler.bind(this));
+        logoBlock.addEventListener('mouseover', this.startLogoHandler.bind(this));
+        logoBlock.addEventListener('mouseout', this.stopLogoHandler.bind(this));
+        aboutUsBlock.addEventListener('mouseover', this.startAboutUsHandler.bind(this));
+        aboutUsBlock.addEventListener('mouseout', this.stopAboutUsHandler.bind(this));
+        aboutGameBlock.addEventListener('mouseover', this.startAboutGameHandler.bind(this));
+        aboutGameBlock.addEventListener('mouseout', this.stopAboutGameHandler.bind(this));
+    };
+    MenuSounds.prototype.winterModeSound = function () {
+        this.makeSound(SOUND_MAP.HO_HO_HO);
+    };
+    return MenuSounds;
+}(_Sounds__WEBPACK_IMPORTED_MODULE_2__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MenuSounds);
 
 
 /***/ }),
 
-/***/ "./src/components/Audio/NoiseSounds.js":
+/***/ "./src/components/Audio/NoiseSounds.ts":
 /*!*********************************************!*\
-  !*** ./src/components/Audio/NoiseSounds.js ***!
+  !*** ./src/components/Audio/NoiseSounds.ts ***!
   \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -8233,92 +8211,100 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.js");
-/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Sounds */ "./src/components/Audio/Sounds.js");
-
-
-
-
-const SOUND_MAP = {
-  GHOST: 'ghost_in_the_house',
-  JUST_HORROR: 'just_horror_ambient',
-  WEIRD_NOISES: 'weird_noises',
-  SCARY_PIANO: 'scary_piano',
-};
-
-class NoiseSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_1__.default {
-  constructor() {
-    super();
-    this.state = {
-      sounds: {
-        [SOUND_MAP.GHOST]: true,
-        [SOUND_MAP.JUST_HORROR]: true,
-        [SOUND_MAP.WEIRD_NOISES]: true,
-        [SOUND_MAP.SCARY_PIANO]: true,
-      },
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Sounds */ "./src/components/Audio/Sounds.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
     };
-  }
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
-  makeSound(soundId) {
-    if (this.state.sounds[soundId]) {
-      this.startHandler(soundId);
-      _Sounds__WEBPACK_IMPORTED_MODULE_1__.default.makeSoundV2(soundId, () => this.finishHandler(soundId));
+
+var SOUND_MAP = {
+    GHOST: 'ghost_in_the_house',
+    JUST_HORROR: 'just_horror_ambient',
+    WEIRD_NOISES: 'weird_noises',
+    SCARY_PIANO: 'scary_piano',
+};
+var NoiseSounds = /** @class */ (function (_super) {
+    __extends(NoiseSounds, _super);
+    function NoiseSounds() {
+        var _a;
+        var _this = _super.call(this) || this;
+        _this.state = {
+            sounds: (_a = {},
+                _a[SOUND_MAP.GHOST] = true,
+                _a[SOUND_MAP.JUST_HORROR] = true,
+                _a[SOUND_MAP.WEIRD_NOISES] = true,
+                _a[SOUND_MAP.SCARY_PIANO] = true,
+                _a),
+        };
+        return _this;
     }
-  }
-
-  startHandler(soundId) {
-    this.state.sounds[soundId] = false;
-  }
-
-  finishHandler(soundId) {
-    this.state.sounds[soundId] = true;
-  }
-
-  noise() {
-    const noiseSong = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_0__.getRandomInt)(0, 4);
-    switch (noiseSong) {
-      case 0:
-        this.noiseGhost();
-        break;
-      case 1:
-        this.noiseHorror();
-        break;
-      case 2:
-        this.noiseWeird();
-        break;
-      case 3:
-        this.noisePiano();
-        break;
-      default:
-        break;
-    }
-  }
-
-  noiseGhost() {
-    this.makeSound(SOUND_MAP.GHOST);
-  }
-
-  noiseHorror() {
-    this.makeSound(SOUND_MAP.JUST_HORROR);
-  }
-
-  noiseWeird() {
-    this.makeSound(SOUND_MAP.WEIRD_NOISES);
-  }
-
-  noisePiano() {
-    this.makeSound(SOUND_MAP.SCARY_PIANO);
-  }
-}
-
+    NoiseSounds.prototype.makeSound = function (soundId) {
+        var _this = this;
+        if (this.state.sounds[soundId]) {
+            this.startHandler(soundId);
+            _Sounds__WEBPACK_IMPORTED_MODULE_1__.default.makeSoundV2(soundId, function () { return _this.finishHandler(soundId); });
+        }
+    };
+    NoiseSounds.prototype.startHandler = function (soundId) {
+        this.state.sounds[soundId] = false;
+    };
+    NoiseSounds.prototype.finishHandler = function (soundId) {
+        this.state.sounds[soundId] = true;
+    };
+    NoiseSounds.prototype.noise = function () {
+        var noiseSong = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_0__.getRandomInt)(0, 4);
+        switch (noiseSong) {
+            case 0:
+                this.noiseGhost();
+                break;
+            case 1:
+                this.noiseHorror();
+                break;
+            case 2:
+                this.noiseWeird();
+                break;
+            case 3:
+                this.noisePiano();
+                break;
+            default:
+                break;
+        }
+    };
+    NoiseSounds.prototype.noiseGhost = function () {
+        this.makeSound(SOUND_MAP.GHOST);
+    };
+    NoiseSounds.prototype.noiseHorror = function () {
+        this.makeSound(SOUND_MAP.JUST_HORROR);
+    };
+    NoiseSounds.prototype.noiseWeird = function () {
+        this.makeSound(SOUND_MAP.WEIRD_NOISES);
+    };
+    NoiseSounds.prototype.noisePiano = function () {
+        this.makeSound(SOUND_MAP.SCARY_PIANO);
+    };
+    return NoiseSounds;
+}(_Sounds__WEBPACK_IMPORTED_MODULE_1__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NoiseSounds);
 
 
 /***/ }),
 
-/***/ "./src/components/Audio/PaperSounds.js":
+/***/ "./src/components/Audio/PaperSounds.ts":
 /*!*********************************************!*\
-  !*** ./src/components/Audio/PaperSounds.js ***!
+  !*** ./src/components/Audio/PaperSounds.ts ***!
   \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -8327,78 +8313,88 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Sounds */ "./src/components/Audio/Sounds.js");
-
-
-const SOUND_MAP = {
-  PLACING_LOO_PAPER: 'placing_loo_paper',
-  PLACING_BOMB: 'placing_bomb',
-  PLACING_PAPER: 'placing_paper',
-};
-
-class PlayerSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_0__.default {
-  constructor(player) {
-    super();
-    this.player = player;
-    this.state = {
-      sounds: {
-        [SOUND_MAP.PLACING_LOO_PAPER]: true,
-        [SOUND_MAP.PLACING_BOMB]: true,
-        [SOUND_MAP.PLACING_PAPER]: true,
-      },
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Sounds */ "./src/components/Audio/Sounds.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
     };
-  }
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
-  makeSound(soundId) {
-    if (this.state.sounds[soundId]) {
-      this.startHandler(soundId);
-      _Sounds__WEBPACK_IMPORTED_MODULE_0__.default.makeSoundV2(soundId, () => this.finishHandler(soundId));
+var SOUND_MAP = {
+    PLACING_LOO_PAPER: 'placing_loo_paper',
+    PLACING_BOMB: 'placing_bomb',
+    PLACING_PAPER: 'placing_paper',
+};
+var PlayerSounds = /** @class */ (function (_super) {
+    __extends(PlayerSounds, _super);
+    function PlayerSounds(player) {
+        var _a;
+        var _this = _super.call(this) || this;
+        _this.player = player;
+        _this.state = {
+            sounds: (_a = {},
+                _a[SOUND_MAP.PLACING_LOO_PAPER] = true,
+                _a[SOUND_MAP.PLACING_BOMB] = true,
+                _a[SOUND_MAP.PLACING_PAPER] = true,
+                _a),
+        };
+        return _this;
     }
-  }
-
-  startHandler(soundId) {
-    this.state.sounds[soundId] = false;
-  }
-
-  finishHandler(soundId) {
-    this.state.sounds[soundId] = true;
-  }
-
-  place() {
-    switch (this.player.state.inventory.paperType) {
-      case 0:
-        this.placeLoo();
-        break;
-      case 7:
-        this.placeBomb();
-        break;
-      default:
-        this.placeNormal();
-        break;
-    }
-  }
-
-  placeLoo() {
-    this.makeSound(SOUND_MAP.PLACING_LOO_PAPER);
-  }
-
-  placeBomb() {
-    this.makeSound(SOUND_MAP.PLACING_BOMB);
-  }
-
-  placeNormal() {
-    this.makeSound(SOUND_MAP.PLACING_PAPER);
-  }
-}
-
+    PlayerSounds.prototype.makeSound = function (soundId) {
+        var _this = this;
+        if (this.state.sounds[soundId]) {
+            this.startHandler(soundId);
+            _Sounds__WEBPACK_IMPORTED_MODULE_0__.default.makeSoundV2(soundId, function () { return _this.finishHandler(soundId); });
+        }
+    };
+    PlayerSounds.prototype.startHandler = function (soundId) {
+        this.state.sounds[soundId] = false;
+    };
+    PlayerSounds.prototype.finishHandler = function (soundId) {
+        this.state.sounds[soundId] = true;
+    };
+    PlayerSounds.prototype.place = function () {
+        switch (this.player.state.inventory.paperType) {
+            case 0:
+                this.placeLoo();
+                break;
+            case 7:
+                this.placeBomb();
+                break;
+            default:
+                this.placeNormal();
+                break;
+        }
+    };
+    PlayerSounds.prototype.placeLoo = function () {
+        this.makeSound(SOUND_MAP.PLACING_LOO_PAPER);
+    };
+    PlayerSounds.prototype.placeBomb = function () {
+        this.makeSound(SOUND_MAP.PLACING_BOMB);
+    };
+    PlayerSounds.prototype.placeNormal = function () {
+        this.makeSound(SOUND_MAP.PLACING_PAPER);
+    };
+    return PlayerSounds;
+}(_Sounds__WEBPACK_IMPORTED_MODULE_0__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PlayerSounds);
 
 
 /***/ }),
 
-/***/ "./src/components/Audio/PlayerSounds.js":
+/***/ "./src/components/Audio/PlayerSounds.ts":
 /*!**********************************************!*\
-  !*** ./src/components/Audio/PlayerSounds.js ***!
+  !*** ./src/components/Audio/PlayerSounds.ts ***!
   \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -8407,152 +8403,157 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Sounds */ "./src/components/Audio/Sounds.js");
-
-
-const SOUND_MAP = {
-  BACKWARD_STEP: 'backward_step',
-  DODGE_STEP_0: 'dodge_step_0',
-  DODGE_STEP_1: 'dodge_step_1',
-  FORWARD_STEP: 'forward_step',
-  HITTING_THE_FENCE: 'hitting_the_fence',
-  HITTING_THE_RAIN_FENCE: 'hitting_the_rain_fence',
-  HITTING_THE_WALL: 'hitting_the_wall',
-  KILLING: 'killing',
-  RAIN_BACKWARD_STEP: 'rain_backward_step',
-  RAIN_DODGE_STEP_0: 'rain_dodge_step_0',
-  RAIN_DODGE_STEP_1: 'rain_dodge_step_1',
-  RAIN_FORWARD_STEP: 'rain_forward_step',
-  RAIN_RUNNING: 'rain_running',
-  RAIN_STEP: 'rain_step',
-  RUNNING: 'running',
-  SLASHING: 'slashing',
-};
-
-class PlayerSounds extends _Sounds__WEBPACK_IMPORTED_MODULE_0__.default {
-  constructor(mode, player) {
-    super();
-    this.mode = mode;
-    this.player = player;
-    this.state = {
-      sounds: {
-        [SOUND_MAP.SLASHING]: true,
-        [SOUND_MAP.KILLING]: true,
-        [SOUND_MAP.RUNNING]: true,
-        [SOUND_MAP.RAIN_RUNNING]: true,
-        [SOUND_MAP.FORWARD_STEP]: true,
-        [SOUND_MAP.BACKWARD_STEP]: true,
-        [SOUND_MAP.RAIN_FORWARD_STEP]: true,
-        [SOUND_MAP.RAIN_BACKWARD_STEP]: true,
-        [SOUND_MAP.RAIN_STEP]: true,
-        [SOUND_MAP.DODGE_STEP_0]: true,
-        [SOUND_MAP.DODGE_STEP_1]: true,
-        [SOUND_MAP.RAIN_DODGE_STEP_0]: true,
-        [SOUND_MAP.RAIN_DODGE_STEP_1]: true,
-        [SOUND_MAP.HITTING_THE_FENCE]: true,
-        [SOUND_MAP.HITTING_THE_WALL]: true,
-        [SOUND_MAP.HITTING_THE_RAIN_FENCE]: true,
-      },
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Sounds */ "./src/components/Audio/Sounds.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
     };
-  }
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
-  makeSound(soundId) {
-    if (this.state.sounds[soundId]) {
-      this.startHandler(soundId);
-      _Sounds__WEBPACK_IMPORTED_MODULE_0__.default.makeSoundV2(soundId, () => this.finishHandler(soundId));
+var SOUND_MAP = {
+    BACKWARD_STEP: 'backward_step',
+    DODGE_STEP_0: 'dodge_step_0',
+    DODGE_STEP_1: 'dodge_step_1',
+    FORWARD_STEP: 'forward_step',
+    HITTING_THE_FENCE: 'hitting_the_fence',
+    HITTING_THE_RAIN_FENCE: 'hitting_the_rain_fence',
+    HITTING_THE_WALL: 'hitting_the_wall',
+    KILLING: 'killing',
+    RAIN_BACKWARD_STEP: 'rain_backward_step',
+    RAIN_DODGE_STEP_0: 'rain_dodge_step_0',
+    RAIN_DODGE_STEP_1: 'rain_dodge_step_1',
+    RAIN_FORWARD_STEP: 'rain_forward_step',
+    RAIN_RUNNING: 'rain_running',
+    RAIN_STEP: 'rain_step',
+    RUNNING: 'running',
+    SLASHING: 'slashing',
+};
+var PlayerSounds = /** @class */ (function (_super) {
+    __extends(PlayerSounds, _super);
+    function PlayerSounds(mode, player) {
+        var _a;
+        var _this = _super.call(this) || this;
+        _this.mode = mode;
+        _this.player = player;
+        _this.state = {
+            sounds: (_a = {},
+                _a[SOUND_MAP.SLASHING] = true,
+                _a[SOUND_MAP.KILLING] = true,
+                _a[SOUND_MAP.RUNNING] = true,
+                _a[SOUND_MAP.RAIN_RUNNING] = true,
+                _a[SOUND_MAP.FORWARD_STEP] = true,
+                _a[SOUND_MAP.BACKWARD_STEP] = true,
+                _a[SOUND_MAP.RAIN_FORWARD_STEP] = true,
+                _a[SOUND_MAP.RAIN_BACKWARD_STEP] = true,
+                _a[SOUND_MAP.RAIN_STEP] = true,
+                _a[SOUND_MAP.DODGE_STEP_0] = true,
+                _a[SOUND_MAP.DODGE_STEP_1] = true,
+                _a[SOUND_MAP.RAIN_DODGE_STEP_0] = true,
+                _a[SOUND_MAP.RAIN_DODGE_STEP_1] = true,
+                _a[SOUND_MAP.HITTING_THE_FENCE] = true,
+                _a[SOUND_MAP.HITTING_THE_WALL] = true,
+                _a[SOUND_MAP.HITTING_THE_RAIN_FENCE] = true,
+                _a),
+        };
+        return _this;
     }
-  }
-
-  startHandler(soundId) {
-    this.state.sounds[soundId] = false;
-  }
-
-  finishHandler(soundId) {
-    this.state.sounds[soundId] = true;
-  }
-
-  walk() {
-    this.mode.winter ? this.snowWalk() : this.rainWalk();
-  }
-
-  dodge() {
-    this.mode.winter ? this.snowDodge() : this.rainDodge();
-  }
-
-  hitWall() {
-    this.makeSound(SOUND_MAP.HITTING_THE_WALL);
-  }
-
-  hitFence() {
-    this.mode.winter ? this.snowFenceHit() : this.rainFenceHit();
-  }
-
-  attack() {
-    this.makeSound(SOUND_MAP.SLASHING);
-  }
-
-  kill() {
-    this.makeSound(SOUND_MAP.KILLING);
-  }
-
-  snowWalk() {
-    if (this.player.state.FSM.running) {
-      this.makeSound(SOUND_MAP.RUNNING);
-    } else {
-      Math.random() > 0.5
-        ? this.makeSound(SOUND_MAP.FORWARD_STEP)
-        : this.makeSound(SOUND_MAP.BACKWARD_STEP);
-    }
-  }
-
-  rainWalk() {
-    if (this.player.state.FSM.running) {
-      this.makeSound(SOUND_MAP.RAIN_RUNNING);
-    } else if (Math.random() > 0.2) {
-      if (Math.random() > 0.5) {
-        this.makeSound(SOUND_MAP.RAIN_FORWARD_STEP);
-      } else {
-        this.makeSound(SOUND_MAP.RAIN_BACKWARD_STEP);
-      }
-    } else {
-      this.makeSound(SOUND_MAP.RAIN_STEP);
-    }
-  }
-
-  snowDodge() {
-    Math.random() > 0.5
-      ? this.makeSound(SOUND_MAP.DODGE_STEP_0)
-      : this.makeSound(SOUND_MAP.DODGE_STEP_1);
-  }
-
-  rainDodge() {
-    Math.random() > 0.5
-      ? this.makeSound(SOUND_MAP.RAIN_DODGE_STEP_0)
-      : this.makeSound(SOUND_MAP.RAIN_DODGE_STEP_1);
-  }
-
-  snowFenceHit() {
-    this.makeSound(SOUND_MAP.HITTING_THE_FENCE);
-  }
-
-  rainFenceHit() {
-    this.makeSound(SOUND_MAP.HITTING_THE_RAIN_FENCE);
-  }
-
-  isKillingEnded() {
-    const killingEnded = this.state.sounds[SOUND_MAP.KILLING];
-    return killingEnded;
-  }
-}
-
+    PlayerSounds.prototype.makeSound = function (soundId) {
+        var _this = this;
+        if (this.state.sounds[soundId]) {
+            this.startHandler(soundId);
+            _Sounds__WEBPACK_IMPORTED_MODULE_0__.default.makeSoundV2(soundId, function () { return _this.finishHandler(soundId); });
+        }
+    };
+    PlayerSounds.prototype.startHandler = function (soundId) {
+        this.state.sounds[soundId] = false;
+    };
+    PlayerSounds.prototype.finishHandler = function (soundId) {
+        this.state.sounds[soundId] = true;
+    };
+    PlayerSounds.prototype.walk = function () {
+        this.mode.winter ? this.snowWalk() : this.rainWalk();
+    };
+    PlayerSounds.prototype.dodge = function () {
+        this.mode.winter ? this.snowDodge() : this.rainDodge();
+    };
+    PlayerSounds.prototype.hitWall = function () {
+        this.makeSound(SOUND_MAP.HITTING_THE_WALL);
+    };
+    PlayerSounds.prototype.hitFence = function () {
+        this.mode.winter ? this.snowFenceHit() : this.rainFenceHit();
+    };
+    PlayerSounds.prototype.attack = function () {
+        this.makeSound(SOUND_MAP.SLASHING);
+    };
+    PlayerSounds.prototype.kill = function () {
+        this.makeSound(SOUND_MAP.KILLING);
+    };
+    PlayerSounds.prototype.snowWalk = function () {
+        if (this.player.state.FSM.running) {
+            this.makeSound(SOUND_MAP.RUNNING);
+        }
+        else {
+            Math.random() > 0.5
+                ? this.makeSound(SOUND_MAP.FORWARD_STEP)
+                : this.makeSound(SOUND_MAP.BACKWARD_STEP);
+        }
+    };
+    PlayerSounds.prototype.rainWalk = function () {
+        if (this.player.state.FSM.running) {
+            this.makeSound(SOUND_MAP.RAIN_RUNNING);
+        }
+        else if (Math.random() > 0.2) {
+            if (Math.random() > 0.5) {
+                this.makeSound(SOUND_MAP.RAIN_FORWARD_STEP);
+            }
+            else {
+                this.makeSound(SOUND_MAP.RAIN_BACKWARD_STEP);
+            }
+        }
+        else {
+            this.makeSound(SOUND_MAP.RAIN_STEP);
+        }
+    };
+    PlayerSounds.prototype.snowDodge = function () {
+        Math.random() > 0.5
+            ? this.makeSound(SOUND_MAP.DODGE_STEP_0)
+            : this.makeSound(SOUND_MAP.DODGE_STEP_1);
+    };
+    PlayerSounds.prototype.rainDodge = function () {
+        Math.random() > 0.5
+            ? this.makeSound(SOUND_MAP.RAIN_DODGE_STEP_0)
+            : this.makeSound(SOUND_MAP.RAIN_DODGE_STEP_1);
+    };
+    PlayerSounds.prototype.snowFenceHit = function () {
+        this.makeSound(SOUND_MAP.HITTING_THE_FENCE);
+    };
+    PlayerSounds.prototype.rainFenceHit = function () {
+        this.makeSound(SOUND_MAP.HITTING_THE_RAIN_FENCE);
+    };
+    PlayerSounds.prototype.isKillingEnded = function () {
+        var killingEnded = this.state.sounds[SOUND_MAP.KILLING];
+        return killingEnded;
+    };
+    return PlayerSounds;
+}(_Sounds__WEBPACK_IMPORTED_MODULE_0__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PlayerSounds);
 
 
 /***/ }),
 
-/***/ "./src/components/Audio/Sounds.js":
+/***/ "./src/components/Audio/Sounds.ts":
 /*!****************************************!*\
-  !*** ./src/components/Audio/Sounds.js ***!
+  !*** ./src/components/Audio/Sounds.ts ***!
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -8563,63 +8564,59 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! soundmanager2 */ "./node_modules/soundmanager2/script/soundmanager2.js");
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/sound */ "./src/utils/sound.js");
+/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/sound */ "./src/utils/sound.ts");
 
 
-
-
-class Sounds {
-  constructor() {
-    soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.setup({
-      url: _utils_sound__WEBPACK_IMPORTED_MODULE_1__.SM_URL,
-      debugMode: false,
-      preferFlash: false,
-      useHighPerformance: true,
-      onready: () => (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.precreateSounds)(),
-    });
-  }
-
-  loopSound(soundId) {
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.playSM)(soundId, {
-      multiShotEvents: true,
-      onfinish: () => this.loopSound(soundId),
-    });
-  }
-
-  static stopSound(soundId) {
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.stopSM)(soundId);
-  }
-
-  static muteSound(soundId) {
-    soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.mute(soundId);
-  }
-
-  static unmuteSound(soundId) {
-    soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.unmute(soundId);
-  }
-
-  static makeSoundV2(soundId, finishHandler) {
-    (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.playSM)(soundId, {
-      multiShotEvents: true,
-      onfinish: finishHandler,
-    });
-  }
-
-  allSoundsEnded() {
-    const soundStates = Object.values(this.state.sounds);
-    const soundsEnded = soundStates.every((sound) => !!sound);
-    return soundsEnded;
-  }
-}
-
+var Sounds = /** @class */ (function () {
+    function Sounds() {
+        this.state = {
+            sounds: {},
+        };
+        soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.setup({
+            url: _utils_sound__WEBPACK_IMPORTED_MODULE_1__.SM_URL,
+            debugMode: false,
+            preferFlash: false,
+            useHighPerformance: true,
+            onready: function () { return (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.precreateSounds)(); },
+        });
+    }
+    Sounds.prototype.loopSound = function (soundId) {
+        var _this = this;
+        (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.playSM)(soundId, {
+            multiShotEvents: true,
+            onfinish: function () { return _this.loopSound(soundId); },
+        });
+    };
+    Sounds.stopSound = function (soundId) {
+        (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.stopSM)(soundId);
+    };
+    Sounds.muteSound = function (soundId) {
+        soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.mute(soundId);
+    };
+    Sounds.unmuteSound = function (soundId) {
+        soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.unmute(soundId);
+    };
+    Sounds.makeSoundV2 = function (soundId, finishHandler) {
+        (0,_utils_sound__WEBPACK_IMPORTED_MODULE_1__.playSM)(soundId, {
+            multiShotEvents: true,
+            onfinish: finishHandler,
+        });
+    };
+    Sounds.prototype.allSoundsEnded = function () {
+        var soundStates = Object.values(this.state.sounds);
+        var soundsEnded = soundStates.every(function (sound) { return !!sound; });
+        return soundsEnded;
+    };
+    return Sounds;
+}());
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sounds);
 
 
 /***/ }),
 
-/***/ "./src/components/Audio/index.js":
+/***/ "./src/components/Audio/index.ts":
 /*!***************************************!*\
-  !*** ./src/components/Audio/index.js ***!
+  !*** ./src/components/Audio/index.ts ***!
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -8633,13 +8630,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "PlayerSounds": () => (/* reexport safe */ _PlayerSounds__WEBPACK_IMPORTED_MODULE_4__.default),
 /* harmony export */   "Sounds": () => (/* reexport safe */ _Sounds__WEBPACK_IMPORTED_MODULE_5__.default)
 /* harmony export */ });
-/* harmony import */ var _GameSounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameSounds */ "./src/components/Audio/GameSounds.js");
-/* harmony import */ var _MenuSounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MenuSounds */ "./src/components/Audio/MenuSounds.js");
-/* harmony import */ var _NoiseSounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NoiseSounds */ "./src/components/Audio/NoiseSounds.js");
-/* harmony import */ var _PaperSounds__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PaperSounds */ "./src/components/Audio/PaperSounds.js");
-/* harmony import */ var _PlayerSounds__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PlayerSounds */ "./src/components/Audio/PlayerSounds.js");
-/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Sounds */ "./src/components/Audio/Sounds.js");
-
+/* harmony import */ var _GameSounds__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameSounds */ "./src/components/Audio/GameSounds.ts");
+/* harmony import */ var _MenuSounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MenuSounds */ "./src/components/Audio/MenuSounds.ts");
+/* harmony import */ var _NoiseSounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NoiseSounds */ "./src/components/Audio/NoiseSounds.ts");
+/* harmony import */ var _PaperSounds__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./PaperSounds */ "./src/components/Audio/PaperSounds.ts");
+/* harmony import */ var _PlayerSounds__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PlayerSounds */ "./src/components/Audio/PlayerSounds.ts");
+/* harmony import */ var _Sounds__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Sounds */ "./src/components/Audio/Sounds.ts");
 
 
 
@@ -8651,9 +8647,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/components/Bitmap.js":
+/***/ "./src/components/Bitmap.ts":
 /*!**********************************!*\
-  !*** ./src/components/Bitmap.js ***!
+  !*** ./src/components/Bitmap.ts ***!
   \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -8662,16 +8658,168 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-class Bitmap {
-  constructor(src, width, height) {
-    this.image = new Image();
-    this.image.src = src;
-    this.width = width;
-    this.height = height;
-  }
-}
-
+var Bitmap = /** @class */ (function () {
+    function Bitmap(src, width, height) {
+        this.width = width;
+        this.height = height;
+        this.image = new Image();
+        this.image.src = src;
+    }
+    return Bitmap;
+}());
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Bitmap);
+
+
+/***/ }),
+
+/***/ "./src/components/Objects.ts":
+/*!***********************************!*\
+  !*** ./src/components/Objects.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
+/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bitmap */ "./src/components/Bitmap.ts");
+
+
+var Objects = /** @class */ (function () {
+    function Objects(object) {
+        this.x = object.x;
+        this.y = object.y;
+        this.height = object.height || 1;
+        this.width = 0.5;
+        this.texture =
+            object.texture || new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.trees[1].texture, 639, 1500);
+    }
+    return Objects;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Objects);
+
+
+/***/ }),
+
+/***/ "./src/components/Paper.ts":
+/*!*********************************!*\
+  !*** ./src/components/Paper.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var Paper = /** @class */ (function () {
+    function Paper(x, y, texture) {
+        this.color = '#fff';
+        this.x = x;
+        this.y = y;
+        this.height = 0.2;
+        this.width = 0.2;
+        this.texture = texture;
+    }
+    return Paper;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Paper);
+
+
+/***/ }),
+
+/***/ "./src/core/config.ts":
+/*!****************************!*\
+  !*** ./src/core/config.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var GAME_OPTIONS = {
+    PAPER_NUM: 8,
+    PPL_NUM: 8,
+    PPL_XY: 30,
+    MAP_SIZE: 32,
+    RESOLUTION: 640,
+    FOV: 0.8,
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GAME_OPTIONS);
+
+
+/***/ }),
+
+/***/ "./src/utils/calc.ts":
+/*!***************************!*\
+  !*** ./src/utils/calc.ts ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CIRCLE": () => (/* binding */ CIRCLE),
+/* harmony export */   "getRandomInt": () => (/* binding */ getRandomInt),
+/* harmony export */   "getRandomFloat": () => (/* binding */ getRandomFloat)
+/* harmony export */ });
+var CIRCLE = Math.PI * 2;
+var getRandomInt = function (min, max) {
+    var minInt = Math.ceil(min);
+    var maxInt = Math.floor(max);
+    return Math.floor(Math.random() * (maxInt - minInt)) + minInt;
+};
+var getRandomFloat = function (min, max) {
+    return min + Math.random() * (max + 1 - min);
+};
+
+
+
+/***/ }),
+
+/***/ "./src/utils/sound.ts":
+/*!****************************!*\
+  !*** ./src/utils/sound.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "precreateGroup": () => (/* binding */ precreateGroup),
+/* harmony export */   "precreateSounds": () => (/* binding */ precreateSounds),
+/* harmony export */   "preloadGroup": () => (/* binding */ preloadGroup),
+/* harmony export */   "preloadSounds": () => (/* binding */ preloadSounds),
+/* harmony export */   "playSM": () => (/* binding */ playSM),
+/* harmony export */   "stopSM": () => (/* binding */ stopSM),
+/* harmony export */   "SM_URL": () => (/* binding */ SM_URL),
+/* harmony export */   "SOUNDS": () => (/* reexport safe */ _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default)
+/* harmony export */ });
+/* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! soundmanager2 */ "./node_modules/soundmanager2/script/soundmanager2.js");
+/* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../data/sounds */ "./data/sounds.js");
+
+
+var SM_URL = 'node_modules/soundmanager2/swf';
+var prepareFunc = function (func, group) {
+    return Object.entries(group).forEach(function (_a) {
+        var _ = _a[0], val = _a[1];
+        return func(val);
+    });
+};
+var precreateGroup = function (group) {
+    return prepareFunc(soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.createSound, group);
+};
+var preloadGroup = function (group) { return prepareFunc(soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.load, group); };
+var precreateSounds = function () { return prepareFunc(precreateGroup, _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default); };
+var preloadSounds = function () { return prepareFunc(preloadGroup, _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default); };
+var playSM = function (id, config) { return soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.play(id, config); };
+var stopSM = function (id) { return soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.stop(id); };
+
 
 
 /***/ }),
@@ -8687,8 +8835,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/config */ "./src/core/config.js");
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/calc */ "./src/utils/calc.js");
+/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/config */ "./src/core/config.ts");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/calc */ "./src/utils/calc.ts");
 
 
 
@@ -9350,8 +9498,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
 /* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../data/sounds */ "./data/sounds.js");
-/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/sound */ "./src/utils/sound.js");
-/* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Audio */ "./src/components/Audio/index.js");
+/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/sound */ "./src/utils/sound.ts");
+/* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Audio */ "./src/components/Audio/index.ts");
 /* harmony import */ var _Camera__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Camera */ "./src/components/Camera.js");
 /* harmony import */ var _Controls__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Controls */ "./src/components/Controls.js");
 /* harmony import */ var _GameLoop__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./GameLoop */ "./src/components/GameLoop.js");
@@ -9632,11 +9780,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
-/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/config */ "./src/core/config.js");
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/calc */ "./src/utils/calc.js");
-/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Bitmap */ "./src/components/Bitmap.js");
+/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/config */ "./src/core/config.ts");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/calc */ "./src/utils/calc.ts");
+/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Bitmap */ "./src/components/Bitmap.ts");
 /* harmony import */ var _NPC__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./NPC */ "./src/components/NPC.js");
-/* harmony import */ var _Objects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Objects */ "./src/components/Objects.js");
+/* harmony import */ var _Objects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Objects */ "./src/components/Objects.ts");
 
 
 
@@ -9873,9 +10021,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/calc */ "./src/utils/calc.js");
-/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bitmap */ "./src/components/Bitmap.js");
-/* harmony import */ var _Paper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Paper */ "./src/components/Paper.js");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/calc */ "./src/utils/calc.ts");
+/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bitmap */ "./src/components/Bitmap.ts");
+/* harmony import */ var _Paper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Paper */ "./src/components/Paper.ts");
 
 
 
@@ -10090,66 +10238,6 @@ class NPC {
 
 /***/ }),
 
-/***/ "./src/components/Objects.js":
-/*!***********************************!*\
-  !*** ./src/components/Objects.js ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
-/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Bitmap */ "./src/components/Bitmap.js");
-
-
-
-
-class Objects {
-  constructor(object) {
-    this.texture =
-      object.texture || new _Bitmap__WEBPACK_IMPORTED_MODULE_1__.default(_data_assets__WEBPACK_IMPORTED_MODULE_0__.default.trees[1].texture, 639, 1500);
-    this.height = object.height || 1;
-    this.width = 0.5;
-    this.x = object.x;
-    this.y = object.y;
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Objects);
-
-
-/***/ }),
-
-/***/ "./src/components/Paper.js":
-/*!*********************************!*\
-  !*** ./src/components/Paper.js ***!
-  \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-class Paper {
-  constructor(x, y, texture) {
-    this.color = '#fff';
-    this.x = x;
-    this.y = y;
-    this.height = 0.2;
-    this.width = 0.2;
-    this.texture = texture;
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Paper);
-
-
-/***/ }),
-
 /***/ "./src/components/Player.js":
 /*!**********************************!*\
   !*** ./src/components/Player.js ***!
@@ -10162,12 +10250,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _data_assets__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../data/assets */ "./data/assets.js");
-/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/config */ "./src/core/config.js");
-/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/calc */ "./src/utils/calc.js");
-/* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Audio */ "./src/components/Audio/index.js");
-/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Bitmap */ "./src/components/Bitmap.js");
+/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/config */ "./src/core/config.ts");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/calc */ "./src/utils/calc.ts");
+/* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Audio */ "./src/components/Audio/index.ts");
+/* harmony import */ var _Bitmap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Bitmap */ "./src/components/Bitmap.ts");
 /* harmony import */ var _NPC__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./NPC */ "./src/components/NPC.js");
-/* harmony import */ var _Paper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Paper */ "./src/components/Paper.js");
+/* harmony import */ var _Paper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Paper */ "./src/components/Paper.ts");
 
 
 
@@ -10487,105 +10575,6 @@ class Player {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Player);
 
 
-/***/ }),
-
-/***/ "./src/core/config.js":
-/*!****************************!*\
-  !*** ./src/core/config.js ***!
-  \****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-const GAME_OPTIONS = {
-  PAPER_NUM: 8,
-  PPL_NUM: 8,
-  PPL_XY: 30,
-  MAP_SIZE: 32,
-  RESOLUTION: 640,
-  FOV: 0.8,
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GAME_OPTIONS);
-
-
-/***/ }),
-
-/***/ "./src/utils/calc.js":
-/*!***************************!*\
-  !*** ./src/utils/calc.js ***!
-  \***************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "CIRCLE": () => (/* binding */ CIRCLE),
-/* harmony export */   "getRandomInt": () => (/* binding */ getRandomInt),
-/* harmony export */   "getRandomFloat": () => (/* binding */ getRandomFloat)
-/* harmony export */ });
-const CIRCLE = Math.PI * 2;
-
-const getRandomInt = (min, max) => {
-  const minInt = Math.ceil(min);
-  const maxInt = Math.floor(max);
-  return Math.floor(Math.random() * (maxInt - minInt)) + minInt;
-};
-
-const getRandomFloat = (min, max) => {
-  return min + Math.random() * (max + 1 - min);
-};
-
-
-
-
-/***/ }),
-
-/***/ "./src/utils/sound.js":
-/*!****************************!*\
-  !*** ./src/utils/sound.js ***!
-  \****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "precreateGroup": () => (/* binding */ precreateGroup),
-/* harmony export */   "precreateSounds": () => (/* binding */ precreateSounds),
-/* harmony export */   "preloadGroup": () => (/* binding */ preloadGroup),
-/* harmony export */   "preloadSounds": () => (/* binding */ preloadSounds),
-/* harmony export */   "playSM": () => (/* binding */ playSM),
-/* harmony export */   "stopSM": () => (/* binding */ stopSM),
-/* harmony export */   "SM_URL": () => (/* binding */ SM_URL),
-/* harmony export */   "SOUNDS": () => (/* reexport safe */ _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default)
-/* harmony export */ });
-/* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! soundmanager2 */ "./node_modules/soundmanager2/script/soundmanager2.js");
-/* harmony import */ var soundmanager2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(soundmanager2__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _data_sounds__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../data/sounds */ "./data/sounds.js");
-
-
-
-
-const SM_URL = 'node_modules/soundmanager2/swf';
-
-const prepareFunc = (func, group) =>
-  Object.entries(group).forEach(([_, val]) => func(val));
-
-const precreateGroup = (group) => prepareFunc(soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.createSound, group);
-const preloadGroup = (group) => prepareFunc(soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.load, group);
-
-const precreateSounds = () => prepareFunc(precreateGroup, _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default);
-const preloadSounds = () => prepareFunc(preloadGroup, _data_sounds__WEBPACK_IMPORTED_MODULE_1__.default);
-
-const playSM = (id, config) => soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.play(id, config);
-const stopSM = (id) => soundmanager2__WEBPACK_IMPORTED_MODULE_0__.soundManager.stop(id);
-
-
-
-
 /***/ })
 
 /******/ 	});
@@ -10709,9 +10698,9 @@ var __webpack_exports__ = {};
   !*** ./src/main.ts ***!
   \*********************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Audio__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Audio */ "./src/components/Audio/index.js");
+/* harmony import */ var _components_Audio__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Audio */ "./src/components/Audio/index.ts");
 /* harmony import */ var _components_Game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Game */ "./src/components/Game.js");
-/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/sound */ "./src/utils/sound.js");
+/* harmony import */ var _utils_sound__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/sound */ "./src/utils/sound.ts");
 var _a;
 
 

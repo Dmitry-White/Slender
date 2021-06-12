@@ -7,7 +7,9 @@ const SOUND_MAP = {
 };
 
 class PlayerSounds extends Sounds {
-  constructor(player) {
+  player: any;
+
+  constructor(player: any) {
     super();
     this.player = player;
     this.state = {
@@ -19,18 +21,18 @@ class PlayerSounds extends Sounds {
     };
   }
 
-  makeSound(soundId) {
+  makeSound(soundId: string) {
     if (this.state.sounds[soundId]) {
       this.startHandler(soundId);
       Sounds.makeSoundV2(soundId, () => this.finishHandler(soundId));
     }
   }
 
-  startHandler(soundId) {
+  startHandler(soundId: string) {
     this.state.sounds[soundId] = false;
   }
 
-  finishHandler(soundId) {
+  finishHandler(soundId: string) {
     this.state.sounds[soundId] = true;
   }
 

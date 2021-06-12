@@ -3,7 +3,12 @@ import { soundManager } from 'soundmanager2';
 import { precreateSounds, SM_URL, playSM, stopSM } from '../../utils/sound';
 
 class Sounds {
+  state: any;
+
   constructor() {
+    this.state = {
+      sounds: {},
+    };
     soundManager.setup({
       url: SM_URL,
       debugMode: false,
@@ -13,26 +18,26 @@ class Sounds {
     });
   }
 
-  loopSound(soundId) {
+  loopSound(soundId: string) {
     playSM(soundId, {
       multiShotEvents: true,
       onfinish: () => this.loopSound(soundId),
     });
   }
 
-  static stopSound(soundId) {
+  static stopSound(soundId: string) {
     stopSM(soundId);
   }
 
-  static muteSound(soundId) {
+  static muteSound(soundId: string) {
     soundManager.mute(soundId);
   }
 
-  static unmuteSound(soundId) {
+  static unmuteSound(soundId: string) {
     soundManager.unmute(soundId);
   }
 
-  static makeSoundV2(soundId, finishHandler) {
+  static makeSoundV2(soundId: string, finishHandler: Function) {
     playSM(soundId, {
       multiShotEvents: true,
       onfinish: finishHandler,

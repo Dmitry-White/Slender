@@ -1,5 +1,17 @@
 class Paper {
-  constructor(x, y, texture) {
+  color: string;
+
+  x: number;
+
+  y: number;
+
+  height: number;
+
+  width: number;
+
+  texture: any;
+
+  constructor(x: number, y: number, texture: any) {
     this.color = '#fff';
     this.x = x;
     this.y = y;

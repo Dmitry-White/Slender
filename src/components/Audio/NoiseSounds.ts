@@ -22,18 +22,18 @@ class NoiseSounds extends Sounds {
     };
   }
 
-  makeSound(soundId) {
+  makeSound(soundId: string) {
     if (this.state.sounds[soundId]) {
       this.startHandler(soundId);
       Sounds.makeSoundV2(soundId, () => this.finishHandler(soundId));
     }
   }
 
-  startHandler(soundId) {
+  startHandler(soundId: string) {
     this.state.sounds[soundId] = false;
   }
 
-  finishHandler(soundId) {
+  finishHandler(soundId: string) {
     this.state.sounds[soundId] = true;
   }
 

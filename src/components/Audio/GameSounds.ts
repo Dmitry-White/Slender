@@ -10,7 +10,11 @@ const SOUND_MAP = {
 };
 
 class GameSounds extends Sounds {
-  constructor(game) {
+  game: any;
+
+  mode: any;
+
+  constructor(game: any) {
     super();
     this.game = game;
     this.mode = game.mode;
@@ -23,7 +27,7 @@ class GameSounds extends Sounds {
     };
   }
 
-  makeSound(soundId, callback) {
+  makeSound(soundId: string, callback: Function) {
     if (this.state.sounds[soundId]) {
       this.startHandler(soundId);
       const finishHandler = callback
@@ -33,16 +37,16 @@ class GameSounds extends Sounds {
     }
   }
 
-  startHandler(soundId) {
+  startHandler(soundId: string) {
     this.state.sounds[soundId] = false;
   }
 
-  finishHandler(soundId) {
+  finishHandler(soundId: string) {
     this.state.sounds[soundId] = true;
   }
 
   scream() {
-    this.makeSound(SOUND_MAP.GHOST_SCREAM, (soundId) => {
+    this.makeSound(SOUND_MAP.GHOST_SCREAM, (soundId: string) => {
       this.game.state.gameFinished = true;
       this.state.sounds[soundId] = true;
     });
