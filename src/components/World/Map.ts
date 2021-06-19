@@ -4,6 +4,7 @@ import { getRandomInt } from '../../utils/calc';
 import NPC from '../Actors/NPC';
 import Player from '../Actors/Player';
 import Bitmap from '../Engine/Bitmap';
+import GUI from '../Engine/GUI';
 import Game from '../Game';
 
 import Objects from './Objects';
@@ -35,6 +36,8 @@ class Map {
   people: number;
 
   papers: number;
+
+  gui: GUI;
 
   show_no_paper: number;
 
@@ -69,6 +72,7 @@ class Map {
     this.objects = [];
     this.people = 0;
     this.papers = 0;
+
     this.show_no_paper = 0;
     this.show_loo = 0;
     this.show_bomb = 0;
@@ -77,6 +81,7 @@ class Map {
     this.show_die = 0;
     this.show_taken = 0;
     this.show_all_dead = 0;
+    this.gui = new GUI(game);
   }
 
   get(x: number, y: number) {
@@ -198,7 +203,6 @@ class Map {
     this.wallGrid[1] = 3;
 
     this.addPeople();
-    console.log(this.objects);
   }
 
   cast(player: Player, angle: number, range: number) {

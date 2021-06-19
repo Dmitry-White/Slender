@@ -169,7 +169,7 @@ class Player {
   eat(victim: NPC) {
     victim.die();
     this.map.people--;
-    this.showDieMessage();
+    this.map.gui.showDieMessage();
   }
 
   attack() {
@@ -205,7 +205,7 @@ class Player {
     const noPapersToPlace = this.map.papers >= GAME_OPTIONS.PAPER_NUM;
 
     if (noPapersToPlace) {
-      this.showNoPaperMessage();
+      this.map.gui.showNoPaperMessage();
     } else {
       const isSamePlace =
         this.state.inventory.previosPaperPlace.x === this.state.position.x &&
@@ -236,7 +236,7 @@ class Player {
 
         this.paperSounds.place();
 
-        this.showPlacementMessage();
+        this.map.gui.showPlacementMessage();
 
         const paperPlace: IEntityPosition = {
           x: this.state.position.x,
@@ -246,77 +246,9 @@ class Player {
         this.state.inventory.previosPaperPlace = paperPlace;
         this.map.papers++;
       } else {
-        this.showWarningMessage();
+        this.map.gui.showWarningMessage();
       }
     }
-  }
-
-  showPlacementMessage() {
-    if (this.state.inventory.paperType === 0) {
-      this.showLooMessage();
-    } else if (this.state.inventory.paperType === 7) {
-      this.showBombMessage();
-    } else {
-      this.showPaperMessage();
-    }
-  }
-
-  showNoPaperMessage() {
-    this.map.show_no_paper = 1;
-    this.map.show_loo = 0;
-    this.map.show_bomb = 0;
-    this.map.show_tip = 0;
-    this.map.show_warning = 0;
-    setTimeout(() => {
-      this.map.show_no_paper = 0;
-    }, 3000);
-  }
-
-  showLooMessage() {
-    this.map.show_loo = 1;
-    this.map.show_bomb = 0;
-    this.map.show_tip = 0;
-    this.map.show_warning = 0;
-    setTimeout(() => {
-      this.map.show_loo = 0;
-    }, 3000);
-  }
-
-  showBombMessage() {
-    this.map.show_loo = 0;
-    this.map.show_bomb = 1;
-    this.map.show_tip = 0;
-    this.map.show_warning = 0;
-    setTimeout(() => {
-      this.map.show_bomb = 0;
-    }, 3000);
-  }
-
-  showPaperMessage() {
-    this.map.show_loo = 0;
-    this.map.show_bomb = 0;
-    this.map.show_tip = 1;
-    this.map.show_warning = 0;
-    setTimeout(() => {
-      this.map.show_tip = 0;
-    }, 3000);
-  }
-
-  showWarningMessage() {
-    this.map.show_loo = 0;
-    this.map.show_bomb = 0;
-    this.map.show_tip = 0;
-    this.map.show_warning = 1;
-    setTimeout(() => {
-      this.map.show_warning = 0;
-    }, 3000);
-  }
-
-  showDieMessage() {
-    this.map.show_die = 1;
-    setTimeout(() => {
-      this.map.show_die = 0;
-    }, 3000);
   }
 
   do(action: string) {

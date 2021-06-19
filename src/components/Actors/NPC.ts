@@ -175,7 +175,7 @@ class NPC {
           npc.state.movement.paperNearPerson = 0;
         }
       });
-      this.showTakenMessage();
+      this.map.gui.showTakenMessage();
     }
   }
 
@@ -251,13 +251,6 @@ class NPC {
     const x = thing.x - this.state.position.x;
     const y = thing.y - this.state.position.y;
     return Math.sqrt(x * x + y * y);
-  }
-
-  showTakenMessage() {
-    this.map.show_taken = 1;
-    setTimeout(() => {
-      this.map.show_taken = 0;
-    }, 3000);
   }
 }
 

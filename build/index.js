@@ -8101,7 +8101,7 @@ var NPC = /** @class */ (function () {
                     npc.state.movement.paperNearPerson = 0;
                 }
             });
-            this.showTakenMessage();
+            this.map.gui.showTakenMessage();
         }
     };
     NPC.prototype.approachPaper = function (dx, dy) {
@@ -8166,13 +8166,6 @@ var NPC = /** @class */ (function () {
         var x = thing.x - this.state.position.x;
         var y = thing.y - this.state.position.y;
         return Math.sqrt(x * x + y * y);
-    };
-    NPC.prototype.showTakenMessage = function () {
-        var _this = this;
-        this.map.show_taken = 1;
-        setTimeout(function () {
-            _this.map.show_taken = 0;
-        }, 3000);
     };
     return NPC;
 }());
@@ -8325,7 +8318,7 @@ var Player = /** @class */ (function () {
     Player.prototype.eat = function (victim) {
         victim.die();
         this.map.people--;
-        this.showDieMessage();
+        this.map.gui.showDieMessage();
     };
     Player.prototype.attack = function () {
         var _this = this;
@@ -8354,7 +8347,7 @@ var Player = /** @class */ (function () {
         this.state.FSM.putting = true;
         var noPapersToPlace = this.map.papers >= _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PAPER_NUM;
         if (noPapersToPlace) {
-            this.showNoPaperMessage();
+            this.map.gui.showNoPaperMessage();
         }
         else {
             var isSamePlace = this.state.inventory.previosPaperPlace.x === this.state.position.x &&
@@ -8373,7 +8366,7 @@ var Player = /** @class */ (function () {
                 });
                 this.map.addObject(paper);
                 this.paperSounds.place();
-                this.showPlacementMessage();
+                this.map.gui.showPlacementMessage();
                 var paperPlace = {
                     x: this.state.position.x,
                     y: this.state.position.y,
@@ -8382,78 +8375,9 @@ var Player = /** @class */ (function () {
                 this.map.papers++;
             }
             else {
-                this.showWarningMessage();
+                this.map.gui.showWarningMessage();
             }
         }
-    };
-    Player.prototype.showPlacementMessage = function () {
-        if (this.state.inventory.paperType === 0) {
-            this.showLooMessage();
-        }
-        else if (this.state.inventory.paperType === 7) {
-            this.showBombMessage();
-        }
-        else {
-            this.showPaperMessage();
-        }
-    };
-    Player.prototype.showNoPaperMessage = function () {
-        var _this = this;
-        this.map.show_no_paper = 1;
-        this.map.show_loo = 0;
-        this.map.show_bomb = 0;
-        this.map.show_tip = 0;
-        this.map.show_warning = 0;
-        setTimeout(function () {
-            _this.map.show_no_paper = 0;
-        }, 3000);
-    };
-    Player.prototype.showLooMessage = function () {
-        var _this = this;
-        this.map.show_loo = 1;
-        this.map.show_bomb = 0;
-        this.map.show_tip = 0;
-        this.map.show_warning = 0;
-        setTimeout(function () {
-            _this.map.show_loo = 0;
-        }, 3000);
-    };
-    Player.prototype.showBombMessage = function () {
-        var _this = this;
-        this.map.show_loo = 0;
-        this.map.show_bomb = 1;
-        this.map.show_tip = 0;
-        this.map.show_warning = 0;
-        setTimeout(function () {
-            _this.map.show_bomb = 0;
-        }, 3000);
-    };
-    Player.prototype.showPaperMessage = function () {
-        var _this = this;
-        this.map.show_loo = 0;
-        this.map.show_bomb = 0;
-        this.map.show_tip = 1;
-        this.map.show_warning = 0;
-        setTimeout(function () {
-            _this.map.show_tip = 0;
-        }, 3000);
-    };
-    Player.prototype.showWarningMessage = function () {
-        var _this = this;
-        this.map.show_loo = 0;
-        this.map.show_bomb = 0;
-        this.map.show_tip = 0;
-        this.map.show_warning = 1;
-        setTimeout(function () {
-            _this.map.show_warning = 0;
-        }, 3000);
-    };
-    Player.prototype.showDieMessage = function () {
-        var _this = this;
-        this.map.show_die = 1;
-        setTimeout(function () {
-            _this.map.show_die = 0;
-        }, 3000);
     };
     Player.prototype.do = function (action) {
         switch (action) {
@@ -9718,6 +9642,106 @@ var Controls = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/components/Engine/GUI.ts":
+/*!**************************************!*\
+  !*** ./src/components/Engine/GUI.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var GUI = /** @class */ (function () {
+    function GUI(game) {
+        this.game = game;
+        console.log('[constructor]: game:', game);
+    }
+    GUI.prototype.showPlacementMessage = function () {
+        console.log('[showPlacementMessage]: player:', this.game.player);
+        if (this.game.player.state.inventory.paperType === 0) {
+            this.showLooMessage();
+        }
+        else if (this.game.player.state.inventory.paperType === 7) {
+            this.showBombMessage();
+        }
+        else {
+            this.showPaperMessage();
+        }
+    };
+    GUI.prototype.showNoPaperMessage = function () {
+        var _this = this;
+        this.game.map.show_no_paper = 1;
+        this.game.map.show_loo = 0;
+        this.game.map.show_bomb = 0;
+        this.game.map.show_tip = 0;
+        this.game.map.show_warning = 0;
+        setTimeout(function () {
+            _this.game.map.show_no_paper = 0;
+        }, 3000);
+    };
+    GUI.prototype.showLooMessage = function () {
+        var _this = this;
+        this.game.map.show_loo = 1;
+        this.game.map.show_bomb = 0;
+        this.game.map.show_tip = 0;
+        this.game.map.show_warning = 0;
+        setTimeout(function () {
+            _this.game.map.show_loo = 0;
+        }, 3000);
+    };
+    GUI.prototype.showBombMessage = function () {
+        var _this = this;
+        this.game.map.show_loo = 0;
+        this.game.map.show_bomb = 1;
+        this.game.map.show_tip = 0;
+        this.game.map.show_warning = 0;
+        setTimeout(function () {
+            _this.game.map.show_bomb = 0;
+        }, 3000);
+    };
+    GUI.prototype.showPaperMessage = function () {
+        var _this = this;
+        this.game.map.show_loo = 0;
+        this.game.map.show_bomb = 0;
+        this.game.map.show_tip = 1;
+        this.game.map.show_warning = 0;
+        setTimeout(function () {
+            _this.game.map.show_tip = 0;
+        }, 3000);
+    };
+    GUI.prototype.showWarningMessage = function () {
+        var _this = this;
+        this.game.map.show_loo = 0;
+        this.game.map.show_bomb = 0;
+        this.game.map.show_tip = 0;
+        this.game.map.show_warning = 1;
+        setTimeout(function () {
+            _this.game.map.show_warning = 0;
+        }, 3000);
+    };
+    GUI.prototype.showTakenMessage = function () {
+        var _this = this;
+        this.game.map.show_taken = 1;
+        setTimeout(function () {
+            _this.game.map.show_taken = 0;
+        }, 3000);
+    };
+    GUI.prototype.showDieMessage = function () {
+        var _this = this;
+        this.game.map.show_die = 1;
+        setTimeout(function () {
+            _this.game.map.show_die = 0;
+        }, 3000);
+    };
+    return GUI;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GUI);
+
+
+/***/ }),
+
 /***/ "./src/components/Engine/GameLoop.ts":
 /*!*******************************************!*\
   !*** ./src/components/Engine/GameLoop.ts ***!
@@ -9975,7 +9999,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
 /* harmony import */ var _Actors_NPC__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Actors/NPC */ "./src/components/Actors/NPC.ts");
 /* harmony import */ var _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Engine/Bitmap */ "./src/components/Engine/Bitmap.ts");
-/* harmony import */ var _Objects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Objects */ "./src/components/World/Objects.ts");
+/* harmony import */ var _Engine_GUI__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Engine/GUI */ "./src/components/Engine/GUI.ts");
+/* harmony import */ var _Objects__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Objects */ "./src/components/World/Objects.ts");
+
 
 
 
@@ -10008,6 +10034,7 @@ var Map = /** @class */ (function () {
         this.show_die = 0;
         this.show_taken = 0;
         this.show_all_dead = 0;
+        this.gui = new _Engine_GUI__WEBPACK_IMPORTED_MODULE_5__.default(game);
     }
     Map.prototype.get = function (x, y) {
         x = Math.floor(x);
@@ -10040,7 +10067,7 @@ var Map = /** @class */ (function () {
         if (this.get(col, row) === 0) {
             var num = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 4);
             var treeBitmap = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.state.trees[num].texture, this.state.trees[num].width, this.state.trees[num].height);
-            var tree = new _Objects__WEBPACK_IMPORTED_MODULE_5__.default({
+            var tree = new _Objects__WEBPACK_IMPORTED_MODULE_6__.default({
                 texture: treeBitmap,
                 x: col,
                 y: row,
@@ -10052,7 +10079,7 @@ var Map = /** @class */ (function () {
         if (this.get(col, row) === 0) {
             var num = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 5);
             var bushBitmap = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.state.bushes[num].texture, this.state.bushes[num].width, this.state.bushes[num].height);
-            var bush = new _Objects__WEBPACK_IMPORTED_MODULE_5__.default({
+            var bush = new _Objects__WEBPACK_IMPORTED_MODULE_6__.default({
                 texture: bushBitmap,
                 height: 0.5,
                 x: col,
@@ -10102,7 +10129,6 @@ var Map = /** @class */ (function () {
         }
         this.wallGrid[1] = 3;
         this.addPeople();
-        console.log(this.objects);
     };
     Map.prototype.cast = function (player, angle, range) {
         var self = this;
