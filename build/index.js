@@ -9653,13 +9653,70 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+var MESSAGE_MAP = {
+    NO_PAPER: 'no_paper',
+    LOO: 'loo',
+    BOMB: 'bomb',
+    TIP: 'tip',
+    WARNING: 'warning',
+    DIE: 'die',
+    TAKEN: 'taken',
+    ALL_DEAD: 'all_dead',
+};
 var GUI = /** @class */ (function () {
     function GUI(game) {
+        var _a;
         this.game = game;
-        console.log('[constructor]: game:', game);
+        this.state = {
+            appearance: {
+                font: '50px DieDieDie',
+                color: '#000',
+            },
+            messages: (_a = {},
+                _a[MESSAGE_MAP.NO_PAPER] = {
+                    text: 'No papers left. Use your hands!',
+                    position: { x: 0, y: 0 },
+                    shown: false,
+                },
+                _a[MESSAGE_MAP.LOO] = {
+                    text: 'Ooops, not this one :)',
+                    position: { x: 0, y: 0 },
+                    shown: false,
+                },
+                _a[MESSAGE_MAP.BOMB] = {
+                    text: 'Rush B! Terrorists always win!',
+                    position: { x: 0, y: 0 },
+                    shown: false,
+                },
+                _a[MESSAGE_MAP.TIP] = {
+                    text: 'Step back, let them approach.',
+                    position: { x: 0, y: 0 },
+                    shown: false,
+                },
+                _a[MESSAGE_MAP.WARNING] = {
+                    text: 'Stand still to place paper.',
+                    position: { x: 0, y: 0 },
+                    shown: false,
+                },
+                _a[MESSAGE_MAP.DIE] = {
+                    text: 'Die!',
+                    position: { x: 0, y: 0 },
+                    shown: false,
+                },
+                _a[MESSAGE_MAP.TAKEN] = {
+                    text: 'They took your paper!',
+                    position: { x: 0, y: 0 },
+                    shown: false,
+                },
+                _a[MESSAGE_MAP.ALL_DEAD] = {
+                    text: "They're all dead! Live another day...",
+                    position: { x: 0, y: 0 },
+                    shown: false,
+                },
+                _a),
+        };
     }
     GUI.prototype.showPlacementMessage = function () {
-        console.log('[showPlacementMessage]: player:', this.game.player);
         if (this.game.player.state.inventory.paperType === 0) {
             this.showLooMessage();
         }
