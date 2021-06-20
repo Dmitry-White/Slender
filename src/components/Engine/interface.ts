@@ -4,4 +4,10 @@ type Sprite = MapObject & {
   render: any;
 };
 
-export { Sprite };
+interface IGUIState {
+  appearance: any;
+  messages: any;
+  info: any;
+}
+
+export { Sprite, IGUIState };

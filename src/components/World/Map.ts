@@ -4,7 +4,6 @@ import { getRandomInt } from '../../utils/calc';
 import NPC from '../Actors/NPC';
 import Player from '../Actors/Player';
 import Bitmap from '../Engine/Bitmap';
-import GUI from '../Engine/GUI';
 import Game from '../Game';
 
 import Objects from './Objects';
@@ -37,24 +36,6 @@ class Map {
 
   papers: number;
 
-  gui: GUI;
-
-  show_no_paper: number;
-
-  show_loo: number;
-
-  show_bomb: number;
-
-  show_tip: number;
-
-  show_warning: number;
-
-  show_die: number;
-
-  show_taken: number;
-
-  show_all_dead: number;
-
   constructor(game: Game) {
     this.game = game;
     this.mode = game.mode;
@@ -72,16 +53,6 @@ class Map {
     this.objects = [];
     this.people = 0;
     this.papers = 0;
-
-    this.show_no_paper = 0;
-    this.show_loo = 0;
-    this.show_bomb = 0;
-    this.show_tip = 0;
-    this.show_warning = 0;
-    this.show_die = 0;
-    this.show_taken = 0;
-    this.show_all_dead = 0;
-    this.gui = new GUI(game);
   }
 
   get(x: number, y: number) {
@@ -161,7 +132,7 @@ class Map {
       const x = getRandomInt(2, GAME_OPTIONS.PPL_XY);
       const y = getRandomInt(2, GAME_OPTIONS.PPL_XY);
       const picNum = getRandomInt(1, 5);
-      const npc = new NPC(this.game.player, this, x, y, picNum);
+      const npc = new NPC(this.game, this.game.player, this, x, y, picNum);
       this.addObject(npc);
       this.people++;
     }

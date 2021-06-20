@@ -8,6 +8,7 @@ import Player from './Actors/Player';
 import { NoiseSounds, GameSounds } from './Audio';
 import Camera from './Engine/Camera';
 import Controls from './Engine/Controls';
+import GUI from './Engine/GUI';
 import GameLoop from './Engine/GameLoop';
 import Map from './World/Map';
 
@@ -29,6 +30,8 @@ class Game {
   player: Player;
 
   controls: Controls;
+
+  gui: GUI;
 
   camera: Camera;
 
@@ -84,7 +87,8 @@ class Game {
     this.map = new Map(this);
     this.player = new Player(this);
     this.controls = new Controls(this.player);
-    this.camera = new Camera(canvasBlock, this.mode, this.map);
+    this.gui = new GUI(canvasBlock, this);
+    this.camera = new Camera(canvasBlock, this, this.mode, this.map);
     this.gameSounds = new GameSounds(this);
     this.noiseSounds = new NoiseSounds();
 
@@ -131,11 +135,7 @@ class Game {
 
   checkEnding() {
     if (this.map.people === 0 && this.player.playerSounds.isKillingEnded()) {
-      this.map.show_all_dead = 1;
-      this.map.show_loo = 0;
-      this.map.show_bomb = 0;
-      this.map.show_tip = 0;
-      this.map.show_warning = 0;
+      this.gui.showAllDeadMessage();
 
       this.makeEndmode();
       this.gameSounds.scream();

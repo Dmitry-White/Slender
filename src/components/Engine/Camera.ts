@@ -1,7 +1,8 @@
 import GAME_OPTIONS from '../../core/config';
-import { CIRCLE, getRandomInt } from '../../utils/calc';
+import { CIRCLE } from '../../utils/calc';
 import NPC from '../Actors/NPC';
 import Player from '../Actors/Player';
+import Game from '../Game';
 import Map from '../World/Map';
 import { MapObject } from '../World/interface';
 
@@ -11,9 +12,11 @@ import { Sprite } from './interface';
 class Camera {
   ctx: CanvasRenderingContext2D;
 
-  width: any;
+  width: number;
 
-  height: any;
+  height: number;
+
+  game: Game;
 
   mode: any;
 
@@ -33,10 +36,11 @@ class Camera {
 
   lightRange: number;
 
-  constructor(canvas: HTMLCanvasElement, mode: any, map: Map) {
+  constructor(canvas: HTMLCanvasElement, game: Game, mode: any, map: Map) {
     this.ctx = canvas.getContext('2d');
     this.width = canvas.width;
     this.height = canvas.height;
+    this.game = game;
     this.mode = mode;
     this.map = map;
     this.resolution = GAME_OPTIONS.RESOLUTION;
@@ -57,16 +61,9 @@ class Camera {
       player.state.movement.putDistance,
     );
     this.drawMiniMap(player, map);
-    this.drawNumber();
-    this.drawPaper();
-    this.drawNoPaper();
-    this.drawLoo();
-    this.drawBomb();
-    this.drawTip();
-    this.drawWarning();
-    this.drawDie();
-    this.drawTaken();
-    this.drawAllDead();
+
+    this.game.gui.drawInfo();
+    this.game.gui.drawMessage();
   }
 
   drawSky(direction: number, sky: any, ambient: number) {
@@ -187,13 +184,10 @@ class Camera {
   }
 
   drawSprites(player: Player, map: Map, columnProps: any) {
+    const { resolution } = this;
     const screenWidth = this.width;
     const screenHeight = this.height;
     const screenRatio = screenWidth / this.fov;
-    const { resolution } = this;
-
-    // calculate each sprite distance to player
-    this.setSpriteDistances(map.objects, player);
 
     const sprites = Array.prototype.slice
       .call(map.objects)
@@ -322,13 +316,6 @@ class Camera {
     }
   }
 
-  setSpriteDistances(objects: any, player: Player) {
-    let obj;
-    for (let i = 0; i < objects.length; i++) {
-      obj = objects[i];
-    }
-  }
-
   drawWeapon(
     leftHand: Bitmap,
     rightHand: Bitmap,
@@ -338,19 +325,19 @@ class Camera {
   ) {
     const bobX = Math.cos(paces * 2) * this.scale * 6;
     const bobY = Math.sin(paces * 4) * this.scale * 6;
-    const left_r = this.width * 0.6 + bobX;
-    const left_l = this.width * 0.15 + bobX;
+    const right = this.width * 0.6 + bobX;
+    const left = this.width * 0.15 + bobX;
     const top = this.height * 0.6 + bobY;
     this.ctx.drawImage(
       leftHand.image,
-      left_l + grabDistance,
+      left + grabDistance,
       top + putDistance,
       leftHand.width * this.scale,
       leftHand.height * this.scale,
     );
     this.ctx.drawImage(
       rightHand.image,
-      left_r - grabDistance,
+      right - grabDistance,
       top + putDistance,
       rightHand.width * this.scale,
       rightHand.height * this.scale,
@@ -423,148 +410,6 @@ class Camera {
     ctx.fill();
 
     ctx.restore();
-  }
-
-  drawNumber() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = 1;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    const text = `Humans: ${this.map.people}`;
-    this.ctx.fillText(text, 60, 80);
-
-    this.ctx.restore();
-  }
-
-  drawPaper() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = 1;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    const text = `Papers: ${GAME_OPTIONS.PAPER_NUM - this.map.papers}`;
-    this.ctx.fillText(text, 60, 160);
-
-    this.ctx.restore();
-  }
-
-  drawNoPaper() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_no_paper;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    this.ctx.fillText('No papers left. Use your hands!', this.width / 4, 80);
-
-    this.ctx.restore();
-  }
-
-  drawLoo() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_loo;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    this.ctx.fillText('Ooops, not this one :)', this.width / 3, 80);
-
-    this.ctx.restore();
-  }
-
-  drawBomb() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_bomb;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    this.ctx.fillText('Rush B! Terrorists always win!', this.width / 4, 80);
-
-    this.ctx.restore();
-  }
-
-  drawTip() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_tip;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    this.ctx.fillText('Step back, let them approach.', this.width / 4, 80);
-
-    this.ctx.restore();
-  }
-
-  drawWarning() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_warning;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    this.ctx.fillText('Stand still to place paper.', this.width / 3, 80);
-
-    this.ctx.restore();
-  }
-
-  drawDie() {
-    this.ctx.save();
-
-    this.ctx.font = '80px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_die;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    let w;
-    let h;
-    for (let i = 1; i < 30; i++) {
-      w = getRandomInt(0, 11);
-      h = getRandomInt(0, 9);
-      this.ctx.fillText('Die!', (this.width / 10) * w, (this.height / 8) * h);
-    }
-
-    this.ctx.restore();
-  }
-
-  drawTaken() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_taken;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    this.ctx.fillText('They took your paper!', this.width / 3, 80);
-
-    this.ctx.restore();
-  }
-
-  drawAllDead() {
-    this.ctx.save();
-
-    this.ctx.font = '50px DieDieDie';
-    this.ctx.globalAlpha = this.map.show_all_dead;
-    this.mode.winter
-      ? (this.ctx.fillStyle = '#000')
-      : (this.ctx.fillStyle = '#fff');
-    this.ctx.fillText(
-      "They're all dead! Live another day...",
-      this.width / 4,
-      80,
-    );
-
-    this.ctx.restore();
   }
 
   project(height: number, angle: number, distance: number) {

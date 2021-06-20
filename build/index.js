@@ -7963,7 +7963,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var NPC = /** @class */ (function () {
-    function NPC(player, map, x, y, picNum) {
+    function NPC(game, player, map, x, y, picNum) {
+        this.game = game;
         this.player = player;
         this.map = map;
         this.paper = null;
@@ -8101,7 +8102,7 @@ var NPC = /** @class */ (function () {
                     npc.state.movement.paperNearPerson = 0;
                 }
             });
-            this.map.gui.showTakenMessage();
+            this.game.gui.showTakenMessage();
         }
     };
     NPC.prototype.approachPaper = function (dx, dy) {
@@ -8318,7 +8319,7 @@ var Player = /** @class */ (function () {
     Player.prototype.eat = function (victim) {
         victim.die();
         this.map.people--;
-        this.map.gui.showDieMessage();
+        this.game.gui.showDieMessage();
     };
     Player.prototype.attack = function () {
         var _this = this;
@@ -8347,7 +8348,7 @@ var Player = /** @class */ (function () {
         this.state.FSM.putting = true;
         var noPapersToPlace = this.map.papers >= _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PAPER_NUM;
         if (noPapersToPlace) {
-            this.map.gui.showNoPaperMessage();
+            this.game.gui.showNoPaperMessage();
         }
         else {
             var isSamePlace = this.state.inventory.previosPaperPlace.x === this.state.position.x &&
@@ -8366,7 +8367,7 @@ var Player = /** @class */ (function () {
                 });
                 this.map.addObject(paper);
                 this.paperSounds.place();
-                this.map.gui.showPlacementMessage();
+                this.game.gui.showPlacementMessage();
                 var paperPlace = {
                     x: this.state.position.x,
                     y: this.state.position.y,
@@ -8375,7 +8376,7 @@ var Player = /** @class */ (function () {
                 this.map.papers++;
             }
             else {
-                this.map.gui.showWarningMessage();
+                this.game.gui.showWarningMessage();
             }
         }
     };
@@ -9142,10 +9143,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Camera = /** @class */ (function () {
-    function Camera(canvas, mode, map) {
+    function Camera(canvas, game, mode, map) {
         this.ctx = canvas.getContext('2d');
         this.width = canvas.width;
         this.height = canvas.height;
+        this.game = game;
         this.mode = mode;
         this.map = map;
         this.resolution = _core_config__WEBPACK_IMPORTED_MODULE_0__.default.RESOLUTION;
@@ -9159,16 +9161,8 @@ var Camera = /** @class */ (function () {
         this.drawColumns(player, map);
         this.drawWeapon(player.leftHand, player.rightHand, player.state.movement.paces, player.state.movement.grabDistance, player.state.movement.putDistance);
         this.drawMiniMap(player, map);
-        this.drawNumber();
-        this.drawPaper();
-        this.drawNoPaper();
-        this.drawLoo();
-        this.drawBomb();
-        this.drawTip();
-        this.drawWarning();
-        this.drawDie();
-        this.drawTaken();
-        this.drawAllDead();
+        this.game.gui.drawInfo();
+        this.game.gui.drawMessage();
     };
     Camera.prototype.drawSky = function (direction, sky, ambient) {
         var width = sky.width * (this.height / sky.height) * 2;
@@ -9258,12 +9252,10 @@ var Camera = /** @class */ (function () {
     };
     Camera.prototype.drawSprites = function (player, map, columnProps) {
         var _this = this;
+        var resolution = this.resolution;
         var screenWidth = this.width;
         var screenHeight = this.height;
         var screenRatio = screenWidth / this.fov;
-        var resolution = this.resolution;
-        // calculate each sprite distance to player
-        this.setSpriteDistances(map.objects, player);
         var sprites = Array.prototype.slice
             .call(map.objects)
             .map(function (sprite) {
@@ -9348,20 +9340,14 @@ var Camera = /** @class */ (function () {
             }
         }
     };
-    Camera.prototype.setSpriteDistances = function (objects, player) {
-        var obj;
-        for (var i = 0; i < objects.length; i++) {
-            obj = objects[i];
-        }
-    };
     Camera.prototype.drawWeapon = function (leftHand, rightHand, paces, grabDistance, putDistance) {
         var bobX = Math.cos(paces * 2) * this.scale * 6;
         var bobY = Math.sin(paces * 4) * this.scale * 6;
-        var left_r = this.width * 0.6 + bobX;
-        var left_l = this.width * 0.15 + bobX;
+        var right = this.width * 0.6 + bobX;
+        var left = this.width * 0.15 + bobX;
         var top = this.height * 0.6 + bobY;
-        this.ctx.drawImage(leftHand.image, left_l + grabDistance, top + putDistance, leftHand.width * this.scale, leftHand.height * this.scale);
-        this.ctx.drawImage(rightHand.image, left_r - grabDistance, top + putDistance, rightHand.width * this.scale, rightHand.height * this.scale);
+        this.ctx.drawImage(leftHand.image, left + grabDistance, top + putDistance, leftHand.width * this.scale, leftHand.height * this.scale);
+        this.ctx.drawImage(rightHand.image, right - grabDistance, top + putDistance, rightHand.width * this.scale, rightHand.height * this.scale);
     };
     Camera.prototype.drawMiniMap = function (player, map) {
         var ctx = this.ctx;
@@ -9412,114 +9398,6 @@ var Camera = /** @class */ (function () {
         ctx.lineTo(2, -3); // bottom right of triangle
         ctx.fill();
         ctx.restore();
-    };
-    Camera.prototype.drawNumber = function () {
-        this.ctx.save();
-        this.ctx.font = '50px DieDieDie';
-        this.ctx.globalAlpha = 1;
-        this.mode.winter
-            ? (this.ctx.fillStyle = '#000')
-            : (this.ctx.fillStyle = '#fff');
-        var text = "Humans: " + this.map.people;
-        this.ctx.fillText(text, 60, 80);
-        this.ctx.restore();
-    };
-    Camera.prototype.drawPaper = function () {
-        this.ctx.save();
-        this.ctx.font = '50px DieDieDie';
-        this.ctx.globalAlpha = 1;
-        this.mode.winter
-            ? (this.ctx.fillStyle = '#000')
-            : (this.ctx.fillStyle = '#fff');
-        var text = "Papers: " + (_core_config__WEBPACK_IMPORTED_MODULE_0__.default.PAPER_NUM - this.map.papers);
-        this.ctx.fillText(text, 60, 160);
-        this.ctx.restore();
-    };
-    Camera.prototype.drawNoPaper = function () {
-        this.ctx.save();
-        this.ctx.font = '50px DieDieDie';
-        this.ctx.globalAlpha = this.map.show_no_paper;
-        this.mode.winter
-            ? (this.ctx.fillStyle = '#000')
-            : (this.ctx.fillStyle = '#fff');
-        this.ctx.fillText('No papers left. Use your hands!', this.width / 4, 80);
-        this.ctx.restore();
-    };
-    Camera.prototype.drawLoo = function () {
-        this.ctx.save();
-        this.ctx.font = '50px DieDieDie';
-        this.ctx.globalAlpha = this.map.show_loo;
-        this.mode.winter
-            ? (this.ctx.fillStyle = '#000')
-            : (this.ctx.fillStyle = '#fff');
-        this.ctx.fillText('Ooops, not this one :)', this.width / 3, 80);
-        this.ctx.restore();
-    };
-    Camera.prototype.drawBomb = function () {
-        this.ctx.save();
-        this.ctx.font = '50px DieDieDie';
-        this.ctx.globalAlpha = this.map.show_bomb;
-        this.mode.winter
-            ? (this.ctx.fillStyle = '#000')
-            : (this.ctx.fillStyle = '#fff');
-        this.ctx.fillText('Rush B! Terrorists always win!', this.width / 4, 80);
-        this.ctx.restore();
-    };
-    Camera.prototype.drawTip = function () {
-        this.ctx.save();
-        this.ctx.font = '50px DieDieDie';
-        this.ctx.globalAlpha = this.map.show_tip;
-        this.mode.winter
-            ? (this.ctx.fillStyle = '#000')
-            : (this.ctx.fillStyle = '#fff');
-        this.ctx.fillText('Step back, let them approach.', this.width / 4, 80);
-        this.ctx.restore();
-    };
-    Camera.prototype.drawWarning = function () {
-        this.ctx.save();
-        this.ctx.font = '50px DieDieDie';
-        this.ctx.globalAlpha = this.map.show_warning;
-        this.mode.winter
-            ? (this.ctx.fillStyle = '#000')
-            : (this.ctx.fillStyle = '#fff');
-        this.ctx.fillText('Stand still to place paper.', this.width / 3, 80);
-        this.ctx.restore();
-    };
-    Camera.prototype.drawDie = function () {
-        this.ctx.save();
-        this.ctx.font = '80px DieDieDie';
-        this.ctx.globalAlpha = this.map.show_die;
-        this.mode.winter
-            ? (this.ctx.fillStyle = '#000')
-            : (this.ctx.fillStyle = '#fff');
-        var w;
-        var h;
-        for (var i = 1; i < 30; i++) {
-            w = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_1__.getRandomInt)(0, 11);
-            h = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_1__.getRandomInt)(0, 9);
-            this.ctx.fillText('Die!', (this.width / 10) * w, (this.height / 8) * h);
-        }
-        this.ctx.restore();
-    };
-    Camera.prototype.drawTaken = function () {
-        this.ctx.save();
-        this.ctx.font = '50px DieDieDie';
-        this.ctx.globalAlpha = this.map.show_taken;
-        this.mode.winter
-            ? (this.ctx.fillStyle = '#000')
-            : (this.ctx.fillStyle = '#fff');
-        this.ctx.fillText('They took your paper!', this.width / 3, 80);
-        this.ctx.restore();
-    };
-    Camera.prototype.drawAllDead = function () {
-        this.ctx.save();
-        this.ctx.font = '50px DieDieDie';
-        this.ctx.globalAlpha = this.map.show_all_dead;
-        this.mode.winter
-            ? (this.ctx.fillStyle = '#000')
-            : (this.ctx.fillStyle = '#fff');
-        this.ctx.fillText("They're all dead! Live another day...", this.width / 4, 80);
-        this.ctx.restore();
     };
     Camera.prototype.project = function (height, angle, distance) {
         var z = distance * Math.cos(angle);
@@ -9653,6 +9531,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _core_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/config */ "./src/core/config.ts");
+/* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
+
+
 var MESSAGE_MAP = {
     NO_PAPER: 'no_paper',
     LOO: 'loo',
@@ -9663,13 +9545,21 @@ var MESSAGE_MAP = {
     TAKEN: 'taken',
     ALL_DEAD: 'all_dead',
 };
+var INFO_MAP = {
+    PAPERS: 'papers',
+    HUMANS: 'humans',
+};
 var GUI = /** @class */ (function () {
-    function GUI(game) {
-        var _a;
+    function GUI(canvas, game) {
+        var _a, _b;
+        this.ctx = canvas.getContext('2d');
+        this.width = canvas.width;
+        this.height = canvas.height;
         this.game = game;
         this.state = {
             appearance: {
-                font: '50px DieDieDie',
+                fontSize: '50px',
+                fontFamily: 'DieDieDie',
                 color: '#000',
             },
             messages: (_a = {},
@@ -9714,8 +9604,50 @@ var GUI = /** @class */ (function () {
                     shown: false,
                 },
                 _a),
+            info: (_b = {},
+                _b[INFO_MAP.HUMANS] = {
+                    text: 'Humans: ',
+                    position: { x: 60, y: 80 },
+                    shown: false,
+                },
+                _b[INFO_MAP.PAPERS] = {
+                    text: 'Papers: ',
+                    position: { x: 60, y: 160 },
+                    shown: false,
+                },
+                _b),
         };
     }
+    // TODO: Implement Strategy Pattern
+    GUI.prototype.drawInfo = function () {
+        this.drawHumanInfo();
+        this.drawPaperInfo();
+    };
+    GUI.prototype.drawHumanInfo = function () {
+        var _a = this.state, appearance = _a.appearance, info = _a.info;
+        var fontSize = appearance.fontSize, fontFamily = appearance.fontFamily;
+        var _b = info[INFO_MAP.HUMANS], text = _b.text, position = _b.position;
+        var finalText = "" + text + this.game.map.people;
+        this.ctx.save();
+        this.ctx.font = fontSize + " " + fontFamily;
+        this.ctx.globalAlpha = 1;
+        this.ctx.fillStyle = this.game.mode.winter ? '#000' : '#fff';
+        this.ctx.fillText(finalText, position.x, position.y);
+        this.ctx.restore();
+    };
+    GUI.prototype.drawPaperInfo = function () {
+        var _a = this.state, appearance = _a.appearance, info = _a.info;
+        var fontSize = appearance.fontSize, fontFamily = appearance.fontFamily;
+        var _b = info[INFO_MAP.PAPERS], text = _b.text, position = _b.position;
+        var finalText = "" + text + (_core_config__WEBPACK_IMPORTED_MODULE_0__.default.PAPER_NUM - this.game.map.papers);
+        this.ctx.save();
+        this.ctx.font = fontSize + " " + fontFamily;
+        this.ctx.globalAlpha = 1;
+        this.ctx.fillStyle = this.game.mode.winter ? '#000' : '#fff';
+        this.ctx.fillText(finalText, position.x, position.y);
+        this.ctx.restore();
+    };
+    // TODO: Implement Strategy Pattern
     GUI.prototype.showPlacementMessage = function () {
         if (this.game.player.state.inventory.paperType === 0) {
             this.showLooMessage();
@@ -9727,70 +9659,149 @@ var GUI = /** @class */ (function () {
             this.showPaperMessage();
         }
     };
-    GUI.prototype.showNoPaperMessage = function () {
-        var _this = this;
-        this.game.map.show_no_paper = 1;
-        this.game.map.show_loo = 0;
-        this.game.map.show_bomb = 0;
-        this.game.map.show_tip = 0;
-        this.game.map.show_warning = 0;
-        setTimeout(function () {
-            _this.game.map.show_no_paper = 0;
-        }, 3000);
-    };
     GUI.prototype.showLooMessage = function () {
         var _this = this;
-        this.game.map.show_loo = 1;
-        this.game.map.show_bomb = 0;
-        this.game.map.show_tip = 0;
-        this.game.map.show_warning = 0;
+        this.state.messages[MESSAGE_MAP.LOO].shown = true;
         setTimeout(function () {
-            _this.game.map.show_loo = 0;
+            _this.state.messages[MESSAGE_MAP.LOO].shown = false;
         }, 3000);
     };
     GUI.prototype.showBombMessage = function () {
         var _this = this;
-        this.game.map.show_loo = 0;
-        this.game.map.show_bomb = 1;
-        this.game.map.show_tip = 0;
-        this.game.map.show_warning = 0;
+        this.state.messages[MESSAGE_MAP.BOMB].shown = true;
         setTimeout(function () {
-            _this.game.map.show_bomb = 0;
+            _this.state.messages[MESSAGE_MAP.BOMB].shown = false;
         }, 3000);
     };
     GUI.prototype.showPaperMessage = function () {
         var _this = this;
-        this.game.map.show_loo = 0;
-        this.game.map.show_bomb = 0;
-        this.game.map.show_tip = 1;
-        this.game.map.show_warning = 0;
+        this.state.messages[MESSAGE_MAP.TIP].shown = true;
         setTimeout(function () {
-            _this.game.map.show_tip = 0;
+            _this.state.messages[MESSAGE_MAP.TIP].shown = false;
         }, 3000);
     };
     GUI.prototype.showWarningMessage = function () {
         var _this = this;
-        this.game.map.show_loo = 0;
-        this.game.map.show_bomb = 0;
-        this.game.map.show_tip = 0;
-        this.game.map.show_warning = 1;
+        this.state.messages[MESSAGE_MAP.WARNING].shown = true;
         setTimeout(function () {
-            _this.game.map.show_warning = 0;
+            _this.state.messages[MESSAGE_MAP.WARNING].shown = false;
+        }, 3000);
+    };
+    GUI.prototype.showNoPaperMessage = function () {
+        var _this = this;
+        this.state.messages[MESSAGE_MAP.NO_PAPER].shown = true;
+        setTimeout(function () {
+            _this.state.messages[MESSAGE_MAP.NO_PAPER].shown = false;
         }, 3000);
     };
     GUI.prototype.showTakenMessage = function () {
         var _this = this;
-        this.game.map.show_taken = 1;
+        this.state.messages[MESSAGE_MAP.TAKEN].shown = true;
         setTimeout(function () {
-            _this.game.map.show_taken = 0;
+            _this.state.messages[MESSAGE_MAP.TAKEN].shown = false;
         }, 3000);
     };
     GUI.prototype.showDieMessage = function () {
         var _this = this;
-        this.game.map.show_die = 1;
+        this.state.messages[MESSAGE_MAP.DIE].shown = true;
         setTimeout(function () {
-            _this.game.map.show_die = 0;
+            _this.state.messages[MESSAGE_MAP.DIE].shown = false;
         }, 3000);
+    };
+    GUI.prototype.showAllDeadMessage = function () {
+        var _this = this;
+        this.state.messages[MESSAGE_MAP.ALL_DEAD].shown = true;
+        setTimeout(function () {
+            _this.state.messages[MESSAGE_MAP.ALL_DEAD].shown = false;
+        }, 3000);
+    };
+    // Implement Strategy Pattern
+    GUI.prototype.drawMessage = function () {
+        this.drawNoPaperMessage();
+        this.drawLooMessage();
+        this.drawBombMessage();
+        this.drawTipMessage();
+        this.drawWarningMessage();
+        this.drawTakenMessage();
+        this.drawAllDeadMessage();
+        this.drawDie();
+    };
+    GUI.prototype.drawLooMessage = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = this.state.messages[MESSAGE_MAP.LOO].shown ? 1 : 0;
+        this.ctx.fillStyle = this.game.mode.winter ? '#000' : '#fff';
+        this.ctx.fillText('Ooops, not this one :)', this.width / 3, 80);
+        this.ctx.restore();
+    };
+    GUI.prototype.drawBombMessage = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = this.state.messages[MESSAGE_MAP.BOMB].shown ? 1 : 0;
+        this.ctx.fillStyle = this.game.mode.winter ? '#000' : '#fff';
+        this.ctx.fillText('Rush B! Terrorists always win!', this.width / 4, 80);
+        this.ctx.restore();
+    };
+    GUI.prototype.drawTipMessage = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = this.state.messages[MESSAGE_MAP.TIP].shown ? 1 : 0;
+        this.ctx.fillStyle = this.game.mode.winter ? '#000' : '#fff';
+        this.ctx.fillText('Step back, let them approach.', this.width / 4, 80);
+        this.ctx.restore();
+    };
+    GUI.prototype.drawNoPaperMessage = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = this.state.messages[MESSAGE_MAP.NO_PAPER].shown
+            ? 1
+            : 0;
+        this.ctx.fillStyle = this.game.mode.winter ? '#000' : '#fff';
+        this.ctx.fillText('No papers left. Use your hands!', this.width / 4, 80);
+        this.ctx.restore();
+    };
+    GUI.prototype.drawWarningMessage = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = this.state.messages[MESSAGE_MAP.WARNING].shown
+            ? 1
+            : 0;
+        this.ctx.fillStyle = this.game.mode.winter ? '#000' : '#fff';
+        this.ctx.fillText('Stand still to place paper.', this.width / 3, 80);
+        this.ctx.restore();
+    };
+    GUI.prototype.drawTakenMessage = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = this.state.messages[MESSAGE_MAP.TAKEN].shown ? 1 : 0;
+        this.ctx.fillStyle = this.game.mode.winter ? '#000' : '#fff';
+        this.ctx.fillText('They took your paper!', this.width / 3, 80);
+        this.ctx.restore();
+    };
+    GUI.prototype.drawAllDeadMessage = function () {
+        this.ctx.save();
+        this.ctx.font = '50px DieDieDie';
+        this.ctx.globalAlpha = this.state.messages[MESSAGE_MAP.ALL_DEAD].shown
+            ? 1
+            : 0;
+        this.ctx.fillStyle = this.game.mode.winter ? '#000' : '#fff';
+        this.ctx.fillText("They're all dead! Live another day...", this.width / 4, 80);
+        this.ctx.restore();
+    };
+    // Move out of "messages" to "overlays/effects"
+    GUI.prototype.drawDie = function () {
+        this.ctx.save();
+        this.ctx.font = '80px DieDieDie';
+        this.ctx.globalAlpha = this.state.messages[MESSAGE_MAP.DIE].shown ? 1 : 0;
+        this.ctx.fillStyle = this.game.mode.winter ? '#000' : '#fff';
+        var w;
+        var h;
+        for (var i = 1; i < 30; i++) {
+            w = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_1__.getRandomInt)(0, 11);
+            h = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_1__.getRandomInt)(0, 9);
+            this.ctx.fillText('Die!', (this.width / 10) * w, (this.height / 8) * h);
+        }
+        this.ctx.restore();
     };
     return GUI;
 }());
@@ -9861,8 +9872,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Audio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Audio */ "./src/components/Audio/index.ts");
 /* harmony import */ var _Engine_Camera__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Engine/Camera */ "./src/components/Engine/Camera.ts");
 /* harmony import */ var _Engine_Controls__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Engine/Controls */ "./src/components/Engine/Controls.ts");
-/* harmony import */ var _Engine_GameLoop__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Engine/GameLoop */ "./src/components/Engine/GameLoop.ts");
-/* harmony import */ var _World_Map__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./World/Map */ "./src/components/World/Map.ts");
+/* harmony import */ var _Engine_GUI__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Engine/GUI */ "./src/components/Engine/GUI.ts");
+/* harmony import */ var _Engine_GameLoop__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Engine/GameLoop */ "./src/components/Engine/GameLoop.ts");
+/* harmony import */ var _World_Map__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./World/Map */ "./src/components/World/Map.ts");
+
 
 
 
@@ -9914,11 +9927,12 @@ var Game = /** @class */ (function () {
     };
     Game.prototype.loadGame = function () {
         Game.prepareCanvas();
-        this.gameLoop = new _Engine_GameLoop__WEBPACK_IMPORTED_MODULE_6__.default();
-        this.map = new _World_Map__WEBPACK_IMPORTED_MODULE_7__.default(this);
+        this.gameLoop = new _Engine_GameLoop__WEBPACK_IMPORTED_MODULE_7__.default();
+        this.map = new _World_Map__WEBPACK_IMPORTED_MODULE_8__.default(this);
         this.player = new _Actors_Player__WEBPACK_IMPORTED_MODULE_2__.default(this);
         this.controls = new _Engine_Controls__WEBPACK_IMPORTED_MODULE_5__.default(this.player);
-        this.camera = new _Engine_Camera__WEBPACK_IMPORTED_MODULE_4__.default(canvasBlock, this.mode, this.map);
+        this.gui = new _Engine_GUI__WEBPACK_IMPORTED_MODULE_6__.default(canvasBlock, this);
+        this.camera = new _Engine_Camera__WEBPACK_IMPORTED_MODULE_4__.default(canvasBlock, this, this.mode, this.map);
         this.gameSounds = new _Audio__WEBPACK_IMPORTED_MODULE_3__.GameSounds(this);
         this.noiseSounds = new _Audio__WEBPACK_IMPORTED_MODULE_3__.NoiseSounds();
         this.setMode();
@@ -9956,11 +9970,7 @@ var Game = /** @class */ (function () {
     };
     Game.prototype.checkEnding = function () {
         if (this.map.people === 0 && this.player.playerSounds.isKillingEnded()) {
-            this.map.show_all_dead = 1;
-            this.map.show_loo = 0;
-            this.map.show_bomb = 0;
-            this.map.show_tip = 0;
-            this.map.show_warning = 0;
+            this.gui.showAllDeadMessage();
             this.makeEndmode();
             this.gameSounds.scream();
         }
@@ -10056,9 +10066,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_calc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/calc */ "./src/utils/calc.ts");
 /* harmony import */ var _Actors_NPC__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Actors/NPC */ "./src/components/Actors/NPC.ts");
 /* harmony import */ var _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Engine/Bitmap */ "./src/components/Engine/Bitmap.ts");
-/* harmony import */ var _Engine_GUI__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Engine/GUI */ "./src/components/Engine/GUI.ts");
-/* harmony import */ var _Objects__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Objects */ "./src/components/World/Objects.ts");
-
+/* harmony import */ var _Objects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Objects */ "./src/components/World/Objects.ts");
 
 
 
@@ -10083,15 +10091,6 @@ var Map = /** @class */ (function () {
         this.objects = [];
         this.people = 0;
         this.papers = 0;
-        this.show_no_paper = 0;
-        this.show_loo = 0;
-        this.show_bomb = 0;
-        this.show_tip = 0;
-        this.show_warning = 0;
-        this.show_die = 0;
-        this.show_taken = 0;
-        this.show_all_dead = 0;
-        this.gui = new _Engine_GUI__WEBPACK_IMPORTED_MODULE_5__.default(game);
     }
     Map.prototype.get = function (x, y) {
         x = Math.floor(x);
@@ -10124,7 +10123,7 @@ var Map = /** @class */ (function () {
         if (this.get(col, row) === 0) {
             var num = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 4);
             var treeBitmap = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.state.trees[num].texture, this.state.trees[num].width, this.state.trees[num].height);
-            var tree = new _Objects__WEBPACK_IMPORTED_MODULE_6__.default({
+            var tree = new _Objects__WEBPACK_IMPORTED_MODULE_5__.default({
                 texture: treeBitmap,
                 x: col,
                 y: row,
@@ -10136,7 +10135,7 @@ var Map = /** @class */ (function () {
         if (this.get(col, row) === 0) {
             var num = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(0, 5);
             var bushBitmap = new _Engine_Bitmap__WEBPACK_IMPORTED_MODULE_4__.default(this.state.bushes[num].texture, this.state.bushes[num].width, this.state.bushes[num].height);
-            var bush = new _Objects__WEBPACK_IMPORTED_MODULE_6__.default({
+            var bush = new _Objects__WEBPACK_IMPORTED_MODULE_5__.default({
                 texture: bushBitmap,
                 height: 0.5,
                 x: col,
@@ -10150,7 +10149,7 @@ var Map = /** @class */ (function () {
             var x = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(2, _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PPL_XY);
             var y = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(2, _core_config__WEBPACK_IMPORTED_MODULE_1__.default.PPL_XY);
             var picNum = (0,_utils_calc__WEBPACK_IMPORTED_MODULE_2__.getRandomInt)(1, 5);
-            var npc = new _Actors_NPC__WEBPACK_IMPORTED_MODULE_3__.default(this.game.player, this, x, y, picNum);
+            var npc = new _Actors_NPC__WEBPACK_IMPORTED_MODULE_3__.default(this.game, this.game.player, this, x, y, picNum);
             this.addObject(npc);
             this.people++;
         }

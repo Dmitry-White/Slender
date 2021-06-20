@@ -1,5 +1,6 @@
 import { CIRCLE, getRandomFloat } from '../../utils/calc';
 import Bitmap from '../Engine/Bitmap';
+import Game from '../Game';
 import Map from '../World/Map';
 import Paper from '../World/Paper';
 
@@ -7,6 +8,8 @@ import Player from './Player';
 import { IActorState } from './interface';
 
 class NPC {
+  game: Game;
+
   player: Player;
 
   map: Map;
@@ -15,7 +18,15 @@ class NPC {
 
   state: IActorState;
 
-  constructor(player: Player, map: Map, x: number, y: number, picNum: number) {
+  constructor(
+    game: Game,
+    player: Player,
+    map: Map,
+    x: number,
+    y: number,
+    picNum: number,
+  ) {
+    this.game = game;
     this.player = player;
     this.map = map;
     this.paper = null;
@@ -175,7 +186,7 @@ class NPC {
           npc.state.movement.paperNearPerson = 0;
         }
       });
-      this.map.gui.showTakenMessage();
+      this.game.gui.showTakenMessage();
     }
   }
 

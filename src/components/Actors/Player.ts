@@ -169,7 +169,7 @@ class Player {
   eat(victim: NPC) {
     victim.die();
     this.map.people--;
-    this.map.gui.showDieMessage();
+    this.game.gui.showDieMessage();
   }
 
   attack() {
@@ -205,7 +205,7 @@ class Player {
     const noPapersToPlace = this.map.papers >= GAME_OPTIONS.PAPER_NUM;
 
     if (noPapersToPlace) {
-      this.map.gui.showNoPaperMessage();
+      this.game.gui.showNoPaperMessage();
     } else {
       const isSamePlace =
         this.state.inventory.previosPaperPlace.x === this.state.position.x &&
@@ -236,7 +236,7 @@ class Player {
 
         this.paperSounds.place();
 
-        this.map.gui.showPlacementMessage();
+        this.game.gui.showPlacementMessage();
 
         const paperPlace: IEntityPosition = {
           x: this.state.position.x,
@@ -246,7 +246,7 @@ class Player {
         this.state.inventory.previosPaperPlace = paperPlace;
         this.map.papers++;
       } else {
-        this.map.gui.showWarningMessage();
+        this.game.gui.showWarningMessage();
       }
     }
   }
